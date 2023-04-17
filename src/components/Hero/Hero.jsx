@@ -1,25 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { TypeAnimation } from "react-type-animation";
+import { gsap } from "gsap";
 
 function Hero() {
+  useEffect(() => {
+    gsap.fromTo(
+      ".hero-gif",
+      { y: "-40px" },
+      { y: "0px", duration: 3, delay: 0.3 }
+    );
+
+    gsap.fromTo(".hero-name", { x: "-150px" }, { x: "0px", duration: 3.5 });
+  }, []);
+
   return (
-    <div class="container">
-      <video class="clipped-video" autoPlay muted loop>
-        <source
-          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          type="video/mp4"
+    <div className="hero flex-wrapper">
+      <h1 className="hero-gif">MR</h1>
+      <div className="flex-wrapper">
+        <span className="hero-name">Creative</span>
+        <TypeAnimation
+          sequence={[500, "Malte Reppke", 1200, "Frontend Developer"]}
+          wrapper="span"
+          cursor={true}
+          className="hero-position"
         />
-      </video>
-
-      <svg height="100%" width="100%">
-        <clipPath id="text-overlay" width="100%" height="100%">
-          <text id="title" x="0" y="2em">
-            MR
-          </text>
-        </clipPath>
-      </svg>
-
-      <span>Malte Reppke</span>
-      <h2>Creative Frontend Dev</h2>
+      </div>
     </div>
   );
 }
