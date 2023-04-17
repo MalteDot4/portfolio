@@ -185,7 +185,7 @@ span {
 
 .hero-gif {
   font-family: "LatoBold";
-  background-image: url("src/video/HeroGif.gif");
+  background-image: url("src/assets/images/HeroGif.gif");
   background-size: contain;
   font-size: 10rem;
   -webkit-text-stroke-width: 1px;
