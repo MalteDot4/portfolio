@@ -4,13 +4,13 @@ import { gsap } from "gsap";
 
 function Hero() {
   useEffect(() => {
-    gsap.fromTo(
-      ".hero-gif",
-      { y: "-40px" },
-      { y: "0px", duration: 3, delay: 0.3 }
-    );
+    gsap.fromTo(".hero-gif", { y: "-60px" }, { y: "0px", duration: 1 });
 
-    gsap.fromTo(".hero-name", { x: "-150px" }, { x: "0px", duration: 3.5 });
+    gsap.fromTo(
+      ".hero-name",
+      { x: "-150px", opacity: 0 },
+      { x: "0px", opacity: 1, duration: 6 }
+    );
   }, []);
 
   return (
@@ -19,7 +19,7 @@ function Hero() {
       <div className="flex-wrapper">
         <span className="hero-name">Creative</span>
         <TypeAnimation
-          sequence={[500, "Malte Reppke", 1200, "Frontend Developer"]}
+          sequence={[1000, "Malte Reppke", 1500, "Frontend Developer"]}
           wrapper="span"
           cursor={true}
           className="hero-position"
