@@ -4,22 +4,16 @@ import { gsap } from "gsap";
 
 function Hero() {
   useEffect(() => {
-    gsap.fromTo(".hero-gif", { y: "-60px" }, { y: "0px", duration: 1 });
-
-    gsap.fromTo(
-      ".hero-name",
-      { x: "-150px", opacity: 0 },
-      { x: "0px", opacity: 1, duration: 6 }
-    );
+    gsap.fromTo(".hero-gif", { y: "-60px" }, { y: "0px", duration: 0.5 });
   }, []);
 
   return (
     <div className="hero flex-wrapper">
-      <h1 className="hero-gif">MR</h1>
+      <h1 className="hero-logo">MR</h1>
       <div className="flex-wrapper">
         <span className="hero-name">Creative</span>
         <TypeAnimation
-          sequence={[1000, "Malte Reppke", 1500, "Frontend Developer"]}
+          sequence={[1000, "Malte Reppke", 1200, "Frontend Developer"]}
           wrapper="span"
           cursor={true}
           className="hero-position"

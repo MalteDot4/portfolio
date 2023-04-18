@@ -72,7 +72,7 @@ span {
   flex-direction: column;
 }
 
-.preloader-center {
+.preloader {
   display: flex;
   text-align: center;
   justify-content: center;
@@ -82,8 +82,8 @@ span {
 
 .preloader-ring {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   animation: ring 2s linear;
 }
@@ -183,30 +183,40 @@ span {
   justify-content: center;
 }
 
-.hero-gif {
+.hero-logo {
   font-family: "LatoBold";
-  background-image: url("assets/HeroGif.mp4");
-  background-size: contain;
+  background: linear-gradient(159deg, darkviolet, #cdf0ea, #8ea7e9);
+  background-size: 180% 180%;
+  animation: gradient-animation 5s ease infinite;
   font-size: 10rem;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-transform: translate3d(0, 0, 0);
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .hero-name {
   font-size: 1.8rem;
+  opacity: 0;
   color: #ba90c6;
   font-family: "RobotoRegular";
-  /*animation: 2s anim-lineUp ease-out;*/
+  animation: 2s anim-lineUp ease-out 3.5s forwards;
 }
 
 .hero-position {
   margin: 0.5rem 0 0 0;
   font-size: 2.2rem;
   line-height: 2rem;
-  /*animation: 3s anim-lineUp ease-out;*/
 }
 
 .hero-img-container {
@@ -249,21 +259,21 @@ span {
   visibility: hidden;
 }
 
-.animate-atom {
+.animate-css {
   visibility: visible;
-  animation: stack 0.5s;
+  animation: stack 1.4s;
   filter: var(--filter);
 }
 
-.animate-css {
+.animate-atom {
   visibility: visible;
-  animation: stack 0.8s;
+  animation: stack 1.2s;
   filter: var(--filter);
 }
 
 .animate-typescript {
   visibility: visible;
-  animation: stack 0.2s;
+  animation: stack 0.8s;
   filter: var(--filter);
 }
 
@@ -405,19 +415,10 @@ span {
 }
 
 @keyframes anim-lineUp {
-  0% {
-    opacity: 0;
-    transform: translateY(80%);
-  }
-  20% {
+  from {
     opacity: 0;
   }
-  50% {
+  to {
     opacity: 1;
-    transform: translateY(0%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
   }
 }
