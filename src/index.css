@@ -58,15 +58,6 @@ body {
   width: 100%;
 }
 
-body::after {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  z-index: -1;
-  content: url("/src/assets/HeroGif.gif");
-}
-
 h1,
 h2,
 h3,
@@ -194,7 +185,7 @@ span {
 
 .hero-gif {
   font-family: "LatoBold";
-  background-image: url("assets/HeroGif.gif");
+  background-image: url("assets/HeroGif.mp4");
   background-size: contain;
   font-size: 10rem;
   -webkit-text-stroke-width: 1px;
