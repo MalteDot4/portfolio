@@ -9,7 +9,9 @@ function Hero() {
 
   return (
     <div className="hero flex-wrapper">
-      <h1 className="hero-logo">MR</h1>
+      <div class="blob-container">
+        <img className="hero-img" src="src/assets/Me.png" alt="logo-portrait" />
+      </div>
       <div className="flex-wrapper">
         <span className="hero-name">Creative</span>
         <TypeAnimation

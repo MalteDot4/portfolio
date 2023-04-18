@@ -181,16 +181,37 @@ span {
 .hero {
   height: 100vh;
   justify-content: center;
+  align-items: center;
 }
 
-.hero-logo {
-  font-family: "LatoBold";
-  background: linear-gradient(159deg, darkviolet, #cdf0ea, #8ea7e9);
-  background-size: 180% 180%;
-  animation: gradient-animation 5s ease infinite;
-  font-size: 10rem;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hero-img {
+  height: 100%;
+  width: 100%;
+}
+
+.blob-container {
+  margin-bottom: 4rem;
+  border-radius: 100% 51% 50% 67% / 97% 57% 56% 34%;
+  width: 400px;
+  height: 400px;
+  background: #f09;
+  background-image: linear-gradient(45deg, #3023ae 0%, rgb(188, 36, 127) 100%);
+
+  overflow: hidden;
+  animation: morph 5s linear infinite;
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 50% 60% 70% 50% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 60% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
 }
 
 @keyframes gradient-animation {
