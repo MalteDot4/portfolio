@@ -137,12 +137,13 @@ span {
 
 .nav {
   display: flex;
+  z-index: 10;
   width: 100%;
   position: fixed;
   top: 0px;
   justify-content: space-between;
   align-items: center;
-  background: rgba(40, 39, 39, 0.75);
+  background: rgba(27, 26, 26, 0.75);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(1.3px);
   -webkit-backdrop-filter: blur(1.3px);
@@ -191,8 +192,9 @@ span {
 .blob-container {
   margin-bottom: 4rem;
   border-radius: 100% 51% 50% 67% / 97% 57% 56% 34%;
-  width: 400px;
-  height: 400px;
+  opacity: 0;
+  width: 300px;
+  height: 300px;
   background: #f09;
   background-image: linear-gradient(45deg, #3023ae 0%, rgb(188, 36, 127) 100%);
   overflow: hidden;
@@ -212,24 +214,12 @@ span {
   }
 }
 
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 .hero-name {
   font-size: 1.8rem;
-  opacity: 0;
   color: #ba90c6;
+  opacity: 0;
   font-family: "RobotoRegular";
-  animation: 2s anim-lineUp ease-out 3.5s forwards;
+  animation: fade-in 2s ease-in-out 4.5s forwards;
 }
 
 .hero-position {
@@ -320,7 +310,7 @@ span {
 
 .animate-headline {
   visibility: visible !important;
-  animation: 2s anim-lineUp ease-out;
+  animation: 2s fade-in ease-out;
 }
 
 @keyframes showBottomText {
@@ -432,7 +422,7 @@ span {
   }
 }
 
-@keyframes anim-lineUp {
+@keyframes fade-in {
   from {
     opacity: 0;
   }

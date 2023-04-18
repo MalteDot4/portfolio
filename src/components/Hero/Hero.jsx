@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
-import { gsap } from "gsap";
+import { gsap, Power1 } from "gsap";
+import logoUrl from "/Logo.png";
+import { Opacity } from "@mui/icons-material";
 
 function Hero() {
   useEffect(() => {
-    gsap.fromTo(".hero-gif", { y: "-60px" }, { y: "0px", duration: 0.5 });
+    gsap.fromTo(
+      ".blob-container",
+      { x: "-200px", Opacity: 0 },
+      { x: "0px", Opacity: 1, duration: 1, ease: Power1.easeOut }
+    );
   }, []);
 
   return (
     <div className="hero flex-wrapper">
       <div class="blob-container">
-        <img className="hero-img" src="src/assets/Me.png" alt="logo-portrait" />
+        <img className="hero-img" src={logoUrl} alt="logo-portrait" />
       </div>
       <div className="flex-wrapper">
         <span className="hero-name">Creative</span>
