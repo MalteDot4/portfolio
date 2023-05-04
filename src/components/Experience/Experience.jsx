@@ -9,17 +9,17 @@ function Experience() {
     threshold: 1.0,
   });
   return (
-    <section className="experience">
-      <div ref={containerRef}>
-        <h1
-          className={`experience-headline ${
-            containerVisible ? "animate-headline" : undefined
-          }`}
-        >
-          Work experience
-        </h1>
-      </div>
-      <div>
+    <section id="experience" className="section__experience">
+      <div className="flex-wrapper wrapper__fullwidth">
+        <div ref={containerRef}>
+          <h2
+            className={`experience__headline ${
+              containerVisible ? "animation__headline" : undefined
+            }`}
+          >
+            Experience
+          </h2>
+        </div>
         <ExperienceTabs></ExperienceTabs>
       </div>
     </section>

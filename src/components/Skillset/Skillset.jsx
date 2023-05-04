@@ -1,24 +1,34 @@
 import React from "react";
+import { useElementOnScreen } from "../../hooks/useElementOnScreen";
 
 function Skillset() {
+  const [containerRef, containerVisible] = useElementOnScreen({
+    root: null,
+    rootMargin: "0px",
+    threshold: 1.0,
+  });
   return (
-    <section className="skillset">
-      <div className="skillset-container">
-        <h1 className="skillset-headline">
-          How can i bring value to your project?
-        </h1>
-        <div className="flex-wrapper skillbox">
-          <h3 style={{ marginTop: "20px" }} className="light-text">
-            Clean Code.
-          </h3>
-          <p style={{ fontSize: "1rem" }}>
+    <section id="skill" className="section__skillset ">
+      <div className="flex-wrapper">
+        <div ref={containerRef}>
+          <h2
+            className={`skillset__headline ${
+              containerVisible ? "animation__headline" : undefined
+            }`}
+          >
+            How can i bring value to your project?
+          </h2>
+        </div>
+        <div className="flex-wrapper skillset">
+          <h3 className="light-text">Clean Code.</h3>
+          <p>
             Writing clean code is not just a matter of professional obligation,
-            it's a true passion of mine. I believe that writing clean code is an
-            art form that requires creativity, attention to detail, and
+            it's a true passion of mine. I believe that writing clean code is a
+            discipline that requires creativity, attention to detail, and
             discipline.
           </p>
         </div>
-        <div className="flex-wrapper skillbox">
+        <div className="flex-wrapper skillset">
           <h3 style={{ marginTop: "20px" }} className="light-text">
             Eager to learn.
           </h3>
@@ -27,7 +37,7 @@ function Skillset() {
             the latest trends in the tech industry.
           </p>
         </div>
-        <div className="flex-wrapper skillbox">
+        <div className="flex-wrapper skillset">
           <h3 style={{ marginTop: "20px" }} className="light-text">
             Solid skills.
           </h3>

@@ -11,11 +11,11 @@ export default function SimpleAccordion() {
       <Accordion
         sx={{
           backgroundColor: "#000",
-          color: "#8ea7e9",
+          color: "#f5cab2",
         }}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ fill: "white" }} />}
+          expandIcon={<ExpandMoreIcon sx={{ fill: "#fff" }} />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
@@ -25,7 +25,7 @@ export default function SimpleAccordion() {
           <Typography>Vodafone X OMR</Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ backgroundColor: "#000", color: "#8ea7e9" }}>
+      <Accordion sx={{ backgroundColor: "#000", color: "#f5cab2" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ fill: "white" }} />}
           aria-controls="panel2a-content"
@@ -39,9 +39,9 @@ export default function SimpleAccordion() {
           <Typography>Vodafone Business</Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ backgroundColor: "#000", color: "#8ea7e9" }}>
+      <Accordion sx={{ backgroundColor: "#000", color: "#f5cab2" }}>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ fill: "white" }} />}
+          expandIcon={<ExpandMoreIcon sx={{ fill: "#fff" }} />}
           aria-controls="panel3a-content"
           id="panel3a-header"
         >

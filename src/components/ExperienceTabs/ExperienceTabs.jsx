@@ -50,7 +50,7 @@ export default function ExperienceTabs() {
       <Box>
         <Tabs
           sx={{
-            color: "#8ea7e9",
+            color: "#fff",
           }}
           value={value}
           centered
