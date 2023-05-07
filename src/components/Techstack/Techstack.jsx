@@ -22,26 +22,38 @@ function Techstack() {
           development with the following technologies and languages.
         </h2>
         <div ref={containerRef} className="icon-wrapper">
-          <div
-            className={`techstack__icon ${
-              containerVisible ? "techstack__animation--css" : undefined
-            }`}
-          >
-            <Css fill={logoFillColor}></Css>
+          <div class="tooltip">
+            <span className="tooltiptext"> CSS</span>
+
+            <div
+              className={`techstack__icon ${
+                containerVisible ? "techstack__animation--css" : undefined
+              }`}
+            >
+              <Css fill={logoFillColor}></Css>
+            </div>
           </div>
-          <div
-            className={`techstack__icon ${
-              containerVisible ? "techstack__animation--atom" : undefined
-            }`}
-          >
-            <Atom fill={logoFillColor}></Atom>
+          <div class="tooltip">
+            <span className="tooltiptext"> React</span>
+            <div
+              className={`techstack__icon ${
+                containerVisible ? "techstack__animation--atom" : undefined
+              }`}
+            >
+              <Atom fill={logoFillColor}></Atom>
+            </div>
           </div>
-          <div
-            className={`techstack__icon ${
-              containerVisible ? "techstack__animation--typescript" : undefined
-            }`}
-          >
-            <Typescript fill={logoFillColor}></Typescript>
+          <div class="tooltip">
+            <span className="tooltiptext"> Typescript</span>
+            <div
+              className={`techstack__icon ${
+                containerVisible
+                  ? "techstack__animation--typescript"
+                  : undefined
+              }`}
+            >
+              <Typescript fill={logoFillColor}></Typescript>
+            </div>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function SimpleAccordion() {
       <Accordion
         sx={{
           backgroundColor: "#000",
-          color: "#f5cab2",
+          color: "#fff",
         }}
       >
         <AccordionSummary
@@ -22,10 +22,20 @@ export default function SimpleAccordion() {
           <Typography sx={{ fontSize: "1.2rem" }}>Vodafone X OMR</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Vodafone X OMR</Typography>
+          <Typography>
+            {" "}
+            Visit:{" "}
+            <a
+              className="accordion__link"
+              target="blank"
+              href="https://www.vodafone.de/business/"
+            >
+              Vodafone X OMR Collaboration
+            </a>
+          </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ backgroundColor: "#000", color: "#f5cab2" }}>
+      <Accordion sx={{ backgroundColor: "#000", color: "#fff" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ fill: "white" }} />}
           aria-controls="panel2a-content"
@@ -36,10 +46,19 @@ export default function SimpleAccordion() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Vodafone Business</Typography>
+          <Typography>
+            Visit:{" "}
+            <a
+              className="accordion__link"
+              target="blank"
+              href="https://www.vodafone.de/business/"
+            >
+              Vodafone Business
+            </a>
+          </Typography>
         </AccordionDetails>
       </Accordion>
-      <Accordion sx={{ backgroundColor: "#000", color: "#f5cab2" }}>
+      <Accordion sx={{ backgroundColor: "#000", color: "#fff" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ fill: "#fff" }} />}
           aria-controls="panel3a-content"
@@ -49,6 +68,18 @@ export default function SimpleAccordion() {
             ControlExpert EasyClaim
           </Typography>
         </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Visit:{" "}
+            <a
+              className="accordion__link"
+              target="blank"
+              href="https://www.controlexpert.com/uk-en/highlights/easyclaim/"
+            >
+              Control€xpert Easy Claim Web App
+            </a>
+          </Typography>
+        </AccordionDetails>
       </Accordion>
     </div>
   );
