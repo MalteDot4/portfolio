@@ -8,10 +8,14 @@ function Experience() {
     rootMargin: "0px",
     threshold: 1.0,
   });
+
   return (
     <section id="experience" className="section__experience">
       <div className="flex-wrapper wrapper__fullwidth">
-        <div ref={containerRef}>
+        <div
+          ref={containerRef}
+          className="flex-wrapper wrapper__fullwidth headline-wrapper"
+        >
           <h2
             className={`experience__headline ${
               containerVisible ? "animation__headline" : undefined

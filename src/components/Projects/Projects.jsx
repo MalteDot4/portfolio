@@ -11,7 +11,10 @@ function Projects() {
   return (
     <section id="projects" className="projects">
       <div className="flex-wrapper wrapper__fullwidth">
-        <div ref={containerRef}>
+        <div
+          ref={containerRef}
+          className="flex-wrapper wrapper__fullwidth headline-wrapper"
+        >
           <h2
             className={`projects__headline ${
               containerVisible ? "animation__headline" : undefined

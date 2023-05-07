@@ -10,7 +10,10 @@ function Skillset() {
   return (
     <section id="skill" className="section__skillset ">
       <div className="flex-wrapper">
-        <div ref={containerRef}>
+        <div
+          className="flex-wrapper wrapper__fullwidth headline-wrapper"
+          ref={containerRef}
+        >
           <h2
             className={`skillset__headline ${
               containerVisible ? "animation__headline" : undefined

@@ -13,7 +13,10 @@ function Contact() {
   return (
     <section id="contact" className="contact">
       <div className="flex-wrapper wrapper__fullwidth">
-        <div ref={containerRef}>
+        <div
+          ref={containerRef}
+          className="flex-wrapper wrapper__fullwidth headline-wrapper"
+        >
           <h2
             className={`contact-headline ${
               containerVisible ? "animation__headline" : undefined

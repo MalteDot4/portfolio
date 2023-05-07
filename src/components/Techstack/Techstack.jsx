@@ -15,12 +15,14 @@ function Techstack() {
 
   return (
     <section id="techstack" className="section__techstack">
-      <div className="flex-wrapper wrapper__fullwidth">
-        <h2>
-          Hey, there! I’m Malte - nice to meet you! I’m a developer & design
-          affine person based in Düsseldorf, Germany. I focus primarily on
-          development with the following technologies and languages.
-        </h2>
+      <div className="flex-wrapper wrapper__fullwidth ">
+        <div className="flex-wrapper wrapper__fullwidth headline-wrapper">
+          <h2>
+            Hey, there! I’m Malte - nice to meet you! I’m a developer & design
+            affine person based in Düsseldorf, Germany. I focus primarily on
+            development with the following technologies and languages.
+          </h2>
+        </div>
         <div ref={containerRef} className="icon-wrapper">
           <div class="tooltip">
             <span className="tooltiptext"> CSS</span>

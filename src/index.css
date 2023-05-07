@@ -120,6 +120,15 @@ section {
   width: 100%;
 }
 
+@media screen and (min-width: 500px) {
+  .headline-wrapper {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: center;
+  }
+}
+
 .preloader {
   display: flex;
   text-align: center;
