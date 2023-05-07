@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { textAlign } from "@mui/system";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +54,7 @@ export default function ExperienceTabs() {
             color: "#fff",
           }}
           value={value}
-          centered
+          centered={true}
           onChange={handleChange}
           aria-label="basic tabs example"
           textColor="inherit"
@@ -69,20 +70,20 @@ export default function ExperienceTabs() {
           <Tab label="Vodafone" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel className="tabPanel" value={value} index={0}>
         As a Frontend Developer at ControlExpert, I worked on the web
         application EasyClaim, an insuretech product. I was responsible for
         implementing the user interface and ensuring that the application was
         visually appealing and functionally sound.
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel className="tabPanel" value={value} index={1}>
         As a Business Analyst of SAP and Power BI products at Ford, I worked on
         analyzing and developing reports for various departments within the
         company. While my time at Ford was brief, I gained valuable experience
         working with SAP and Power BI, and honed my skills in data analysis and
         report development.
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel className="tabPanel" value={value} index={2}>
         As a current Frontend Developer at Vodafone, I am responsible for
         implementing responsive design principles, optimizing website
         performance, and ensuring that the websites I work on meet accessibility

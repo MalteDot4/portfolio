@@ -127,6 +127,10 @@ section {
     text-align: center;
     vertical-align: center;
   }
+
+  .tabPanel {
+    text-align: center;
+  }
 }
 
 .preloader {
