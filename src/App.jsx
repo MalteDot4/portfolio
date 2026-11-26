@@ -14,8 +14,8 @@ import {
   GraduationCap,
   MapPin,
   Mail,
-  Linkedin,
-  Github,
+  Globe,
+  GitBranch,
   ChevronRight,
 } from "lucide-react";
 
@@ -1217,7 +1217,7 @@ export default function App() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
               >
-                <Github className="w-4 h-4" />
+                <GitBranch className="w-4 h-4" />
                 <span>GitHub</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
@@ -1228,7 +1228,7 @@ export default function App() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
               >
-                <Linkedin className="w-4 h-4" />
+                <Globe className="w-4 h-4" />
                 <span>LinkedIn</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
