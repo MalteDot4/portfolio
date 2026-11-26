@@ -5,8 +5,8 @@ import {
   ChevronRight,
   Copy,
   Database,
+  Globe,
   Layers,
-  Linkedin,
   Mail,
   Pin,
   Sparkles,
@@ -21,7 +21,6 @@ const PROJECTS = [
       "Strukturierte Ingestion-, Transformations- und Qualitäts-Pipelines mit klaren Verträgen für Analytics und KI-Anwendungen.",
     stack: ["Python", "SQL", "dbt", "Lakehouse"],
     impact: "Nachvollziehbare Kennzahlen und stabile Datenbasis im Alltag",
-    highlight: "Pipeline & Governance",
   },
   {
     id: "rag-knowledge-assistant",
@@ -31,7 +30,6 @@ const PROJECTS = [
       "Kontextgestützte Suche und strukturierte Auswertung über interne Dokumente mit Quellenbezug, Guardrails und Evaluation.",
     stack: ["LLM", "RAG", "Embeddings", "Evaluation"],
     impact: "Schnellere Antworten mit überprüfbaren Belegen statt Blindflug",
-    highlight: "Grounded AI",
   },
   {
     id: "realtime-anomaly-scoring",
@@ -41,7 +39,6 @@ const PROJECTS = [
       "Überwachung von Schema-Drift, Latenz und Modell-Signalen mit klaren Alerts für den produktiven Betrieb.",
     stack: ["Streaming", "Feature Store", "Monitoring", "APIs"],
     impact: "Früherkennung von Datenabweichungen vor Auswirkungen auf Nutzer",
-    highlight: "Production Reliability",
   },
 ];
 
@@ -270,9 +267,24 @@ export default function App() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <a
             href="#"
-            className="text-sm font-semibold tracking-tight text-neutral-950 transition hover:opacity-75"
+            className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-neutral-950 transition hover:opacity-75"
           >
-            Malte Reppke
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="h-4 w-4 shrink-0"
+              fill="none"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                strokeWidth="1.75"
+              />
+              <circle cx="12" cy="12" r="3" fill="currentColor" />
+            </svg>
+            <span>Malte Reppke</span>
           </a>
 
           <nav
@@ -574,7 +586,7 @@ export default function App() {
                     rel="noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
                   >
-                    <Linkedin className="h-4 w-4" />
+                    <Globe className="h-4 w-4" />
                     <span>LinkedIn</span>
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
