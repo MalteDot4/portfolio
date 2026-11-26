@@ -14,30 +14,15 @@ import {
   GraduationCap,
   MapPin,
   Mail,
-  Globe,
   GitBranch,
+  Globe,
   ChevronRight,
 } from "lucide-react";
 
-/**
- * Clamps a numeric value strictly into the [0, 1] interval.
- * @param {number} val
- * @returns {number}
- */
 const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
 
-/**
- * Smooth cubic ease-out curve for natural editorial transitions.
- * @param {number} t
- * @returns {number}
- */
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-/**
- * BrandWordmark
- * Clean typographic wordmarks with subtle geometric brand indicators for
- * Provinzial, Vodafone, and ControlExpert without generic UI icons.
- */
 const BrandWordmark = ({ brand, inverted = false }) => {
   if (brand === "provinzial") {
     return (
@@ -84,11 +69,6 @@ const BrandWordmark = ({ brand, inverted = false }) => {
   );
 };
 
-/**
- * WebGLSilkMarble
- * Full-bleed domain-warped WebGL silk-marble canvas with a clean CSS
- * radial fallback when WebGL is unavailable or disabled.
- */
 const WebGLSilkMarble = ({ className = "", paused = false }) => {
   const canvasRef = useRef(null);
   const [useFallback, setUseFallback] = useState(false);
@@ -279,10 +259,6 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
       if (frameId) window.cancelAnimationFrame(frameId);
-      gl.deleteProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      gl.deleteBuffer(posBuffer);
     };
   }, [paused]);
 
@@ -308,9 +284,6 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/**
- * Minimalist scroll-reveal wrapper that respects prefers-reduced-motion.
- */
 const RevealBlock = ({
   children,
   delay = 0,
@@ -797,7 +770,7 @@ export default function App() {
         />
       </div>
 
-      {/* 1. HERO SECTION */}
+      {/* 1. TOP HERO SECTION WITH WEBGL SILK-MARBLE & SCROLL-SPLIT DISSOLVE */}
       <section
         id="hero-stage"
         ref={heroStageRef}
@@ -1042,27 +1015,121 @@ export default function App() {
         </RevealBlock>
       </section>
 
-      {/* 3. MOTIVATION */}
+      {/* 3. MOTIVATION (ASYMMETRISCHES EDITORIAL-GRID WIE IM SCREENSHOT) */}
       <section
         id="motivation"
         className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
       >
         <RevealBlock reducedMotion={reducedMotion}>
-          <div className="rounded-3xl border border-[#E4E4E7] bg-[#FAFAFA] p-7 sm:p-12">
+          <div className="mb-8">
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
               02 / Motivation
             </span>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] text-[#0B0B0C] max-w-3xl">
-              Was mich antreibt: Daten, die Entscheidungen tragen.
-            </h2>
-            <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed max-w-3xl">
-              Ich verbinde Data Engineering, Softwareentwicklung und
-              analytisches Denken zu Systemen, die im Alltag zuverlässig laufen
-              – von sauberen Spark- und Synapse-Pipelines über stabile APIs bis
-              hin zu praxistauglichen KI-Workflows.
-            </p>
           </div>
         </RevealBlock>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          {/* Dunkle Hauptkarte links oben */}
+          <RevealBlock
+            delay={40}
+            reducedMotion={reducedMotion}
+            className="lg:col-span-6"
+          >
+            <div className="h-full rounded-[28px] bg-[#0B0B0C] text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
+                  <Cpu className="w-5 h-5 text-white" />
+                </div>
+
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                  Datenprodukte &amp; AI Engineering
+                </span>
+
+                <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
+                  Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
+                </h2>
+
+                <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
+                  Mich motiviert es, aus komplexen Datenlandschaften
+                  verlässliche Datenprodukte, skalierbare Pipelines und
+                  praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
+                  automatisierte Prozesse im Alltag messbar stärken.
+                </p>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
+                PySpark · Azure Synapse · Datenprodukte · AI Engineering
+              </div>
+            </div>
+          </RevealBlock>
+
+          {/* Helle Karte rechts oben */}
+          <RevealBlock
+            delay={100}
+            reducedMotion={reducedMotion}
+            className="lg:col-span-6"
+          >
+            <div className="h-full rounded-[28px] bg-white border border-[#E4E4E7] p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div>
+                <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
+                  <Database className="w-5 h-5 text-[#0B0B0C]" />
+                </div>
+
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                  Skalierbare Pipelines
+                </span>
+
+                <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                  Saubere Struktur statt Fragilität
+                </h3>
+
+                <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                  Gute Systeme sind nachvollziehbar, testbar und automatisiert.
+                  Klare Schnittstellen und reproduzierbare Pipelines schaffen
+                  Vertrauen – von der Kundenselektion bis zur KI-fähigen
+                  Aufbereitung.
+                </p>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
+                Reproduzierbarkeit · Qualität · Automatisierung
+              </div>
+            </div>
+          </RevealBlock>
+
+          {/* Breite Karte unten */}
+          <RevealBlock
+            delay={160}
+            reducedMotion={reducedMotion}
+            className="lg:col-span-12"
+          >
+            <div className="rounded-[28px] bg-white border border-[#E4E4E7] p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
+              <div className="max-w-3xl">
+                <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
+                  <Layers className="w-5 h-5" />
+                </div>
+
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                  End-to-End-Perspektive
+                </span>
+
+                <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                  Von Daten &amp; Backend bis in produktive Anwendungen
+                </h3>
+
+                <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                  Die Verbindung aus Data Engineering, Microservices, Web-APIs,
+                  BI und CI/CD hilft dabei, technische Lösungen so zu entwerfen,
+                  dass sie in realen Umgebungen dauerhaft stabil laufen.
+                </p>
+              </div>
+
+              <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
+                Data · Microservices · Web · CI/CD
+              </div>
+            </div>
+          </RevealBlock>
+        </div>
       </section>
 
       {/* 4. STATIONEN & TECH STACK */}
@@ -1123,7 +1190,7 @@ export default function App() {
                     Jul 2019 – Aug 2022
                   </p>
                 </div>
-                <Cpu className="w-5 h-5 text-[#52525B] shrink-0" />
+                <Code2 className="w-5 h-5 text-[#52525B] shrink-0" />
               </div>
             </div>
           </RevealBlock>
