@@ -1,67 +1,80 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  MapPin,
-  Mail,
-  ChevronRight,
-  Pin,
   ArrowUpRight,
-  Sparkles,
+  Check,
+  ChevronRight,
+  Copy,
+  Database,
   Layers,
-  Cpu,
+  Linkedin,
+  Mail,
+  Pin,
+  Sparkles,
 } from "lucide-react";
 
-function LinkedInIcon({ className = "w-4 h-4" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19ZM8.34 10.67H5.67V18.33H8.34V10.67ZM7 6.5A1.58 1.58 0 1 0 7 9.66A1.58 1.58 0 0 0 7 6.5ZM18.33 13.86C18.33 11.58 17.11 10.42 15.16 10.42C13.66 10.42 12.92 11.24 12.54 11.83V10.67H9.96C10 11.4 9.96 18.33 9.96 18.33H12.54V14.05C12.54 13.82 12.56 13.59 12.63 13.43C12.82 12.96 13.25 12.47 13.98 12.47C14.92 12.47 15.3 13.18 15.3 14.23V18.33H17.97V13.86H18.33Z" />
-    </svg>
-  );
-}
+const PROJECTS = [
+  {
+    id: "data-mesh-lakehouse",
+    title: "Verlässliches Lakehouse & Semantic Layer",
+    category: "Data Engineering",
+    summary:
+      "Strukturierte Ingestion-, Transformations- und Qualitäts-Pipelines mit klaren Verträgen für Analytics und KI-Anwendungen.",
+    stack: ["Python", "SQL", "dbt", "Lakehouse"],
+    impact: "Nachvollziehbare Kennzahlen und stabile Datenbasis im Alltag",
+    highlight: "Pipeline & Governance",
+  },
+  {
+    id: "rag-knowledge-assistant",
+    title: "Fachbereichsnahes Retrieval & Agenten-Workflow",
+    category: "AI Engineering",
+    summary:
+      "Kontextgestützte Suche und strukturierte Auswertung über interne Dokumente mit Quellenbezug, Guardrails und Evaluation.",
+    stack: ["LLM", "RAG", "Embeddings", "Evaluation"],
+    impact: "Schnellere Antworten mit überprüfbaren Belegen statt Blindflug",
+    highlight: "Grounded AI",
+  },
+  {
+    id: "realtime-anomaly-scoring",
+    title: "Echtzeit-Scoring & Monitoring für Produktionsdaten",
+    category: "Applied ML & Ops",
+    summary:
+      "Überwachung von Schema-Drift, Latenz und Modell-Signalen mit klaren Alerts für den produktiven Betrieb.",
+    stack: ["Streaming", "Feature Store", "Monitoring", "APIs"],
+    impact: "Früherkennung von Datenabweichungen vor Auswirkungen auf Nutzer",
+    highlight: "Production Reliability",
+  },
+];
 
-function GitHubIcon({ className = "w-4 h-4" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className={className}
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"
-      />
-    </svg>
-  );
-}
+const STATIONS = [
+  {
+    role: "Data & AI Engineering",
+    organization: "Ford-Werke GmbH",
+    period: "Station · Automotive & Datenprodukte",
+    description:
+      "Aufbau und Weiterentwicklung datengetriebener Lösungen an der Schnittstelle von technischer Architektur, Datenqualität und fachlicher Anwendung.",
+    tags: ["Datenpipelines", "Analytics", "KI-nahe Systeme"],
+  },
+  {
+    role: "Data & Software / Analytics",
+    organization: "ControlExpert GmbH",
+    period: "Station · Digitale Prozesse & Daten",
+    description:
+      "Entwicklung verlässlicher Datenverarbeitung und softwarenaher Bausteine für nachvollziehbare, skalierbare Abläufe im Fachbereich.",
+    tags: ["Datenprodukte", "Softwarenähe", "Prozessautomation"],
+  },
+];
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  return reduced;
-}
-
-function SilkMarbleCanvas({ reducedMotion }) {
+function SilkMarbleCanvas() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const gl = canvas.getContext("webgl", { alpha: false, antialias: true });
+
+    const gl =
+      canvas.getContext("webgl", { antialias: true, alpha: true }) ||
+      canvas.getContext("experimental-webgl");
+
     if (!gl) return;
 
     const vertexShaderSource = `
@@ -72,7 +85,7 @@ function SilkMarbleCanvas({ reducedMotion }) {
     `;
 
     const fragmentShaderSource = `
-      precision highp float;
+      precision mediump float;
       uniform vec2 u_resolution;
       uniform float u_time;
 
@@ -105,19 +118,19 @@ function SilkMarbleCanvas({ reducedMotion }) {
       void main() {
         vec2 uv = gl_FragCoord.xy / max(u_resolution.xy, vec2(1.0));
         float aspect = u_resolution.x / max(u_resolution.y, 1.0);
-        vec2 p = vec2(uv.x * aspect, uv.y) * 2.1;
+        vec2 p = vec2(uv.x * aspect, uv.y) * 1.65;
 
         float t = u_time * 0.14;
-        float q = fbm(p + vec2(0.0, t));
-        float r = fbm(p + 2.4 * q + vec2(1.7, 9.2) + 0.6 * t);
-        float f = fbm(p + 2.2 * r + vec2(8.3, 2.8) - 0.35 * t);
+        float n1 = fbm(p + vec2(t, -t * 0.7));
+        float n2 = fbm(p + vec2(n1 * 1.35, -t * 0.5 + n1 * 0.8));
+        float wave = smoothstep(0.15, 0.9, n2);
 
-        vec3 lightSilk = vec3(0.985, 0.986, 0.992);
-        vec3 coolSilver = vec3(0.88, 0.90, 0.94);
-        vec3 subtleSlate = vec3(0.76, 0.80, 0.87);
+        vec3 baseLight = vec3(0.972, 0.976, 0.988);
+        vec3 softCool = vec3(0.910, 0.928, 0.968);
+        vec3 softWarm = vec3(0.956, 0.924, 0.964);
 
-        vec3 col = mix(lightSilk, coolSilver, smoothstep(0.2, 0.75, r));
-        col = mix(col, subtleSlate, smoothstep(0.35, 0.9, f) * 0.45);
+        vec3 col = mix(baseLight, softCool, wave * 0.65);
+        col = mix(col, softWarm, smoothstep(0.45, 0.95, n1) * 0.28);
 
         gl_FragColor = vec4(col, 1.0);
       }
@@ -125,18 +138,30 @@ function SilkMarbleCanvas({ reducedMotion }) {
 
     const compileShader = (type, source) => {
       const shader = gl.createShader(type);
+      if (!shader) return null;
       gl.shaderSource(shader, source);
       gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        gl.deleteShader(shader);
+        return null;
+      }
       return shader;
     };
 
-    const vs = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
-    const fs = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = compileShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource,
+    );
+    if (!vertexShader || !fragmentShader) return;
+
     const program = gl.createProgram();
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
+    if (!program) return;
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
-    gl.useProgram(program);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
 
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -147,9 +172,6 @@ function SilkMarbleCanvas({ reducedMotion }) {
     );
 
     const positionLocation = gl.getAttribLocation(program, "a_position");
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
     const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
     const timeLocation = gl.getUniformLocation(program, "u_time");
 
@@ -160,789 +182,417 @@ function SilkMarbleCanvas({ reducedMotion }) {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
-      if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        gl.viewport(0, 0, canvas.width, canvas.height);
+      const targetWidth = Math.max(1, Math.floor(width * dpr));
+      const targetHeight = Math.max(1, Math.floor(height * dpr));
+
+      if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
       }
-      gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+      gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
     const render = (now) => {
       resize();
-      const elapsed = reducedMotion ? 1.8 : (now - startTime) / 1000;
-      gl.uniform1f(timeLocation, elapsed);
+      gl.useProgram(program);
+      gl.enableVertexAttribArray(positionLocation);
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+      gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+      gl.uniform1f(timeLocation, (now - startTime) / 1000);
+
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      if (!reducedMotion) {
-        animationFrameId = requestAnimationFrame(render);
-      }
+      animationFrameId = window.requestAnimationFrame(render);
     };
 
-    resize();
-    animationFrameId = requestAnimationFrame(render);
+    animationFrameId = window.requestAnimationFrame(render);
     window.addEventListener("resize", resize);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      window.cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", resize);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertexShader);
+      gl.deleteShader(fragmentShader);
+      gl.deleteBuffer(positionBuffer);
     };
-  }, [reducedMotion]);
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+      className="pointer-events-none fixed inset-0 -z-20 h-full w-full"
     />
   );
 }
 
-function ScrollReveal({ children, className = "", delay = 0 }) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const reducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setVisible(true);
-      return;
-    }
-
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [reducedMotion]);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: reducedMotion ? "0ms" : `${delay}ms` }}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-const PROJECTS = [
-  {
-    id: "provinzial",
-    index: "[ 01 ]",
-    period: "[ Mai 2025 – Heute ]",
-    company: "Provinzial Versicherung AG",
-    role: "Data-Analyst Customer Data & AI Engineering",
-    title: "Customer Data Hub & Data Products",
-    subtitle:
-      "Zentrale Datenprodukte, Kundenselektionen und KI-fähige Pipelines in Azure Synapse.",
-    accent: "#007A6E",
-    badgeStyle: {
-      backgroundColor: "#E8F5F3",
-      color: "#005A50",
-      borderColor: "#B7DFD9",
-    },
-    highlights: [
-      "Entwicklung modularer Datenprodukte mit PySpark in Azure Synapse",
-      "Aufbau belastbarer Kundenselektionen für Direktmarketing & KI-Use-Cases",
-      "Weiterentwicklung der agilen Arbeitsorganisation im Data-Team",
-    ],
-    stack: ["Python", "PySpark", "Azure Synapse", "SQL", "Data Products"],
-  },
-  {
-    id: "vodafone",
-    index: "[ 02 ]",
-    period: "[ Nov 2022 – Mär 2025 ]",
-    company: "Vodafone GmbH",
-    role: "Software- & Portal-Engineer",
-    title: "Firmenkundenportal & PageForge",
-    subtitle:
-      "B2B-Webportal und PageForge für über 200 Webseiten inklusive Node.js-APIs und CI/CD.",
-    accent: "#E60000",
-    badgeStyle: {
-      backgroundColor: "#FDECEC",
-      color: "#B80000",
-      borderColor: "#F6C2C2",
-    },
-    highlights: [
-      "Weiterentwicklung des Firmenkundenportals und PageForge für 200+ Sites",
-      "Entwicklung skalierbarer Node.js-APIs und Microservices",
-      "Automatisierte Deployments und Qualitätssicherung über CI/CD-Pipelines",
-    ],
-    stack: ["Node.js", "APIs", "Web Portals", "Microservices", "CI/CD"],
-  },
-  {
-    id: "controlexpert",
-    index: "[ 03 ]",
-    period: "[ Okt 2016 – Aug 2022 ]",
-    company: "ControlExpert GmbH",
-    role: "Softwareentwickler & BI-Specialist",
-    title: "Digitale Schadenaufnahme & Data Warehouse",
-    subtitle:
-      "Webanwendung für digitale Schadenprozesse mit React.js & .NET C# sowie SQL-Reporting & Tableau.",
-    accent: "#0A66C2",
-    badgeStyle: {
-      backgroundColor: "#EBF3FC",
-      color: "#084C91",
-      borderColor: "#C3DDF7",
-    },
-    highlights: [
-      "Webanwendung zur digitalen Schadenaufnahme mit React.js und .NET C#",
-      "End-to-End-Tests und Qualitätssicherung mit Jest & Cypress",
-      "Aufbau eines Data Warehouse, SQL-Reportings und Tableau-Dashboards",
-    ],
-    stack: ["React.js", ".NET C#", "SQL", "Data Warehouse", "Tableau"],
-  },
-];
-
-const STATIONS = [
-  {
-    company: "Provinzial Versicherung AG",
-    badgeText: "Provinzial",
-    role: "Data-Analyst Customer Data & AI Engineering",
-    period: "[ Mai 2025 – Heute ]",
-    accent: "#007A6E",
-    bullets: [
-      "Zentrale Datenprodukte und Kundenselektionen als Grundlage für Analytik und KI-Systeme.",
-      "PySpark-Pipelines in Azure Synapse sowie Mitgestaltung agiler Teamprozesse.",
-    ],
-  },
-  {
-    company: "Vodafone GmbH",
-    badgeText: "Vodafone",
-    role: "Software- & Portal-Engineer",
-    period: "[ Nov 2022 – Mär 2025 ]",
-    accent: "#E60000",
-    bullets: [
-      "Firmenkundenportal und PageForge für über 200 Sites mit Node.js-APIs.",
-      "Microservice-Architekturen und verlässliche CI/CD-Workflows im Produktivbetrieb.",
-    ],
-  },
-  {
-    company: "Ford-Werke GmbH",
-    badgeText: "Ford",
-    role: "SAP-BI Automobilhersteller",
-    period: "[ Sep 2022 – Nov 2022 ]",
-    accent: "#1D4ED8",
-    bullets: [
-      "Einsatz von Python zur Datenanalyse für die Qualitätssicherung, Einblicke in die SAP-Systemlandschaft und Workflow-Automatisierung mit Power Automate.",
-    ],
-  },
-  {
-    company: "ControlExpert GmbH",
-    badgeText: "ControlExpert",
-    role: "Softwareentwickler & BI-Specialist Versicherungsprozesse",
-    period: "[ Okt 2016 – Aug 2022 ]",
-    accent: "#0A66C2",
-    bullets: [
-      "Webapplikation zur digitalen Schadenaufnahme mit React.js und .NET C# sowie Qualitätssicherung mit Jest & Cypress.",
-      "Entwicklung eines Data Warehouse, effizientes SQL-Reporting und KPI-Visualisierung in Tableau.",
-    ],
-  },
-];
-
-const CAPABILITIES = [
-  {
-    title: "Data Engineering & Lakehouse",
-    description:
-      "Strukturierte, nachvollziehbare Datenpipelines und Datenprodukte für verlässliche Auswertungen.",
-    items: ["Python", "PySpark", "Azure Synapse", "SQL", "Data Warehouse"],
-  },
-  {
-    title: "AI-Ready Foundations",
-    description:
-      "Saubere Kundenselektionen, semantische Schnittstellen und reproduzierbare Datengrundlagen für KI.",
-    items: [
-      "Feature- & Selektionslogik",
-      "Data Quality",
-      "Analytics Readiness",
-    ],
-  },
-  {
-    title: "Web, APIs & Delivery",
-    description:
-      "Pragmatische Full-Stack- und Automatisierungspraxis von der Oberfläche bis zur CI/CD-Pipeline.",
-    items: ["React.js", "Node.js", ".NET C#", "Tableau", "CI/CD & Git"],
-  },
-];
-
 export default function App() {
-  const reducedMotion = usePrefersReducedMotion();
-  const heroRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [hoveredId, setHoveredId] = useState(null);
-  const [focusedId, setFocusedId] = useState(null);
-  const [pinnedIds, setPinnedIds] = useState({});
+  const [pinnedIds, setPinnedIds] = useState(["data-mesh-lakehouse"]);
+  const [activeCategory, setActiveCategory] = useState("Alle");
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
-  useEffect(() => {
-    if (reducedMotion) {
-      setScrollProgress(0);
-      return;
+  const categories = [
+    "Alle",
+    "Data Engineering",
+    "AI Engineering",
+    "Applied ML & Ops",
+  ];
+
+  const togglePin = (id) => {
+    setPinnedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
+  const visibleProjects =
+    activeCategory === "Alle"
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.category === activeCategory);
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("kontakt@maltereppke.de");
+      setCopiedEmail(true);
+      window.setTimeout(() => setCopiedEmail(false), 2200);
+    } catch {
+      setCopiedEmail(false);
     }
-
-    const handleScroll = () => {
-      const heroEl = heroRef.current;
-      if (!heroEl) return;
-      const rect = heroEl.getBoundingClientRect();
-      const total = Math.max(rect.height, 1);
-      const scrolled = Math.min(Math.max(-rect.top / total, 0), 1);
-      setScrollProgress(scrolled);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [reducedMotion]);
-
-  const togglePin = (id, e) => {
-    if (e) e.stopPropagation();
-    setPinnedIds((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
   };
-
-  const isExpanded = (id) => {
-    return Boolean(pinnedIds[id]) || hoveredId === id || focusedId === id;
-  };
-
-  const splitOffset = reducedMotion ? 0 : scrollProgress * 64;
-  const heroOpacity = reducedMotion
-    ? 1
-    : Math.max(1 - scrollProgress * 0.85, 0.15);
 
   return (
-    <div className="min-h-screen bg-white text-[#111318] antialiased selection:bg-[#111318] selection:text-white">
-      {/* Minimal Top Navigation */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-neutral-200/70">
-        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between text-sm">
+    <div className="relative min-h-screen overflow-x-clip text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
+      <SilkMarbleCanvas />
+
+      {/* Header */}
+      <header className="sticky top-0 z-30 border-b border-black/5 bg-white/75 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <a
-            href="#top"
-            className="font-medium tracking-tight text-neutral-900 hover:opacity-75 transition-opacity"
+            href="#"
+            className="text-sm font-semibold tracking-tight text-neutral-950 transition hover:opacity-75"
           >
             Malte Reppke
           </a>
+
           <nav
             aria-label="Hauptnavigation"
-            className="flex items-center gap-6 text-neutral-600"
+            className="flex items-center gap-6 text-sm text-neutral-600"
           >
-            <a
-              href="#motivation"
-              className="hover:text-neutral-950 transition-colors"
-            >
+            <a href="#motivation" className="transition hover:text-neutral-950">
               Motivation
             </a>
-            <a
-              href="#projekte"
-              className="hover:text-neutral-950 transition-colors"
-            >
+            <a href="#projekte" className="transition hover:text-neutral-950">
               Projekte
             </a>
-            <a
-              href="#stationen"
-              className="hover:text-neutral-950 transition-colors"
-            >
+            <a href="#stationen" className="transition hover:text-neutral-950">
               Stationen
             </a>
-            <a
-              href="#kontakt"
-              className="hover:text-neutral-950 transition-colors"
-            >
+            <a href="#kontakt" className="transition hover:text-neutral-950">
               Kontakt
             </a>
           </nav>
         </div>
       </header>
 
-      {/* Hero Section with WebGL Silk Marble & Scroll Split */}
-      <section
-        id="top"
-        ref={heroRef}
-        className="relative overflow-hidden border-b border-neutral-200/80 min-h-[76vh] flex items-center"
-      >
-        <SilkMarbleCanvas reducedMotion={reducedMotion} />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-white/35 via-white/55 to-white pointer-events-none"
-        />
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden py-24 sm:py-32">
+          {/* Animierter Gradient-Blob */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 top-10 h-[320px] w-[320px] bg-gradient-to-tr from-[#3023ae]/30 via-[#bc247f]/25 to-[#ff0099]/20 blur-3xl animate-hero-blob sm:h-[460px] sm:w-[460px]"
+          />
 
-        <div
-          style={{ opacity: heroOpacity }}
-          className="relative z-10 max-w-6xl mx-auto w-full px-6 py-20 md:py-28"
-        >
-          <div className="max-w-3xl">
-            <div
-              style={{
-                transform: `translate3d(0, ${-splitOffset * 0.45}px, 0)`,
-              }}
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-neutral-600 bg-white/75 backdrop-blur-sm border border-neutral-200/80 rounded-full px-3.5 py-1.5 mb-6"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-neutral-800" />
+          <div className="relative mx-auto max-w-6xl px-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-3.5 py-1.5 text-xs font-medium tracking-wider text-neutral-700 uppercase shadow-sm backdrop-blur-md">
+              <Sparkles className="h-3.5 w-3.5 text-neutral-900" />
               <span>Data &amp; AI Engineering</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-semibold tracking-[-0.03em] text-neutral-950 leading-[1.06] mb-6">
-              <span
-                style={{
-                  transform: `translate3d(${-splitOffset * 0.35}px, 0, 0)`,
-                }}
-                className="block transition-transform duration-150 ease-out"
-              >
-                Klare Datenprodukte.
-              </span>
-              <span
-                style={{
-                  transform: `translate3d(${splitOffset * 0.35}px, 0, 0)`,
-                }}
-                className="block text-neutral-700 transition-transform duration-150 ease-out"
-              >
-                Verlässliche Basis für KI.
-              </span>
+            <h1 className="mt-7 max-w-4xl text-4xl font-semibold tracking-tight text-neutral-950 sm:text-6xl sm:leading-[1.08]">
+              Klare Datenprodukte.
+              <br />
+              Verlässliche Basis für KI.
             </h1>
 
-            <p
-              style={{
-                transform: `translate3d(0, ${splitOffset * 0.25}px, 0)`,
-              }}
-              className="text-base sm:text-lg text-neutral-700 leading-relaxed max-w-2xl mb-8"
-            >
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600">
               Ich bin Malte Reppke und baue Datenpipelines, analytische Produkte
               und softwarenahe Lösungen, die im Alltag funktionieren –
               verständlich, wartbar und nah am Fachbereich.
             </p>
 
-            <div
-              style={{
-                transform: `translate3d(0, ${splitOffset * 0.2}px, 0)`,
-              }}
-              className="flex flex-wrap items-center gap-3.5"
-            >
+            <div className="mt-9 flex flex-wrap items-center gap-3.5">
               <a
                 href="#projekte"
-                className="inline-flex items-center gap-2 rounded-full bg-neutral-950 text-white px-5 py-2.5 text-sm font-medium hover:bg-neutral-800 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full bg-neutral-950 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-neutral-800"
               >
                 <span>Einblick in meine Projekte</span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="h-4 w-4" />
               </a>
+
               <a
                 href="#kontakt"
-                className="inline-flex items-center gap-2 rounded-full bg-white/85 backdrop-blur-sm border border-neutral-300 text-neutral-900 px-5 py-2.5 text-sm font-medium hover:bg-white transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/85 px-5 py-3 text-sm font-medium text-neutral-900 backdrop-blur-md transition hover:bg-white"
               >
                 <span>Kontakt aufnehmen</span>
               </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Motivation Section */}
-      <section
-        id="motivation"
-        className="py-20 md:py-24 border-b border-neutral-200/70"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="max-w-3xl">
-              <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-3">
-                [ Was mich motiviert ]
-              </p>
-              <h2 className="text-2xl sm:text-4xl font-semibold tracking-[-0.02em] text-neutral-950 mb-5">
-                Komplexität reduzieren, damit Entscheidungen und Modelle
-                greifen.
-              </h2>
-              <p className="text-base sm:text-lg text-neutral-600 leading-relaxed">
-                Gute Daten- und KI-Lösungen entstehen selten im luftleeren Raum.
-                Mich treibt es an, verteilte Datenquellen, fachliche
-                Anforderungen und technische Umsetzung so zusammenzuführen, dass
-                Teams sauber darauf aufbauen können – ohne unnötigen Ballast,
-                aber mit klarer Struktur.
-              </p>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Projects Section (Horizontal Timeline on Desktop, Stacked on Mobile) */}
-      <section
-        id="projekte"
-        className="py-20 md:py-24 border-b border-neutral-200/70"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
-              <div>
-                <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-2">
-                  [ Ausgewählte Stationen ]
+        {/* Motivation */}
+        <section id="motivation" className="py-20 sm:py-24">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="grid gap-8 rounded-3xl border border-black/5 bg-white/80 p-8 shadow-sm backdrop-blur-xl md:grid-cols-12 md:p-12">
+              <div className="md:col-span-5">
+                <p className="text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                  Motivation
                 </p>
-                <h2 className="text-2xl sm:text-4xl font-semibold tracking-[-0.02em] text-neutral-950">
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-neutral-950 sm:text-3xl">
+                  Wirkung entsteht dort, wo Daten nutzbar werden.
+                </h2>
+              </div>
+
+              <div className="space-y-4 text-base leading-relaxed text-neutral-600 md:col-span-7">
+                <p>
+                  Gute KI und belastbare Analysen scheitern selten an einem
+                  fehlenden Modell, sondern an unklaren Schnittstellen, fragilen
+                  Pipelines oder Lösungen, die am eigentlichen Arbeitsalltag
+                  vorbeilaufen.
+                </p>
+                <p>
+                  Mein Anspruch ist es, technische Tiefe mit pragmatischer
+                  Produktorientierung zu verbinden: saubere Datenmodelle,
+                  nachvollziehbare Systeme und Ergebnisse, denen Teams im Alltag
+                  vertrauen können.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Projekte */}
+        <section id="projekte" className="py-20 sm:py-24">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                  Auswahl
+                </p>
+                <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
                   Einblick in meine Projekte
                 </h2>
               </div>
-              <p className="text-sm text-neutral-500 max-w-md">
-                Fahre über eine Kachel, fokussiere sie oder klicke hinein – im
-                Steckbrief lässt sich die Ansicht über den Schalter dauerhaft
-                fixieren.
-              </p>
-            </div>
-          </ScrollReveal>
 
-          <div className="relative">
-            {/* Horizontal timeline connector line on desktop */}
-            <div
-              aria-hidden="true"
-              className="hidden md:block absolute top-5 left-0 right-0 h-px bg-neutral-200"
-            />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              {PROJECTS.map((project, idx) => {
-                const expanded = isExpanded(project.id);
-                const pinned = Boolean(pinnedIds[project.id]);
-
-                return (
-                  <ScrollReveal key={project.id} delay={idx * 90}>
-                    <article
-                      tabIndex={0}
-                      onMouseEnter={() => setHoveredId(project.id)}
-                      onMouseLeave={() => setHoveredId(null)}
-                      onFocus={() => setFocusedId(project.id)}
-                      onBlur={() => setFocusedId(null)}
-                      onClick={() => {
-                        if (!pinned) {
-                          setPinnedIds((prev) => ({
-                            ...prev,
-                            [project.id]: true,
-                          }));
-                        }
-                      }}
-                      style={{
-                        borderTopColor: project.accent,
-                        borderTopWidth: "3px",
-                      }}
-                      className={`group relative rounded-2xl border border-neutral-200/90 bg-white p-6 transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 ${
-                        expanded
-                          ? "shadow-lg -translate-y-1 border-neutral-300"
-                          : "hover:-translate-y-0.5 hover:shadow-sm"
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => {
+                  const active = activeCategory === category;
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => setActiveCategory(category)}
+                      className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition ${
+                        active
+                          ? "bg-neutral-950 text-white"
+                          : "border border-black/10 bg-white/80 text-neutral-700 hover:bg-white"
                       }`}
                     >
-                      {/* Timeline Node & Index */}
-                      <div className="flex items-center justify-between gap-3 mb-5">
-                        <div className="inline-flex items-center gap-2.5">
-                          <span
-                            style={{ backgroundColor: project.accent }}
-                            className="w-2.5 h-2.5 rounded-full ring-4 ring-white"
-                          />
-                          <span className="font-mono text-xs text-neutral-500">
-                            {project.index}
-                          </span>
-                        </div>
+                      {category}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-                        <span
-                          style={project.badgeStyle}
-                          className="text-xs font-medium px-2.5 py-0.5 rounded-full border"
-                        >
-                          {project.company}
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {visibleProjects.map((project) => {
+                const isPinned = pinnedIds.includes(project.id);
+                return (
+                  <article
+                    key={project.id}
+                    className={`flex flex-col justify-between rounded-2xl border p-6 transition backdrop-blur-xl ${
+                      isPinned
+                        ? "border-neutral-950/20 bg-white/95 shadow-md ring-1 ring-neutral-950/10"
+                        : "border-black/5 bg-white/80 shadow-sm hover:bg-white/90"
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+                          <Database className="h-3.5 w-3.5" />
+                          {project.category}
                         </span>
+
+                        <button
+                          type="button"
+                          onClick={() => togglePin(project.id)}
+                          aria-pressed={isPinned}
+                          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium transition ${
+                            isPinned
+                              ? "bg-neutral-950 text-white"
+                              : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                          }`}
+                        >
+                          <Pin className="h-3 w-3" />
+                          <span>Fixiert: {isPinned ? "An" : "Aus"}</span>
+                        </button>
                       </div>
 
-                      <h3 className="text-xl font-semibold tracking-tight text-neutral-950 mb-2">
+                      <h3 className="mt-4 text-lg font-semibold tracking-tight text-neutral-950">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-neutral-600 leading-relaxed mb-5">
-                        {project.subtitle}
+
+                      <p className="mt-2.5 text-sm leading-relaxed text-neutral-600">
+                        {project.summary}
                       </p>
 
-                      {/* Expandable Steckbrief */}
-                      <div
-                        className={`grid transition-all duration-300 ease-out ${
-                          expanded
-                            ? "grid-rows-[1fr] opacity-100 mt-4 pt-4 border-t border-neutral-100"
-                            : "grid-rows-[0fr] opacity-0"
-                        }`}
-                      >
-                        <div className="overflow-hidden">
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            <div>
-                              <p className="text-[11px] font-mono uppercase tracking-wider text-neutral-400">
-                                Steckbrief
-                              </p>
-                              <p className="text-xs font-medium text-neutral-800">
-                                {project.role}
-                              </p>
-                            </div>
-
-                            {/* Darkmode-style Fixiert On/Off Switch */}
-                            <button
-                              type="button"
-                              role="switch"
-                              aria-checked={pinned}
-                              aria-label={`Steckbrief ${project.company} fixieren`}
-                              onClick={(e) => togglePin(project.id, e)}
-                              className="inline-flex items-center gap-2 text-xs font-medium text-neutral-700 hover:text-neutral-950 select-none"
-                            >
-                              <span>Fixiert: {pinned ? "An" : "Aus"}</span>
-                              <span
-                                style={{
-                                  backgroundColor: pinned
-                                    ? project.accent
-                                    : "#D4D4D8",
-                                }}
-                                className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors duration-200"
-                              >
-                                <span
-                                  className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform duration-200 ${
-                                    pinned ? "translate-x-4.5" : "translate-x-1"
-                                  }`}
-                                />
-                              </span>
-                            </button>
-                          </div>
-
-                          <ul className="space-y-2 text-xs text-neutral-600 mb-4">
-                            {project.highlights.map((item) => (
-                              <li key={item} className="flex items-start gap-2">
-                                <span
-                                  style={{ color: project.accent }}
-                                  className="mt-0.5 font-semibold"
-                                >
-                                  •
-                                </span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-
-                          <div className="flex flex-wrap gap-1.5">
-                            {project.stack.map((tech) => (
-                              <span
-                                key={tech}
-                                className="text-[11px] font-mono bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-md"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Footer Year & Status */}
-                      <div className="mt-5 pt-3.5 border-t border-neutral-100 flex items-center justify-between text-xs font-mono text-neutral-500">
-                        <span>{project.period}</span>
-                        <span className="inline-flex items-center gap-1 text-neutral-700">
-                          {pinned ? (
-                            <>
-                              <Pin
-                                className="w-3.5 h-3.5"
-                                style={{ color: project.accent }}
-                              />
-                              <span>Fixiert</span>
-                            </>
-                          ) : (
-                            <span>Steckbrief</span>
-                          )}
-                        </span>
-                      </div>
-                    </article>
-                  </ScrollReveal>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Career Stations Section */}
-      <section
-        id="stationen"
-        className="py-20 md:py-24 border-b border-neutral-200/70"
-      >
-        <div className="max-w-6xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="max-w-2xl mb-12">
-              <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-2">
-                [ Werdegang ]
-              </p>
-              <h2 className="text-2xl sm:text-4xl font-semibold tracking-[-0.02em] text-neutral-950">
-                Stationen in Daten, BI und Softwareentwicklung
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="space-y-4">
-            {STATIONS.map((station, idx) => (
-              <ScrollReveal key={station.company} delay={idx * 75}>
-                <div className="group rounded-2xl border border-neutral-200/90 bg-white p-6 transition-all duration-300 hover:border-neutral-300 hover:shadow-sm">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-3">
-                      <span
-                        style={{
-                          borderColor: station.accent,
-                          color: station.accent,
-                        }}
-                        className="text-xs font-semibold px-2.5 py-0.5 rounded-full border bg-neutral-50"
-                      >
-                        {station.badgeText}
-                      </span>
-                      <span className="text-xs text-neutral-500">
-                        {station.company}
-                      </span>
+                      <p className="mt-4 rounded-xl bg-neutral-950/[0.03] px-3 py-2 text-xs font-medium text-neutral-700">
+                        {project.impact}
+                      </p>
                     </div>
-                    <span className="text-xs font-mono text-neutral-500">
-                      {station.period}
-                    </span>
-                  </div>
 
-                  <h3 className="text-lg font-semibold text-neutral-950 mb-2.5 group-hover:translate-x-0.5 transition-transform duration-200">
-                    {station.role}
-                  </h3>
-
-                  <ul className="space-y-1.5 text-sm text-neutral-600">
-                    {station.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-2.5">
-                        <ChevronRight className="w-4 h-4 mt-0.5 shrink-0 text-neutral-400 group-hover:text-neutral-700 transition-colors" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Capabilities / Tech Stack Section */}
-      <section className="py-20 md:py-24 border-b border-neutral-200/70 bg-neutral-50/50">
-        <div className="max-w-6xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="max-w-2xl mb-12">
-              <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-2">
-                [ Arbeitsweise &amp; Stack ]
-              </p>
-              <h2 className="text-2xl sm:text-4xl font-semibold tracking-[-0.02em] text-neutral-950">
-                Werkzeuge für belastbare Ergebnisse
-              </h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CAPABILITIES.map((cap, idx) => {
-              const Icon = idx === 0 ? Layers : idx === 1 ? Cpu : ArrowUpRight;
-              return (
-                <ScrollReveal key={cap.title} delay={idx * 85}>
-                  <div className="h-full rounded-2xl border border-neutral-200/90 bg-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm">
-                    <div className="w-9 h-9 rounded-xl bg-neutral-100 text-neutral-800 flex items-center justify-center mb-4">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-neutral-950 mb-2">
-                      {cap.title}
-                    </h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed mb-4">
-                      {cap.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {cap.items.map((item) => (
+                    <div className="mt-6 flex flex-wrap gap-1.5 border-t border-black/5 pt-4">
+                      {project.stack.map((item) => (
                         <span
                           key={item}
-                          className="text-xs font-mono px-2.5 py-1 rounded-md bg-neutral-100 text-neutral-700"
+                          className="rounded-md bg-neutral-100 px-2 py-1 text-xs font-medium text-neutral-700"
                         >
                           {item}
                         </span>
                       ))}
                     </div>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
+                  </article>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Section */}
-      <section id="kontakt" className="py-20 md:py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <ScrollReveal>
-            <div className="rounded-3xl border border-neutral-200 bg-neutral-50/70 p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
-              <div className="max-w-xl">
-                <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-2">
-                  [ Kontakt ]
-                </p>
-                <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-neutral-950 mb-3">
-                  Lust auf Austausch zu Data &amp; AI Engineering?
-                </h2>
-                <p className="text-sm sm:text-base text-neutral-600 leading-relaxed mb-4">
-                  Ich freue mich über Nachrichten zu spannenden Datenprodukten,
-                  KI-nahen Architekturen und gemeinsamen Ideen.
-                </p>
-                <div className="inline-flex items-center gap-2 text-xs font-mono text-neutral-500">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>Rheinland / NRW · Deutschland</span>
+        {/* Stationen */}
+        <section id="stationen" className="py-20 sm:py-24">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                Stationen
+              </p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+                Erfahrung in komplexen Umgebungen.
+              </h2>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              {STATIONS.map((station) => (
+                <div
+                  key={station.organization}
+                  className="rounded-2xl border border-black/5 bg-white/80 p-7 shadow-sm backdrop-blur-xl"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500">
+                        {station.period}
+                      </p>
+                      <h3 className="mt-1 text-xl font-semibold tracking-tight text-neutral-950">
+                        {station.organization}
+                      </h3>
+                      <p className="mt-0.5 text-sm font-medium text-neutral-700">
+                        {station.role}
+                      </p>
+                    </div>
+                    <Layers className="h-5 w-5 shrink-0 text-neutral-400" />
+                  </div>
+
+                  <p className="mt-4 text-sm leading-relaxed text-neutral-600">
+                    {station.description}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-1.5">
+                    {station.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-neutral-700"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Kontakt */}
+        <section id="kontakt" className="py-20 sm:py-28">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="rounded-3xl border border-black/5 bg-white/85 p-8 shadow-sm backdrop-blur-xl sm:p-12">
+              <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+                <div className="max-w-xl">
+                  <p className="text-xs font-semibold tracking-widest text-neutral-500 uppercase">
+                    Kontakt
+                  </p>
+                  <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-950">
+                    Lust auf Austausch zu Daten &amp; KI?
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-neutral-600 sm:text-base">
+                    Für spannende Rollen, Datenprodukte oder den fachlichen
+                    Austausch freue ich mich über eine Nachricht.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href="mailto:kontakt@maltereppke.de"
+                    className="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+                  >
+                    <Mail className="h-4 w-4" />
+                    <span>E-Mail schreiben</span>
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+                  >
+                    {copiedEmail ? (
+                      <>
+                        <Check className="h-4 w-4 text-emerald-600" />
+                        <span>Kopiert</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4" />
+                        <span>Adresse kopieren</span>
+                      </>
+                    )}
+                  </button>
+
+                  <a
+                    href="https://www.linkedin.com"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-medium text-neutral-800 transition hover:bg-neutral-50"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                    <span>LinkedIn</span>
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
                 </div>
               </div>
-
-              <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0">
-                <a
-                  href="mailto:malte.reppke@outlook.de"
-                  className="inline-flex items-center justify-between gap-4 rounded-xl bg-neutral-950 text-white px-4 py-3 text-sm font-medium hover:bg-neutral-800 transition-colors"
-                >
-                  <span className="inline-flex items-center gap-2.5">
-                    <Mail className="w-4 h-4" />
-                    <span>E-Mail schreiben</span>
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 opacity-75" />
-                </a>
-
-                <a
-                  href="https://www.linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-between gap-4 rounded-xl bg-white border border-neutral-300 text-neutral-900 px-4 py-3 text-sm font-medium hover:bg-neutral-100 transition-colors"
-                >
-                  <span className="inline-flex items-center gap-2.5">
-                    <LinkedInIcon className="w-4 h-4" />
-                    <span>LinkedIn</span>
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-neutral-500" />
-                </a>
-
-                <a
-                  href="https://github.com/maltedot4"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-between gap-4 rounded-xl bg-white border border-neutral-300 text-neutral-900 px-4 py-3 text-sm font-medium hover:bg-neutral-100 transition-colors"
-                >
-                  <span className="inline-flex items-center gap-2.5">
-                    <GitHubIcon className="w-4 h-4" />
-                    <span>GitHub</span>
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-neutral-500" />
-                </a>
-              </div>
             </div>
-          </ScrollReveal>
+          </div>
+        </section>
+      </main>
 
-          <footer className="mt-12 pt-6 border-t border-neutral-200/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-            <span>© {new Date().getFullYear()} Malte Reppke</span>
-            <span>Data &amp; AI Engineering Portfolio</span>
-          </footer>
+      <footer className="border-t border-black/5 bg-white/60 py-8 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 text-xs text-neutral-500 sm:flex-row">
+          <span>© {new Date().getFullYear()} Malte Reppke</span>
+          <span>
+            Data &amp; AI Engineering · Built with React &amp; Tailwind CSS
+          </span>
         </div>
-      </section>
+      </footer>
     </div>
   );
 }
