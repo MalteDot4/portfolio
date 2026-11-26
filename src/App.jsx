@@ -349,14 +349,14 @@ const TIMELINE_PROJECTS = [
     tagline:
       "PySpark · Azure Synapse · Kundenselektionen & KI-fähige Datenarchitektur",
     periodBracket: "[ Mai 2025 – Heute ]",
-    role: "Data-Analyst Customer Data & AI Engineering",
+    role: "Data-Analyst Customer Data & Analytics",
     organization: "Provinzial Versicherung AG",
     summary:
       "Zentrale Datenprodukte und Kundenselektionen in PySpark und Azure Synapse als belastbare Grundlage für Analytik und KI-Systeme.",
     highlights: [
-      "Entwicklung modularer Datenprodukte in PySpark & Azure Synapse",
-      "Kundenselektionen für Direktmarketing & KI-fähige Datenarchitektur",
-      "Agiles Data Engineering im cross-funktionalen Team",
+      "Entwicklung Datenprodukte in PySpark innerhalb Azure Synapse",
+      "Kundenselektionen für Direktmarketing Use-Cases",
+      "Weiterentwicklung der agilen Arbeitsorganisation im Team",
     ],
     stack: "Python · PySpark · Azure Synapse · SQL · Data Products",
   },
@@ -375,13 +375,14 @@ const TIMELINE_PROJECTS = [
     role: "Backend / Data Integration Firmenkunden",
     organization: "Vodafone GmbH",
     summary:
-      "Vertragsdaten-Microservices, PageForge für über 200 Business-Websites und automatisierte CI/CD-Pipelines im Firmenkundenumfeld.",
+      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, PageForge für über 200 Business-Websites sowie Microservices und CI/CD.",
     highlights: [
-      "B2B-Vertrags-Microservices & Datenintegration mit Node.js APIs",
-      "PageForge für den Vodafone Blog & über 200 Business-Websites",
-      "Automatisierte Git-CI/CD-Deployments & skalierbare Plattform-APIs",
+      "Entwicklung & Datenintegration für das Vodafone Firmenkundenportal",
+      "Entwicklung des Vodafone Blogs sowie über 200 Business-Websites",
+      "Implementierung von Microservices für Vertragsdaten mit Node.js",
+      "Anhebung der Automatisierung CI/CD in der Git-Pipeline",
     ],
-    stack: "Node.js · React · Next.js · Docker · CI/CD · Microservices",
+    stack: "Node.js · React.js · Next.js · Docker · CI/CD · Microservices",
   },
   {
     id: "controlexpert-easyclaim",
@@ -391,33 +392,93 @@ const TIMELINE_PROJECTS = [
     accentTextClass: "text-[#0A66C2]",
     accentPillClass: "bg-[#0A66C2]/10 text-[#0A66C2] border-[#0A66C2]/25",
     markerOffsetClass: "pt-14 sm:pt-20",
-    title: "EasyClaim InsurTech App",
+    title: "EasyClaim & Daten-/BI-Plattform",
     tagline:
-      "Digitale Schadenaufnahme · React.js & .NET C# · Jest & Cypress · SQL & BI",
-    periodBracket: "[ Jul 2019 – Aug 2022 ]",
-    role: "Softwareentwickler & BI-Specialist Versicherungsprozesse",
+      "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
+    periodBracket: "[ Jul 2012 – Aug 2022 ]",
+    role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
     organization: "ControlExpert GmbH",
     summary:
-      "Digitale Schadenaufnahme mit React.js und .NET C#, abgesichert durch Jest & Cypress sowie Data-Warehouse-, SQL-Reporting- und BI-Lösungen.",
+      "Langjährige Stationen im Versicherungs- und Automobilumfeld: digitale Schadenaufnahme mit React.js & .NET C#, Data Warehouse & BI sowie Prozess- und Herstellerdaten.",
     highlights: [
-      "Digitale Schadenaufnahme mit React.js & .NET C#",
-      "Automatisierte Tests mit Jest & Cypress im agilen Betrieb",
-      "Data Warehouse, SQL-Reporting & BI-Kennzahlen für Versicherungsprozesse",
+      "Softwareentwickler Versicherungsbranche (Jul 2019 – Aug 2022)",
+      {
+        text: "Webapplikation zur digitalen Schadenaufnahme (React.js & .NET C#), Kanban & Design Thinking, Jest & Cypress",
+        subItems: [
+          "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
+          "Enge Zusammenarbeit mit dem Produktmanagement",
+        ],
+      },
+      "BI-Specialist Versicherungsprozesse (Okt 2017 – Jun 2019, Teilzeit)",
+      {
+        text: "Entwicklung eines Data Warehouse, SQL Reporting & Visualisierung in Tableau",
+        subItems: [
+          "Beratung der Stakeholder zu relevanten KPIs parallel zum berufsbegleitenden Studium",
+        ],
+      },
+      "Business-Analyst Versicherungsprozesse (Okt 2016 – Sep 2017)",
+      {
+        text: "Digitalisierung für Versicherungsprozesse, Prozessautomatisierung mit IBM BPM & Scrum",
+        subItems: ["Product Management für interne Kalkulationsanwendung"],
+      },
+      "Data-Specialist Automobil (Jul 2012 – Sep 2016)",
+      {
+        text: "Erhebung, Abfrage & Pflege von Herstellerdaten",
+        subItems: ["Intensive Arbeit mit MS-Office & relationalen Datenbanken"],
+      },
     ],
-    stack: "React.js · .NET C# · Jest · Cypress · SQL · BI / Analytics",
+    stack:
+      "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
+  },
+];
+
+const CONTROLEXPERT_STATIONS = [
+  {
+    title: "Softwareentwickler Versicherungsbranche",
+    period: "Jul 2019 – Aug 2022",
+    bullets: [
+      "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
+      "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
+      "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
+    ],
+  },
+  {
+    title: "BI-Specialist Versicherungsprozesse",
+    period: "Okt 2017 – Jun 2019 · Teilzeit",
+    bullets: [
+      "Erfolgreiche Entwicklung eines Data Warehouse",
+      "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
+    ],
+  },
+  {
+    title: "Business-Analyst Versicherungsprozesse",
+    period: "Okt 2016 – Sep 2017",
+    bullets: [
+      "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
+      "Product Management interne Kalkulationsanwendung im Scrum Prozess",
+    ],
+  },
+  {
+    title: "Data-Specialist Automobil",
+    period: "Jul 2012 – Sep 2016",
+    bullets: [
+      "Erhebung, Abfrage & Pflege von Herstellerdaten",
+      "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
+    ],
   },
 ];
 
 const CORE_SKILL_PILLS = [
   "Python",
-  "PySpark",
-  "Azure Synapse",
+  "PySpark / Spark",
+  "Azure & Synapse",
   "SQL",
-  "React.js",
+  "React.js & Next.js",
   ".NET C#",
   "Node.js",
-  "CI/CD",
-  "BI / Analytics",
+  "Jest, Vitest & Cypress",
+  "Git, Docker & CI/CD",
+  "Tableau & Power-BI",
 ];
 
 const InteractiveProjectColumn = ({
@@ -558,15 +619,43 @@ const InteractiveProjectColumn = ({
               </p>
 
               <ul className="space-y-1.5 text-xs text-[#0B0B0C] leading-snug">
-                {project.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span
-                      style={{ backgroundColor: project.accentHex }}
-                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
-                    />
-                    <span>{item}</span>
-                  </li>
-                ))}
+                {project.highlights.map((item, idx) => {
+                  if (typeof item === "string") {
+                    return (
+                      <li
+                        key={`${idx}-${item}`}
+                        className="flex items-start gap-2"
+                      >
+                        <span
+                          style={{ backgroundColor: project.accentHex }}
+                          className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    );
+                  }
+
+                  return (
+                    <li key={`${idx}-${item.text}`} className="space-y-1">
+                      <div className="flex items-start gap-2 text-[#52525B]">
+                        <span
+                          style={{ backgroundColor: project.accentHex }}
+                          className="w-1 h-1 rounded-full mt-1.5 shrink-0 opacity-75"
+                        />
+                        <span>{item.text}</span>
+                      </div>
+                      {item.subItems && item.subItems.length > 0 && (
+                        <ul className="pl-4 space-y-1 text-[11px] text-[#52525B]">
+                          {item.subItems.map((sub) => (
+                            <li key={sub} className="list-disc">
+                              {sub}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
 
               <p className="pt-2 border-t border-[#E4E4E7] text-[11px] font-semibold text-[#52525B]">
@@ -774,36 +863,36 @@ export default function App() {
       <section
         id="hero-stage"
         ref={heroStageRef}
-        className="relative h-[185vh] sm:h-[205vh] bg-[#FFFFFF]"
+        className="relative h-[195vh] sm:h-[215vh] bg-[#FFFFFF]"
       >
-        <div className="sticky top-0 h-[100dvh] min-h-[560px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
+        <div className="sticky top-0 h-[100dvh] min-h-[620px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
           <div
             style={{
               opacity: revealedTitleOpacity,
               transform: `translate3d(0, ${revealedTitleY}px, 0) scale(${revealedTitleScale})`,
               pointerEvents: revealedTitleOpacity > 0.65 ? "auto" : "none",
             }}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-5 sm:px-6 max-w-5xl mx-auto will-change-transform"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-5 sm:px-8 max-w-5xl mx-auto will-change-transform"
           >
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] mb-4">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] mb-5">
               Einblick in meine Projekte
             </span>
 
-            <h2 className="text-3xl sm:text-6xl md:text-[70px] font-bold tracking-[-0.045em] text-[#0B0B0C] leading-[1.05] max-w-4xl">
+            <h2 className="text-3xl sm:text-6xl md:text-[72px] font-bold tracking-[-0.045em] text-[#0B0B0C] leading-[1.06] max-w-4xl">
               Belastbare Datenprodukte und KI-Systeme für den Alltag.
             </h2>
 
-            <p className="mt-5 sm:mt-6 text-sm sm:text-xl text-[#52525B] font-medium max-w-2xl leading-relaxed tracking-[-0.015em]">
+            <p className="mt-6 sm:mt-7 text-sm sm:text-xl text-[#52525B] font-medium max-w-2xl leading-relaxed tracking-[-0.015em]">
               Von Customer-Data-Hubs und Microservices bis hin zu digitalen
               InsurTech-Lösungen – strukturiert, verlässlich und praxistauglich
               umgesetzt.
             </p>
 
-            <div className="mt-7 sm:mt-8">
+            <div className="mt-8 sm:mt-10">
               <button
                 type="button"
                 onClick={() => jumpToSection("work")}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#0B0B0C] text-white text-xs sm:text-sm font-bold hover:bg-[#18181B] active:scale-[0.98] transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#0B0B0C] text-white text-xs sm:text-sm font-bold hover:bg-[#18181B] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Zu den Projekten</span>
                 <ArrowDown className="w-3.5 h-3.5" />
@@ -814,21 +903,21 @@ export default function App() {
           <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
               style={{ pointerEvents: heroOpacity < 0.2 ? "none" : "auto" }}
-              className="relative rounded-[26px] sm:rounded-[36px] min-h-[450px] sm:min-h-[540px] flex flex-col justify-between overflow-visible"
+              className="relative rounded-[28px] sm:rounded-[40px] min-h-[540px] sm:min-h-[650px] flex flex-col justify-between overflow-visible"
             >
               <div
                 style={{
                   opacity: curtainOpacity,
                   filter: curtainBlur > 0.2 ? `blur(${curtainBlur}px)` : "none",
                 }}
-                className="absolute inset-0 rounded-[26px] sm:rounded-[36px] overflow-visible pointer-events-none will-change-transform"
+                className="absolute inset-0 rounded-[28px] sm:rounded-[40px] overflow-visible pointer-events-none will-change-transform"
               >
                 <div
                   style={{
-                    clipPath: "inset(0 49.8% 0 0 round 26px 0 0 26px)",
+                    clipPath: "inset(0 49.8% 0 0 round 28px 0 0 28px)",
                     transform: `translate3d(${leftOffset}%, 0, 0) scale(${curtainScale})`,
                   }}
-                  className="absolute inset-0 rounded-[26px] sm:rounded-[36px] overflow-hidden shadow-[0_24px_70px_-15px_rgba(11,11,12,0.32)] will-change-transform"
+                  className="absolute inset-0 rounded-[28px] sm:rounded-[40px] overflow-hidden shadow-[0_24px_70px_-15px_rgba(11,11,12,0.32)] will-change-transform"
                 >
                   <WebGLSilkMarble paused={reducedMotion} />
                   <div
@@ -839,10 +928,10 @@ export default function App() {
 
                 <div
                   style={{
-                    clipPath: "inset(0 0 0 49.8% round 0 26px 26px 0)",
+                    clipPath: "inset(0 0 0 49.8% round 0 28px 28px 0)",
                     transform: `translate3d(${rightOffset}%, 0, 0) scale(${curtainScale})`,
                   }}
-                  className="absolute inset-0 rounded-[26px] sm:rounded-[36px] overflow-hidden shadow-[0_24px_70px_-15px_rgba(11,11,12,0.32)] will-change-transform"
+                  className="absolute inset-0 rounded-[28px] sm:rounded-[40px] overflow-hidden shadow-[0_24px_70px_-15px_rgba(11,11,12,0.32)] will-change-transform"
                 >
                   <WebGLSilkMarble paused={reducedMotion} />
                   <div
@@ -864,20 +953,10 @@ export default function App() {
                     background:
                       "radial-gradient(ellipse 74% 62% at 50% 50%, rgba(6, 8, 16, 0.86) 0%, rgba(6, 8, 16, 0.56) 60%, rgba(6, 8, 16, 0.18) 100%)",
                   }}
-                  className="absolute inset-0 rounded-[26px] sm:rounded-[36px] pointer-events-none"
+                  className="absolute inset-0 rounded-[28px] sm:rounded-[40px] pointer-events-none"
                 />
 
-                <header className="relative z-10 flex items-center justify-between px-5 sm:px-8 pt-5 sm:pt-7">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }
-                    className="text-xs sm:text-sm font-bold tracking-tight text-white/95 hover:text-white transition-colors cursor-pointer"
-                  >
-                    Malte Reppke
-                  </button>
-
+                <header className="relative z-10 flex items-center justify-end px-5 sm:px-9 pt-6 sm:pt-8">
                   <nav
                     aria-label="Hauptnavigation"
                     className="flex items-center gap-4 sm:gap-7 px-4 sm:px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-medium text-white/85"
@@ -913,17 +992,17 @@ export default function App() {
                   </nav>
                 </header>
 
-                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-5 sm:px-10 py-10">
-                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/75 mb-4">
+                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 py-14 sm:py-16">
+                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-5">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Data Engineering &amp; AI Engineering</span>
                   </div>
 
-                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-[-0.045em] text-white leading-[1.03]">
+                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-[-0.045em] text-white leading-[1.04]">
                     Malte Reppke
                   </h1>
 
-                  <p className="mt-4 sm:mt-5 max-w-2xl text-sm sm:text-lg text-white/85 font-medium leading-relaxed">
+                  <p className="mt-6 sm:mt-7 max-w-2xl text-sm sm:text-lg md:text-[19px] text-white/85 font-medium leading-[1.68]">
                     Data Engineering &amp; KI-Systeme bei der{" "}
                     <span className="border-b border-[#60A5FA] pb-0.5 text-white">
                       Provinzial
@@ -932,7 +1011,7 @@ export default function App() {
                     Pipelines und praxisnahes AI Engineering.
                   </p>
 
-                  <div className="mt-7 sm:mt-8 flex flex-wrap items-center justify-center gap-3">
+                  <div className="mt-9 sm:mt-10 flex flex-wrap items-center justify-center gap-3.5">
                     <button
                       type="button"
                       onClick={() => jumpToSection("work")}
@@ -950,7 +1029,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="relative z-10 pb-5 sm:pb-6 flex flex-col items-center gap-1.5">
+                <div className="relative z-10 pb-6 sm:pb-8 flex flex-col items-center gap-2">
                   <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
                     Nach unten scrollen
                   </span>
@@ -1015,7 +1094,7 @@ export default function App() {
         </RevealBlock>
       </section>
 
-      {/* 3. MOTIVATION (ASYMMETRISCHES EDITORIAL-GRID WIE IM SCREENSHOT) */}
+      {/* 3. MOTIVATION */}
       <section
         id="motivation"
         className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
@@ -1029,7 +1108,6 @@ export default function App() {
         </RevealBlock>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-          {/* Dunkle Hauptkarte links oben */}
           <RevealBlock
             delay={40}
             reducedMotion={reducedMotion}
@@ -1063,7 +1141,6 @@ export default function App() {
             </div>
           </RevealBlock>
 
-          {/* Helle Karte rechts oben */}
           <RevealBlock
             delay={100}
             reducedMotion={reducedMotion}
@@ -1097,7 +1174,6 @@ export default function App() {
             </div>
           </RevealBlock>
 
-          {/* Breite Karte unten */}
           <RevealBlock
             delay={160}
             reducedMotion={reducedMotion}
@@ -1157,11 +1233,11 @@ export default function App() {
                 <div>
                   <BrandWordmark brand="provinzial" />
                   <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                    Data-Analyst Customer Data &amp; AI Engineering · Provinzial
+                    Data-Analyst Customer Data &amp; Analytics · Provinzial
                     Versicherung AG
                   </p>
                   <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Mai 2025 – Heute
+                    Mai 2025 bis heute
                   </p>
                 </div>
                 <Database className="w-5 h-5 text-[#52525B] shrink-0" />
@@ -1174,21 +1250,43 @@ export default function App() {
                     Backend / Data Integration Firmenkunden · Vodafone GmbH
                   </p>
                   <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Nov 2022 – Mär 2025
+                    Nov 2022 bis Mär 2025
                   </p>
                 </div>
                 <Cloud className="w-5 h-5 text-[#52525B] shrink-0" />
               </div>
 
               <div className="flex items-start justify-between gap-4">
-                <div>
+                <div className="w-full">
                   <BrandWordmark brand="controlexpert" />
                   <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                    Softwareentwickler &amp; BI-Specialist · ControlExpert GmbH
+                    ControlExpert GmbH · Stationen im Überblick
                   </p>
                   <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Jul 2019 – Aug 2022
+                    Jul 2012 – Aug 2022
                   </p>
+
+                  <div className="mt-4 space-y-3.5">
+                    {CONTROLEXPERT_STATIONS.map((item) => (
+                      <div key={item.title} className="space-y-1">
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                            {item.title}
+                          </p>
+                          <span className="text-[11px] font-mono text-[#52525B]">
+                            {item.period}
+                          </span>
+                        </div>
+                        <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
+                          {item.bullets.map((bullet) => (
+                            <li key={bullet} className="list-disc">
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <Code2 className="w-5 h-5 text-[#52525B] shrink-0" />
               </div>
@@ -1224,8 +1322,8 @@ export default function App() {
               <div className="mt-8 pt-5 border-t border-[#E4E4E7] flex items-center gap-2.5 text-xs text-[#52525B]">
                 <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C]" />
                 <span>
-                  Fokus auf wartbare Architekturen, Tests &amp; verlässliche
-                  Datenprodukte
+                  B. Sc. Wirtschaftsinformatik (FOM Düsseldorf, 1,9) · Fokus auf
+                  Datenprodukte &amp; BI
                 </span>
               </div>
             </div>
@@ -1252,7 +1350,7 @@ export default function App() {
               </p>
               <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>Deutschland · Data &amp; AI Engineering</span>
+                <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
               </div>
             </div>
 
@@ -1290,7 +1388,7 @@ export default function App() {
               </a>
 
               <a
-                href="https://www.linkedin.com"
+                href="https://www.linkedin.com/in/malte-reppke"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
