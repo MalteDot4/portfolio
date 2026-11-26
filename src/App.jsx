@@ -23,36 +23,34 @@ const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-const AI_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="aiGrad" x1="0%" y1="15%" x2="100%" y2="85%"><stop offset="0%" stop-color="#5DA8FF"/><stop offset="42%" stop-color="#2563EB"/><stop offset="76%" stop-color="#9333EA"/><stop offset="100%" stop-color="#E8B9D5"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#070A14"/><circle cx="32" cy="32" r="28" fill="none" stroke="url(#aiGrad)" stroke-width="2.5" opacity="0.65"/><path d="M32 13C33.4 23.2 40.8 30.6 51 32C40.8 33.4 33.4 40.8 32 51C30.6 40.8 23.2 33.4 13 32C23.2 30.6 30.6 23.2 32 13Z" fill="url(#aiGrad)"/><circle cx="46.5" cy="17.5" r="2.6" fill="#E8B9D5"/></svg>`;
+const SUBTLE_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#F5F5F7"/><circle cx="32" cy="32" r="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="2"/><text x="32" y="38.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="20" font-weight="700" letter-spacing="-0.04em" fill="#0B0B0C">MR</text><circle cx="46" cy="18" r="3.2" fill="#2563EB"/></svg>`;
 
 const AiGradientMark = ({ size = 34, className = "" }) => {
-  const gradId = "silk-ai-mark-grad";
-
   return (
     <span
       style={{ width: size, height: size }}
-      className={`inline-flex items-center justify-center rounded-full bg-[#070A14]/90 border border-white/20 shadow-[0_6px_20px_-4px_rgba(79,70,229,0.55)] shrink-0 ${className}`}
+      className={`inline-flex items-center justify-center rounded-full bg-[#F5F5F7]/95 border border-black/10 shadow-sm shrink-0 ${className}`}
       aria-hidden="true"
     >
       <svg
         viewBox="0 0 64 64"
-        className="w-[74%] h-[74%]"
+        className="w-full h-full"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <defs>
-          <linearGradient id={gradId} x1="6%" y1="12%" x2="94%" y2="88%">
-            <stop offset="0%" stopColor="#60A5FA" />
-            <stop offset="45%" stopColor="#2563EB" />
-            <stop offset="78%" stopColor="#A855F7" />
-            <stop offset="100%" stopColor="#F0ABFC" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M32 11C33.6 22.8 41.2 30.4 53 32C41.2 33.6 33.6 41.2 32 53C30.4 41.2 22.8 33.6 11 32C22.8 30.4 30.4 22.8 32 11Z"
-          fill={`url(#${gradId})`}
-        />
-        <circle cx="48" cy="16" r="2.8" fill="#F0ABFC" />
+        <text
+          x="32"
+          y="39"
+          textAnchor="middle"
+          fontFamily="-apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Inter', sans-serif"
+          fontSize="21"
+          fontWeight="700"
+          letterSpacing="-0.04em"
+          fill="#0B0B0C"
+        >
+          MR
+        </text>
+        <circle cx="47" cy="17" r="3.2" fill="#2563EB" />
       </svg>
     </span>
   );
@@ -823,7 +821,7 @@ export default function App() {
       document.head.appendChild(iconLink);
     }
     iconLink.type = "image/svg+xml";
-    iconLink.href = `data:image/svg+xml,${encodeURIComponent(AI_FAVICON_SVG)}`;
+    iconLink.href = `data:image/svg+xml,${encodeURIComponent(SUBTLE_FAVICON_SVG)}`;
   }, []);
 
   useEffect(() => {
@@ -1075,7 +1073,7 @@ export default function App() {
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    aria-label="AI Mark · Nach oben"
+                    aria-label="MR Monogramm · Nach oben"
                     className="inline-flex items-center hover:scale-105 transition-transform cursor-pointer"
                   >
                     <AiGradientMark size={36} />
