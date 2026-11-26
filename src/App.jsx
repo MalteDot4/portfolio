@@ -343,7 +343,6 @@ const TIMELINE_PROJECTS = [
     brand: "provinzial",
     accentHex: "#007A6E",
     accentTextClass: "text-[#007A6E]",
-    accentPillClass: "bg-[#007A6E]/10 text-[#007A6E] border-[#007A6E]/25",
     markerOffsetClass: "pt-2 sm:pt-4",
     title: "Customer Data Hub & Data Products",
     tagline:
@@ -366,7 +365,6 @@ const TIMELINE_PROJECTS = [
     brand: "vodafone",
     accentHex: "#E60000",
     accentTextClass: "text-[#E60000]",
-    accentPillClass: "bg-[#E60000]/10 text-[#E60000] border-[#E60000]/25",
     markerOffsetClass: "pt-8 sm:pt-12",
     title: "Firmenkundenportal & PageForge",
     tagline:
@@ -390,7 +388,6 @@ const TIMELINE_PROJECTS = [
     brand: "controlexpert",
     accentHex: "#0A66C2",
     accentTextClass: "text-[#0A66C2]",
-    accentPillClass: "bg-[#0A66C2]/10 text-[#0A66C2] border-[#0A66C2]/25",
     markerOffsetClass: "pt-14 sm:pt-20",
     title: "EasyClaim & Daten-/BI-Plattform",
     tagline:
@@ -399,33 +396,13 @@ const TIMELINE_PROJECTS = [
     role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
     organization: "ControlExpert GmbH",
     summary:
-      "Langjährige Stationen im Versicherungs- und Automobilumfeld: digitale Schadenaufnahme mit React.js & .NET C#, Data Warehouse & BI sowie Prozess- und Herstellerdaten.",
+      "Webapplikation zur digitalen Schadenaufnahme, Data-Warehouse-Aufbau, SQL-Reporting sowie Prozess- und Datenlösungen im Versicherungs- und Automobilumfeld.",
     highlights: [
-      "Softwareentwickler Versicherungsbranche (Jul 2019 – Aug 2022)",
-      {
-        text: "Webapplikation zur digitalen Schadenaufnahme (React.js & .NET C#), Kanban & Design Thinking, Jest & Cypress",
-        subItems: [
-          "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
-          "Enge Zusammenarbeit mit dem Produktmanagement",
-        ],
-      },
-      "BI-Specialist Versicherungsprozesse (Okt 2017 – Jun 2019, Teilzeit)",
-      {
-        text: "Entwicklung eines Data Warehouse, SQL Reporting & Visualisierung in Tableau",
-        subItems: [
-          "Beratung der Stakeholder zu relevanten KPIs parallel zum berufsbegleitenden Studium",
-        ],
-      },
-      "Business-Analyst Versicherungsprozesse (Okt 2016 – Sep 2017)",
-      {
-        text: "Digitalisierung für Versicherungsprozesse, Prozessautomatisierung mit IBM BPM & Scrum",
-        subItems: ["Product Management für interne Kalkulationsanwendung"],
-      },
-      "Data-Specialist Automobil (Jul 2012 – Sep 2016)",
-      {
-        text: "Erhebung, Abfrage & Pflege von Herstellerdaten",
-        subItems: ["Intensive Arbeit mit MS-Office & relationalen Datenbanken"],
-      },
+      "Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend & .NET C# im Backend",
+      "Absicherung der Codequalität mit Jest & Cypress im Kanban- und Design-Thinking-Umfeld",
+      "Entwicklung eines Data Warehouse mit SQL-Reporting & Visualisierung in Tableau",
+      "Digitalisierung & Prozessautomatisierung mit IBM BPM sowie interne Kalkulationsanwendung in Scrum",
+      "Erhebung, Abfrage & Pflege von Herstellerdaten in relationalen Datenbanken",
     ],
     stack:
       "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
@@ -569,7 +546,7 @@ const InteractiveProjectColumn = ({
         >
           <div className="overflow-hidden">
             <div className="rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] p-4 sm:p-5 space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
                   Steckbrief · {project.organization}
                 </span>
@@ -582,80 +559,41 @@ const InteractiveProjectColumn = ({
                     e.stopPropagation();
                     onTogglePin(project.id);
                   }}
-                  className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C]/40 transition-colors cursor-pointer"
+                  style={{
+                    backgroundColor: isPinned ? project.accentHex : "#E4E4E7",
+                    boxShadow: isPinned
+                      ? `0 0 0 2px ${project.accentHex}33`
+                      : "none",
+                  }}
+                  className="relative inline-flex h-5 w-9 items-center rounded-full border border-black/10 transition-all duration-200 shrink-0 cursor-pointer"
                   aria-label={`Steckbrief für ${project.organization} fixieren`}
                 >
-                  <span className="text-[11px] font-bold text-[#0B0B0C]">
-                    Fixiert: {isPinned ? "An" : "Aus"}
-                  </span>
                   <span
-                    style={{
-                      backgroundColor: isPinned ? project.accentHex : "#D4D4D8",
-                    }}
-                    className="relative inline-flex h-4 w-7 items-center rounded-full transition-colors duration-200 shrink-0"
-                  >
-                    <span
-                      className={`inline-block h-3 w-3 transform rounded-full bg-white shadow transition-transform duration-200 ${
-                        isPinned ? "translate-x-3.5" : "translate-x-0.5"
-                      }`}
-                    />
-                  </span>
+                    className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow-sm transition-transform duration-200 ${
+                      isPinned ? "translate-x-4" : "translate-x-0.5"
+                    }`}
+                  />
                 </button>
               </div>
 
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C] leading-snug">
-                  {project.role}
-                </p>
-                <span
-                  className={`px-2 py-0.5 rounded-full border text-[10px] font-bold shrink-0 ${project.accentPillClass}`}
-                >
-                  {isPinned ? "Fixiert" : "Vorschau"}
-                </span>
-              </div>
+              <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C] leading-snug">
+                {project.role}
+              </p>
 
               <p className="text-xs text-[#52525B] leading-relaxed">
                 {project.summary}
               </p>
 
               <ul className="space-y-1.5 text-xs text-[#0B0B0C] leading-snug">
-                {project.highlights.map((item, idx) => {
-                  if (typeof item === "string") {
-                    return (
-                      <li
-                        key={`${idx}-${item}`}
-                        className="flex items-start gap-2"
-                      >
-                        <span
-                          style={{ backgroundColor: project.accentHex }}
-                          className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
-                        />
-                        <span>{item}</span>
-                      </li>
-                    );
-                  }
-
-                  return (
-                    <li key={`${idx}-${item.text}`} className="space-y-1">
-                      <div className="flex items-start gap-2 text-[#52525B]">
-                        <span
-                          style={{ backgroundColor: project.accentHex }}
-                          className="w-1 h-1 rounded-full mt-1.5 shrink-0 opacity-75"
-                        />
-                        <span>{item.text}</span>
-                      </div>
-                      {item.subItems && item.subItems.length > 0 && (
-                        <ul className="pl-4 space-y-1 text-[11px] text-[#52525B]">
-                          {item.subItems.map((sub) => (
-                            <li key={sub} className="list-disc">
-                              {sub}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  );
-                })}
+                {project.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span
+                      style={{ backgroundColor: project.accentHex }}
+                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
 
               <p className="pt-2 border-t border-[#E4E4E7] text-[11px] font-semibold text-[#52525B]">
@@ -1049,357 +987,355 @@ export default function App() {
       </section>
 
       {/* 2. PROJEKTE (HORIZONTAL TIMELINE COLUMNS) */}
-      <section
-        id="work"
-        className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-      >
-        <RevealBlock reducedMotion={reducedMotion}>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-                01 / Projekte &amp; Wirkung
-              </span>
-              <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
-                Einblick in meine Projekte
-              </h2>
+      <section id="work" className="bg-[#FFFFFF] py-20 sm:py-28">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <RevealBlock reducedMotion={reducedMotion}>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+                  01 / Projekte &amp; Wirkung
+                </span>
+                <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
+                  Einblick in meine Projekte
+                </h2>
+              </div>
+
+              {pinnedIds.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setPinnedIds([])}
+                  className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
+                >
+                  Alle Fixierungen lösen ({pinnedIds.length})
+                </button>
+              )}
             </div>
+          </RevealBlock>
 
-            {pinnedIds.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setPinnedIds([])}
-                className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
-              >
-                Alle Fixierungen lösen ({pinnedIds.length})
-              </button>
-            )}
-          </div>
-        </RevealBlock>
-
-        <RevealBlock delay={80} reducedMotion={reducedMotion}>
-          <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
-            {TIMELINE_PROJECTS.map((project) => (
-              <InteractiveProjectColumn
-                key={project.id}
-                project={project}
-                isPinned={pinnedIds.includes(project.id)}
-                isHovered={hoveredProjectId === project.id}
-                onToggleOpenClick={() => handleProjectClick(project.id)}
-                onTogglePin={handleTogglePin}
-                onHoverChange={setHoveredProjectId}
-                reducedMotion={reducedMotion}
-              />
-            ))}
-          </div>
-        </RevealBlock>
+          <RevealBlock delay={80} reducedMotion={reducedMotion}>
+            <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
+              {TIMELINE_PROJECTS.map((project) => (
+                <InteractiveProjectColumn
+                  key={project.id}
+                  project={project}
+                  isPinned={pinnedIds.includes(project.id)}
+                  isHovered={hoveredProjectId === project.id}
+                  onToggleOpenClick={() => handleProjectClick(project.id)}
+                  onTogglePin={handleTogglePin}
+                  onHoverChange={setHoveredProjectId}
+                  reducedMotion={reducedMotion}
+                />
+              ))}
+            </div>
+          </RevealBlock>
+        </div>
       </section>
 
       {/* 3. MOTIVATION */}
-      <section
-        id="motivation"
-        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-      >
-        <RevealBlock reducedMotion={reducedMotion}>
-          <div className="mb-8">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-              02 / Motivation
-            </span>
+      <section id="motivation" className="bg-[#F5F5F7] py-16 sm:py-24">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <RevealBlock reducedMotion={reducedMotion}>
+            <div className="mb-8">
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+                02 / Motivation
+              </span>
+            </div>
+          </RevealBlock>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <RevealBlock
+              delay={40}
+              reducedMotion={reducedMotion}
+              className="lg:col-span-6"
+            >
+              <div className="h-full rounded-[28px] bg-[#0B0B0C] text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+                <div>
+                  <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
+                    <Cpu className="w-5 h-5 text-white" />
+                  </div>
+
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                    Datenprodukte &amp; AI Engineering
+                  </span>
+
+                  <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
+                    Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
+                  </h2>
+
+                  <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
+                    Mich motiviert es, aus komplexen Datenlandschaften
+                    verlässliche Datenprodukte, skalierbare Pipelines und
+                    praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
+                    automatisierte Prozesse im Alltag messbar stärken.
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
+                  PySpark · Azure Synapse · Datenprodukte · AI Engineering
+                </div>
+              </div>
+            </RevealBlock>
+
+            <RevealBlock
+              delay={100}
+              reducedMotion={reducedMotion}
+              className="lg:col-span-6"
+            >
+              <div className="h-full rounded-[28px] bg-white border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+                <div>
+                  <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
+                    <Database className="w-5 h-5 text-[#0B0B0C]" />
+                  </div>
+
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                    Skalierbare Pipelines
+                  </span>
+
+                  <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                    Saubere Struktur statt Fragilität
+                  </h3>
+
+                  <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                    Gute Systeme sind nachvollziehbar, testbar und
+                    automatisiert. Klare Schnittstellen und reproduzierbare
+                    Pipelines schaffen Vertrauen – von der Kundenselektion bis
+                    zur KI-fähigen Aufbereitung.
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
+                  Reproduzierbarkeit · Qualität · Automatisierung
+                </div>
+              </div>
+            </RevealBlock>
+
+            <RevealBlock
+              delay={160}
+              reducedMotion={reducedMotion}
+              className="lg:col-span-12"
+            >
+              <div className="rounded-[28px] bg-white border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
+                <div className="max-w-3xl">
+                  <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
+                    <Layers className="w-5 h-5" />
+                  </div>
+
+                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                    End-to-End-Perspektive
+                  </span>
+
+                  <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                    Von Daten &amp; Backend bis in produktive Anwendungen
+                  </h3>
+
+                  <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                    Die Verbindung aus Data Engineering, Microservices,
+                    Web-APIs, BI und CI/CD hilft dabei, technische Lösungen so
+                    zu entwerfen, dass sie in realen Umgebungen dauerhaft stabil
+                    laufen.
+                  </p>
+                </div>
+
+                <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
+                  Data · Microservices · Web · CI/CD
+                </div>
+              </div>
+            </RevealBlock>
           </div>
-        </RevealBlock>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-          <RevealBlock
-            delay={40}
-            reducedMotion={reducedMotion}
-            className="lg:col-span-6"
-          >
-            <div className="h-full rounded-[28px] bg-[#0B0B0C] text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
-              <div>
-                <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
-                  <Cpu className="w-5 h-5 text-white" />
-                </div>
-
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
-                  Datenprodukte &amp; AI Engineering
-                </span>
-
-                <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
-                  Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
-                </h2>
-
-                <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
-                  Mich motiviert es, aus komplexen Datenlandschaften
-                  verlässliche Datenprodukte, skalierbare Pipelines und
-                  praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
-                  automatisierte Prozesse im Alltag messbar stärken.
-                </p>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
-                PySpark · Azure Synapse · Datenprodukte · AI Engineering
-              </div>
-            </div>
-          </RevealBlock>
-
-          <RevealBlock
-            delay={100}
-            reducedMotion={reducedMotion}
-            className="lg:col-span-6"
-          >
-            <div className="h-full rounded-[28px] bg-white border border-[#E4E4E7] p-7 sm:p-9 flex flex-col justify-between shadow-sm">
-              <div>
-                <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
-                  <Database className="w-5 h-5 text-[#0B0B0C]" />
-                </div>
-
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                  Skalierbare Pipelines
-                </span>
-
-                <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                  Saubere Struktur statt Fragilität
-                </h3>
-
-                <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                  Gute Systeme sind nachvollziehbar, testbar und automatisiert.
-                  Klare Schnittstellen und reproduzierbare Pipelines schaffen
-                  Vertrauen – von der Kundenselektion bis zur KI-fähigen
-                  Aufbereitung.
-                </p>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
-                Reproduzierbarkeit · Qualität · Automatisierung
-              </div>
-            </div>
-          </RevealBlock>
-
-          <RevealBlock
-            delay={160}
-            reducedMotion={reducedMotion}
-            className="lg:col-span-12"
-          >
-            <div className="rounded-[28px] bg-white border border-[#E4E4E7] p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
-              <div className="max-w-3xl">
-                <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
-                  <Layers className="w-5 h-5" />
-                </div>
-
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                  End-to-End-Perspektive
-                </span>
-
-                <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                  Von Daten &amp; Backend bis in produktive Anwendungen
-                </h3>
-
-                <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                  Die Verbindung aus Data Engineering, Microservices, Web-APIs,
-                  BI und CI/CD hilft dabei, technische Lösungen so zu entwerfen,
-                  dass sie in realen Umgebungen dauerhaft stabil laufen.
-                </p>
-              </div>
-
-              <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
-                Data · Microservices · Web · CI/CD
-              </div>
-            </div>
-          </RevealBlock>
         </div>
       </section>
 
       {/* 4. STATIONEN & TECH STACK */}
-      <section
-        id="experience"
-        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-      >
-        <RevealBlock reducedMotion={reducedMotion}>
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-            03 / Stationen &amp; Tech Stack
-          </span>
-          <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
-            Stationen &amp; Kernkompetenzen
-          </h2>
-        </RevealBlock>
+      <section id="experience" className="bg-[#FBFBFD] py-16 sm:py-24">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <RevealBlock reducedMotion={reducedMotion}>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
+              03 / Stationen &amp; Tech Stack
+            </span>
+            <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
+              Stationen &amp; Kernkompetenzen
+            </h2>
+          </RevealBlock>
 
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <RevealBlock
-            delay={60}
-            reducedMotion={reducedMotion}
-            className="lg:col-span-7"
-          >
-            <div className="rounded-3xl border border-[#E4E4E7] bg-white p-6 sm:p-8 space-y-6">
-              <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
-                <div>
-                  <BrandWordmark brand="provinzial" />
-                  <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                    Data-Analyst Customer Data &amp; Analytics · Provinzial
-                    Versicherung AG
-                  </p>
-                  <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Mai 2025 bis heute
-                  </p>
+          <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <RevealBlock
+              delay={60}
+              reducedMotion={reducedMotion}
+              className="lg:col-span-7"
+            >
+              <div className="rounded-3xl border border-[#E4E4E7] bg-white p-6 sm:p-8 space-y-6">
+                <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
+                  <div>
+                    <BrandWordmark brand="provinzial" />
+                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
+                      Data-Analyst Customer Data &amp; Analytics · Provinzial
+                      Versicherung AG
+                    </p>
+                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
+                      Mai 2025 bis heute
+                    </p>
+                  </div>
+                  <Database className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
-                <Database className="w-5 h-5 text-[#52525B] shrink-0" />
-              </div>
 
-              <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
-                <div>
-                  <BrandWordmark brand="vodafone" />
-                  <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                    Backend / Data Integration Firmenkunden · Vodafone GmbH
-                  </p>
-                  <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Nov 2022 bis Mär 2025
-                  </p>
+                <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
+                  <div>
+                    <BrandWordmark brand="vodafone" />
+                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
+                      Backend / Data Integration Firmenkunden · Vodafone GmbH
+                    </p>
+                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
+                      Nov 2022 bis Mär 2025
+                    </p>
+                  </div>
+                  <Cloud className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
-                <Cloud className="w-5 h-5 text-[#52525B] shrink-0" />
-              </div>
 
-              <div className="flex items-start justify-between gap-4">
-                <div className="w-full">
-                  <BrandWordmark brand="controlexpert" />
-                  <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                    ControlExpert GmbH · Stationen im Überblick
-                  </p>
-                  <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                    Jul 2012 – Aug 2022
-                  </p>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="w-full">
+                    <BrandWordmark brand="controlexpert" />
+                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
+                      ControlExpert GmbH · Stationen im Überblick
+                    </p>
+                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
+                      Jul 2012 – Aug 2022
+                    </p>
 
-                  <div className="mt-4 space-y-3.5">
-                    {CONTROLEXPERT_STATIONS.map((item) => (
-                      <div key={item.title} className="space-y-1">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
-                            {item.title}
-                          </p>
-                          <span className="text-[11px] font-mono text-[#52525B]">
-                            {item.period}
-                          </span>
+                    <div className="mt-4 space-y-3.5">
+                      {CONTROLEXPERT_STATIONS.map((item) => (
+                        <div key={item.title} className="space-y-1">
+                          <div className="flex flex-wrap items-baseline justify-between gap-2">
+                            <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                              {item.title}
+                            </p>
+                            <span className="text-[11px] font-mono text-[#52525B]">
+                              {item.period}
+                            </span>
+                          </div>
+                          <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
+                            {item.bullets.map((bullet) => (
+                              <li key={bullet} className="list-disc">
+                                {bullet}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
-                          {item.bullets.map((bullet) => (
-                            <li key={bullet} className="list-disc">
-                              {bullet}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      ))}
+                    </div>
+                  </div>
+                  <Code2 className="w-5 h-5 text-[#52525B] shrink-0" />
+                </div>
+              </div>
+            </RevealBlock>
+
+            <RevealBlock
+              delay={120}
+              reducedMotion={reducedMotion}
+              className="lg:col-span-5"
+            >
+              <div className="h-full rounded-3xl border border-[#E4E4E7] bg-[#F5F5F7]/75 p-6 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
+                    <Terminal className="w-4 h-4" />
+                    <span>Tech Stack</span>
+                  </div>
+                  <h3 className="mt-3 text-xl font-bold tracking-[-0.03em] text-[#0B0B0C]">
+                    Werkzeuge für Daten, Backend &amp; UI
+                  </h3>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {CORE_SKILL_PILLS.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1.5 rounded-full bg-white border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C]"
+                      >
+                        {skill}
+                      </span>
                     ))}
                   </div>
                 </div>
-                <Code2 className="w-5 h-5 text-[#52525B] shrink-0" />
-              </div>
-            </div>
-          </RevealBlock>
 
-          <RevealBlock
-            delay={120}
-            reducedMotion={reducedMotion}
-            className="lg:col-span-5"
-          >
-            <div className="h-full rounded-3xl border border-[#E4E4E7] bg-[#FAFAFA] p-6 sm:p-8 flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
-                  <Terminal className="w-4 h-4" />
-                  <span>Tech Stack</span>
-                </div>
-                <h3 className="mt-3 text-xl font-bold tracking-[-0.03em] text-[#0B0B0C]">
-                  Werkzeuge für Daten, Backend &amp; UI
-                </h3>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {CORE_SKILL_PILLS.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1.5 rounded-full bg-white border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C]"
-                    >
-                      {skill}
-                    </span>
-                  ))}
+                <div className="mt-8 pt-5 border-t border-[#E4E4E7] flex items-center gap-2.5 text-xs text-[#52525B]">
+                  <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C]" />
+                  <span>
+                    B. Sc. Wirtschaftsinformatik (FOM Düsseldorf, 1,9) · Fokus
+                    auf Datenprodukte &amp; BI
+                  </span>
                 </div>
               </div>
-
-              <div className="mt-8 pt-5 border-t border-[#E4E4E7] flex items-center gap-2.5 text-xs text-[#52525B]">
-                <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C]" />
-                <span>
-                  B. Sc. Wirtschaftsinformatik (FOM Düsseldorf, 1,9) · Fokus auf
-                  Datenprodukte &amp; BI
-                </span>
-              </div>
-            </div>
-          </RevealBlock>
+            </RevealBlock>
+          </div>
         </div>
       </section>
 
       {/* 5. KONTAKT */}
-      <section
-        id="contact"
-        className="py-16 sm:py-24 pb-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-      >
-        <RevealBlock reducedMotion={reducedMotion}>
-          <div className="rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-xl">
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">
-                04 / Kontakt
-              </span>
-              <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em]">
-                Lust auf Austausch zu Data &amp; AI Engineering?
-              </h2>
-              <p className="mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
-                Schreib mir gerne direkt per E-Mail oder vernetze dich mit mir.
-              </p>
-              <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
+      <section id="contact" className="bg-[#FFFFFF] py-16 sm:py-24 pb-28">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <RevealBlock reducedMotion={reducedMotion}>
+            <div className="rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <div className="max-w-xl">
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">
+                  04 / Kontakt
+                </span>
+                <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em]">
+                  Lust auf Austausch zu Data &amp; AI Engineering?
+                </h2>
+                <p className="mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
+                  Schreib mir gerne direkt per E-Mail oder vernetze dich mit
+                  mir.
+                </p>
+                <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href="mailto:malte_reppke@web.de"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>E-Mail senden</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors cursor-pointer"
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-emerald-400" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                  <span>{copied ? "Kopiert!" : "malte_reppke@web.de"}</span>
+                </button>
+
+                <a
+                  href="https://github.com/MalteDot4"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
+                >
+                  <GitBranch className="w-4 h-4" />
+                  <span>GitHub</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/in/malte-reppke"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
+                >
+                  <Globe className="w-4 h-4" />
+                  <span>LinkedIn</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="mailto:malte_reppke@web.de"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors"
-              >
-                <Mail className="w-4 h-4" />
-                <span>E-Mail senden</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors cursor-pointer"
-              >
-                {copied ? (
-                  <Check className="w-4 h-4 text-emerald-400" />
-                ) : (
-                  <Copy className="w-4 h-4" />
-                )}
-                <span>{copied ? "Kopiert!" : "malte_reppke@web.de"}</span>
-              </button>
-
-              <a
-                href="https://github.com/MalteDot4"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-              >
-                <GitBranch className="w-4 h-4" />
-                <span>GitHub</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/malte-reppke"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-              >
-                <Globe className="w-4 h-4" />
-                <span>LinkedIn</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
-        </RevealBlock>
+          </RevealBlock>
+        </div>
       </section>
 
       {/* FLOATING SECTION FLOW PILL */}
