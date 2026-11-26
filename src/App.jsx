@@ -71,7 +71,6 @@ function SilkMarbleCanvas() {
     const gl =
       canvas.getContext("webgl", { antialias: true, alpha: true }) ||
       canvas.getContext("experimental-webgl");
-
     if (!gl) return;
 
     const vertexShaderSource = `
@@ -157,7 +156,6 @@ function SilkMarbleCanvas() {
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
-
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
 
     const positionBuffer = gl.createBuffer();
@@ -262,29 +260,13 @@ export default function App() {
     <div className="relative min-h-screen overflow-x-clip text-neutral-900 antialiased selection:bg-neutral-900 selection:text-white">
       <SilkMarbleCanvas />
 
-      {/* Header */}
       <header className="sticky top-0 z-30 border-b border-black/5 bg-white/75 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <a
             href="#"
-            className="inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-neutral-950 transition hover:opacity-75"
+            className="text-sm font-semibold tracking-tight text-neutral-950 transition hover:opacity-75"
           >
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="h-4 w-4 shrink-0"
-              fill="none"
-            >
-              <circle
-                cx="12"
-                cy="12"
-                r="9"
-                stroke="currentColor"
-                strokeWidth="1.75"
-              />
-              <circle cx="12" cy="12" r="3" fill="currentColor" />
-            </svg>
-            <span>Malte Reppke</span>
+            Malte Reppke
           </a>
 
           <nav
@@ -308,9 +290,7 @@ export default function App() {
       </header>
 
       <main>
-        {/* Hero */}
         <section className="relative overflow-hidden py-24 sm:py-32">
-          {/* Animierter Gradient-Blob */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -right-24 top-10 h-[320px] w-[320px] bg-gradient-to-tr from-[#3023ae]/30 via-[#bc247f]/25 to-[#ff0099]/20 blur-3xl animate-hero-blob sm:h-[460px] sm:w-[460px]"
@@ -353,7 +333,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Motivation */}
         <section id="motivation" className="py-20 sm:py-24">
           <div className="mx-auto max-w-6xl px-6">
             <div className="grid gap-8 rounded-3xl border border-black/5 bg-white/80 p-8 shadow-sm backdrop-blur-xl md:grid-cols-12 md:p-12">
@@ -384,7 +363,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Projekte */}
         <section id="projekte" className="py-20 sm:py-24">
           <div className="mx-auto max-w-6xl px-6">
             <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
@@ -482,7 +460,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Stationen */}
         <section id="stationen" className="py-20 sm:py-24">
           <div className="mx-auto max-w-6xl px-6">
             <div className="max-w-2xl">
@@ -535,7 +512,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Kontakt */}
         <section id="kontakt" className="py-20 sm:py-28">
           <div className="mx-auto max-w-6xl px-6">
             <div className="rounded-3xl border border-black/5 bg-white/85 p-8 shadow-sm backdrop-blur-xl sm:p-12">
