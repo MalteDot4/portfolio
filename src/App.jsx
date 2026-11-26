@@ -23,6 +23,41 @@ const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
+const AI_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="aiGrad" x1="0%" y1="15%" x2="100%" y2="85%"><stop offset="0%" stop-color="#5DA8FF"/><stop offset="42%" stop-color="#2563EB"/><stop offset="76%" stop-color="#9333EA"/><stop offset="100%" stop-color="#E8B9D5"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#070A14"/><circle cx="32" cy="32" r="28" fill="none" stroke="url(#aiGrad)" stroke-width="2.5" opacity="0.65"/><path d="M32 13C33.4 23.2 40.8 30.6 51 32C40.8 33.4 33.4 40.8 32 51C30.6 40.8 23.2 33.4 13 32C23.2 30.6 30.6 23.2 32 13Z" fill="url(#aiGrad)"/><circle cx="46.5" cy="17.5" r="2.6" fill="#E8B9D5"/></svg>`;
+
+const AiGradientMark = ({ size = 34, className = "" }) => {
+  const gradId = "silk-ai-mark-grad";
+
+  return (
+    <span
+      style={{ width: size, height: size }}
+      className={`inline-flex items-center justify-center rounded-full bg-[#070A14]/90 border border-white/20 shadow-[0_6px_20px_-4px_rgba(79,70,229,0.55)] shrink-0 ${className}`}
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 64 64"
+        className="w-[74%] h-[74%]"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id={gradId} x1="6%" y1="12%" x2="94%" y2="88%">
+            <stop offset="0%" stopColor="#60A5FA" />
+            <stop offset="45%" stopColor="#2563EB" />
+            <stop offset="78%" stopColor="#A855F7" />
+            <stop offset="100%" stopColor="#F0ABFC" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M32 11C33.6 22.8 41.2 30.4 53 32C41.2 33.6 33.6 41.2 32 53C30.4 41.2 22.8 33.6 11 32C22.8 30.4 30.4 22.8 32 11Z"
+          fill={`url(#${gradId})`}
+        />
+        <circle cx="48" cy="16" r="2.8" fill="#F0ABFC" />
+      </svg>
+    </span>
+  );
+};
+
 const BrandWordmark = ({ brand, inverted = false }) => {
   if (brand === "provinzial") {
     return (
@@ -258,7 +293,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId) window.cancelAnimationFrame(renderLoop);
     };
   }, [paused]);
 
@@ -330,6 +365,134 @@ const RevealBlock = ({
               visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`
       } ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+const HeadlineFlow = ({
+  kicker,
+  title,
+  as: Tag = "h2",
+  titleClassName = "mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]",
+  reducedMotion = false,
+}) => {
+  const [shown, setShown] = useState(Boolean(reducedMotion));
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setShown(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -24px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
+  return (
+    <div ref={ref}>
+      {kicker && (
+        <div className="overflow-hidden">
+          <span
+            style={{ transitionDelay: reducedMotion ? "0ms" : "40ms" }}
+            className={`block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] ${
+              reducedMotion
+                ? "opacity-100 translate-y-0"
+                : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    shown
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-3"
+                  }`
+            }`}
+          >
+            {kicker}
+          </span>
+        </div>
+      )}
+
+      {title && (
+        <div className="overflow-hidden pb-1">
+          <Tag
+            style={{ transitionDelay: reducedMotion ? "0ms" : "130ms" }}
+            className={`${titleClassName} ${
+              reducedMotion
+                ? "opacity-100 translate-y-0"
+                : `transition-[transform,opacity] duration-[850ms] ease-[cubic-bezier(0.19,1,0.22,1)] will-change-transform ${
+                    shown
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-7"
+                  }`
+            }`}
+          >
+            {title}
+          </Tag>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ContactFlow = ({ children, reducedMotion = false }) => {
+  const [shown, setShown] = useState(Boolean(reducedMotion));
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setShown(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -20px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: reducedMotion ? "0ms" : "90ms" }}
+      className={
+        reducedMotion
+          ? "opacity-100 translate-y-0 scale-100"
+          : `transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.19,1,0.22,1)] will-change-transform ${
+              shown
+                ? "opacity-100 translate-y-0 scale-100"
+                : "opacity-0 translate-y-5 scale-[0.992]"
+            }`
+      }
     >
       {children}
     </div>
@@ -652,6 +815,18 @@ export default function App() {
   const heroStageRef = useRef(null);
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    let iconLink = document.querySelector('link[rel="icon"]');
+    if (!iconLink) {
+      iconLink = document.createElement("link");
+      iconLink.rel = "icon";
+      document.head.appendChild(iconLink);
+    }
+    iconLink.type = "image/svg+xml";
+    iconLink.href = `data:image/svg+xml,${encodeURIComponent(AI_FAVICON_SVG)}`;
+  }, []);
+
+  useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
@@ -894,7 +1069,18 @@ export default function App() {
                   className="absolute inset-0 rounded-[28px] sm:rounded-[40px] pointer-events-none"
                 />
 
-                <header className="relative z-10 flex items-center justify-end px-5 sm:px-9 pt-6 sm:pt-8">
+                <header className="relative z-10 flex items-center justify-between px-5 sm:px-9 pt-6 sm:pt-8">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
+                    aria-label="AI Mark · Nach oben"
+                    className="inline-flex items-center hover:scale-105 transition-transform cursor-pointer"
+                  >
+                    <AiGradientMark size={36} />
+                  </button>
+
                   <nav
                     aria-label="Hauptnavigation"
                     className="flex items-center gap-4 sm:gap-7 px-4 sm:px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-medium text-white/85"
@@ -989,28 +1175,24 @@ export default function App() {
       {/* 2. PROJEKTE (HORIZONTAL TIMELINE COLUMNS) */}
       <section id="work" className="bg-[#FFFFFF] py-20 sm:py-28">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <RevealBlock reducedMotion={reducedMotion}>
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-                  01 / Projekte &amp; Wirkung
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
-                  Einblick in meine Projekte
-                </h2>
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <HeadlineFlow
+              kicker="01 / Projekte & Wirkung"
+              title="Einblick in meine Projekte"
+              as="h2"
+              reducedMotion={reducedMotion}
+            />
 
-              {pinnedIds.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setPinnedIds([])}
-                  className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
-                >
-                  Alle Fixierungen lösen ({pinnedIds.length})
-                </button>
-              )}
-            </div>
-          </RevealBlock>
+            {pinnedIds.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setPinnedIds([])}
+                className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
+              >
+                Alle Fixierungen lösen ({pinnedIds.length})
+              </button>
+            )}
+          </div>
 
           <RevealBlock delay={80} reducedMotion={reducedMotion}>
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
@@ -1034,13 +1216,12 @@ export default function App() {
       {/* 3. MOTIVATION */}
       <section id="motivation" className="bg-[#F5F5F7] py-16 sm:py-24">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <RevealBlock reducedMotion={reducedMotion}>
-            <div className="mb-8">
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-                02 / Motivation
-              </span>
-            </div>
-          </RevealBlock>
+          <div className="mb-8">
+            <HeadlineFlow
+              kicker="02 / Motivation"
+              reducedMotion={reducedMotion}
+            />
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
             <RevealBlock
@@ -1058,9 +1239,12 @@ export default function App() {
                     Datenprodukte &amp; AI Engineering
                   </span>
 
-                  <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
-                    Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
-                  </h2>
+                  <HeadlineFlow
+                    title="Verlässliche Datenprodukte & praxisnahe KI-Systeme"
+                    as="h2"
+                    titleClassName="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white"
+                    reducedMotion={reducedMotion}
+                  />
 
                   <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
                     Mich motiviert es, aus komplexen Datenlandschaften
@@ -1091,9 +1275,12 @@ export default function App() {
                     Skalierbare Pipelines
                   </span>
 
-                  <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                    Saubere Struktur statt Fragilität
-                  </h3>
+                  <HeadlineFlow
+                    title="Saubere Struktur statt Fragilität"
+                    as="h3"
+                    titleClassName="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]"
+                    reducedMotion={reducedMotion}
+                  />
 
                   <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
                     Gute Systeme sind nachvollziehbar, testbar und
@@ -1124,9 +1311,12 @@ export default function App() {
                     End-to-End-Perspektive
                   </span>
 
-                  <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                    Von Daten &amp; Backend bis in produktive Anwendungen
-                  </h3>
+                  <HeadlineFlow
+                    title="Von Daten & Backend bis in produktive Anwendungen"
+                    as="h3"
+                    titleClassName="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]"
+                    reducedMotion={reducedMotion}
+                  />
 
                   <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
                     Die Verbindung aus Data Engineering, Microservices,
@@ -1148,14 +1338,12 @@ export default function App() {
       {/* 4. STATIONEN & TECH STACK */}
       <section id="experience" className="bg-[#FBFBFD] py-16 sm:py-24">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <RevealBlock reducedMotion={reducedMotion}>
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]">
-              03 / Stationen &amp; Tech Stack
-            </span>
-            <h2 className="mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]">
-              Stationen &amp; Kernkompetenzen
-            </h2>
-          </RevealBlock>
+          <HeadlineFlow
+            kicker="03 / Stationen & Tech Stack"
+            title="Stationen & Kernkompetenzen"
+            as="h2"
+            reducedMotion={reducedMotion}
+          />
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
             <RevealBlock
@@ -1270,15 +1458,16 @@ export default function App() {
       {/* 5. KONTAKT */}
       <section id="contact" className="bg-[#FFFFFF] py-16 sm:py-24 pb-28">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <RevealBlock reducedMotion={reducedMotion}>
+          <ContactFlow reducedMotion={reducedMotion}>
             <div className="rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
               <div className="max-w-xl">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/60">
-                  04 / Kontakt
-                </span>
-                <h2 className="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em]">
-                  Lust auf Austausch zu Data &amp; AI Engineering?
-                </h2>
+                <HeadlineFlow
+                  kicker="04 / Kontakt"
+                  title="Lust auf Austausch zu Data & AI Engineering?"
+                  as="h2"
+                  titleClassName="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] text-white"
+                  reducedMotion={reducedMotion}
+                />
                 <p className="mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
                   Schreib mir gerne direkt per E-Mail oder vernetze dich mit
                   mir.
@@ -1334,7 +1523,7 @@ export default function App() {
                 </a>
               </div>
             </div>
-          </RevealBlock>
+          </ContactFlow>
         </div>
       </section>
 
