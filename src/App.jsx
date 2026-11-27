@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import {
   Sparkles,
   Database,
@@ -232,6 +232,149 @@ const BrandWordmark = ({
   );
 };
 
+const SkillPillItem = ({
+  item,
+  idx,
+  chained,
+  isOpen,
+  onToggle,
+  onOpen,
+  onClose,
+  reducedMotion,
+}) => {
+  const label = typeof item === "string" ? item : item.label;
+  const role = typeof item === "string" ? "Tech Stack" : item.role;
+  const projects = typeof item === "string" ? "" : item.projects;
+  const delayMs = reducedMotion ? 0 : idx * 55;
+
+  const pillRef = useRef(null);
+  const bubbleRef = useRef(null);
+  const [shiftX, setShiftX] = useState(0);
+  const [arrowPercent, setArrowPercent] = useState(50);
+
+  useLayoutEffect(() => {
+    if (!isOpen || typeof window === "undefined") {
+      setShiftX(0);
+      setArrowPercent(50);
+      return;
+    }
+
+    const updatePlacement = () => {
+      const pillEl = pillRef.current;
+      const bubbleEl = bubbleRef.current;
+      if (!pillEl || !bubbleEl) return;
+
+      const margin = 12;
+      const viewportW = window.innerWidth;
+      const pillRect = pillEl.getBoundingClientRect();
+      const bubbleW = bubbleEl.offsetWidth || 260;
+      const pillCenterX = pillRect.left + pillRect.width / 2;
+
+      const idealLeft = pillCenterX - bubbleW / 2;
+      const clampedLeft = Math.min(
+        Math.max(idealLeft, margin),
+        Math.max(margin, viewportW - bubbleW - margin),
+      );
+
+      const dx = clampedLeft - idealLeft;
+      setShiftX(dx);
+
+      const arrowPx = Math.min(
+        Math.max(pillCenterX - clampedLeft, 18),
+        Math.max(18, bubbleW - 18),
+      );
+      setArrowPercent((arrowPx / bubbleW) * 100);
+    };
+
+    updatePlacement();
+    window.addEventListener("resize", updatePlacement);
+    return () => window.removeEventListener("resize", updatePlacement);
+  }, [isOpen]);
+
+  return (
+    <div
+      ref={pillRef}
+      style={{
+        transitionDelay: `${delayMs}ms`,
+        transform:
+          reducedMotion || chained
+            ? "translate3d(0, 0, 0)"
+            : "translate3d(-12px, 6px, 0)",
+      }}
+      onMouseEnter={onOpen}
+      onMouseLeave={onClose}
+      onFocus={onOpen}
+      onBlur={onClose}
+      className={`relative inline-flex ${isOpen ? "z-30" : "z-10"} ${
+        reducedMotion
+          ? "opacity-100"
+          : `transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+              chained ? "opacity-100" : "opacity-0"
+            }`
+      }`}
+    >
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        className={`px-3 py-1.5 rounded-full bg-white border text-xs font-bold shadow-2xs select-none cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9333EA] ${
+          isOpen
+            ? "text-[#7E22CE] border-[#C084FC] bg-[#FAF5FF] -translate-y-0.5 shadow-sm"
+            : "text-[#0B0B0C] border-[#E4E4E7] hover:text-[#7E22CE] hover:border-[#C084FC] hover:bg-[#FAF5FF] hover:-translate-y-0.5 hover:shadow-xs"
+        } ${
+          reducedMotion
+            ? ""
+            : "transition-[color,background-color,border-color,transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        }`}
+      >
+        {label}
+      </button>
+
+      <div
+        ref={bubbleRef}
+        role="tooltip"
+        style={{
+          transform: reducedMotion
+            ? `translate3d(calc(-50% + ${shiftX}px), 0, 0)`
+            : isOpen
+              ? `translate3d(calc(-50% + ${shiftX}px), 0, 0) scale(1)`
+              : `translate3d(calc(-50% + ${shiftX}px), 6px, 0) scale(0.95)`,
+        }}
+        className={`pointer-events-none absolute left-1/2 bottom-full mb-2.5 w-[min(17rem,calc(100vw-2.5rem))] sm:w-72 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] border border-[#E4E4E7] shadow-[0_14px_32px_-8px_rgba(11,11,12,0.22)] p-3.5 text-left ${
+          reducedMotion
+            ? isOpen
+              ? "opacity-100"
+              : "opacity-0 hidden"
+            : `transition-[opacity,transform] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`
+        }`}
+      >
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7E22CE]">
+            {role}
+          </span>
+          <span className="text-[10px] font-mono font-semibold text-[#71717A] shrink-0">
+            {label}
+          </span>
+        </div>
+
+        {projects && (
+          <p className="mt-1.5 text-xs text-[#27272A] leading-relaxed font-medium">
+            {projects}
+          </p>
+        )}
+
+        <span
+          aria-hidden="true"
+          style={{ left: `${arrowPercent}%` }}
+          className="absolute -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-white border-r border-b border-[#E4E4E7]"
+        />
+      </div>
+    </div>
+  );
+};
+
 const SkillChainList = ({ skills, reducedMotion = false }) => {
   const [chained, setChained] = useState(Boolean(reducedMotion));
   const [activeSkillLabel, setActiveSkillLabel] = useState(null);
@@ -267,91 +410,22 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
     <div ref={containerRef} className="mt-5 flex flex-wrap gap-2">
       {skills.map((item, idx) => {
         const label = typeof item === "string" ? item : item.label;
-        const role = typeof item === "string" ? "Tech Stack" : item.role;
-        const projects = typeof item === "string" ? "" : item.projects;
-        const delayMs = reducedMotion ? 0 : idx * 55;
-        const isOpen = activeSkillLabel === label;
-
         return (
-          <div
+          <SkillPillItem
             key={label}
-            style={{
-              transitionDelay: `${delayMs}ms`,
-              transform:
-                reducedMotion || chained
-                  ? "translate3d(0, 0, 0)"
-                  : "translate3d(-12px, 6px, 0)",
-            }}
-            onMouseEnter={() => setActiveSkillLabel(label)}
-            onMouseLeave={() =>
+            item={item}
+            idx={idx}
+            chained={chained}
+            isOpen={activeSkillLabel === label}
+            onOpen={() => setActiveSkillLabel(label)}
+            onClose={() =>
               setActiveSkillLabel((prev) => (prev === label ? null : prev))
             }
-            onFocus={() => setActiveSkillLabel(label)}
-            onBlur={() =>
-              setActiveSkillLabel((prev) => (prev === label ? null : prev))
+            onToggle={() =>
+              setActiveSkillLabel((prev) => (prev === label ? null : label))
             }
-            className={`relative inline-flex ${isOpen ? "z-30" : "z-10"} ${
-              reducedMotion
-                ? "opacity-100"
-                : `transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
-                    chained ? "opacity-100" : "opacity-0"
-                  }`
-            }`}
-          >
-            <button
-              type="button"
-              aria-expanded={isOpen}
-              onClick={() =>
-                setActiveSkillLabel((prev) => (prev === label ? null : label))
-              }
-              className={`px-3 py-1.5 rounded-full bg-white border text-xs font-bold shadow-2xs select-none cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9333EA] ${
-                isOpen
-                  ? "text-[#7E22CE] border-[#C084FC] bg-[#FAF5FF] -translate-y-0.5 shadow-sm"
-                  : "text-[#0B0B0C] border-[#E4E4E7] hover:text-[#7E22CE] hover:border-[#C084FC] hover:bg-[#FAF5FF] hover:-translate-y-0.5 hover:shadow-xs"
-              } ${
-                reducedMotion
-                  ? ""
-                  : "transition-[color,background-color,border-color,transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              }`}
-            >
-              {label}
-            </button>
-
-            <div
-              role="tooltip"
-              className={`pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2.5 w-64 sm:w-72 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] border border-[#E4E4E7] shadow-[0_14px_32px_-8px_rgba(11,11,12,0.22)] p-3.5 text-left ${
-                reducedMotion
-                  ? isOpen
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-1 hidden"
-                  : `transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      isOpen
-                        ? "opacity-100 translate-y-0 scale-100"
-                        : "opacity-0 translate-y-1.5 scale-95"
-                    }`
-              }`}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7E22CE]">
-                  {role}
-                </span>
-                <span className="text-[10px] font-mono font-semibold text-[#71717A]">
-                  {label}
-                </span>
-              </div>
-
-              {projects && (
-                <p className="mt-1.5 text-xs text-[#27272A] leading-relaxed font-medium">
-                  {projects}
-                </p>
-              )}
-
-              <span
-                aria-hidden="true"
-                className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-white border-r border-b border-[#E4E4E7]"
-              />
-            </div>
-          </div>
+            reducedMotion={reducedMotion}
+          />
         );
       })}
     </div>
@@ -2631,7 +2705,7 @@ export default function App() {
                 </button>
 
                 <a
-                  href="https://github.com/MalteDot4"
+                  href="https://github.com/malte-reppke"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
