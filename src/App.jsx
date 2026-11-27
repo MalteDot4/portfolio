@@ -547,7 +547,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(renderLoop);
+      if (frameId) window.cancelAnimationFrame(frameId);
     };
   }, [paused]);
 
@@ -1362,6 +1362,74 @@ const TIMELINE_PROJECTS = [
     stack:
       "Python · PySpark · Azure Synapse · OpenCode · Agentic Workflows · IT-DWH · SQL",
   },
+  {
+    id: "vodafone-pageforge",
+    indexTag: "[ 02 ]",
+    brand: "vodafone",
+    accentHex: "#E60000",
+    accentTextClass: "text-[#E60000]",
+    markerOffsetClass: "pt-8 sm:pt-12",
+    title: "Firmenkundenportal & PageForge",
+    tagline:
+      "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
+    periodBracket: "[ > 2 Jahre Erfahrung ]",
+    role: "Backend / Data Integration Firmenkunden",
+    organization: "Vodafone GmbH",
+    summary:
+      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, PageForge für über 200 Business-Websites sowie Microservices und CI/CD.",
+    highlights: [
+      "Entwicklung & Datenintegration für das Vodafone Firmenkundenportal",
+      "Entwicklung des Vodafone Blogs sowie über 200 Business-Websites",
+      "Implementierung von Microservices für Vertragsdaten mit Node.js",
+      "Anhebung der Automatisierung CI/CD in der Git-Pipeline",
+    ],
+    stack: "Node.js · React.js · Next.js · Docker · CI/CD · Microservices",
+  },
+  {
+    id: "controlexpert-easyclaim",
+    indexTag: "[ 03 ]",
+    brand: "controlexpert",
+    accentHex: "#0A66C2",
+    accentTextClass: "text-[#0A66C2]",
+    markerOffsetClass: "pt-14 sm:pt-20",
+    title: "EasyClaim & Daten-/BI-Plattform",
+    tagline:
+      "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
+    periodBracket: "[ > 10 Jahre Erfahrung ]",
+    role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
+    organization: "ControlExpert GmbH",
+    summary:
+      "Webapplikation zur digitalen Schadenaufnahme, Data-Warehouse-Aufbau, SQL-Reporting sowie Prozess- und Datenlösungen im Versicherungs- und Automobilumfeld.",
+    highlights: [
+      "Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend & .NET C# im Backend",
+      "Absicherung der Codequalität mit Jest & Cypress im Kanban- und Design-Thinking-Umfeld",
+      "Entwicklung eines Data Warehouse mit SQL-Reporting & Visualisierung in Tableau",
+      "Digitalisierung & Prozessautomatisierung mit IBM BPM sowie interne Kalkulationsanwendung in Scrum",
+      "Erhebung, Abfrage & Pflege von Herstellerdaten in relationalen Datenbanken",
+    ],
+    stack:
+      "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
+  },
+];
+
+const PROVINZIAL_STATIONS = [
+  {
+    title: "Data Engineer & AI Engineer · IT-DWH",
+    period: "Ab 01.06.2026",
+    bullets: [
+      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
+      "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
+      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
+    ],
+  },
+  {
+    title: "Data-Analyst Customer Data & Analytics",
+    period: "01.05.2025 – 30.05.2026",
+    bullets: [
+      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
+      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
+    ],
+  },
 ];
 
 const CONTROLEXPERT_FEATURED_STATION = {
@@ -1412,7 +1480,7 @@ const CORE_SKILL_PILLS = [
     label: "PySpark / Spark",
     role: "Verteilte Datenverarbeitung",
     projects:
-      "Aufbau von Datenprodukten und Kundenselektionen auf großen Datenbeständen bei Provinzial.",
+      "Aufbau von Datenprodukten und Selektionsframework für Kundenselektionen auf großen Datenbeständen bei Provinzial.",
   },
   {
     label: "Azure & Synapse",
