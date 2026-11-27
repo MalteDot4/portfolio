@@ -622,9 +622,9 @@ const ContactMailWaveField = ({
       ctx.translate(x, y);
       ctx.scale(s * (highlight ? 1.24 : 1), s * (highlight ? 1.24 : 1));
       ctx.strokeStyle = highlight
-        ? `rgba(255, 255, 255, ${Math.min(0.95, alpha + 0.45)})`
-        : `rgba(255, 255, 255, ${alpha})`;
-      ctx.lineWidth = highlight ? 1.45 : 1.05;
+        ? `rgba(255, 255, 255, ${Math.min(0.96, alpha + 0.45)})`
+        : `rgba(226, 232, 240, ${alpha})`;
+      ctx.lineWidth = highlight ? 1.5 : 1.15;
       ctx.lineJoin = "round";
 
       const w = 12;
@@ -640,8 +640,8 @@ const ContactMailWaveField = ({
       if (highlight) {
         ctx.beginPath();
         ctx.arc(0, 0, 14, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(147, 197, 253, 0.35)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(186, 230, 253, 0.45)";
+        ctx.lineWidth = 1.1;
         ctx.stroke();
       }
       ctx.restore();
@@ -652,9 +652,9 @@ const ContactMailWaveField = ({
       ctx.translate(x, y);
       const r = 4.2 * s * (highlight ? 1.22 : 1);
       ctx.strokeStyle = highlight
-        ? `rgba(196, 181, 253, ${Math.min(0.95, alpha + 0.45)})`
-        : `rgba(255, 255, 255, ${alpha})`;
-      ctx.lineWidth = highlight ? 1.4 : 1.05;
+        ? `rgba(240, 249, 255, ${Math.min(0.96, alpha + 0.45)})`
+        : `rgba(203, 213, 225, ${alpha})`;
+      ctx.lineWidth = highlight ? 1.45 : 1.15;
 
       ctx.beginPath();
       ctx.arc(0, 0, r * 0.58, 0, Math.PI * 2);
@@ -692,10 +692,10 @@ const ContactMailWaveField = ({
           if (x === -160) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `rgba(255, 255, 255, ${
-          (0.03 + wIdx * 0.008) * (0.2 + waveLocal * 0.8)
+        ctx.strokeStyle = `rgba(203, 213, 225, ${
+          (0.085 + wIdx * 0.02) * (0.35 + waveLocal * 0.65)
         })`;
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.05;
         ctx.stroke();
         ctx.restore();
       }
@@ -750,9 +750,9 @@ const ContactMailWaveField = ({
         const drawY = item.y + (dist > 0.01 ? (dy / dist) * repel : 0);
 
         const isPicked = canInteract && closest && closest.id === item.id;
-        const visibilityFactor = 0.08 + itemProgress * 0.92;
+        const visibilityFactor = 0.24 + itemProgress * 0.76;
         const baseAlpha =
-          (isTouchDevice ? 0.14 : 0.18 + (item.id % 3) * 0.04) *
+          (isTouchDevice ? 0.26 : 0.34 + (item.id % 3) * 0.055) *
           visibilityFactor;
 
         if (item.kind === "at") {
@@ -774,10 +774,10 @@ const ContactMailWaveField = ({
         }
 
         ctx.beginPath();
-        ctx.arc(drawX + 16, drawY - 6, isPicked ? 2.1 : 1.2, 0, Math.PI * 2);
+        ctx.arc(drawX + 16, drawY - 6, isPicked ? 2.2 : 1.35, 0, Math.PI * 2);
         ctx.fillStyle = isPicked
-          ? "rgba(255, 255, 255, 0.82)"
-          : `rgba(255, 255, 255, ${0.22 * visibilityFactor})`;
+          ? "rgba(255, 255, 255, 0.92)"
+          : `rgba(226, 232, 240, ${0.42 * visibilityFactor})`;
         ctx.fill();
       });
 
@@ -847,7 +847,7 @@ const ContactMailWaveField = ({
       onMouseLeave={handlePointerLeave}
       onClick={handleCanvasClick}
       className={`absolute inset-0 z-0 overflow-hidden rounded-3xl transition-opacity duration-500 ${
-        isFieldReady ? "opacity-100" : "opacity-75"
+        isFieldReady ? "opacity-100" : "opacity-85"
       } ${
         !isTouchDevice && isFieldReady && pickedHint
           ? "cursor-pointer"
@@ -858,7 +858,7 @@ const ContactMailWaveField = ({
         ref={canvasRef}
         aria-hidden="true"
         className={`w-full h-full block transition-[filter] duration-500 ${
-          isFieldReady ? "blur-0" : "blur-[1.2px]"
+          isFieldReady ? "blur-0" : "blur-[0.8px]"
         }`}
       />
 
