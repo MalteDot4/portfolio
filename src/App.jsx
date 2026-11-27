@@ -692,7 +692,6 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
-      {/* Sehr dezente Basisfläche im Apple-/Tech-Ton */}
       <div
         style={{
           background:
@@ -701,7 +700,6 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
         className="absolute inset-0"
       />
 
-      {/* Leichter Flow im Gradient beim Scrollen – links oben */}
       <div
         style={{
           transform: `translate3d(${offsetA}px, ${offsetA * 0.45}px, 0)`,
@@ -711,7 +709,6 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
         className="absolute -inset-20 transition-transform duration-500 ease-out will-change-transform"
       />
 
-      {/* Leichter Flow im Gradient beim Scrollen – rechts unten */}
       <div
         style={{
           transform: `translate3d(${offsetB}px, ${offsetB * 0.4}px, 0)`,
@@ -724,7 +721,7 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
   );
 };
 
-/* APPLE-STYLE LIQUID CARD: SCHWARZE HAUPT-CARD & LEICHTE LIQUID-GLASS-CARDS MIT TOP-HIGHLIGHT */
+/* APPLE-STYLE LIQUID CARD: SATTE SCHWARZE HAUPT-CARD & LEICHTE LIQUID-GLASS-CARDS */
 const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
   const isDark = variant === "dark";
 
@@ -732,13 +729,13 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
     <div
       style={{
         boxShadow: isDark
-          ? "0 20px 44px -18px rgba(11, 11, 12, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.14)"
-          : "0 14px 32px -18px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.85)",
+          ? "0 22px 48px -18px rgba(11, 11, 12, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16)"
+          : "0 14px 32px -18px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.88)",
       }}
-      className={`group relative overflow-hidden rounded-[28px] backdrop-blur-2xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
+      className={`group relative overflow-hidden rounded-[28px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
         isDark
-          ? "bg-[#0B0B0C]/96 border border-white/12 text-white hover:border-white/20"
-          : "bg-white/78 border border-[#E4E4E7]/90 text-[#0B0B0C] hover:bg-white/92 hover:border-[#D4D4D8]"
+          ? "bg-[#0B0B0C] border border-white/12 text-white hover:border-white/22"
+          : "bg-white/78 backdrop-blur-2xl border border-[#E4E4E7]/90 text-[#0B0B0C] hover:bg-white/92 hover:border-[#D4D4D8]"
       } ${className}`}
     >
       {/* Dezenter Apple-Top-Schimmer */}
@@ -746,18 +743,18 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         aria-hidden="true"
         style={{
           background: isDark
-            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.24) 35%, rgba(216, 180, 254, 0.18) 70%, transparent 100%)"
+            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.28) 38%, rgba(216, 180, 254, 0.22) 72%, transparent 100%)"
             : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%)",
         }}
         className="pointer-events-none absolute inset-x-0 top-0 h-[1px]"
       />
 
-      {/* Sehr zurückhaltender Liquid-Schimmer */}
+      {/* Sehr zurückhaltender Akzent-Schimmer */}
       <div
         aria-hidden="true"
         style={{
           background: isDark
-            ? "radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.14) 0%, transparent 58%)"
+            ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.14) 0%, transparent 58%)"
             : "radial-gradient(circle at 88% 12%, rgba(99, 102, 241, 0.055) 0%, transparent 60%)",
         }}
         className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100 opacity-80"
@@ -2314,7 +2311,7 @@ export default function App() {
                       yOffset={10}
                       reducedMotion={reducedMotion}
                     >
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/65">
                         Datenprodukte &amp; AI Engineering
                       </span>
                     </TextReveal>
@@ -2348,7 +2345,7 @@ export default function App() {
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
+                    <div className="mt-8 pt-6 border-t border-white/12 text-xs sm:text-sm font-medium text-white/75">
                       PySpark · Azure Synapse · Datenprodukte · AI Engineering
                     </div>
                   </TextReveal>
