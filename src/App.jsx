@@ -647,85 +647,85 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* MINIMALER FLOW-HINTERGRUND + FILAMENT-ORB + AQUARIUM-ARTIG VERTEILTE KUGELN (KLICKBAR ZUM PLATZEN) */
+/* SMOOTHER SECTION-BACKGROUND IM HERO-FARBSCHEMA + SANFTE SCROLL-BEWEGUNG + AQUARIUM-KUGELN (KLICKBAR ZUM PLATZEN) */
 const AQUARIUM_BUBBLES = [
   {
     id: "aq-1",
-    size: 46,
-    fromX: -75,
-    fromY: -45,
-    toX: -410,
-    toY: -175,
+    size: 42,
+    fromX: -65,
+    fromY: -40,
+    toX: -400,
+    toY: -170,
     phase: 0.3,
     hue: "blue",
   },
   {
     id: "aq-2",
-    size: 36,
-    fromX: 82,
-    fromY: -42,
-    toX: 425,
-    toY: -165,
+    size: 34,
+    fromX: 72,
+    fromY: -36,
+    toX: 415,
+    toY: -160,
     phase: 1.5,
     hue: "violet",
   },
   {
     id: "aq-3",
-    size: 54,
-    fromX: -68,
-    fromY: 54,
-    toX: -385,
-    toY: 185,
+    size: 48,
+    fromX: -60,
+    fromY: 48,
+    toX: -380,
+    toY: 180,
     phase: 2.7,
     hue: "rose",
   },
   {
     id: "aq-4",
-    size: 40,
-    fromX: 74,
-    fromY: 56,
-    toX: 395,
-    toY: 175,
+    size: 36,
+    fromX: 68,
+    fromY: 50,
+    toX: 390,
+    toY: 170,
     phase: 3.9,
     hue: "blue",
   },
   {
     id: "aq-5",
-    size: 30,
-    fromX: -24,
-    fromY: -86,
-    toX: -195,
-    toY: -225,
+    size: 28,
+    fromX: -20,
+    fromY: -78,
+    toX: -190,
+    toY: -220,
     phase: 4.8,
     hue: "violet",
   },
   {
     id: "aq-6",
-    size: 34,
-    fromX: 36,
-    fromY: -84,
-    toX: 230,
-    toY: -215,
+    size: 32,
+    fromX: 30,
+    fromY: -76,
+    toX: 225,
+    toY: -210,
     phase: 5.5,
     hue: "rose",
   },
   {
     id: "aq-7",
-    size: 38,
-    fromX: -32,
-    fromY: 88,
-    toX: -175,
-    toY: 225,
+    size: 34,
+    fromX: -28,
+    fromY: 80,
+    toX: -170,
+    toY: 220,
     phase: 1.1,
     hue: "blue",
   },
   {
     id: "aq-8",
-    size: 32,
-    fromX: 28,
-    fromY: 86,
-    toX: 215,
-    toY: 215,
+    size: 30,
+    fromX: 24,
+    fromY: 78,
+    toX: 210,
+    toY: 210,
     phase: 2.1,
     hue: "violet",
   },
@@ -733,24 +733,24 @@ const AQUARIUM_BUBBLES = [
 
 const AQUARIUM_HUES = {
   blue: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(147, 197, 253, 0.55) 0%, rgba(59, 130, 246, 0.24) 55%, rgba(255, 255, 255, 0.08) 100%)",
-    border: "rgba(96, 165, 250, 0.42)",
+    bg: "radial-gradient(circle at 32% 28%, rgba(147, 197, 253, 0.45) 0%, rgba(59, 130, 246, 0.18) 58%, rgba(255, 255, 255, 0.06) 100%)",
+    border: "rgba(96, 165, 250, 0.34)",
     spark: "#60A5FA",
   },
   violet: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(216, 180, 254, 0.55) 0%, rgba(139, 92, 246, 0.24) 55%, rgba(255, 255, 255, 0.08) 100%)",
-    border: "rgba(167, 139, 250, 0.42)",
+    bg: "radial-gradient(circle at 32% 28%, rgba(216, 180, 254, 0.45) 0%, rgba(139, 92, 246, 0.18) 58%, rgba(255, 255, 255, 0.06) 100%)",
+    border: "rgba(167, 139, 250, 0.34)",
     spark: "#A78BFA",
   },
   rose: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(251, 207, 232, 0.58) 0%, rgba(236, 72, 153, 0.2) 55%, rgba(255, 255, 255, 0.08) 100%)",
-    border: "rgba(244, 114, 182, 0.4)",
+    bg: "radial-gradient(circle at 32% 28%, rgba(251, 207, 232, 0.48) 0%, rgba(236, 72, 153, 0.15) 58%, rgba(255, 255, 255, 0.06) 100%)",
+    border: "rgba(244, 114, 182, 0.32)",
     spark: "#F472B6",
   },
 };
 
 const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
-  const [scrollSplit, setScrollSplit] = useState(0);
+  const [scrollT, setScrollT] = useState(0);
   const [flowTime, setFlowTime] = useState(0);
   const [poppedIds, setPoppedIds] = useState([]);
   const [popBursts, setPopBursts] = useState([]);
@@ -758,7 +758,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
 
   useEffect(() => {
     if (reducedMotion) {
-      setFlowTime(1.6);
+      setFlowTime(1.4);
       return;
     }
 
@@ -778,7 +778,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
 
   useEffect(() => {
     if (reducedMotion) {
-      setScrollSplit(0.75);
+      setScrollT(0.65);
       return;
     }
 
@@ -791,11 +791,11 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         if (sec) {
           const rect = sec.getBoundingClientRect();
           const vh = window.innerHeight || 1;
-          const totalTravel = rect.height + vh * 0.7;
+          const totalTravel = rect.height + vh * 0.75;
           const raw = clamp01(
-            (vh * 0.85 - rect.top) / Math.max(totalTravel, 1),
+            (vh * 0.88 - rect.top) / Math.max(totalTravel, 1),
           );
-          setScrollSplit(easeOutCubic(raw));
+          setScrollT(easeOutCubic(raw));
         }
         rafId = null;
       });
@@ -848,15 +848,19 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
     }, 520);
   };
 
-  // Langsamer, gleichmäßiger Flow über die ganze Section
-  const driftX = Math.sin(flowTime * 0.28) * 26;
-  const driftY = Math.cos(flowTime * 0.22) * 18;
-  const orbRot = Math.sin(flowTime * 0.18) * 12;
+  // Sehr ruhiger, fließender Hintergrund-Shift angelehnt an den Hero-Gradienten
+  const bgAx = Math.sin(flowTime * 0.14) * 34 + (scrollT - 0.5) * 36;
+  const bgAy = Math.cos(flowTime * 0.11) * 24 + (scrollT - 0.5) * 28;
+  const bgBx = Math.cos(flowTime * 0.13) * 38 - (scrollT - 0.5) * 32;
+  const bgBy = Math.sin(flowTime * 0.12) * 26 - (scrollT - 0.5) * 24;
 
-  const bgShiftX = Math.sin(flowTime * 0.16) * 42;
-  const bgShiftY = Math.cos(flowTime * 0.14) * 28;
+  // Ruhige Scroll-Parallax- und Drift-Werte für die Sphäre
+  const driftX = Math.sin(flowTime * 0.24) * 18 + (scrollT - 0.5) * 44;
+  const driftY = Math.cos(flowTime * 0.19) * 14 + (scrollT - 0.5) * -32;
+  const orbRot = Math.sin(flowTime * 0.16) * 8 + (scrollT - 0.5) * 18;
+  const orbScale = 0.96 + scrollT * 0.06;
 
-  const splitT = clamp01((scrollSplit - 0.1) / 0.82);
+  const splitT = clamp01((scrollT - 0.12) / 0.8);
 
   return (
     <div
@@ -874,127 +878,126 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         }
       `}</style>
 
-      {/* DEZENTER FLIEẞENDER SECTION-HINTERGRUND ANGELEHNT AN DEN HERO-GRADIENT */}
+      {/* SANFT FLIEẞENDER SECTION-HINTERGRUND IM HERO-FARBSCHEMA (KOBALTBLAU · VIOLETT · ROSE) */}
       <div
         style={{
-          transform: `translate3d(${bgShiftX}px, ${bgShiftY}px, 0)`,
           background:
-            "radial-gradient(ellipse 68% 52% at 24% 32%, rgba(59, 130, 246, 0.085) 0%, rgba(147, 197, 253, 0.04) 52%, transparent 78%), radial-gradient(ellipse 64% 56% at 78% 66%, rgba(139, 92, 246, 0.08) 0%, rgba(244, 114, 182, 0.045) 54%, transparent 80%)",
+            "linear-gradient(135deg, rgba(245, 247, 252, 0.96) 0%, rgba(238, 242, 255, 0.92) 50%, rgba(248, 244, 253, 0.96) 100%)",
         }}
-        className="absolute -inset-16 will-change-transform"
+        className="absolute inset-0"
       />
 
-      {/* RUHIGER FILAMENT-ORB IN DER MITTE DER SECTION */}
       <div
         style={{
-          transform: `translate3d(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px), 0) rotate(${orbRot}deg)`,
+          transform: `translate3d(${bgAx}px, ${bgAy}px, 0)`,
+          background:
+            "radial-gradient(ellipse 62% 52% at 22% 30%, rgba(37, 99, 235, 0.085) 0%, rgba(96, 165, 250, 0.04) 55%, transparent 78%)",
         }}
-        className="absolute left-1/2 top-1/2 w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] will-change-transform opacity-75"
+        className="absolute -inset-20 will-change-transform"
+      />
+
+      <div
+        style={{
+          transform: `translate3d(${bgBx}px, ${bgBy}px, 0)`,
+          background:
+            "radial-gradient(ellipse 64% 56% at 78% 68%, rgba(124, 58, 237, 0.08) 0%, rgba(244, 114, 182, 0.045) 56%, transparent 80%)",
+        }}
+        className="absolute -inset-20 will-change-transform"
+      />
+
+      {/* RUHIGER FILAMENT-ORB MIT SCROLL-PARALLAX */}
+      <div
+        style={{
+          transform: `translate3d(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px), 0) rotate(${orbRot}deg) scale(${orbScale})`,
+        }}
+        className="absolute left-1/2 top-1/2 w-[300px] h-[300px] sm:w-[390px] sm:h-[390px] will-change-transform opacity-65"
       >
-        {/* Äußerer weicher Farb-Schimmer */}
         <div
           style={{
             background:
-              "radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.14) 0%, rgba(139, 92, 246, 0.1) 52%, transparent 74%)",
-            filter: "blur(20px)",
+              "radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.11) 0%, rgba(139, 92, 246, 0.08) 54%, transparent 74%)",
+            filter: "blur(22px)",
           }}
           className="absolute -inset-6 rounded-full"
         />
 
-        {/* Feine geschwungene Lichtfäden / Rippen */}
         <svg
           viewBox="0 0 400 400"
           className="w-full h-full overflow-visible"
           style={{
-            filter: "drop-shadow(0 0 14px rgba(99, 102, 241, 0.22))",
+            filter: "drop-shadow(0 0 12px rgba(99, 102, 241, 0.16))",
           }}
         >
           <defs>
             <linearGradient
-              id="mrFilamentGradA"
+              id="mrSmoothFilamentA"
               x1="15%"
               y1="10%"
               x2="85%"
               y2="90%"
             >
-              <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.65" />
-              <stop offset="50%" stopColor="#818CF8" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#EC4899" stopOpacity="0.5" />
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.52" />
+              <stop offset="55%" stopColor="#8B5CF6" stopOpacity="0.44" />
+              <stop offset="100%" stopColor="#EC4899" stopOpacity="0.38" />
             </linearGradient>
             <linearGradient
-              id="mrFilamentGradB"
+              id="mrSmoothFilamentB"
               x1="85%"
               y1="15%"
               x2="15%"
               y2="85%"
             >
-              <stop offset="0%" stopColor="#C084FC" stopOpacity="0.55" />
-              <stop offset="60%" stopColor="#3B82F6" stopOpacity="0.48" />
-              <stop offset="100%" stopColor="#67E8F9" stopOpacity="0.35" />
+              <stop offset="0%" stopColor="#A855F7" stopOpacity="0.45" />
+              <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.38" />
+              <stop offset="100%" stopColor="#818CF8" stopOpacity="0.28" />
             </linearGradient>
           </defs>
 
           <circle
             cx="200"
             cy="200"
-            r="156"
+            r="154"
             fill="none"
-            stroke="url(#mrFilamentGradA)"
-            strokeWidth="1.35"
-            strokeOpacity="0.7"
+            stroke="url(#mrSmoothFilamentA)"
+            strokeWidth="1.2"
+            strokeOpacity="0.6"
           />
 
           <path
-            d="M 68 140 C 125 95, 220 115, 255 190 C 285 255, 215 335, 135 315"
+            d="M 72 142 C 128 98, 220 118, 254 190 C 282 252, 214 330, 136 312"
             fill="none"
-            stroke="url(#mrFilamentGradA)"
-            strokeWidth="1.6"
+            stroke="url(#mrSmoothFilamentA)"
+            strokeWidth="1.45"
             strokeLinecap="round"
           />
           <path
-            d="M 105 92 C 185 80, 290 135, 305 220 C 315 280, 245 348, 165 342"
+            d="M 108 96 C 186 84, 286 138, 302 220 C 312 276, 244 344, 166 338"
             fill="none"
-            stroke="url(#mrFilamentGradB)"
-            strokeWidth="1.25"
-            strokeLinecap="round"
-          />
-          <path
-            d="M 135 285 C 110 215, 165 130, 248 128 C 302 127, 336 185, 316 245"
-            fill="none"
-            stroke="url(#mrFilamentGradA)"
+            stroke="url(#mrSmoothFilamentB)"
             strokeWidth="1.15"
             strokeLinecap="round"
           />
-
-          {Array.from({ length: 12 }, (_, idx) => {
-            const offset = idx * 9;
-            return (
-              <path
-                key={idx}
-                d={`M ${235 + offset * 0.45} ${95 + offset * 0.8} Q ${338 - offset * 0.25} ${
-                  195 + offset * 0.5
-                } ${230 + offset * 0.55} ${312 - offset * 0.6}`}
-                fill="none"
-                stroke="#60A5FA"
-                strokeWidth="0.75"
-                strokeOpacity={0.28 - idx * 0.015}
-              />
-            );
-          })}
+          <path
+            d="M 136 282 C 114 214, 168 134, 246 132 C 298 131, 332 186, 312 244"
+            fill="none"
+            stroke="url(#mrSmoothFilamentA)"
+            strokeWidth="1.05"
+            strokeLinecap="round"
+          />
         </svg>
       </div>
 
-      {/* AQUARIUM-ARTIG WEIT VERTEILTE KUGELN BEIM SCROLLEN (KLICKBAR ZUM PLATZEN) */}
+      {/* AQUARIUM-ARTIG VERTEILTE KUGELN BEIM SCROLLEN (KLICKBAR ZUM PLATZEN) */}
       {AQUARIUM_BUBBLES.map((spec) => {
         const isPopped = poppedIds.includes(spec.id);
-        const aqX = Math.sin(flowTime * 0.36 + spec.phase) * 18;
-        const aqY = Math.cos(flowTime * 0.29 + spec.phase) * 14;
+        const aqX = Math.sin(flowTime * 0.3 + spec.phase) * 14;
+        const aqY = Math.cos(flowTime * 0.25 + spec.phase) * 11;
 
         const bx = spec.fromX + (spec.toX - spec.fromX) * splitT + aqX;
         const by = spec.fromY + (spec.toY - spec.fromY) * splitT + aqY;
 
-        const bScale = isPopped ? 0.15 : 0.65 + splitT * 0.35;
-        const bOpacity = isPopped ? 0 : clamp01(0.25 + splitT * 0.58);
+        const bScale = isPopped ? 0.15 : 0.7 + splitT * 0.3;
+        const bOpacity = isPopped ? 0 : clamp01(0.2 + splitT * 0.48);
         const hue = AQUARIUM_HUES[spec.hue] || AQUARIUM_HUES.blue;
 
         return (
@@ -1012,14 +1015,14 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${bScale})`,
               background: hue.bg,
               border: `1px solid ${hue.border}`,
-              boxShadow: "inset 0 1px 6px rgba(255, 255, 255, 0.55)",
+              boxShadow: "inset 0 1px 5px rgba(255, 255, 255, 0.45)",
             }}
             className="absolute left-1/2 top-1/2 rounded-full cursor-pointer transition-[transform,opacity] duration-200 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[1px]"
           >
             <span
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 75%)",
+                  "radial-gradient(circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
               className="block w-[34%] h-[20%] ml-[22%] mt-[20%] rounded-full -rotate-20 pointer-events-none"
             />
