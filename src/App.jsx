@@ -1354,9 +1354,9 @@ const TIMELINE_PROJECTS = [
     summary:
       "Zentrale Datenprodukte, IT-DWH-Pipelines und Kundenselektionen in PySpark und Azure Synapse als belastbare Grundlage für Analytik und KI-Systeme.",
     highlights: [
-      "Nach dem 01.04.2026 Wechsel ins IT-DWH als Data Engineer für Datenprodukte & Pipelines",
-      "01.05.2025 – 31.03.2026 Data-Analyst Customer Data & Analytics (inkl. ca. 6 Monaten als Interim-PO bis zum Start der neuen PO am 01.04.2026)",
+      "Datenprodukte, Pipelines und Datenarchitektur im IT-DWH für analytische und KI-gestützte Anwendungsfälle",
       "Aufbau von Datenprodukten in PySpark innerhalb Azure Synapse sowie Kundenselektionen",
+      "Verantwortungsvolle Abstimmung zwischen Fachbereichen, Datenmodellen und produktiven Pipelines",
     ],
     stack: "Python · PySpark · Azure Synapse · IT-DWH · SQL · Data Products",
   },
@@ -1415,7 +1415,7 @@ const PROVINZIAL_STATIONS = [
     title: "Data Engineer · IT-DWH",
     period: "Ab Jun 2026",
     bullets: [
-      "Wechsel in das IT-DWH als Data Engineer für Datenprodukte, Pipelines und Datenarchitektur (nach Start der neuen PO am 01.04.2026)",
+      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
       "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
     ],
   },
@@ -1423,8 +1423,8 @@ const PROVINZIAL_STATIONS = [
     title: "Data-Analyst Customer Data & Analytics",
     period: "01.05.2025 – 31.03.2026",
     bullets: [
-      "Aufbau von Datenprodukten in PySpark innerhalb Azure Synapse sowie Kundenselektionen",
-      "Ca. 6 Monate als Interim-PO vor dem Start der neuen PO am 01.04.2026",
+      "Konzeption und Aufbau wiederverwendbarer Datenprodukte in PySpark auf Azure Synapse sowie Umsetzung präziser Kundenselektionen",
+      "Rund sechs Monate als Interim-PO zur Priorisierung und Steuerung von Daten- und Analyse-Anforderungen",
     ],
   },
 ];
@@ -2331,7 +2331,8 @@ export default function App() {
                     reducedMotion={reducedMotion}
                   >
                     <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                      Von Daten &amp; Backend bis in produktive Anwendungen
+                      Von Datenpipelines &amp; Modellen bis in produktive
+                      AI-Systeme
                     </h3>
                   </TextReveal>
 
@@ -2341,10 +2342,10 @@ export default function App() {
                     reducedMotion={reducedMotion}
                   >
                     <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                      Die Verbindung aus Data Engineering, Microservices,
-                      Web-APIs, BI und CI/CD hilft dabei, technische Lösungen so
-                      zu entwerfen, dass sie in realen Umgebungen dauerhaft
-                      stabil laufen.
+                      Der Bogen von kuratierten Datenprodukten, Data Engineering
+                      und Services bis hin zu produktiven AI-Anwendungen und
+                      analytischen Workflows sorgt dafür, dass KI-Lösungen
+                      verlässlich, nachvollziehbar und im Alltag wirksam laufen.
                     </p>
                   </TextReveal>
                 </div>
@@ -2355,7 +2356,7 @@ export default function App() {
                   reducedMotion={reducedMotion}
                 >
                   <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
-                    Data · Microservices · Web · CI/CD
+                    Data Products · AI Systems · Pipelines · Analytics
                   </div>
                 </TextReveal>
               </div>
