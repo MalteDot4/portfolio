@@ -3263,15 +3263,17 @@ const ContactFlow = ({ children, reducedMotion = false }) => {
 const TIMELINE_PROJECTS = [
   {
     id: "provinzial-data-hub",
-    indexTag: "[ 01 ]",
+    domainLabel: "Data & AI",
     brand: "provinzial",
     accentHex: "#007A6E",
+    accentGradient:
+      "linear-gradient(90deg, #007A6E 0%, rgba(0, 122, 110, 0.22) 100%)",
     accentTextClass: "text-[#007A6E]",
-    markerOffsetClass: "pt-2 sm:pt-4",
+    markerOffsetClass: "pt-2 sm:pt-3",
     title: "Customer Data Hub, IT-DWH & Agentic AI",
     tagline:
       "PySpark · Azure Synapse · IT-DWH · Selektionsframework · OpenCode & Agentic Workflows",
-    periodBracket: "[ > 1 Jahr Erfahrung ]",
+    durationLabel: "> 1 Jahr Erfahrung",
     role: "Data & AI Engineer (IT-DWH, ab 01.06.2026) · Data-Analyst Customer Data & Analytics (01.05.2025 – 30.05.2026)",
     organization: "Provinzial Versicherung AG",
     summary:
@@ -3287,15 +3289,17 @@ const TIMELINE_PROJECTS = [
   },
   {
     id: "vodafone-pageforge",
-    indexTag: "[ 02 ]",
+    domainLabel: "B2B & Web",
     brand: "vodafone",
     accentHex: "#E60000",
+    accentGradient:
+      "linear-gradient(90deg, #E60000 0%, rgba(230, 0, 0, 0.22) 100%)",
     accentTextClass: "text-[#E60000]",
-    markerOffsetClass: "pt-8 sm:pt-12",
+    markerOffsetClass: "pt-6 sm:pt-9",
     title: "Firmenkundenportal & PageForge",
     tagline:
       "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
-    periodBracket: "[ > 2 Jahre Erfahrung ]",
+    durationLabel: "> 2 Jahre Erfahrung",
     role: "Backend / Data Integration Firmenkunden",
     organization: "Vodafone GmbH",
     summary:
@@ -3310,15 +3314,17 @@ const TIMELINE_PROJECTS = [
   },
   {
     id: "controlexpert-easyclaim",
-    indexTag: "[ 03 ]",
+    domainLabel: "InsurTech & BI",
     brand: "controlexpert",
     accentHex: "#0A66C2",
+    accentGradient:
+      "linear-gradient(90deg, #0A66C2 0%, rgba(10, 102, 194, 0.22) 100%)",
     accentTextClass: "text-[#0A66C2]",
-    markerOffsetClass: "pt-14 sm:pt-20",
+    markerOffsetClass: "pt-10 sm:pt-14",
     title: "EasyClaim & Daten-/BI-Plattform",
     tagline:
       "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
-    periodBracket: "[ > 10 Jahre Erfahrung ]",
+    durationLabel: "> 10 Jahre Erfahrung",
     role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
     organization: "ControlExpert GmbH",
     summary:
@@ -3362,7 +3368,7 @@ const InteractiveProjectColumn = ({
       tabIndex={0}
       aria-expanded={isExpanded}
       aria-label={`${project.title} – Steckbrief öffnen oder anpinnen`}
-      className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] rounded-3xl md:rounded-none border md:border-t-0 md:border-b-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[320px] sm:min-h-[390px] ${
+      className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] rounded-3xl md:rounded-none border md:border-t-0 md:border-b-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[310px] sm:min-h-[380px] ${
         reducedMotion
           ? "bg-[#FFFFFF]"
           : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -3374,33 +3380,45 @@ const InteractiveProjectColumn = ({
     >
       <div>
         <div className="flex items-center justify-between gap-2 pb-4">
-          <span className="font-mono text-xs font-bold tracking-wider text-[#52525B]">
-            {project.indexTag}
-          </span>
           <BrandWordmark brand={project.brand} stopPropagation />
+          <span
+            style={{
+              color: project.accentHex,
+              backgroundColor: `${project.accentHex}10`,
+              borderColor: `${project.accentHex}24`,
+            }}
+            className="px-2.5 py-1 rounded-full border text-[11px] font-bold tracking-tight"
+          >
+            {project.domainLabel}
+          </span>
         </div>
 
         <div className={`relative ${project.markerOffsetClass}`}>
-          <div className="flex items-center gap-2 mb-2.5">
+          <div className="flex items-center gap-2.5 mb-3">
             <span
-              style={{ backgroundColor: project.accentHex }}
+              style={{
+                backgroundColor: project.accentHex,
+                boxShadow: isExpanded
+                  ? `0 0 0 4px ${project.accentHex}1F`
+                  : "none",
+              }}
               className={`w-2.5 h-2.5 rounded-full shrink-0 ${
                 reducedMotion
                   ? ""
-                  : `transition-transform duration-300 ${
-                      isExpanded ? "scale-125" : "group-hover:scale-110"
+                  : `transition-all duration-300 ${
+                      isExpanded ? "scale-110" : "group-hover:scale-110"
                     }`
               }`}
             />
             <div
-              style={{ backgroundColor: project.accentHex }}
+              style={{ background: project.accentGradient }}
               className={`h-[2px] flex-1 rounded-full ${
                 reducedMotion
                   ? ""
                   : `transition-all duration-300 ${
                       isExpanded
-                        ? "h-[3px] opacity-100"
-                        : "opacity-80 group-hover:opacity-100"
+                        ? "opacity-100"
+                        : "opacity-75 group-hover:opacity-100"
                     }`
               }`}
             />
@@ -3513,9 +3531,9 @@ const InteractiveProjectColumn = ({
         </div>
       </div>
 
-      <div className="pt-6 mt-4 border-t border-[#E4E4E7]/80 flex items-center justify-between gap-2">
-        <span className="font-mono text-[11px] sm:text-xs font-semibold text-[#52525B]">
-          {project.periodBracket}
+      <div className="pt-5 mt-4 border-t border-[#E4E4E7]/80 flex items-center justify-between gap-2">
+        <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-medium text-[#52525B]">
+          {project.durationLabel}
         </span>
 
         <span
@@ -3548,10 +3566,10 @@ const InteractiveProjectColumn = ({
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "01 / Einblick in meine Projekte" },
-  { id: "work", nextTitle: "02 / Was mich motiviert" },
-  { id: "motivation", nextTitle: "03 / Stationen & Tech Stack" },
-  { id: "experience", nextTitle: "04 / Kontakt" },
+  { id: "hero-stage", nextTitle: "Einblick in meine Projekte" },
+  { id: "work", nextTitle: "Was mich motiviert" },
+  { id: "motivation", nextTitle: "Stationen & Tech Stack" },
+  { id: "experience", nextTitle: "Kontakt" },
   { id: "contact", nextTitle: "Nach oben ↑" },
 ];
 
@@ -3929,7 +3947,7 @@ export default function App() {
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <HeadlineFlow
-              kicker="01 / Projekte & Wirkung"
+              kicker="Projekte & Wirkung"
               title="Einblick in meine Projekte"
               as="h2"
               reducedMotion={reducedMotion}
@@ -3979,10 +3997,7 @@ export default function App() {
 
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="mb-8">
-            <HeadlineFlow
-              kicker="02 / Motivation"
-              reducedMotion={reducedMotion}
-            />
+            <HeadlineFlow kicker="Motivation" reducedMotion={reducedMotion} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
@@ -4190,7 +4205,7 @@ export default function App() {
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <HeadlineFlow
-              kicker="03 / Stationen & Tech Stack"
+              kicker="Stationen & Tech Stack"
               title="Stationen & Kernkompetenzen"
               as="h2"
               reducedMotion={reducedMotion}
@@ -4454,7 +4469,7 @@ export default function App() {
 
               <div className="relative z-10 max-w-xl">
                 <HeadlineFlow
-                  kicker="04 / Kontakt"
+                  kicker="Kontakt"
                   title="Lust auf Austausch zu Data & AI Engineering?"
                   as="h2"
                   titleClassName="mt-2.5 sm:mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white"
