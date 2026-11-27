@@ -102,60 +102,70 @@ const CONTROLEXPERT_MORE_STATIONS = [
 const CORE_SKILL_PILLS = [
   {
     label: "Python",
+    enLabel: "Python",
     role: "Data & ETL Scripting",
     projects:
       "Datenaufbereitung, Automatisierung & Spark-Pipelines bei Provinzial (IT-DWH & Customer Data).",
   },
   {
     label: "PySpark / Spark",
+    enLabel: "PySpark / Apache Spark",
     role: "Verteilte Datenverarbeitung",
     projects:
       "Aufbau von Datenprodukten und Selektionsframework für Kundenselektionen auf großen Datenbeständen bei Provinzial.",
   },
   {
     label: "Azure & Synapse",
+    enLabel: "Azure & Synapse Analytics",
     role: "Cloud Data Plattform",
     projects:
       "Datenprodukte, Pipelines und IT-DWH-Architektur im Azure-Synapse-Umfeld bei Provinzial.",
   },
   {
     label: "SQL",
+    enLabel: "SQL & Data Modeling",
     role: "Abfragen & Modellierung",
     projects:
       "Data-Warehouse-Aufbau, KPI-Reporting und relationale Datenabfragen bei ControlExpert & Provinzial.",
   },
   {
     label: "React.js & Next.js",
+    enLabel: "React.js & Next.js",
     role: "Web & UI Engineering",
     projects:
       "Digitale Schadenaufnahme (EasyClaim) bei ControlExpert sowie Business-Websites & Blog bei Vodafone.",
   },
   {
     label: ".NET C#",
+    enLabel: ".NET / C#",
     role: "Backend-Services",
     projects:
       "Backend-Logik und Services für die digitale Schadenaufnahme bei ControlExpert.",
   },
   {
     label: "Node.js",
+    enLabel: "Node.js",
     role: "API & Microservices",
     projects:
       "Microservices für Vertragsdaten und Firmenkunden-Integration bei Vodafone.",
   },
   {
     label: "Jest, Vitest & Cypress",
+    enLabel: "Jest, Vitest & Cypress",
     role: "Qualitätssicherung & Tests",
     projects:
       "Unit- und End-to-End-Tests zur Absicherung der Codequalität im agilen Umfeld bei ControlExpert.",
   },
   {
     label: "Git, Docker & CI/CD",
+    enLabel: "Git, Docker & CI/CD",
     role: "Delivery & Automatisierung",
     projects:
       "Containerisierung sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines bei Vodafone.",
   },
   {
     label: "Tableau & Power-BI",
+    enLabel: "Tableau & Power BI",
     role: "BI & Visualisierung",
     projects:
       "KPI-Visualisierung und Stakeholder-Reporting auf Basis von Data-Warehouse-Daten.",
@@ -165,91 +175,184 @@ const CORE_SKILL_PILLS = [
 const CV_POSITIONS = [
   {
     id: "provinzial-data-ai",
-    company: "Provinzial Versicherung AG",
-    period: "Ab 01.06.2026",
-    role: "Data Engineer & AI Engineer · IT-DWH",
     track: "data-ai",
-    bullets: [
-      "Skalierbare Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Systeme",
-      "AI Engineering mit OpenCode & Etablierung von Agentic-Development-Workflows im Projekt",
-      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
-    ],
+    de: {
+      company: "Provinzial Versicherung AG",
+      period: "Ab 01.06.2026",
+      role: "Data Engineer & AI Engineer · IT-DWH",
+      bullets: [
+        "Aufbau und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Anwendungen.",
+        "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt.",
+      ],
+    },
+    en: {
+      company: "Provinzial Versicherung AG",
+      period: "Since Jun 2026",
+      role: "Data Engineer & AI Engineer · Enterprise DWH",
+      bullets: [
+        "Architected and operated scalable data products, pipelines, and DWH foundations supporting analytics and applied AI workloads.",
+        "Drove AI engineering with OpenCode and established agentic development workflows to accelerate high-quality delivery.",
+      ],
+    },
   },
   {
     id: "provinzial-customer-data",
-    company: "Provinzial Versicherung AG",
-    period: "01.05.2025 – 30.05.2026",
-    role: "Data-Analyst Customer Data & Analytics",
     track: "data-ai",
-    bullets: [
-      "PySpark-Datenprodukte auf Azure Synapse inkl. eigenem Selektionsframework für Kundenselektionen",
-      "Ca. 6 Monate (bis 01.04.2026) Interim-PO für das Data-Team zur Steuerung & Priorisierung",
-    ],
+    de: {
+      company: "Provinzial Versicherung AG",
+      period: "01.05.2025 – 30.05.2026",
+      role: "Data-Analyst Customer Data & Analytics",
+      bullets: [
+        "Entwicklung PySpark-basierter Datenprodukte auf Azure Synapse inklusive eines Selektionsframeworks für Kundenselektionen.",
+        "Ca. sechs Monate (bis 01.04.2026) als Interim Product Owner für das Data-Team zur Steuerung und Priorisierung von Anforderungen.",
+      ],
+    },
+    en: {
+      company: "Provinzial Versicherung AG",
+      period: "May 2025 – May 2026",
+      role: "Data Analyst · Customer Data & Analytics",
+      bullets: [
+        "Built PySpark data products on Azure Synapse, including a customer segmentation and selection framework.",
+        "Served as Interim Product Owner for the data team for approx. six months (until Apr 2026) to align backlog priorities and stakeholders.",
+      ],
+    },
   },
   {
     id: "vodafone-integration",
-    company: "Vodafone GmbH",
-    period: "Nov 2022 – Mär 2025",
-    role: "Backend / Data Integration Firmenkunden",
     track: "fullstack-data",
-    bullets: [
-      "Entwicklung & Datenintegration für Firmenkundenportal, Blog sowie 200+ Business-Websites",
-      "Microservices für Vertragsdaten mit Node.js sowie höhere CI/CD-Automatisierung in Git-Pipelines",
-    ],
+    de: {
+      company: "Vodafone GmbH",
+      period: "Nov 2022 – Mär 2025",
+      role: "Backend / Data Integration Firmenkunden",
+      bullets: [
+        "Entwicklung und Datenintegration für das Firmenkundenportal, den Blog sowie über 200 Business-Websites.",
+        "Implementierung von Microservices für Vertragsdaten in Node.js sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines.",
+      ],
+    },
+    en: {
+      company: "Vodafone GmbH",
+      period: "Nov 2022 – Mar 2025",
+      role: "Backend & Data Integration Engineer · Enterprise B2B",
+      bullets: [
+        "Developed and integrated data flows for the enterprise customer portal, blog, and 200+ business web properties.",
+        "Engineered Node.js contract-data microservices and increased CI/CD automation across Git delivery pipelines.",
+      ],
+    },
   },
   {
     id: "controlexpert-dev",
-    company: "ControlExpert GmbH",
-    period: "Jul 2019 – Aug 2022",
-    role: "Softwareentwickler Versicherungsbranche",
     track: "fullstack-data",
-    bullets: [
-      "Digitale Schadenaufnahme mit React.js im Frontend und .NET C# im Backend",
-      "Agile Arbeitsweise (Kanban & Design Thinking) sowie Qualitätssicherung mit Jest & Cypress",
-    ],
+    de: {
+      company: "ControlExpert GmbH",
+      period: "Jul 2019 – Aug 2022",
+      role: "Softwareentwickler Versicherungsbranche",
+      bullets: [
+        "Entwicklung einer Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend und .NET C# im Backend.",
+        "Agile Zusammenarbeit nach Kanban und Design Thinking mit automatisierten Tests in Jest und Cypress.",
+      ],
+    },
+    en: {
+      company: "ControlExpert GmbH",
+      period: "Jul 2019 – Aug 2022",
+      role: "Software Engineer · Insurance & Claims",
+      bullets: [
+        "Built a digital claims-intake web application using React.js on the frontend and .NET C# on the backend.",
+        "Delivered in Kanban and Design Thinking setups with automated test coverage via Jest and Cypress.",
+      ],
+    },
   },
   {
     id: "controlexpert-bi-data",
-    company: "ControlExpert GmbH",
-    period: "Jul 2012 – Jun 2019",
-    role: "BI-Specialist · Business-Analyst · Data-Specialist",
     track: "data-ai",
-    bullets: [
-      "Data-Warehouse-Aufbau, SQL-Reporting und KPI-Visualisierung in Tableau",
-      "Prozessautomatisierung mit IBM BPM, Kalkulationsanwendung in Scrum & Herstellerdatenpflege",
-    ],
+    de: {
+      company: "ControlExpert GmbH",
+      period: "Jul 2012 – Jun 2019",
+      role: "BI-Specialist · Business-Analyst · Data-Specialist",
+      bullets: [
+        "Aufbau eines Data Warehouse, SQL-Reporting und KPI-Visualisierung in Tableau für Fachbereiche.",
+        "Prozessautomatisierung mit IBM BPM, Product Management einer Kalkulationsanwendung in Scrum sowie Herstellerdatenpflege.",
+      ],
+    },
+    en: {
+      company: "ControlExpert GmbH",
+      period: "Jul 2012 – Jun 2019",
+      role: "BI Specialist · Business Analyst · Data Specialist",
+      bullets: [
+        "Developed a data warehouse, SQL reporting layer, and Tableau KPI dashboards for business stakeholders.",
+        "Delivered IBM BPM process automation, Scrum product management for a calculation tool, and automotive data curation.",
+      ],
+    },
   },
 ];
 
-/* ZERO-DEPENDENCY DIRECT PDF GENERATOR (LIGHT / DARK) */
-const toPdfWinAnsi = (input = "") => {
-  const normalized = String(input)
-    .replace(/–|—/g, "-")
-    .replace(/·/g, "-")
-    .replace(/•/g, "-")
-    .replace(/…/g, "...")
-    .replace(/„|“/g, '"')
-    .replace(/’|‘/g, "'")
-    .replace(/ä/g, "\u00e4")
-    .replace(/ö/g, "\u00f6")
-    .replace(/ü/g, "\u00fc")
-    .replace(/Ä/g, "\u00c4")
-    .replace(/Ö/g, "\u00d6")
-    .replace(/Ü/g, "\u00dc")
-    .replace(/ß/g, "\u00df");
+/* TRUE WINDOWS-1252 / WINANSI BYTE ENCODER FOR PDF-1.4 TYPE1 FONTS */
+const CP1252_EXTRA_MAP = {
+  0x20ac: 0x80,
+  0x201a: 0x82,
+  0x0192: 0x83,
+  0x201e: 0x84,
+  0x2026: 0x85,
+  0x2020: 0x86,
+  0x2021: 0x87,
+  0x02c6: 0x88,
+  0x2030: 0x89,
+  0x0160: 0x8a,
+  0x2039: 0x8b,
+  0x0152: 0x8c,
+  0x017d: 0x8e,
+  0x2018: 0x91,
+  0x2019: 0x92,
+  0x201c: 0x93,
+  0x201d: 0x94,
+  0x2022: 0x95,
+  0x2013: 0x96,
+  0x2014: 0x97,
+  0x02dc: 0x98,
+  0x2122: 0x99,
+  0x0161: 0x9a,
+  0x203a: 0x9b,
+  0x0153: 0x9c,
+  0x017e: 0x9e,
+  0x0178: 0x9f,
+};
 
-  return normalized
-    .split("")
-    .map((ch) => {
-      const code = ch.charCodeAt(0);
-      if (code >= 32 && code <= 126) return ch;
-      if (code >= 160 && code <= 255) return String.fromCharCode(code);
-      return "?";
-    })
-    .join("")
-    .replace(/\\/g, "\\\\")
-    .replace(/\(/g, "\\(")
-    .replace(/\)/g, "\\)");
+const encodeWinAnsiBytes = (str = "") => {
+  const normalized = String(str)
+    .replace(/\u2013|\u2014/g, "-")
+    .replace(/\u00b7/g, "·");
+
+  const bytes = [];
+  for (let i = 0; i < normalized.length; i += 1) {
+    const code = normalized.charCodeAt(i);
+    if ((code >= 0x20 && code <= 0x7e) || (code >= 0xa0 && code <= 0xff)) {
+      bytes.push(code);
+    } else if (Object.prototype.hasOwnProperty.call(CP1252_EXTRA_MAP, code)) {
+      bytes.push(CP1252_EXTRA_MAP[code]);
+    } else {
+      bytes.push(0x2d);
+    }
+  }
+  return Uint8Array.from(bytes);
+};
+
+const toPdfLiteralString = (input = "") => {
+  const rawBytes = encodeWinAnsiBytes(input);
+  const out = [];
+  for (let i = 0; i < rawBytes.length; i += 1) {
+    const b = rawBytes[i];
+    if (b === 0x28 || b === 0x29 || b === 0x5c) {
+      out.push(0x5c, b);
+    } else if (b >= 0x20 && b <= 0x7e) {
+      out.push(b);
+    } else {
+      const octal = b.toString(8).padStart(3, "0");
+      out.push(0x5c);
+      for (let j = 0; j < octal.length; j += 1) {
+        out.push(octal.charCodeAt(j));
+      }
+    }
+  }
+  return `(${String.fromCharCode(...out)})`;
 };
 
 const wrapPdfText = (text, maxChars) => {
@@ -273,231 +376,334 @@ const wrapPdfText = (text, maxChars) => {
   return lines;
 };
 
+const concatUint8Arrays = (chunks) => {
+  const total = chunks.reduce((sum, arr) => sum + arr.length, 0);
+  const merged = new Uint8Array(total);
+  let offset = 0;
+  chunks.forEach((arr) => {
+    merged.set(arr, offset);
+    offset += arr.length;
+  });
+  return merged;
+};
+
+/* CLASSIC BUSINESS CV TEMPLATE (2ND TEMPLATE LAYOUT) WITH DE / EN & LIGHT / DARK */
 const buildCvPdfBlob = ({
   theme = "light",
+  lang = "de",
   summary,
   recruiterNote = "",
   positions,
   skills,
 }) => {
   const isDark = theme === "dark";
+  const isEn = lang === "en";
   const pageW = 595.28;
   const pageH = 841.89;
-  const marginX = 46;
+  const marginX = 48;
   const contentW = pageW - marginX * 2;
 
-  const bgRgb = isDark ? "0.043 0.043 0.047" : "1 1 1";
-  const cardRgb = isDark ? "0.082 0.086 0.102" : "0.965 0.969 0.98";
-  const inkRgb = isDark ? "0.96 0.97 0.99" : "0.043 0.043 0.047";
-  const mutedRgb = isDark ? "0.68 0.72 0.78" : "0.32 0.32 0.36";
-  const accentRgb = isDark ? "0.576 0.773 0.992" : "0.145 0.388 0.922";
-  const ruleRgb = isDark ? "0.20 0.22 0.27" : "0.89 0.89 0.91";
+  const bgRgb = isDark ? "0.051 0.055 0.067" : "1 1 1";
+  const inkRgb = isDark ? "0.95 0.96 0.98" : "0.075 0.082 0.102";
+  const bodyRgb = isDark ? "0.82 0.85 0.89" : "0.24 0.26 0.30";
+  const mutedRgb = isDark ? "0.62 0.66 0.73" : "0.42 0.45 0.50";
+  const ruleRgb = isDark ? "0.24 0.27 0.33" : "0.78 0.80 0.84";
+
+  const copy = isEn
+    ? {
+        subtitle: "Data Engineer & AI Engineer",
+        contactLine:
+          "malte_reppke@web.de  ·  github.com/malte-reppke  ·  Hilden, Germany",
+        profileHeading: "EXECUTIVE PROFILE",
+        competenciesHeading: "CORE COMPETENCIES",
+        experienceHeading: "PROFESSIONAL EXPERIENCE",
+        educationHeading: "EDUCATION",
+        notesHeading: "RECRUITER NOTES",
+        edu1Title: "M.Sc. Artificial Intelligence & Business Analytics",
+        edu1Meta: "FOM University · Part-time from Sep 2026",
+        edu2Title: "B.Sc. Business Information Systems (1.9)",
+        edu2Meta: "FOM Düsseldorf · Focus on Data & BI",
+      }
+    : {
+        subtitle: "Data Engineer & AI Engineer",
+        contactLine:
+          "malte_reppke@web.de  ·  github.com/malte-reppke  ·  Hilden, Deutschland",
+        profileHeading: "PROFIL",
+        competenciesHeading: "KERNKOMPETENZEN",
+        experienceHeading: "BERUFSERFAHRUNG",
+        educationHeading: "STUDIUM",
+        notesHeading: "NOTIZEN FÜR RECRUITER",
+        edu1Title: "M. Sc. KI und Business Analytics",
+        edu1Meta: "FOM · Berufsbegleitend ab 01.09.2026",
+        edu2Title: "B. Sc. Wirtschaftsinformatik (1,9)",
+        edu2Meta: "FOM Düsseldorf · Fokus Daten & BI",
+      };
 
   const ops = [];
 
+  // Background
   ops.push(`${bgRgb} rg`);
   ops.push(`0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)} re f`);
 
-  ops.push(`${cardRgb} rg`);
-  ops.push(`${marginX} ${pageH - 134} ${contentW} 94 re f`);
-
+  // Header: Name + Subtitle + Contact line (clean editorial hierarchy)
+  let y = pageH - 64;
   ops.push("BT");
-  ops.push("/F2 8 Tf");
-  ops.push(`${accentRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 58} Tm`);
-  ops.push(`(${toPdfWinAnsi("LEBENSLAUF · CV-EXPORT")}) Tj`);
-
-  ops.push("/F2 22 Tf");
+  ops.push(`/F2 24 Tf`);
   ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 83} Tm`);
-  ops.push(`(${toPdfWinAnsi("Malte Reppke")}) Tj`);
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString("Malte Reppke")} Tj`);
 
-  ops.push("/F1 10.5 Tf");
+  y -= 18;
+  ops.push(`/F2 10 Tf`);
+  ops.push(`${bodyRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.subtitle)} Tj`);
+
+  y -= 14;
+  ops.push(`/F1 9 Tf`);
   ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 103} Tm`);
-  ops.push(
-    `(${toPdfWinAnsi("Data Engineer & AI Engineer · Hilden, Deutschland")}) Tj`,
-  );
-
-  ops.push("/F1 9 Tf");
-  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 120} Tm`);
-  ops.push(
-    `(${toPdfWinAnsi("malte_reppke@web.de  |  github.com/malte-reppke")}) Tj`,
-  );
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.contactLine)} Tj`);
   ops.push("ET");
 
-  let y = pageH - 160;
+  y -= 14;
+  ops.push(`${ruleRgb} RG`);
+  ops.push("0.9 w");
+  ops.push(
+    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
+  );
 
+  // Profile Section
+  y -= 20;
   ops.push("BT");
-  ops.push("/F2 9 Tf");
-  ops.push(`${accentRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y} Tm`);
-  ops.push(`(${toPdfWinAnsi("PROFIL")}) Tj`);
-  ops.push("ET");
-
-  y -= 16;
-  const summaryLines = wrapPdfText(summary, 88);
-  ops.push("BT");
-  ops.push("/F1 10 Tf");
+  ops.push("/F2 9.5 Tf");
   ops.push(`${inkRgb} rg`);
-  summaryLines.forEach((line, i) => {
-    ops.push(`1 0 0 1 ${marginX} ${(y - i * 14).toFixed(2)} Tm`);
-    ops.push(`(${toPdfWinAnsi(line)}) Tj`);
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.profileHeading)} Tj`);
+
+  y -= 15;
+  const summaryLines = wrapPdfText(summary, 92);
+  ops.push("/F1 9.5 Tf");
+  ops.push(`${bodyRgb} rg`);
+  summaryLines.forEach((line, idx) => {
+    ops.push(`1 0 0 1 ${marginX} ${(y - idx * 13).toFixed(2)} Tm`);
+    ops.push(`${toPdfLiteralString(line)} Tj`);
   });
   ops.push("ET");
-  y -= summaryLines.length * 14 + 10;
-
-  const trimmedNote = recruiterNote.trim();
-  if (trimmedNote) {
-    const noteLines = wrapPdfText(trimmedNote, 84);
-    const boxH = 22 + noteLines.length * 13;
-    ops.push(`${cardRgb} rg`);
-    ops.push(
-      `${marginX} ${(y - boxH + 6).toFixed(2)} ${contentW} ${boxH} re f`,
-    );
-
-    ops.push("BT");
-    ops.push("/F2 8 Tf");
-    ops.push(`${accentRgb} rg`);
-    ops.push(`1 0 0 1 ${marginX + 12} ${(y - 6).toFixed(2)} Tm`);
-    ops.push(`(${toPdfWinAnsi("NOTIZ FUER RECRUITER")}) Tj`);
-
-    ops.push("/F1 9.5 Tf");
-    ops.push(`${inkRgb} rg`);
-    noteLines.forEach((nLine, idx) => {
-      ops.push(`1 0 0 1 ${marginX + 12} ${(y - 19 - idx * 13).toFixed(2)} Tm`);
-      ops.push(`(${toPdfWinAnsi(nLine)}) Tj`);
-    });
-    ops.push("ET");
-    y -= boxH + 8;
-  }
+  y -= summaryLines.length * 13 + 10;
 
   ops.push(`${ruleRgb} RG`);
-  ops.push("0.8 w");
-  ops.push(`${marginX} ${y} m ${pageW - marginX} ${y} l S`);
-  y -= 20;
+  ops.push("0.75 w");
+  ops.push(
+    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
+  );
 
+  // 3-Column Core Competencies
+  y -= 19;
   ops.push("BT");
-  ops.push("/F2 9 Tf");
-  ops.push(`${accentRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y} Tm`);
-  ops.push(`(${toPdfWinAnsi("BERUFSERFAHRUNG")}) Tj`);
+  ops.push("/F2 9.5 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.competenciesHeading)} Tj`);
+
+  y -= 15;
+  const skillList = skills.length > 0 ? skills : ["-"];
+  const colW = contentW / 3;
+  const rowsCount = Math.ceil(skillList.length / 3);
+  ops.push("/F1 9 Tf");
+  ops.push(`${bodyRgb} rg`);
+
+  for (let r = 0; r < rowsCount; r += 1) {
+    for (let c = 0; c < 3; c += 1) {
+      const s = skillList[r * 3 + c];
+      if (!s) continue;
+      const cellX = marginX + c * colW;
+      const cellY = y - r * 12.5;
+      ops.push(`1 0 0 1 ${cellX.toFixed(2)} ${cellY.toFixed(2)} Tm`);
+      ops.push(`${toPdfLiteralString(`· ${s}`)} Tj`);
+    }
+  }
   ops.push("ET");
-  y -= 18;
+  y -= rowsCount * 12.5 + 10;
+
+  ops.push(`${ruleRgb} RG`);
+  ops.push("0.75 w");
+  ops.push(
+    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
+  );
+
+  // Experience Section (Company bold left, Date right, Role below, bullets)
+  y -= 19;
+  ops.push("BT");
+  ops.push("/F2 9.5 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.experienceHeading)} Tj`);
+  ops.push("ET");
+  y -= 16;
 
   positions.forEach((pos) => {
-    if (y < 145) return;
-
-    ops.push(`${accentRgb} rg`);
-    ops.push(`${marginX} ${y - 26} 2.5 32 re f`);
+    if (y < 175) return;
 
     ops.push("BT");
-    ops.push("/F2 11 Tf");
+    ops.push("/F2 10 Tf");
     ops.push(`${inkRgb} rg`);
-    ops.push(`1 0 0 1 ${marginX + 10} ${y} Tm`);
-    ops.push(`(${toPdfWinAnsi(pos.role)}) Tj`);
+    ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+    ops.push(`${toPdfLiteralString(pos.company)} Tj`);
 
-    ops.push("/F1 9 Tf");
+    ops.push("/F2 8.5 Tf");
     ops.push(`${mutedRgb} rg`);
-    ops.push(`1 0 0 1 ${marginX + 10} ${(y - 13).toFixed(2)} Tm`);
-    ops.push(`(${toPdfWinAnsi(`${pos.company} · ${pos.period}`)}) Tj`);
+    const periodLiteral = toPdfLiteralString(pos.period);
+    const estPeriodW = pos.period.length * 4.5;
+    ops.push(
+      `1 0 0 1 ${(pageW - marginX - Math.min(estPeriodW, 130)).toFixed(2)} ${y.toFixed(2)} Tm`,
+    );
+    ops.push(`${periodLiteral} Tj`);
 
-    let bY = y - 27;
-    pos.bullets.forEach((bullet) => {
-      const bLines = wrapPdfText(`- ${bullet}`, 82);
-      bLines.forEach((bLine) => {
-        if (bY < 135) return;
-        ops.push("/F1 9.5 Tf");
-        ops.push(`${inkRgb} rg`);
-        ops.push(`1 0 0 1 ${marginX + 12} ${bY.toFixed(2)} Tm`);
-        ops.push(`(${toPdfWinAnsi(bLine)}) Tj`);
-        bY -= 12.5;
+    y -= 12.5;
+    ops.push("/F2 9 Tf");
+    ops.push(`${bodyRgb} rg`);
+    ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
+    ops.push(`${toPdfLiteralString(pos.role)} Tj`);
+
+    y -= 12.5;
+    pos.bullets.forEach((b) => {
+      const bLines = wrapPdfText(b, 88);
+      bLines.forEach((line, lIdx) => {
+        if (y < 168) return;
+        const prefix = lIdx === 0 ? "- " : "  ";
+        ops.push("/F1 9 Tf");
+        ops.push(`${bodyRgb} rg`);
+        ops.push(`1 0 0 1 ${(marginX + 6).toFixed(2)} ${y.toFixed(2)} Tm`);
+        ops.push(`${toPdfLiteralString(`${prefix}${line}`)} Tj`);
+        y -= 12;
       });
     });
     ops.push("ET");
-
-    y = Math.min(bY - 8, y - 44);
+    y -= 8;
   });
 
-  const bottomY = Math.max(y - 6, 112);
+  // Two-column bottom: Left = Education, Right = Recruiter Notes
+  const footerTopY = Math.max(y - 2, 132);
   ops.push(`${ruleRgb} RG`);
-  ops.push("0.8 w");
-  ops.push(`${marginX} ${bottomY} m ${pageW - marginX} ${bottomY} l S`);
+  ops.push("0.75 w");
+  ops.push(
+    `${marginX} ${footerTopY.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${footerTopY.toFixed(
+      2,
+    )} l S`,
+  );
 
-  const secY = bottomY - 16;
-  const skillText =
-    skills.length > 0 ? skills.join(" · ") : "Keine Skills ausgewählt";
-  const skillLines = wrapPdfText(skillText, 46);
+  const leftX = marginX;
+  const rightX = marginX + contentW * 0.52;
+  const colSpanW = contentW * 0.46;
+  const fY = footerTopY - 16;
+
+  // Vertical divider between left & right bottom columns
+  ops.push(`${ruleRgb} RG`);
+  ops.push("0.6 w");
+  ops.push(
+    `${(marginX + contentW * 0.49).toFixed(2)} ${(footerTopY - 6).toFixed(2)} m ${(
+      marginX +
+      contentW * 0.49
+    ).toFixed(2)} ${(footerTopY - 76).toFixed(2)} l S`,
+  );
 
   ops.push("BT");
-  ops.push("/F2 8.5 Tf");
-  ops.push(`${accentRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${secY} Tm`);
-  ops.push(`(${toPdfWinAnsi("AUSGEWAEHLTE SKILLS")}) Tj`);
-
-  ops.push("/F1 9 Tf");
+  ops.push("/F2 9 Tf");
   ops.push(`${inkRgb} rg`);
-  skillLines.slice(0, 3).forEach((sLine, i) => {
-    ops.push(`1 0 0 1 ${marginX} ${(secY - 14 - i * 12).toFixed(2)} Tm`);
-    ops.push(`(${toPdfWinAnsi(sLine)}) Tj`);
+  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${fY.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.educationHeading)} Tj`);
+
+  ops.push("/F2 9 Tf");
+  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 14).toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.edu1Title)} Tj`);
+  ops.push("/F1 8.5 Tf");
+  ops.push(`${mutedRgb} rg`);
+  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 25).toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.edu1Meta)} Tj`);
+
+  ops.push("/F2 9 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 40).toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.edu2Title)} Tj`);
+  ops.push("/F1 8.5 Tf");
+  ops.push(`${mutedRgb} rg`);
+  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 51).toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.edu2Meta)} Tj`);
+
+  // Right column: Recruiter Notes
+  ops.push("/F2 9 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${rightX.toFixed(2)} ${fY.toFixed(2)} Tm`);
+  ops.push(`${toPdfLiteralString(copy.notesHeading)} Tj`);
+
+  const trimmedNote = recruiterNote.trim();
+  const noteDisplay = trimmedNote
+    ? trimmedNote
+    : isEn
+      ? "Optional recruiter note can be added before export."
+      : "Optionale Recruiter-Notiz kann vor dem Export ergänzt werden.";
+  const noteCharsPerLine = Math.max(26, Math.floor(colSpanW / 5.2));
+  const noteLines = wrapPdfText(noteDisplay, noteCharsPerLine).slice(0, 4);
+
+  ops.push("/F1 8.8 Tf");
+  ops.push(`${trimmedNote ? bodyRgb : mutedRgb} rg`);
+  noteLines.forEach((nLine, idx) => {
+    ops.push(
+      `1 0 0 1 ${rightX.toFixed(2)} ${(fY - 14 - idx * 12).toFixed(2)} Tm`,
+    );
+    ops.push(`${toPdfLiteralString(nLine)} Tj`);
   });
-
-  const rightColX = marginX + contentW * 0.54;
-  ops.push("/F2 8.5 Tf");
-  ops.push(`${accentRgb} rg`);
-  ops.push(`1 0 0 1 ${rightColX} ${secY} Tm`);
-  ops.push(`(${toPdfWinAnsi("STUDIUM")}) Tj`);
-
-  ops.push("/F2 9 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${rightColX} ${(secY - 14).toFixed(2)} Tm`);
-  ops.push(`(${toPdfWinAnsi("M. Sc. KI und Business Analytics")}) Tj`);
-  ops.push("/F1 8.5 Tf");
-  ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${rightColX} ${(secY - 25).toFixed(2)} Tm`);
-  ops.push(`(${toPdfWinAnsi("FOM (nebenberuflich ab 01.09.2026)")}) Tj`);
-
-  ops.push("/F2 9 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${rightColX} ${(secY - 40).toFixed(2)} Tm`);
-  ops.push(`(${toPdfWinAnsi("B. Sc. Wirtschaftsinformatik (1,9)")}) Tj`);
-  ops.push("/F1 8.5 Tf");
-  ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${rightColX} ${(secY - 51).toFixed(2)} Tm`);
-  ops.push(`(${toPdfWinAnsi("FOM Duesseldorf")}) Tj`);
   ops.push("ET");
 
-  const contentStream = ops.join("\n");
-  const streamByteLength = new TextEncoder().encode(contentStream).length;
+  const streamBytes = encodeWinAnsiBytes(ops.join("\n"));
 
   const objects = [
-    "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
-    "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
-    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(
-      2,
-    )} ${pageH.toFixed(2)}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj\n`,
-    "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n",
-    "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n",
-    `6 0 obj\n<< /Length ${streamByteLength} >>\nstream\n${contentStream}\nendstream\nendobj\n`,
+    encodeWinAnsiBytes("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"),
+    encodeWinAnsiBytes(
+      "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+    ),
+    encodeWinAnsiBytes(
+      `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(
+        2,
+      )} ${pageH.toFixed(2)}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj\n`,
+    ),
+    encodeWinAnsiBytes(
+      "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n",
+    ),
+    encodeWinAnsiBytes(
+      "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n",
+    ),
+    concatUint8Arrays([
+      encodeWinAnsiBytes(
+        `6 0 obj\n<< /Length ${streamBytes.length} >>\nstream\n`,
+      ),
+      streamBytes,
+      encodeWinAnsiBytes("\nendstream\nendobj\n"),
+    ]),
   ];
 
-  let pdf = "%PDF-1.4\n";
+  const headerBytes = encodeWinAnsiBytes("%PDF-1.4\n");
+  const bodyChunks = [headerBytes];
   const offsets = [0];
+  let runningOffset = headerBytes.length;
 
-  objects.forEach((obj) => {
-    offsets.push(new TextEncoder().encode(pdf).length);
-    pdf += obj;
+  objects.forEach((objBytes) => {
+    offsets.push(runningOffset);
+    bodyChunks.push(objBytes);
+    runningOffset += objBytes.length;
   });
 
-  const xrefOffset = new TextEncoder().encode(pdf).length;
-  pdf += `xref\n0 ${objects.length + 1}\n`;
-  pdf += "0000000000 65535 f \n";
+  const xrefOffset = runningOffset;
+  let xrefStr = `xref\n0 ${objects.length + 1}\n`;
+  xrefStr += "0000000000 65535 f \n";
   for (let i = 1; i < offsets.length; i += 1) {
-    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+    xrefStr += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
   }
-  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  xrefStr += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
 
-  return new Blob([new TextEncoder().encode(pdf)], { type: "application/pdf" });
+  bodyChunks.push(encodeWinAnsiBytes(xrefStr));
+  return new Blob([concatUint8Arrays(bodyChunks)], { type: "application/pdf" });
 };
 
 /* HERO AVATAR: ONLY SPEAKS ONCE ON LOAD, CLOSES AFTER A FEW SECONDS, SINGLE FOCUS PULSE */
@@ -782,8 +988,9 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   );
 };
 
-/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD */
+/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD (DE / EN, LIGHT / DARK, 2ND TEMPLATE LAYOUT) */
 const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
+  const [lang, setLang] = useState("de");
   const [pdfTheme, setPdfTheme] = useState("light");
   const [focusMode, setFocusMode] = useState(initialFocus);
   const [compactBullets, setCompactBullets] = useState(false);
@@ -791,7 +998,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
     CV_POSITIONS.map((p) => p.id),
   );
   const [selectedSkillLabels, setSelectedSkillLabels] = useState(() =>
-    CORE_SKILL_PILLS.slice(0, 7).map((s) => s.label),
+    CORE_SKILL_PILLS.slice(0, 9).map((s) => s.label),
   );
   const [recruiterNote, setRecruiterNote] = useState("");
   const [downloadStatus, setDownloadStatus] = useState("");
@@ -799,6 +1006,9 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   useEffect(() => {
     setFocusMode(initialFocus);
   }, [initialFocus]);
+
+  const isEn = lang === "en";
+  const isDarkPdf = pdfTheme === "dark";
 
   const togglePosition = (id) => {
     setSelectedPositionIds((prev) =>
@@ -816,6 +1026,14 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
     setDownloadStatus("");
   };
 
+  const displaySkills = useMemo(() => {
+    return selectedSkillLabels.map((label) => {
+      const found = CORE_SKILL_PILLS.find((s) => s.label === label);
+      if (!found) return label;
+      return isEn ? found.enLabel : found.label;
+    });
+  }, [selectedSkillLabels, isEn]);
+
   const filteredPositions = useMemo(() => {
     return CV_POSITIONS.filter((pos) => {
       if (!selectedPositionIds.includes(pos.id)) return false;
@@ -827,37 +1045,56 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
         );
       }
       return true;
-    }).map((pos) => ({
-      ...pos,
-      bullets: compactBullets
-        ? pos.bullets.slice(0, 1)
-        : pos.bullets.slice(0, 2),
-    }));
-  }, [selectedPositionIds, focusMode, compactBullets]);
+    }).map((pos) => {
+      const localized = isEn ? pos.en : pos.de;
+      return {
+        id: pos.id,
+        company: localized.company,
+        period: localized.period,
+        role: localized.role,
+        bullets: compactBullets
+          ? localized.bullets.slice(0, 1)
+          : localized.bullets.slice(0, 2),
+      };
+    });
+  }, [selectedPositionIds, focusMode, compactBullets, isEn]);
 
   const summaryText = useMemo(() => {
+    if (isEn) {
+      if (focusMode === "data-ai") {
+        return "Data and AI Engineer focused on scalable data platforms, PySpark and Azure Synapse pipelines, enterprise DWH architectures, and agentic engineering workflows, backed by strong BI and analytical foundations.";
+      }
+      if (focusMode === "fullstack-data") {
+        return "Software and Data Engineer bridging data integration, distributed microservices (Node.js, .NET / C#), and web applications (React.js, Next.js) with disciplined testing and CI/CD automation.";
+      }
+      return "Data and AI Engineer with a background across software engineering, business intelligence, and enterprise data integration. Focused on reliable data products, maintainable pipelines, and practical AI systems.";
+    }
+
     if (focusMode === "data-ai") {
-      return "Data & AI Engineer mit Fokus auf PySpark, Azure Synapse, IT-DWH-Pipelines und agentische Entwicklungs-Workflows – verbunden mit Erfahrung in BI, SQL und B2B-Systemen.";
+      return "Data & AI Engineer mit Schwerpunkt auf skalierbaren Datenprodukten, PySpark- und Azure-Synapse-Pipelines, IT-DWH-Architekturen sowie agentischen Entwicklungs-Workflows, ergänzt durch fundierte BI- und Analytik-Erfahrung.";
     }
     if (focusMode === "fullstack-data") {
-      return "Ingenieur an der Schnittstelle von Datenintegration, Microservices (Node.js / .NET C#) und modernen Web-UIs (React / Next.js) mit starkem Fokus auf Testbarkeit & CI/CD.";
+      return "Ingenieur an der Schnittstelle von Datenintegration, Microservices (Node.js, .NET C#) und Webanwendungen (React.js, Next.js) mit klarem Fokus auf Testabdeckung und CI/CD-Automatisierung.";
     }
-    return "Data & AI Engineer mit Hintergrund in Softwareentwicklung, BI und Datenintegration. Fokus auf verlässliche Datenprodukte, skalierbare Pipelines und praxisnahes AI Engineering.";
-  }, [focusMode]);
+    return "Data & AI Engineer mit Hintergrund in Softwareentwicklung, Business Intelligence und Datenintegration. Fokus auf verlässliche Datenprodukte, belastbare Pipelines und praxistaugliche KI-Systeme.";
+  }, [focusMode, isEn]);
 
   const handleDirectPdfDownload = () => {
     const blob = buildCvPdfBlob({
       theme: pdfTheme,
+      lang,
       summary: summaryText,
       recruiterNote,
       positions: filteredPositions,
-      skills: selectedSkillLabels,
+      skills: displaySkills,
     });
 
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `Malte_Reppke_Lebenslauf_${pdfTheme === "dark" ? "Dark" : "Light"}.pdf`;
+    const langTag = isEn ? "EN" : "DE";
+    const modeTag = isDarkPdf ? "Dark" : "Light";
+    link.download = `Malte_Reppke_CV_${langTag}_${modeTag}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -865,14 +1102,15 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
     window.setTimeout(() => {
       window.URL.revokeObjectURL(url);
       setDownloadStatus(
-        `${pdfTheme === "dark" ? "Darkmode" : "Lightmode"}-PDF heruntergeladen`,
+        isEn
+          ? `PDF downloaded (${langTag} · ${modeTag})`
+          : `PDF heruntergeladen (${langTag} · ${modeTag})`,
       );
     }, 150);
   };
 
   if (!open) return null;
 
-  const isDarkPdf = pdfTheme === "dark";
   const trimmedNote = recruiterNote.trim();
 
   return (
@@ -892,10 +1130,14 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             />
             <div>
               <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#52525B]">
-                CV-Customizing &amp; PDF-Export
+                {isEn
+                  ? "CV Customizer & PDF Export"
+                  : "CV-Customizing & PDF-Export"}
               </span>
               <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                Stationen, Skills &amp; Notiz wählen und als PDF herunterladen
+                {isEn
+                  ? "Select language, sections, skills & notes and download directly as PDF"
+                  : "Sprache, Stationen, Skills & Notiz wählen und direkt als PDF herunterladen"}
               </p>
             </div>
           </div>
@@ -914,7 +1156,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer"
             >
               <FileDown className="w-3.5 h-3.5" />
-              <span>PDF downloaden ({isDarkPdf ? "Dark" : "Light"})</span>
+              <span>
+                {isEn ? "Download PDF" : "PDF downloaden"} ({isEn ? "EN" : "DE"}{" "}
+                · {isDarkPdf ? "Dark" : "Light"})
+              </span>
             </button>
 
             <button
@@ -931,49 +1176,87 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 sm:p-6">
           <div className="lg:col-span-5 space-y-4">
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-4">
-              <div>
-                <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
-                  PDF-Modus
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPdfTheme("light");
-                      setDownloadStatus("");
-                    }}
-                    className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                      !isDarkPdf
-                        ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                        : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
-                    }`}
-                  >
-                    <Sun className="w-3.5 h-3.5" />
-                    <span>Lightmode</span>
-                  </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
+                    {isEn ? "Language" : "Sprache"}
+                  </span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLang("de");
+                        setDownloadStatus("");
+                      }}
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        !isEn
+                          ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                      }`}
+                    >
+                      Deutsch
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setLang("en");
+                        setDownloadStatus("");
+                      }}
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isEn
+                          ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                      }`}
+                    >
+                      English
+                    </button>
+                  </div>
+                </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPdfTheme("dark");
-                      setDownloadStatus("");
-                    }}
-                    className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                      isDarkPdf
-                        ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                        : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
-                    }`}
-                  >
-                    <Moon className="w-3.5 h-3.5" />
-                    <span>Darkmode</span>
-                  </button>
+                <div>
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
+                    {isEn ? "PDF Theme" : "PDF-Modus"}
+                  </span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPdfTheme("light");
+                        setDownloadStatus("");
+                      }}
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        !isDarkPdf
+                          ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                      }`}
+                    >
+                      <Sun className="w-3.5 h-3.5" />
+                      <span>Light</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPdfTheme("dark");
+                        setDownloadStatus("");
+                      }}
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isDarkPdf
+                          ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                      }`}
+                    >
+                      <Moon className="w-3.5 h-3.5" />
+                      <span>Dark</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2 pt-1">
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
-                    Fokus
+                    {isEn ? "Focus" : "Fokus"}
                   </label>
                   <select
                     value={focusMode}
@@ -983,17 +1266,23 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     }}
                     className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
                   >
-                    <option value="all">Alles (Gesamtprofil)</option>
-                    <option value="data-ai">Data &amp; AI Engineering</option>
+                    <option value="all">
+                      {isEn ? "All (Full Profile)" : "Alles (Gesamtprofil)"}
+                    </option>
+                    <option value="data-ai">
+                      {isEn ? "Data & AI Engineering" : "Data & AI Engineering"}
+                    </option>
                     <option value="fullstack-data">
-                      Integration &amp; Fullstack
+                      {isEn
+                        ? "Integration & Fullstack"
+                        : "Integration & Fullstack"}
                     </option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
-                    Umfang
+                    {isEn ? "Detail Level" : "Umfang"}
                   </label>
                   <button
                     type="button"
@@ -1008,8 +1297,12 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     }`}
                   >
                     {compactBullets
-                      ? "Kompakt (1 Punkt)"
-                      : "Standard (2 Punkte)"}
+                      ? isEn
+                        ? "Compact (1 bullet)"
+                        : "Kompakt (1 Punkt)"
+                      : isEn
+                        ? "Standard (2 bullets)"
+                        : "Standard (2 Punkte)"}
                   </button>
                 </div>
               </div>
@@ -1020,7 +1313,9 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     htmlFor="mr-recruiter-note"
                     className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B]"
                   >
-                    Notizen für Recruiter (optional)
+                    {isEn
+                      ? "Recruiter Notes (optional)"
+                      : "Notizen für Recruiter (optional)"}
                   </label>
                   {recruiterNote && (
                     <button
@@ -1031,7 +1326,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                       }}
                       className="text-[11px] font-semibold text-[#52525B] hover:text-[#0B0B0C] cursor-pointer"
                     >
-                      Leeren
+                      {isEn ? "Clear" : "Leeren"}
                     </button>
                   )}
                 </div>
@@ -1043,7 +1338,11 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     setRecruiterNote(e.target.value);
                     setDownloadStatus("");
                   }}
-                  placeholder="Optional: Eigene Notiz für Recruiter (z. B. Zielrolle, Team-Fit oder Gesprächsnotiz)…"
+                  placeholder={
+                    isEn
+                      ? "Optional note for recruiters (e.g. target role, availability, context)…"
+                      : "Optional: Eigene Notiz für Recruiter (z. B. Zielrolle, Verfügbarkeit oder Kontext)…"
+                  }
                   className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A] resize-y"
                 />
               </div>
@@ -1052,7 +1351,9 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
-                  Stationen ein- / ausschließen
+                  {isEn
+                    ? "Experience Entries"
+                    : "Stationen ein- / ausschließen"}
                 </span>
                 <button
                   type="button"
@@ -1067,14 +1368,19 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer"
                 >
                   {selectedPositionIds.length === CV_POSITIONS.length
-                    ? "Keine"
-                    : "Alle"}
+                    ? isEn
+                      ? "None"
+                      : "Keine"
+                    : isEn
+                      ? "All"
+                      : "Alle"}
                 </button>
               </div>
 
               <div className="space-y-1.5">
                 {CV_POSITIONS.map((pos) => {
                   const checked = selectedPositionIds.includes(pos.id);
+                  const loc = isEn ? pos.en : pos.de;
                   return (
                     <button
                       key={pos.id}
@@ -1088,10 +1394,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     >
                       <div>
                         <p className="text-xs font-bold leading-snug">
-                          {pos.role}
+                          {loc.role}
                         </p>
                         <p className="text-[11px] text-[#52525B]">
-                          {pos.company} · {pos.period}
+                          {loc.company} · {loc.period}
                         </p>
                       </div>
                       <span
@@ -1111,11 +1417,12 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
 
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
               <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
-                Skills im Lebenslauf
+                {isEn ? "Core Competencies in CV" : "Kernkompetenzen im CV"}
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {CORE_SKILL_PILLS.map((skill) => {
                   const active = selectedSkillLabels.includes(skill.label);
+                  const pillLabel = isEn ? skill.enLabel : skill.label;
                   return (
                     <button
                       key={skill.label}
@@ -1127,7 +1434,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                           : "bg-[#F8FAFC] text-[#52525B] border-[#E4E4E7] hover:text-[#0B0B0C]"
                       }`}
                     >
-                      {skill.label}
+                      {pillLabel}
                     </button>
                   );
                 })}
@@ -1135,118 +1442,132 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             </div>
           </div>
 
+          {/* 2ND TEMPLATE LIVE PREVIEW (CLASSIC BUSINESS CV LAYOUT) */}
           <div className="lg:col-span-7">
             <div
-              className={`rounded-2xl border p-6 sm:p-8 shadow-sm transition-colors duration-300 ${
+              className={`rounded-2xl border p-6 sm:p-9 shadow-sm transition-colors duration-300 ${
                 isDarkPdf
-                  ? "bg-[#0B0B0C] border-white/15 text-white"
-                  : "bg-white border-[#E4E4E7] text-[#0B0B0C]"
+                  ? "bg-[#0D0E11] border-white/15 text-[#F2F5F9]"
+                  : "bg-white border-[#E4E4E7] text-[#13151A]"
               }`}
             >
+              {/* Header */}
               <div
-                className={`pb-5 border-b flex flex-col sm:flex-row sm:items-end justify-between gap-3 ${
-                  isDarkPdf ? "border-white/15" : "border-[#E4E4E7]"
+                className={`pb-4 border-b ${
+                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
                 }`}
               >
-                <div>
-                  <span
-                    className={`text-[10px] font-bold uppercase tracking-[0.2em] ${
-                      isDarkPdf ? "text-[#93C5FD]" : "text-[#52525B]"
-                    }`}
-                  >
-                    Lebenslauf · Vorschau
-                  </span>
-                  <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-[-0.04em]">
-                    Malte Reppke
-                  </h2>
-                  <p
-                    className={`mt-1 text-xs sm:text-sm font-semibold ${
-                      isDarkPdf ? "text-white/80" : "text-[#3F3F46]"
-                    }`}
-                  >
-                    Data Engineer &amp; AI Engineer · Hilden, Deutschland
-                  </p>
-                </div>
-
-                <div
-                  className={`text-[11px] font-mono space-y-0.5 ${
-                    isDarkPdf ? "text-white/70" : "text-[#52525B]"
+                <h2 className="text-3xl sm:text-[34px] font-extrabold tracking-[-0.03em] leading-tight">
+                  Malte Reppke
+                </h2>
+                <p
+                  className={`mt-1 text-xs sm:text-sm font-bold ${
+                    isDarkPdf ? "text-white/80" : "text-[#3D424D]"
                   }`}
                 >
-                  <div>malte_reppke@web.de</div>
-                  <div>github.com/malte-reppke</div>
-                </div>
+                  {isEn
+                    ? "Data Engineer & AI Engineer"
+                    : "Data Engineer & AI Engineer"}
+                </p>
+                <p
+                  className={`mt-1 text-[11px] sm:text-xs ${
+                    isDarkPdf ? "text-white/65" : "text-[#5A606C]"
+                  }`}
+                >
+                  malte_reppke@web.de · github.com/malte-reppke ·{" "}
+                  {isEn ? "Hilden, Germany" : "Hilden, Deutschland"}
+                </p>
               </div>
 
-              <div className="mt-5">
+              {/* Profile */}
+              <div
+                className={`py-4 border-b ${
+                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                }`}
+              >
                 <h3
-                  className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
-                    isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] ${
+                    isDarkPdf ? "text-white" : "text-[#13151A]"
                   }`}
                 >
-                  Profil
+                  {isEn ? "Executive Profile" : "Profil"}
                 </h3>
                 <p
                   className={`mt-1.5 text-xs sm:text-[13px] leading-relaxed ${
-                    isDarkPdf ? "text-white/85" : "text-[#27272A]"
+                    isDarkPdf ? "text-white/85" : "text-[#2D313A]"
                   }`}
                 >
                   {summaryText}
                 </p>
               </div>
 
-              {trimmedNote && (
-                <div
-                  className={`mt-4 rounded-xl border p-3.5 ${
-                    isDarkPdf
-                      ? "bg-white/5 border-white/15 text-white/90"
-                      : "bg-[#F8FAFC] border-[#E4E4E7] text-[#0B0B0C]"
-                  }`}
-                >
-                  <span
-                    className={`block text-[10px] font-bold uppercase tracking-[0.16em] ${
-                      isDarkPdf ? "text-[#93C5FD]" : "text-[#2563EB]"
-                    }`}
-                  >
-                    Notiz für Recruiter
-                  </span>
-                  <p className="mt-1 text-xs leading-relaxed">{trimmedNote}</p>
-                </div>
-              )}
-
-              <div className="mt-6">
+              {/* 3-Column Core Competencies */}
+              <div
+                className={`py-4 border-b ${
+                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                }`}
+              >
                 <h3
-                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
-                    isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
+                    isDarkPdf ? "text-white" : "text-[#13151A]"
                   }`}
                 >
-                  Berufserfahrung
+                  {isEn ? "Core Competencies" : "Kernkompetenzen"}
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5 text-xs">
+                  {displaySkills.map((item) => (
+                    <div
+                      key={item}
+                      className={`flex items-center gap-1.5 ${
+                        isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                          isDarkPdf ? "bg-[#93C5FD]" : "bg-[#3D424D]"
+                        }`}
+                      />
+                      <span className="truncate font-medium">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Experience */}
+              <div
+                className={`py-4 border-b ${
+                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                }`}
+              >
+                <h3
+                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-3 ${
+                    isDarkPdf ? "text-white" : "text-[#13151A]"
+                  }`}
+                >
+                  {isEn ? "Professional Experience" : "Berufserfahrung"}
                 </h3>
 
                 {filteredPositions.length === 0 ? (
                   <p
                     className={`text-xs italic ${
-                      isDarkPdf ? "text-white/60" : "text-[#71717A]"
+                      isDarkPdf ? "text-white/60" : "text-[#686E7A]"
                     }`}
                   >
-                    Keine Station ausgewählt – bitte links Stationen aktivieren.
+                    {isEn
+                      ? "No positions selected – enable entries on the left."
+                      : "Keine Station ausgewählt – bitte links Stationen aktivieren."}
                   </p>
                 ) : (
                   <div className="space-y-4">
                     {filteredPositions.map((pos) => (
-                      <div
-                        key={pos.id}
-                        className={`pl-3.5 border-l-2 ${
-                          isDarkPdf ? "border-[#60A5FA]/70" : "border-[#0B0B0C]"
-                        }`}
-                      >
+                      <div key={pos.id}>
                         <div className="flex flex-wrap items-baseline justify-between gap-2">
                           <p className="text-xs sm:text-sm font-bold">
-                            {pos.role}
+                            {pos.company}
                           </p>
                           <span
-                            className={`text-[11px] font-mono ${
-                              isDarkPdf ? "text-white/65" : "text-[#52525B]"
+                            className={`text-[11px] font-semibold ${
+                              isDarkPdf ? "text-white/70" : "text-[#4B505B]"
                             }`}
                           >
                             {pos.period}
@@ -1254,14 +1575,14 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         </div>
                         <p
                           className={`text-xs font-semibold ${
-                            isDarkPdf ? "text-[#93C5FD]" : "text-[#52525B]"
+                            isDarkPdf ? "text-[#93C5FD]" : "text-[#3D424D]"
                           }`}
                         >
-                          {pos.company}
+                          {pos.role}
                         </p>
                         <ul
-                          className={`mt-1.5 space-y-1 text-xs ${
-                            isDarkPdf ? "text-white/80" : "text-[#27272A]"
+                          className={`mt-1 space-y-1 text-xs ${
+                            isDarkPdf ? "text-white/80" : "text-[#2D313A]"
                           }`}
                         >
                           {pos.bullets.map((b) => (
@@ -1279,57 +1600,87 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 )}
               </div>
 
-              <div
-                className={`mt-6 pt-5 border-t grid grid-cols-1 sm:grid-cols-2 gap-5 ${
-                  isDarkPdf ? "border-white/15" : "border-[#E4E4E7]"
-                }`}
-              >
-                <div>
+              {/* Bottom 2-Column Split: Education | Recruiter Notes */}
+              <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div
+                  className={`sm:pr-5 sm:border-r ${
+                    isDarkPdf ? "sm:border-white/20" : "sm:border-[#C7CCD4]"
+                  }`}
+                >
                   <h3
-                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
-                      isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                    className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
+                      isDarkPdf ? "text-white" : "text-[#13151A]"
                     }`}
                   >
-                    Ausgewählte Skills
+                    {isEn ? "Education" : "Studium"}
                   </h3>
-                  <div className="flex flex-wrap gap-1.5">
-                    {selectedSkillLabels.map((label) => (
-                      <span
-                        key={label}
-                        className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${
-                          isDarkPdf
-                            ? "bg-white/10 border-white/15 text-white"
-                            : "bg-[#F4F4F5] border-[#E4E4E7] text-[#0B0B0C]"
+                  <div
+                    className={`space-y-2.5 text-xs ${
+                      isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                    }`}
+                  >
+                    <div>
+                      <p className="font-bold">
+                        {isEn
+                          ? "M.Sc. Artificial Intelligence & Business Analytics"
+                          : "M. Sc. KI und Business Analytics"}
+                      </p>
+                      <p
+                        className={`text-[11px] ${
+                          isDarkPdf ? "text-white/65" : "text-[#5A606C]"
                         }`}
                       >
-                        {label}
-                      </span>
-                    ))}
+                        {isEn
+                          ? "FOM University · Part-time from Sep 2026"
+                          : "FOM · Berufsbegleitend ab 01.09.2026"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-bold">
+                        {isEn
+                          ? "B.Sc. Business Information Systems (1.9)"
+                          : "B. Sc. Wirtschaftsinformatik (1,9)"}
+                      </p>
+                      <p
+                        className={`text-[11px] ${
+                          isDarkPdf ? "text-white/65" : "text-[#5A606C]"
+                        }`}
+                      >
+                        {isEn
+                          ? "FOM Düsseldorf · Focus on Data & BI"
+                          : "FOM Düsseldorf · Fokus Daten & BI"}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
                 <div>
                   <h3
-                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
-                      isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                    className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
+                      isDarkPdf ? "text-white" : "text-[#13151A]"
                     }`}
                   >
-                    Studium
+                    {isEn ? "Recruiter Notes" : "Notizen für Recruiter"}
                   </h3>
-                  <div
-                    className={`space-y-1.5 text-xs ${
-                      isDarkPdf ? "text-white/80" : "text-[#27272A]"
-                    }`}
-                  >
-                    <p>
-                      <strong>M. Sc. KI und Business Analytics</strong> · FOM
-                      (ab 01.09.2026)
+                  {trimmedNote ? (
+                    <p
+                      className={`text-xs leading-relaxed ${
+                        isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                      }`}
+                    >
+                      {trimmedNote}
                     </p>
-                    <p>
-                      <strong>B. Sc. Wirtschaftsinformatik</strong> · FOM
-                      Düsseldorf (1,9)
+                  ) : (
+                    <p
+                      className={`text-xs italic ${
+                        isDarkPdf ? "text-white/55" : "text-[#686E7A]"
+                      }`}
+                    >
+                      {isEn
+                        ? "Optional note for recruiters appears here and in the exported PDF."
+                        : "Optionale Notiz für Recruiter erscheint hier und im exportierten PDF."}
                     </p>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
