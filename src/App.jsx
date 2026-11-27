@@ -395,7 +395,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId) window.cancelAnimationFrame(renderLoop);
     };
   }, [paused]);
 
@@ -1556,7 +1556,6 @@ export default function App() {
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
-  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -1611,24 +1610,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    lastScrollYRef.current = window.scrollY;
     let rafId = null;
 
     const handleScroll = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const scrollY = window.scrollY;
-        const deltaY = Math.abs(scrollY - lastScrollYRef.current);
-        lastScrollYRef.current = scrollY;
-
-        const coarse = window.matchMedia
-          ? window.matchMedia("(pointer: coarse)").matches
-          : false;
-        const mobileNow = coarse || window.innerWidth < 768;
-        if (mobileNow && deltaY > 6) {
-          setExpandedIds((prev) => prev.filter((id) => pinnedIds.includes(id)));
-        }
-
         const maxScroll = Math.max(
           document.documentElement.scrollHeight - window.innerHeight,
           1,
@@ -1663,7 +1650,7 @@ export default function App() {
       window.removeEventListener("resize", handleScroll);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [pinnedIds]);
+  }, []);
 
   const jumpToSection = (id) => {
     const target = document.getElementById(id);
@@ -1692,10 +1679,28 @@ export default function App() {
       setExpandedIds((prev) =>
         prev.includes(projectId) ? prev : [...prev, projectId],
       );
+    } else if (isMobileView) {
+      setExpandedIds((prev) => prev.filter((id) => id !== projectId));
     }
   };
 
   const handleProjectClick = (projectId) => {
+    if (isMobileView) {
+      const isCurrentlyPinned = pinnedIds.includes(projectId);
+      if (isCurrentlyPinned) {
+        setPinnedIds((prev) => prev.filter((id) => id !== projectId));
+        setExpandedIds((prev) => prev.filter((id) => id !== projectId));
+      } else {
+        setPinnedIds((prev) =>
+          prev.includes(projectId) ? prev : [...prev, projectId],
+        );
+        setExpandedIds((prev) =>
+          prev.includes(projectId) ? prev : [...prev, projectId],
+        );
+      }
+      return;
+    }
+
     const isCurrentlyPinned = pinnedIds.includes(projectId);
     const isCurrentlyExpanded =
       isCurrentlyPinned || expandedIds.includes(projectId);
