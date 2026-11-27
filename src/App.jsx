@@ -23,13 +23,10 @@ import {
   ChevronRight,
   ChevronDown,
   Pin,
-  FileText,
+  FileDown,
   Sun,
   Moon,
-  Bot,
   X,
-  Printer,
-  Wand2,
 } from "lucide-react";
 import avatarLogo from "./assets/Logo.png";
 
@@ -224,35 +221,323 @@ const CV_POSITIONS = [
   },
 ];
 
-const AvatarGreetingMark = ({
-  size = 40,
+/* ZERO-DEPENDENCY DIRECT PDF GENERATOR (LIGHT / DARK) */
+const toPdfWinAnsi = (input = "") => {
+  const normalized = String(input)
+    .replace(/–|—/g, "-")
+    .replace(/·/g, "-")
+    .replace(/•/g, "-")
+    .replace(/…/g, "...")
+    .replace(/„|“/g, '"')
+    .replace(/’|‘/g, "'")
+    .replace(/ä/g, "\u00e4")
+    .replace(/ö/g, "\u00f6")
+    .replace(/ü/g, "\u00fc")
+    .replace(/Ä/g, "\u00c4")
+    .replace(/Ö/g, "\u00d6")
+    .replace(/Ü/g, "\u00dc")
+    .replace(/ß/g, "\u00df");
+
+  return normalized
+    .split("")
+    .map((ch) => {
+      const code = ch.charCodeAt(0);
+      if (code >= 32 && code <= 126) return ch;
+      if (code >= 160 && code <= 255) return String.fromCharCode(code);
+      return "?";
+    })
+    .join("")
+    .replace(/\\/g, "\\\\")
+    .replace(/\(/g, "\\(")
+    .replace(/\)/g, "\\)");
+};
+
+const wrapPdfText = (text, maxChars) => {
+  const words = String(text || "")
+    .split(/\s+/)
+    .filter(Boolean);
+  if (words.length === 0) return [];
+  const lines = [];
+  let current = words[0];
+
+  for (let i = 1; i < words.length; i += 1) {
+    const candidate = `${current} ${words[i]}`;
+    if (candidate.length <= maxChars) {
+      current = candidate;
+    } else {
+      lines.push(current);
+      current = words[i];
+    }
+  }
+  lines.push(current);
+  return lines;
+};
+
+const buildCvPdfBlob = ({
+  theme = "light",
+  summary,
+  recruiterNote = "",
+  positions,
+  skills,
+}) => {
+  const isDark = theme === "dark";
+  const pageW = 595.28;
+  const pageH = 841.89;
+  const marginX = 46;
+  const contentW = pageW - marginX * 2;
+
+  const bgRgb = isDark ? "0.043 0.043 0.047" : "1 1 1";
+  const cardRgb = isDark ? "0.082 0.086 0.102" : "0.965 0.969 0.98";
+  const inkRgb = isDark ? "0.96 0.97 0.99" : "0.043 0.043 0.047";
+  const mutedRgb = isDark ? "0.68 0.72 0.78" : "0.32 0.32 0.36";
+  const accentRgb = isDark ? "0.576 0.773 0.992" : "0.145 0.388 0.922";
+  const ruleRgb = isDark ? "0.20 0.22 0.27" : "0.89 0.89 0.91";
+
+  const ops = [];
+
+  ops.push(`${bgRgb} rg`);
+  ops.push(`0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)} re f`);
+
+  ops.push(`${cardRgb} rg`);
+  ops.push(`${marginX} ${pageH - 134} ${contentW} 94 re f`);
+
+  ops.push("BT");
+  ops.push("/F2 8 Tf");
+  ops.push(`${accentRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 58} Tm`);
+  ops.push(`(${toPdfWinAnsi("LEBENSLAUF · CV-EXPORT")}) Tj`);
+
+  ops.push("/F2 22 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 83} Tm`);
+  ops.push(`(${toPdfWinAnsi("Malte Reppke")}) Tj`);
+
+  ops.push("/F1 10.5 Tf");
+  ops.push(`${mutedRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 103} Tm`);
+  ops.push(
+    `(${toPdfWinAnsi("Data Engineer & AI Engineer · Hilden, Deutschland")}) Tj`,
+  );
+
+  ops.push("/F1 9 Tf");
+  ops.push(`1 0 0 1 ${marginX + 18} ${pageH - 120} Tm`);
+  ops.push(
+    `(${toPdfWinAnsi("malte_reppke@web.de  |  github.com/malte-reppke")}) Tj`,
+  );
+  ops.push("ET");
+
+  let y = pageH - 160;
+
+  ops.push("BT");
+  ops.push("/F2 9 Tf");
+  ops.push(`${accentRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${y} Tm`);
+  ops.push(`(${toPdfWinAnsi("PROFIL")}) Tj`);
+  ops.push("ET");
+
+  y -= 16;
+  const summaryLines = wrapPdfText(summary, 88);
+  ops.push("BT");
+  ops.push("/F1 10 Tf");
+  ops.push(`${inkRgb} rg`);
+  summaryLines.forEach((line, i) => {
+    ops.push(`1 0 0 1 ${marginX} ${(y - i * 14).toFixed(2)} Tm`);
+    ops.push(`(${toPdfWinAnsi(line)}) Tj`);
+  });
+  ops.push("ET");
+  y -= summaryLines.length * 14 + 10;
+
+  const trimmedNote = recruiterNote.trim();
+  if (trimmedNote) {
+    const noteLines = wrapPdfText(trimmedNote, 84);
+    const boxH = 22 + noteLines.length * 13;
+    ops.push(`${cardRgb} rg`);
+    ops.push(
+      `${marginX} ${(y - boxH + 6).toFixed(2)} ${contentW} ${boxH} re f`,
+    );
+
+    ops.push("BT");
+    ops.push("/F2 8 Tf");
+    ops.push(`${accentRgb} rg`);
+    ops.push(`1 0 0 1 ${marginX + 12} ${(y - 6).toFixed(2)} Tm`);
+    ops.push(`(${toPdfWinAnsi("NOTIZ FUER RECRUITER")}) Tj`);
+
+    ops.push("/F1 9.5 Tf");
+    ops.push(`${inkRgb} rg`);
+    noteLines.forEach((nLine, idx) => {
+      ops.push(`1 0 0 1 ${marginX + 12} ${(y - 19 - idx * 13).toFixed(2)} Tm`);
+      ops.push(`(${toPdfWinAnsi(nLine)}) Tj`);
+    });
+    ops.push("ET");
+    y -= boxH + 8;
+  }
+
+  ops.push(`${ruleRgb} RG`);
+  ops.push("0.8 w");
+  ops.push(`${marginX} ${y} m ${pageW - marginX} ${y} l S`);
+  y -= 20;
+
+  ops.push("BT");
+  ops.push("/F2 9 Tf");
+  ops.push(`${accentRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${y} Tm`);
+  ops.push(`(${toPdfWinAnsi("BERUFSERFAHRUNG")}) Tj`);
+  ops.push("ET");
+  y -= 18;
+
+  positions.forEach((pos) => {
+    if (y < 145) return;
+
+    ops.push(`${accentRgb} rg`);
+    ops.push(`${marginX} ${y - 26} 2.5 32 re f`);
+
+    ops.push("BT");
+    ops.push("/F2 11 Tf");
+    ops.push(`${inkRgb} rg`);
+    ops.push(`1 0 0 1 ${marginX + 10} ${y} Tm`);
+    ops.push(`(${toPdfWinAnsi(pos.role)}) Tj`);
+
+    ops.push("/F1 9 Tf");
+    ops.push(`${mutedRgb} rg`);
+    ops.push(`1 0 0 1 ${marginX + 10} ${(y - 13).toFixed(2)} Tm`);
+    ops.push(`(${toPdfWinAnsi(`${pos.company} · ${pos.period}`)}) Tj`);
+
+    let bY = y - 27;
+    pos.bullets.forEach((bullet) => {
+      const bLines = wrapPdfText(`- ${bullet}`, 82);
+      bLines.forEach((bLine) => {
+        if (bY < 135) return;
+        ops.push("/F1 9.5 Tf");
+        ops.push(`${inkRgb} rg`);
+        ops.push(`1 0 0 1 ${marginX + 12} ${bY.toFixed(2)} Tm`);
+        ops.push(`(${toPdfWinAnsi(bLine)}) Tj`);
+        bY -= 12.5;
+      });
+    });
+    ops.push("ET");
+
+    y = Math.min(bY - 8, y - 44);
+  });
+
+  const bottomY = Math.max(y - 6, 112);
+  ops.push(`${ruleRgb} RG`);
+  ops.push("0.8 w");
+  ops.push(`${marginX} ${bottomY} m ${pageW - marginX} ${bottomY} l S`);
+
+  const secY = bottomY - 16;
+  const skillText =
+    skills.length > 0 ? skills.join(" · ") : "Keine Skills ausgewählt";
+  const skillLines = wrapPdfText(skillText, 46);
+
+  ops.push("BT");
+  ops.push("/F2 8.5 Tf");
+  ops.push(`${accentRgb} rg`);
+  ops.push(`1 0 0 1 ${marginX} ${secY} Tm`);
+  ops.push(`(${toPdfWinAnsi("AUSGEWAEHLTE SKILLS")}) Tj`);
+
+  ops.push("/F1 9 Tf");
+  ops.push(`${inkRgb} rg`);
+  skillLines.slice(0, 3).forEach((sLine, i) => {
+    ops.push(`1 0 0 1 ${marginX} ${(secY - 14 - i * 12).toFixed(2)} Tm`);
+    ops.push(`(${toPdfWinAnsi(sLine)}) Tj`);
+  });
+
+  const rightColX = marginX + contentW * 0.54;
+  ops.push("/F2 8.5 Tf");
+  ops.push(`${accentRgb} rg`);
+  ops.push(`1 0 0 1 ${rightColX} ${secY} Tm`);
+  ops.push(`(${toPdfWinAnsi("STUDIUM")}) Tj`);
+
+  ops.push("/F2 9 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${rightColX} ${(secY - 14).toFixed(2)} Tm`);
+  ops.push(`(${toPdfWinAnsi("M. Sc. KI und Business Analytics")}) Tj`);
+  ops.push("/F1 8.5 Tf");
+  ops.push(`${mutedRgb} rg`);
+  ops.push(`1 0 0 1 ${rightColX} ${(secY - 25).toFixed(2)} Tm`);
+  ops.push(`(${toPdfWinAnsi("FOM (nebenberuflich ab 01.09.2026)")}) Tj`);
+
+  ops.push("/F2 9 Tf");
+  ops.push(`${inkRgb} rg`);
+  ops.push(`1 0 0 1 ${rightColX} ${(secY - 40).toFixed(2)} Tm`);
+  ops.push(`(${toPdfWinAnsi("B. Sc. Wirtschaftsinformatik (1,9)")}) Tj`);
+  ops.push("/F1 8.5 Tf");
+  ops.push(`${mutedRgb} rg`);
+  ops.push(`1 0 0 1 ${rightColX} ${(secY - 51).toFixed(2)} Tm`);
+  ops.push(`(${toPdfWinAnsi("FOM Duesseldorf")}) Tj`);
+  ops.push("ET");
+
+  const contentStream = ops.join("\n");
+  const streamByteLength = new TextEncoder().encode(contentStream).length;
+
+  const objects = [
+    "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n",
+    "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
+    `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(
+      2,
+    )} ${pageH.toFixed(2)}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj\n`,
+    "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n",
+    "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n",
+    `6 0 obj\n<< /Length ${streamByteLength} >>\nstream\n${contentStream}\nendstream\nendobj\n`,
+  ];
+
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+
+  objects.forEach((obj) => {
+    offsets.push(new TextEncoder().encode(pdf).length);
+    pdf += obj;
+  });
+
+  const xrefOffset = new TextEncoder().encode(pdf).length;
+  pdf += `xref\n0 ${objects.length + 1}\n`;
+  pdf += "0000000000 65535 f \n";
+  for (let i = 1; i < offsets.length; i += 1) {
+    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+  return new Blob([new TextEncoder().encode(pdf)], { type: "application/pdf" });
+};
+
+/* HERO AVATAR: ONLY SPEAKS ONCE ON LOAD, CLOSES AFTER A FEW SECONDS, SINGLE FOCUS PULSE */
+const HeroAvatarSpeechMark = ({
+  size = 42,
   className = "",
   reducedMotion = false,
-  onOpenCvStudio = null,
-  autoIntroBubble = false,
-  showFocusHint = false,
 }) => {
   const [hovered, setHovered] = useState(false);
   const [introActive, setIntroActive] = useState(false);
+  const [focusPulseActive, setFocusPulseActive] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
   const greetingText = "Hi! Es freut mich dich kennenzulernen.";
 
   useEffect(() => {
-    if (!autoIntroBubble) return;
+    if (reducedMotion) return;
 
-    const startTimer = window.setTimeout(() => {
+    const pulseStart = window.setTimeout(() => {
+      setFocusPulseActive(true);
+    }, 250);
+
+    const pulseEnd = window.setTimeout(() => {
+      setFocusPulseActive(false);
+    }, 2200);
+
+    const bubbleStart = window.setTimeout(() => {
       setIntroActive(true);
     }, 550);
 
-    const endTimer = window.setTimeout(() => {
+    const bubbleEnd = window.setTimeout(() => {
       setIntroActive(false);
-    }, 4600);
+    }, 4500);
 
     return () => {
-      window.clearTimeout(startTimer);
-      window.clearTimeout(endTimer);
+      window.clearTimeout(pulseStart);
+      window.clearTimeout(pulseEnd);
+      window.clearTimeout(bubbleStart);
+      window.clearTimeout(bubbleEnd);
     };
-  }, [autoIntroBubble]);
+  }, [reducedMotion]);
 
   const bubbleVisible = hovered || introActive;
 
@@ -310,21 +595,20 @@ const AvatarGreetingMark = ({
           0%, 100% { transform: translateY(0px) scale(1); }
           50% { transform: translateY(-1.5px) scale(1.02); }
         }
-        @keyframes mrFocusHalo {
-          0% { transform: scale(1); opacity: 0.72; }
-          75% { transform: scale(1.36); opacity: 0; }
-          100% { transform: scale(1.36); opacity: 0; }
+        @keyframes mrOnceFocusPing {
+          0% { transform: scale(1); opacity: 0.85; }
+          100% { transform: scale(1.42); opacity: 0; }
         }
       `}</style>
 
-      {showFocusHint && !reducedMotion && (
+      {focusPulseActive && !reducedMotion && (
         <span
           aria-hidden="true"
           style={{
             animation:
-              "mrFocusHalo 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite",
+              "mrOnceFocusPing 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards",
           }}
-          className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-[#60A5FA]"
+          className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-[#93C5FD]"
         />
       )}
 
@@ -332,16 +616,9 @@ const AvatarGreetingMark = ({
         type="button"
         onClick={() => {
           setIntroActive(false);
-          if (onOpenCvStudio) {
-            onOpenCvStudio();
-          } else {
-            window.scrollTo({
-              top: 0,
-              behavior: reducedMotion ? "auto" : "smooth",
-            });
-          }
+          setHovered((prev) => !prev);
         }}
-        aria-label="Malte Reppke Avatar · CV-Agent öffnen"
+        aria-label="Malte Reppke Avatar Begrüßung"
         style={{ width: size, height: size }}
         className={`relative inline-flex items-center justify-center rounded-full bg-[#F5F5F7] border border-white/30 shadow-md overflow-hidden shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
           reducedMotion
@@ -363,7 +640,7 @@ const AvatarGreetingMark = ({
         aria-live="polite"
         className={`${
           bubbleVisible ? "pointer-events-auto" : "pointer-events-none"
-        } absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-2 px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 w-[240px] sm:w-[275px] ${
+        } absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex items-center gap-2 px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 w-[235px] sm:w-[270px] ${
           reducedMotion
             ? bubbleVisible
               ? "opacity-100 translate-x-0"
@@ -375,56 +652,36 @@ const AvatarGreetingMark = ({
               }`
         }`}
       >
-        <div className="flex items-start gap-2">
-          <span
-            aria-hidden="true"
-            style={
-              !reducedMotion && bubbleVisible
-                ? {
-                    animation: "mrWaveHand 1.15s ease-in-out infinite",
-                    transformOrigin: "75% 75%",
-                  }
-                : undefined
-            }
-            className="inline-block text-sm leading-none select-none shrink-0 mt-0.5"
-          >
-            👋
-          </span>
+        <span
+          aria-hidden="true"
+          style={
+            !reducedMotion && bubbleVisible
+              ? {
+                  animation: "mrWaveHand 1.15s ease-in-out infinite",
+                  transformOrigin: "75% 75%",
+                }
+              : undefined
+          }
+          className="inline-block text-sm leading-none select-none shrink-0"
+        >
+          👋
+        </span>
 
-          <span
-            style={
-              !reducedMotion && bubbleVisible && typedCount > 0
-                ? { animation: "mrSpeakPulse 0.95s ease-in-out infinite" }
-                : undefined
-            }
-            className="inline-flex flex-wrap items-center text-xs font-bold tracking-tight text-[#0B0B0C] leading-snug"
-          >
-            <span>{greetingText.slice(0, typedCount)}</span>
-            {bubbleVisible &&
-              !reducedMotion &&
-              typedCount < greetingText.length && (
-                <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
-              )}
-          </span>
-        </div>
-
-        {onOpenCvStudio && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIntroActive(false);
-              onOpenCvStudio();
-            }}
-            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 rounded-xl bg-[#0B0B0C] text-white text-[11px] font-bold hover:bg-[#18181B] transition-colors cursor-pointer"
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <FileText className="w-3 h-3 text-[#93C5FD]" />
-              <span>CV-Agent · PDF</span>
-            </span>
-            <ChevronRight className="w-3 h-3 text-white/70" />
-          </button>
-        )}
+        <span
+          style={
+            !reducedMotion && bubbleVisible && typedCount > 0
+              ? { animation: "mrSpeakPulse 0.95s ease-in-out infinite" }
+              : undefined
+          }
+          className="inline-flex flex-wrap items-center text-xs font-bold tracking-tight text-[#0B0B0C] leading-snug"
+        >
+          <span>{greetingText.slice(0, typedCount)}</span>
+          {bubbleVisible &&
+            !reducedMotion &&
+            typedCount < greetingText.length && (
+              <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
+            )}
+        </span>
 
         <span
           aria-hidden="true"
@@ -435,13 +692,98 @@ const AvatarGreetingMark = ({
   );
 };
 
-/* ON-PAGE MINI-LLM CV-ORCHESTRATOR & PDF-STUDIO */
-const AvatarCvAgentStudio = ({
-  open,
-  onClose,
-  reducedMotion = false,
-  initialFocus = "all",
-}) => {
+/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE TO OPEN CV EXPORT */
+const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
+  const [hovered, setHovered] = useState(false);
+  const [typedCount, setTypedCount] = useState(0);
+  const bubbleText = "Wenn du magst, kannst du den CV exportieren?";
+
+  useEffect(() => {
+    if (!hovered) {
+      setTypedCount(0);
+      return;
+    }
+
+    if (reducedMotion) {
+      setTypedCount(bubbleText.length);
+      return;
+    }
+
+    setTypedCount(0);
+    let idx = 0;
+    const timer = window.setInterval(() => {
+      idx += 1;
+      setTypedCount(idx);
+      if (idx >= bubbleText.length) {
+        window.clearInterval(timer);
+      }
+    }, 26);
+
+    return () => window.clearInterval(timer);
+  }, [hovered, reducedMotion]);
+
+  return (
+    <div
+      className="relative inline-flex items-center"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setHovered(false);
+        }
+      }}
+    >
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label="CV-Customizing und PDF-Export öffnen"
+        className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C] shadow-xs transition-all cursor-pointer group"
+      >
+        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F5F5F7] overflow-hidden border border-[#E4E4E7] group-hover:scale-105 transition-transform">
+          <img
+            src={avatarLogo}
+            alt="Malte Reppke Avatar CV"
+            className="w-full h-full object-cover object-top"
+          />
+        </span>
+        <span className="text-xs font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
+          <FileDown className="w-3.5 h-3.5 text-[#2563EB]" />
+          <span>CV als PDF</span>
+        </span>
+      </button>
+
+      <div
+        role="tooltip"
+        className={`pointer-events-none absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2.5 z-30 w-[235px] sm:w-[255px] px-3.5 py-2.5 rounded-2xl rounded-br-xs sm:rounded-bl-xs bg-[#0B0B0C] text-white shadow-[0_12px_28px_-6px_rgba(11,11,12,0.32)] border border-white/15 ${
+          reducedMotion
+            ? hovered
+              ? "opacity-100"
+              : "opacity-0 hidden"
+            : `transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                hovered
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-1.5 scale-95"
+              }`
+        }`}
+      >
+        <p className="text-xs font-semibold leading-snug text-white">
+          <span>{bubbleText.slice(0, typedCount)}</span>
+          {hovered && !reducedMotion && typedCount < bubbleText.length && (
+            <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#93C5FD] align-middle animate-pulse" />
+          )}
+        </p>
+        <span
+          aria-hidden="true"
+          className="hidden sm:block absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-[#0B0B0C] border-r border-b border-white/15"
+        />
+      </div>
+    </div>
+  );
+};
+
+/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD */
+const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   const [pdfTheme, setPdfTheme] = useState("light");
   const [focusMode, setFocusMode] = useState(initialFocus);
   const [compactBullets, setCompactBullets] = useState(false);
@@ -451,11 +793,8 @@ const AvatarCvAgentStudio = ({
   const [selectedSkillLabels, setSelectedSkillLabels] = useState(() =>
     CORE_SKILL_PILLS.slice(0, 7).map((s) => s.label),
   );
-  const [agentStatus, setAgentStatus] = useState("ready");
-  const [agentStepLabel, setAgentStepLabel] = useState(
-    "Bereit für Auswahl & Export",
-  );
-  const [customNote, setCustomNote] = useState("");
+  const [recruiterNote, setRecruiterNote] = useState("");
+  const [downloadStatus, setDownloadStatus] = useState("");
 
   useEffect(() => {
     setFocusMode(initialFocus);
@@ -465,8 +804,7 @@ const AvatarCvAgentStudio = ({
     setSelectedPositionIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
-    setAgentStatus("ready");
-    setAgentStepLabel("Auswahl geändert – Agent bereit");
+    setDownloadStatus("");
   };
 
   const toggleSkill = (label) => {
@@ -475,35 +813,7 @@ const AvatarCvAgentStudio = ({
         ? prev.filter((item) => item !== label)
         : [...prev, label],
     );
-    setAgentStatus("ready");
-    setAgentStepLabel("Skills angepasst – Agent bereit");
-  };
-
-  const runMiniLlmAgent = () => {
-    if (reducedMotion) {
-      setAgentStatus("done");
-      setAgentStepLabel("Mini-LLM hat Lebenslauf verdichtet");
-      return;
-    }
-
-    setAgentStatus("running");
-    setAgentStepLabel("1/3 Avatar sammelt Stationen & Skills…");
-
-    const t1 = window.setTimeout(() => {
-      setAgentStepLabel("2/3 Mini-LLM schärft Rollen & Impact-Bullets…");
-    }, 360);
-
-    const t2 = window.setTimeout(() => {
-      setAgentStepLabel(
-        `3/3 Lebenslauf im ${pdfTheme === "dark" ? "Darkmode" : "Lightmode"} strukturiert`,
-      );
-      setAgentStatus("done");
-    }, 760);
-
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
+    setDownloadStatus("");
   };
 
   const filteredPositions = useMemo(() => {
@@ -526,7 +836,6 @@ const AvatarCvAgentStudio = ({
   }, [selectedPositionIds, focusMode, compactBullets]);
 
   const summaryText = useMemo(() => {
-    if (customNote.trim()) return customNote.trim();
     if (focusMode === "data-ai") {
       return "Data & AI Engineer mit Fokus auf PySpark, Azure Synapse, IT-DWH-Pipelines und agentische Entwicklungs-Workflows – verbunden mit Erfahrung in BI, SQL und B2B-Systemen.";
     }
@@ -534,55 +843,47 @@ const AvatarCvAgentStudio = ({
       return "Ingenieur an der Schnittstelle von Datenintegration, Microservices (Node.js / .NET C#) und modernen Web-UIs (React / Next.js) mit starkem Fokus auf Testbarkeit & CI/CD.";
     }
     return "Data & AI Engineer mit Hintergrund in Softwareentwicklung, BI und Datenintegration. Fokus auf verlässliche Datenprodukte, skalierbare Pipelines und praxisnahes AI Engineering.";
-  }, [customNote, focusMode]);
+  }, [focusMode]);
 
-  const handleExportPdf = () => {
-    setAgentStatus("done");
-    setAgentStepLabel(`PDF-Ansicht (${pdfTheme.toUpperCase()}) wird geöffnet…`);
+  const handleDirectPdfDownload = () => {
+    const blob = buildCvPdfBlob({
+      theme: pdfTheme,
+      summary: summaryText,
+      recruiterNote,
+      positions: filteredPositions,
+      skills: selectedSkillLabels,
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Malte_Reppke_Lebenslauf_${pdfTheme === "dark" ? "Dark" : "Light"}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     window.setTimeout(() => {
-      window.print();
-    }, 120);
+      window.URL.revokeObjectURL(url);
+      setDownloadStatus(
+        `${pdfTheme === "dark" ? "Darkmode" : "Lightmode"}-PDF heruntergeladen`,
+      );
+    }, 150);
   };
 
   if (!open) return null;
 
   const isDarkPdf = pdfTheme === "dark";
+  const trimmedNote = recruiterNote.trim();
 
   return (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Avatar Mini-LLM Lebenslauf-Studio"
+      aria-label="CV anpassen und als PDF herunterladen"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto"
     >
-      <style>{`
-        @media print {
-          body > *:not(#mr-cv-print-root) {
-            display: none !important;
-          }
-          #mr-cv-print-root {
-            position: static !important;
-            inset: auto !important;
-            padding: 0 !important;
-            background: transparent !important;
-          }
-          .no-print {
-            display: none !important;
-          }
-          #mr-cv-sheet {
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            max-width: 100% !important;
-            width: 100% !important;
-          }
-        }
-      `}</style>
-
-      <div
-        id="mr-cv-print-root"
-        className="w-full max-w-6xl rounded-[28px] bg-[#F4F5F9] border border-[#E4E4E7] shadow-2xl overflow-hidden my-auto"
-      >
-        <div className="no-print flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 bg-white border-b border-[#E4E4E7]">
+      <div className="w-full max-w-6xl rounded-[28px] bg-[#F4F5F9] border border-[#E4E4E7] shadow-2xl overflow-hidden my-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 bg-white border-b border-[#E4E4E7]">
           <div className="flex items-center gap-3">
             <img
               src={avatarLogo}
@@ -590,40 +891,36 @@ const AvatarCvAgentStudio = ({
               className="w-9 h-9 rounded-full object-cover object-top border border-[#E4E4E7]"
             />
             <div>
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#52525B]">
-                <Bot className="w-3.5 h-3.5 text-[#2563EB]" />
-                <span>Avatar Orchestrator · Mini-LLM CV-Showcase</span>
-              </div>
+              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#52525B]">
+                CV-Customizing &amp; PDF-Export
+              </span>
               <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                Lebenslauf aus Skills &amp; Stationen zusammenstellen &amp; als
-                PDF ziehen
+                Stationen, Skills &amp; Notiz wählen und als PDF herunterladen
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={runMiniLlmAgent}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F4F4F5] hover:bg-[#E4E4E7] text-[#0B0B0C] text-xs font-bold transition-colors cursor-pointer"
-            >
-              <Wand2 className="w-3.5 h-3.5 text-[#7E22CE]" />
-              <span>Agent aktualisieren</span>
-            </button>
+          <div className="flex items-center gap-2.5">
+            {downloadStatus && (
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+                <Check className="w-3.5 h-3.5" />
+                <span>{downloadStatus}</span>
+              </span>
+            )}
 
             <button
               type="button"
-              onClick={handleExportPdf}
+              onClick={handleDirectPdfDownload}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer"
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span>PDF speichern ({isDarkPdf ? "Dark" : "Light"})</span>
+              <FileDown className="w-3.5 h-3.5" />
+              <span>PDF downloaden ({isDarkPdf ? "Dark" : "Light"})</span>
             </button>
 
             <button
               type="button"
               onClick={onClose}
-              aria-label="CV-Studio schließen"
+              aria-label="CV-Ansicht schließen"
               className="w-9 h-9 rounded-full border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] flex items-center justify-center text-[#0B0B0C] transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
@@ -631,29 +928,8 @@ const AvatarCvAgentStudio = ({
           </div>
         </div>
 
-        <div className="no-print px-5 sm:px-7 py-2.5 bg-[#0B0B0C] text-white flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                agentStatus === "running"
-                  ? "bg-amber-400 animate-ping"
-                  : agentStatus === "done"
-                    ? "bg-emerald-400"
-                    : "bg-[#60A5FA]"
-              }`}
-            />
-            <span className="font-mono text-[11px] text-white/90">
-              {agentStepLabel}
-            </span>
-          </div>
-          <span className="text-[11px] text-white/60">
-            {filteredPositions.length} Stationen · {selectedSkillLabels.length}{" "}
-            Skills aktiv
-          </span>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 sm:p-6">
-          <div className="no-print lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-4">
               <div>
                 <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
@@ -662,7 +938,10 @@ const AvatarCvAgentStudio = ({
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => setPdfTheme("light")}
+                    onClick={() => {
+                      setPdfTheme("light");
+                      setDownloadStatus("");
+                    }}
                     className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                       !isDarkPdf
                         ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
@@ -675,7 +954,10 @@ const AvatarCvAgentStudio = ({
 
                   <button
                     type="button"
-                    onClick={() => setPdfTheme("dark")}
+                    onClick={() => {
+                      setPdfTheme("dark");
+                      setDownloadStatus("");
+                    }}
                     className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                       isDarkPdf
                         ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
@@ -695,7 +977,10 @@ const AvatarCvAgentStudio = ({
                   </label>
                   <select
                     value={focusMode}
-                    onChange={(e) => setFocusMode(e.target.value)}
+                    onChange={(e) => {
+                      setFocusMode(e.target.value);
+                      setDownloadStatus("");
+                    }}
                     className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
                   >
                     <option value="all">Alles (Gesamtprofil)</option>
@@ -712,7 +997,10 @@ const AvatarCvAgentStudio = ({
                   </label>
                   <button
                     type="button"
-                    onClick={() => setCompactBullets((prev) => !prev)}
+                    onClick={() => {
+                      setCompactBullets((prev) => !prev);
+                      setDownloadStatus("");
+                    }}
                     className={`w-full rounded-xl border px-2.5 py-2 text-xs font-bold text-left transition-colors cursor-pointer ${
                       compactBullets
                         ? "bg-[#EEF2FF] border-[#818CF8] text-[#1E1B4B]"
@@ -727,15 +1015,36 @@ const AvatarCvAgentStudio = ({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
-                  Optionaler Schwerpunkt-Hinweis für Mini-LLM
-                </label>
-                <input
-                  type="text"
-                  value={customNote}
-                  onChange={(e) => setCustomNote(e.target.value)}
-                  placeholder="z. B. Fokus auf PySpark, Azure & Agentic Workflows…"
-                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A]"
+                <div className="flex items-center justify-between mb-1.5">
+                  <label
+                    htmlFor="mr-recruiter-note"
+                    className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B]"
+                  >
+                    Notizen für Recruiter (optional)
+                  </label>
+                  {recruiterNote && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRecruiterNote("");
+                        setDownloadStatus("");
+                      }}
+                      className="text-[11px] font-semibold text-[#52525B] hover:text-[#0B0B0C] cursor-pointer"
+                    >
+                      Leeren
+                    </button>
+                  )}
+                </div>
+                <textarea
+                  id="mr-recruiter-note"
+                  rows={2}
+                  value={recruiterNote}
+                  onChange={(e) => {
+                    setRecruiterNote(e.target.value);
+                    setDownloadStatus("");
+                  }}
+                  placeholder="Optional: Eigene Notiz für Recruiter (z. B. Zielrolle, Team-Fit oder Gesprächsnotiz)…"
+                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A] resize-y"
                 />
               </div>
             </div>
@@ -747,13 +1056,14 @@ const AvatarCvAgentStudio = ({
                 </span>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
                     setSelectedPositionIds((prev) =>
                       prev.length === CV_POSITIONS.length
                         ? []
                         : CV_POSITIONS.map((p) => p.id),
-                    )
-                  }
+                    );
+                    setDownloadStatus("");
+                  }}
                   className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer"
                 >
                   {selectedPositionIds.length === CV_POSITIONS.length
@@ -827,7 +1137,6 @@ const AvatarCvAgentStudio = ({
 
           <div className="lg:col-span-7">
             <div
-              id="mr-cv-sheet"
               className={`rounded-2xl border p-6 sm:p-8 shadow-sm transition-colors duration-300 ${
                 isDarkPdf
                   ? "bg-[#0B0B0C] border-white/15 text-white"
@@ -845,7 +1154,7 @@ const AvatarCvAgentStudio = ({
                       isDarkPdf ? "text-[#93C5FD]" : "text-[#52525B]"
                     }`}
                   >
-                    Strukturierter Lebenslauf · Avatar Mini-LLM Export
+                    Lebenslauf · Vorschau
                   </span>
                   <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-[-0.04em]">
                     Malte Reppke
@@ -875,7 +1184,7 @@ const AvatarCvAgentStudio = ({
                     isDarkPdf ? "text-white/60" : "text-[#52525B]"
                   }`}
                 >
-                  Profil (verdichtet durch Mini-LLM)
+                  Profil
                 </h3>
                 <p
                   className={`mt-1.5 text-xs sm:text-[13px] leading-relaxed ${
@@ -885,6 +1194,25 @@ const AvatarCvAgentStudio = ({
                   {summaryText}
                 </p>
               </div>
+
+              {trimmedNote && (
+                <div
+                  className={`mt-4 rounded-xl border p-3.5 ${
+                    isDarkPdf
+                      ? "bg-white/5 border-white/15 text-white/90"
+                      : "bg-[#F8FAFC] border-[#E4E4E7] text-[#0B0B0C]"
+                  }`}
+                >
+                  <span
+                    className={`block text-[10px] font-bold uppercase tracking-[0.16em] ${
+                      isDarkPdf ? "text-[#93C5FD]" : "text-[#2563EB]"
+                    }`}
+                  >
+                    Notiz für Recruiter
+                  </span>
+                  <p className="mt-1 text-xs leading-relaxed">{trimmedNote}</p>
+                </div>
+              )}
 
               <div className="mt-6">
                 <h3
@@ -2589,7 +2917,7 @@ export default function App() {
   const [pinnedIds, setPinnedIds] = useState([]);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [controlExpertExpanded, setControlExpertExpanded] = useState(false);
-  const [cvStudioOpen, setCvStudioOpen] = useState(false);
+  const [cvModalOpen, setCvModalOpen] = useState(false);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
@@ -2766,13 +3094,12 @@ export default function App() {
       }}
       className="min-h-screen w-full overflow-x-clip bg-[#FFFFFF] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-white antialiased"
     >
-      <AvatarCvAgentStudio
-        open={cvStudioOpen}
-        onClose={() => setCvStudioOpen(false)}
-        reducedMotion={reducedMotion}
+      <CvCustomizerModal
+        open={cvModalOpen}
+        onClose={() => setCvModalOpen(false)}
       />
 
-      <div className="no-print fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none">
+      <div className="fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none">
         <div
           className="h-full bg-[#0B0B0C] transition-[width] duration-150 ease-out"
           style={{ width: `${pageProgress * 100}%` }}
@@ -2877,12 +3204,9 @@ export default function App() {
                 />
 
                 <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-7 sm:pt-8">
-                  <AvatarGreetingMark
+                  <HeroAvatarSpeechMark
                     size={42}
                     reducedMotion={reducedMotion}
-                    onOpenCvStudio={() => setCvStudioOpen(true)}
-                    autoIntroBubble={!reducedMotion}
-                    showFocusHint={!reducedMotion}
                     className="hidden sm:inline-flex"
                   />
 
@@ -2922,21 +3246,13 @@ export default function App() {
                     Pipelines und praxisnahes AI Engineering.
                   </p>
 
-                  <div className="mt-10 sm:mt-10 flex flex-wrap items-center justify-center gap-3.5">
+                  <div className="mt-10 sm:mt-10">
                     <button
                       type="button"
                       onClick={() => jumpToSection("work")}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer"
                     >
                       <span>Einblick in meine Projekte</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCvStudioOpen(true)}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 active:scale-[0.98] transition-all cursor-pointer"
-                    >
-                      <FileText className="w-3.5 h-3.5" />
-                      <span>CV als PDF</span>
                     </button>
                   </div>
                 </div>
@@ -3224,26 +3540,11 @@ export default function App() {
               reducedMotion={reducedMotion}
             />
 
-            <div className="flex items-center gap-3 self-start sm:self-auto">
-              <button
-                type="button"
-                onClick={() => setCvStudioOpen(true)}
-                aria-label="Avatar auf CV-Sektion klicken, um Lebenslauf-Studio zu öffnen"
-                title="Mit Avatar-Agent Lebenslauf als PDF öffnen"
-                className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C] shadow-xs transition-all cursor-pointer group"
-              >
-                <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F5F5F7] overflow-hidden border border-[#E4E4E7]">
-                  <img
-                    src={avatarLogo}
-                    alt="Malte Reppke Avatar CV"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </span>
-                <span className="text-xs font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
-                  <Bot className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <span>CV als PDF</span>
-                </span>
-              </button>
+            <div className="self-start sm:self-auto">
+              <CvSectionAvatarTrigger
+                onOpen={() => setCvModalOpen(true)}
+                reducedMotion={reducedMotion}
+              />
             </div>
           </div>
 
@@ -3527,7 +3828,7 @@ export default function App() {
       </section>
 
       {/* FLOATING SECTION FLOW PILL */}
-      <div className="no-print fixed bottom-5 right-5 z-40">
+      <div className="fixed bottom-5 right-5 z-40">
         <button
           type="button"
           onClick={handleNextPill}
