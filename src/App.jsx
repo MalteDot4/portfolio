@@ -2186,7 +2186,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* CONTAINED NODE-MESH INSIDE MOTIVATION SECTION WITH SMOOTH TOP/BOTTOM EDGE FADE */
+/* CONTAINED BLUE-MARBLE NODE-MESH EXTENDING SLIGHTLY AT SIDES/TOP/BOTTOM WITH SUBTLE EDGE FADE */
 const HeroAlignedMeshParallax = ({
   sectionRef,
   reducedMotion = false,
@@ -2242,8 +2242,8 @@ const HeroAlignedMeshParallax = ({
 
     const nodes = [
       {
-        nx: 0.06,
-        ny: 0.1,
+        nx: -0.02,
+        ny: 0.04,
         depth: 0.85,
         phase: 0.3,
         r: 5.0,
@@ -2251,8 +2251,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.9,
       },
       {
-        nx: 0.18,
-        ny: 0.22,
+        nx: 0.16,
+        ny: 0.14,
         depth: 1.15,
         phase: 1.2,
         r: 6.0,
@@ -2260,8 +2260,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.2,
       },
       {
-        nx: 0.31,
-        ny: 0.12,
+        nx: 0.33,
+        ny: 0.05,
         depth: 0.75,
         phase: 2.1,
         r: 4.5,
@@ -2269,8 +2269,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.8,
       },
       {
-        nx: 0.44,
-        ny: 0.21,
+        nx: 0.5,
+        ny: 0.13,
         depth: 1.1,
         phase: 2.9,
         r: 5.8,
@@ -2278,8 +2278,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.1,
       },
       {
-        nx: 0.58,
-        ny: 0.13,
+        nx: 0.68,
+        ny: 0.06,
         depth: 0.9,
         phase: 3.7,
         r: 4.8,
@@ -2287,8 +2287,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.95,
       },
       {
-        nx: 0.73,
-        ny: 0.23,
+        nx: 0.85,
+        ny: 0.14,
         depth: 1.2,
         phase: 4.4,
         r: 6.2,
@@ -2296,27 +2296,18 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.2,
       },
       {
-        nx: 0.86,
-        ny: 0.14,
+        nx: 1.02,
+        ny: 0.05,
         depth: 0.8,
         phase: 5.1,
         r: 5.0,
         tint: "cobalt",
         alphaSpeed: 0.85,
       },
-      {
-        nx: 0.95,
-        ny: 0.24,
-        depth: 1.0,
-        phase: 5.8,
-        r: 4.6,
-        tint: "ice",
-        alphaSpeed: 1.05,
-      },
 
       {
-        nx: 0.08,
-        ny: 0.42,
+        nx: -0.03,
+        ny: 0.34,
         depth: 1.15,
         phase: 0.8,
         r: 5.6,
@@ -2324,8 +2315,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.15,
       },
       {
-        nx: 0.23,
-        ny: 0.52,
+        nx: 0.18,
+        ny: 0.44,
         depth: 0.82,
         phase: 1.6,
         r: 4.7,
@@ -2334,7 +2325,7 @@ const HeroAlignedMeshParallax = ({
       },
       {
         nx: 0.38,
-        ny: 0.4,
+        ny: 0.33,
         depth: 1.12,
         phase: 2.4,
         r: 6.0,
@@ -2342,8 +2333,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.3,
       },
       {
-        nx: 0.54,
-        ny: 0.55,
+        nx: 0.58,
+        ny: 0.46,
         depth: 0.92,
         phase: 3.2,
         r: 5.0,
@@ -2351,8 +2342,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.9,
       },
       {
-        nx: 0.69,
-        ny: 0.43,
+        nx: 0.78,
+        ny: 0.35,
         depth: 1.18,
         phase: 4.0,
         r: 6.0,
@@ -2360,17 +2351,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.1,
       },
       {
-        nx: 0.84,
-        ny: 0.54,
-        depth: 0.88,
-        phase: 4.7,
-        r: 4.9,
-        tint: "periwinkle",
-        alphaSpeed: 1.3,
-      },
-      {
-        nx: 0.94,
-        ny: 0.45,
+        nx: 1.03,
+        ny: 0.43,
         depth: 1.08,
         phase: 5.4,
         r: 5.2,
@@ -2379,8 +2361,8 @@ const HeroAlignedMeshParallax = ({
       },
 
       {
-        nx: 0.06,
-        ny: 0.72,
+        nx: -0.02,
+        ny: 0.66,
         depth: 0.95,
         phase: 1.0,
         r: 5.0,
@@ -2389,7 +2371,7 @@ const HeroAlignedMeshParallax = ({
       },
       {
         nx: 0.19,
-        ny: 0.81,
+        ny: 0.76,
         depth: 1.18,
         phase: 1.9,
         r: 6.0,
@@ -2397,8 +2379,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.9,
       },
       {
-        nx: 0.33,
-        ny: 0.7,
+        nx: 0.4,
+        ny: 0.65,
         depth: 0.8,
         phase: 2.7,
         r: 4.6,
@@ -2406,8 +2388,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.2,
       },
       {
-        nx: 0.48,
-        ny: 0.83,
+        nx: 0.61,
+        ny: 0.77,
         depth: 1.1,
         phase: 3.5,
         r: 5.8,
@@ -2415,8 +2397,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.0,
       },
       {
-        nx: 0.64,
-        ny: 0.72,
+        nx: 0.82,
+        ny: 0.67,
         depth: 0.86,
         phase: 4.3,
         r: 5.0,
@@ -2424,16 +2406,7 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.25,
       },
       {
-        nx: 0.79,
-        ny: 0.82,
-        depth: 1.15,
-        phase: 5.0,
-        r: 5.9,
-        tint: "cobalt",
-        alphaSpeed: 0.92,
-      },
-      {
-        nx: 0.92,
+        nx: 1.02,
         ny: 0.75,
         depth: 0.85,
         phase: 5.7,
@@ -2443,8 +2416,8 @@ const HeroAlignedMeshParallax = ({
       },
 
       {
-        nx: 0.14,
-        ny: 0.91,
+        nx: 0.08,
+        ny: 0.96,
         depth: 1.05,
         phase: 1.4,
         r: 5.0,
@@ -2452,8 +2425,8 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 1.05,
       },
       {
-        nx: 0.35,
-        ny: 0.9,
+        nx: 0.32,
+        ny: 0.95,
         depth: 0.82,
         phase: 2.2,
         r: 4.5,
@@ -2462,7 +2435,7 @@ const HeroAlignedMeshParallax = ({
       },
       {
         nx: 0.56,
-        ny: 0.91,
+        ny: 0.96,
         depth: 1.08,
         phase: 3.0,
         r: 5.3,
@@ -2470,13 +2443,22 @@ const HeroAlignedMeshParallax = ({
         alphaSpeed: 0.85,
       },
       {
-        nx: 0.77,
-        ny: 0.9,
+        nx: 0.8,
+        ny: 0.95,
         depth: 0.88,
         phase: 3.8,
         r: 4.9,
         tint: "periwinkle",
         alphaSpeed: 1.15,
+      },
+      {
+        nx: 0.98,
+        ny: 0.94,
+        depth: 1.02,
+        phase: 4.6,
+        r: 4.7,
+        tint: "cobalt",
+        alphaSpeed: 1.0,
       },
     ];
 
@@ -2499,7 +2481,7 @@ const HeroAlignedMeshParallax = ({
         return {
           core: "rgba(29, 78, 216, 0.90)",
           glow: "rgba(37, 99, 235, 0.30)",
-          line: "rgba(29, 78, 216, 0.56)",
+          line: "rgba(29, 78, 216, 0.58)",
           halo: "rgba(59, 130, 246, 0.18)",
         };
       }
@@ -2507,7 +2489,7 @@ const HeroAlignedMeshParallax = ({
         return {
           core: "rgba(2, 132, 199, 0.90)",
           glow: "rgba(125, 211, 252, 0.34)",
-          line: "rgba(14, 165, 233, 0.52)",
+          line: "rgba(14, 165, 233, 0.54)",
           halo: "rgba(186, 230, 253, 0.20)",
         };
       }
@@ -2515,7 +2497,7 @@ const HeroAlignedMeshParallax = ({
         return {
           core: "rgba(15, 23, 42, 0.90)",
           glow: "rgba(30, 58, 138, 0.26)",
-          line: "rgba(30, 58, 138, 0.52)",
+          line: "rgba(30, 58, 138, 0.54)",
           halo: "rgba(59, 130, 246, 0.14)",
         };
       }
@@ -2523,14 +2505,14 @@ const HeroAlignedMeshParallax = ({
         return {
           core: "rgba(79, 70, 229, 0.86)",
           glow: "rgba(165, 180, 252, 0.32)",
-          line: "rgba(99, 102, 241, 0.52)",
+          line: "rgba(99, 102, 241, 0.54)",
           halo: "rgba(199, 210, 254, 0.18)",
         };
       }
       return {
         core: "rgba(30, 64, 175, 0.88)",
         glow: "rgba(147, 197, 253, 0.30)",
-        line: "rgba(59, 130, 246, 0.52)",
+        line: "rgba(59, 130, 246, 0.54)",
         halo: "rgba(147, 197, 253, 0.16)",
       };
     };
@@ -2540,40 +2522,40 @@ const HeroAlignedMeshParallax = ({
       const p = scrollProgressRef.current - 0.5;
       ctx.clearRect(0, 0, width, height);
 
-      const linkThreshold = Math.min(330, Math.max(200, width * 0.28));
-      const motionScale = isMobileView ? 0.65 : 1;
+      const linkThreshold = Math.min(340, Math.max(210, width * 0.3));
+      const motionScale = isMobileView ? 0.75 : 1;
 
       const pts = nodes.map((n) => {
-        const parallaxY = reducedMotion ? 0 : -p * 42 * n.depth * motionScale;
+        const parallaxY = reducedMotion ? 0 : -p * 44 * n.depth * motionScale;
         const parallaxX = reducedMotion
           ? 0
-          : p * 22 * (n.depth - 0.82) * motionScale;
+          : p * 24 * (n.depth - 0.82) * motionScale;
         const driftX = reducedMotion
           ? 0
           : Math.sin(t * (0.5 + n.alphaSpeed * 0.16) + n.phase) *
-            14 *
+            16 *
             motionScale;
         const driftY = reducedMotion
           ? 0
           : Math.cos(t * (0.45 + n.alphaSpeed * 0.14) + n.phase * 1.25) *
-            11 *
+            12 *
             motionScale;
         const pulse = reducedMotion
           ? 1
           : 0.86 + 0.24 * Math.sin(t * (1.05 + n.alphaSpeed * 0.4) + n.phase);
         const nodeAlpha = reducedMotion
           ? 0.85
-          : 0.48 +
-            0.46 *
+          : 0.52 +
+            0.44 *
               (0.5 + 0.5 * Math.sin(t * (0.8 + n.alphaSpeed * 0.5) + n.phase));
 
         const rawX = n.nx * width + parallaxX + driftX;
         const rawY = n.ny * height + parallaxY + driftY;
 
         return {
-          x: Math.min(Math.max(rawX, 18), Math.max(18, width - 18)),
-          y: Math.min(Math.max(rawY, 22), Math.max(22, height - 22)),
-          r: isMobileView ? n.r * 0.88 : n.r,
+          x: Math.min(Math.max(rawX, -24), width + 24),
+          y: Math.min(Math.max(rawY, -24), height + 24),
+          r: isMobileView ? n.r * 0.92 : n.r,
           pulse,
           nodeAlpha,
           phase: n.phase,
@@ -2591,8 +2573,8 @@ const HeroAlignedMeshParallax = ({
             const proximity = Math.pow(1 - dist / linkThreshold, 0.72);
             const edgeWave = reducedMotion
               ? 0.8
-              : 0.28 +
-                0.72 *
+              : 0.3 +
+                0.7 *
                   (0.5 +
                     0.5 *
                       Math.sin(
@@ -2602,7 +2584,7 @@ const HeroAlignedMeshParallax = ({
 
             const combinedAlpha = Math.min(
               0.92,
-              (0.14 + proximity * 0.72) * edgeWave,
+              (0.16 + proximity * 0.72) * edgeWave,
             );
             const palA = getPalette(pts[i].tint);
             const palB = getPalette(pts[j].tint);
@@ -2690,7 +2672,7 @@ const HeroAlignedMeshParallax = ({
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
+      className="pointer-events-none absolute -inset-x-3 -inset-y-5 sm:-inset-x-4 sm:-inset-y-6 overflow-hidden select-none z-0"
     >
       <div
         style={{
@@ -2702,14 +2684,14 @@ const HeroAlignedMeshParallax = ({
       <div
         style={{
           background:
-            "radial-gradient(ellipse 76% 64% at 18% 24%, rgba(37, 99, 235, 0.14) 0%, rgba(125, 211, 252, 0.08) 56%, transparent 85%)",
+            "radial-gradient(ellipse 84% 72% at 15% 20%, rgba(37, 99, 235, 0.15) 0%, rgba(125, 211, 252, 0.08) 58%, transparent 88%)",
         }}
         className="absolute inset-0"
       />
       <div
         style={{
           background:
-            "radial-gradient(ellipse 74% 62% at 84% 72%, rgba(30, 58, 138, 0.12) 0%, rgba(165, 180, 252, 0.08) 58%, transparent 86%)",
+            "radial-gradient(ellipse 82% 70% at 86% 78%, rgba(30, 58, 138, 0.13) 0%, rgba(165, 180, 252, 0.09) 60%, transparent 88%)",
         }}
         className="absolute inset-0"
       />
@@ -2717,16 +2699,16 @@ const HeroAlignedMeshParallax = ({
       <div
         style={{
           background:
-            "linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.72) 45%, rgba(255, 255, 255, 0) 100%)",
+            "linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.48) 55%, rgba(255, 255, 255, 0) 100%)",
         }}
-        className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-24 z-20"
+        className="pointer-events-none absolute inset-x-0 top-0 h-10 sm:h-16 z-20"
       />
       <div
         style={{
           background:
-            "linear-gradient(to top, #FBFBFD 0%, rgba(251, 251, 253, 0.72) 45%, rgba(251, 251, 253, 0) 100%)",
+            "linear-gradient(to top, #FBFBFD 0%, rgba(251, 251, 253, 0.48) 55%, rgba(251, 251, 253, 0) 100%)",
         }}
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-16 sm:h-24 z-20"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-10 sm:h-16 z-20"
       />
     </div>
   );
@@ -4177,7 +4159,7 @@ export default function App() {
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#E7EEF8] py-20 sm:py-28 lg:py-36 overflow-hidden"
+        className="relative bg-[#E7EEF8] py-20 sm:py-28 lg:py-36 overflow-x-clip"
       >
         <HeroAlignedMeshParallax
           sectionRef={motivationSectionRef}
