@@ -2056,9 +2056,9 @@ export default function App() {
       <section
         id="hero-stage"
         ref={heroStageRef}
-        className="relative h-[195vh] sm:h-[215vh] bg-[#FFFFFF]"
+        className="relative h-[210vh] sm:h-[215vh] bg-[#FFFFFF]"
       >
-        <div className="sticky top-0 h-[100dvh] min-h-[620px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
+        <div className="sticky top-0 h-[100dvh] min-h-[680px] sm:min-h-[620px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
           <div
             style={{
               opacity: revealedTitleOpacity,
@@ -2096,7 +2096,7 @@ export default function App() {
           <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div
               style={{ pointerEvents: heroOpacity < 0.2 ? "none" : "auto" }}
-              className="relative rounded-[28px] sm:rounded-[40px] min-h-[540px] sm:min-h-[650px] flex flex-col justify-between overflow-visible"
+              className="relative rounded-[28px] sm:rounded-[40px] min-h-[610px] sm:min-h-[650px] flex flex-col justify-between overflow-visible"
             >
               <div
                 style={{
@@ -2149,7 +2149,7 @@ export default function App() {
                   className="absolute inset-0 rounded-[28px] sm:rounded-[40px] pointer-events-none"
                 />
 
-                <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-6 sm:pt-8">
+                <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-7 sm:pt-8">
                   <AvatarGreetingMark
                     size={42}
                     reducedMotion={reducedMotion}
@@ -2173,17 +2173,17 @@ export default function App() {
                   </nav>
                 </header>
 
-                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 py-14 sm:py-16">
-                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-5">
+                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 py-16 sm:py-16">
+                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-6 sm:mb-5">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Data Engineering &amp; AI Engineering</span>
                   </div>
 
-                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-[-0.045em] text-white leading-[1.04]">
+                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-[-0.045em] text-white leading-[1.06]">
                     Malte Reppke
                   </h1>
 
-                  <p className="mt-6 sm:mt-7 max-w-2xl text-sm sm:text-lg md:text-[19px] text-white/85 font-medium leading-[1.68]">
+                  <p className="mt-7 sm:mt-7 max-w-2xl text-sm sm:text-lg md:text-[19px] text-white/85 font-medium leading-[1.72] sm:leading-[1.68]">
                     Data Engineering &amp; KI-Systeme bei der{" "}
                     <span className="border-b border-[#60A5FA] pb-0.5 text-white">
                       Provinzial
@@ -2192,7 +2192,7 @@ export default function App() {
                     Pipelines und praxisnahes AI Engineering.
                   </p>
 
-                  <div className="mt-9 sm:mt-10 flex flex-wrap items-center justify-center gap-3.5">
+                  <div className="mt-10 sm:mt-10 flex flex-wrap items-center justify-center gap-3.5">
                     <button
                       type="button"
                       onClick={() => jumpToSection("work")}
@@ -2210,7 +2210,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="relative z-10 pb-6 sm:pb-8 flex flex-col items-center gap-2">
+                <div className="relative z-10 pb-7 sm:pb-8 flex flex-col items-center gap-2.5 sm:gap-2">
                   <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
                     Nach unten scrollen
                   </span>
@@ -2693,11 +2693,11 @@ export default function App() {
       <section
         ref={contactSectionRef}
         id="contact"
-        className="bg-[#FFFFFF] py-16 sm:py-24 pb-28"
+        className="bg-[#FFFFFF] py-20 sm:py-24 pb-32 sm:pb-28"
       >
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <ContactFlow reducedMotion={reducedMotion}>
-            <div className="relative overflow-hidden rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="relative overflow-hidden rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white min-h-[420px] sm:min-h-0 px-6 py-9 sm:p-12 flex flex-col justify-between md:flex-row md:items-center gap-9 sm:gap-8">
               <ContactMailWaveField
                 sectionRef={contactSectionRef}
                 email="malte_reppke@web.de"
@@ -2709,20 +2709,20 @@ export default function App() {
                   kicker="04 / Kontakt"
                   title="Lust auf Austausch zu Data & AI Engineering?"
                   as="h2"
-                  titleClassName="mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] text-white"
+                  titleClassName="mt-2.5 sm:mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white"
                   reducedMotion={reducedMotion}
                 />
-                <p className="mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
+                <p className="mt-4 sm:mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
                   Schreib mir gerne direkt per E-Mail oder vernetze dich mit
                   mir.
                 </p>
-                <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
-                  <MapPin className="w-3.5 h-3.5" />
+                <div className="mt-5 sm:mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
                   <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
                 </div>
               </div>
 
-              <div className="relative z-10 flex flex-wrap items-center gap-3">
+              <div className="relative z-10 flex flex-wrap items-center gap-3.5 sm:gap-3 pt-1 sm:pt-0">
                 <a
                   href="mailto:malte_reppke@web.de"
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors"
