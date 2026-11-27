@@ -47,6 +47,7 @@ const PROVINZIAL_STATIONS = [
   {
     title: "Data Engineer & AI Engineer · IT-DWH",
     period: "Ab 01.06.2026",
+    tags: ["IT-DWH", "OpenCode", "Agentic Workflows", "Data Products"],
     bullets: [
       "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
       "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
@@ -56,6 +57,7 @@ const PROVINZIAL_STATIONS = [
   {
     title: "Data-Analyst Customer Data & Analytics",
     period: "01.05.2025 – 30.05.2026",
+    tags: ["PySpark", "Azure Synapse", "Selektionsframework", "Interim-PO"],
     bullets: [
       "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
       "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
@@ -63,9 +65,20 @@ const PROVINZIAL_STATIONS = [
   },
 ];
 
+const VODAFONE_STATION = {
+  title: "Backend / Data Integration Firmenkunden",
+  period: "Nov 2022 – Mär 2025",
+  tags: ["Node.js", "Microservices", "PageForge", "Git CI/CD"],
+  bullets: [
+    "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal sowie den Blog und über 200 Business-Websites",
+    "Aufbau von Node.js-Microservices für Vertragsdaten und Ausbau der CI/CD-Automatisierung in Git-Pipelines",
+  ],
+};
+
 const CONTROLEXPERT_FEATURED_STATION = {
   title: "Softwareentwickler Versicherungsbranche",
   period: "Jul 2019 – Aug 2022",
+  tags: ["React.js", ".NET C#", "Jest", "Cypress", "Kanban"],
   bullets: [
     "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
     "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
@@ -77,6 +90,7 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "BI-Specialist Versicherungsprozesse",
     period: "Okt 2017 – Jun 2019 · Teilzeit",
+    tags: ["Data Warehouse", "SQL", "Tableau"],
     bullets: [
       "Erfolgreiche Entwicklung eines Data Warehouse",
       "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
@@ -85,6 +99,7 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "Business-Analyst Versicherungsprozesse",
     period: "Okt 2016 – Sep 2017",
+    tags: ["IBM BPM", "Scrum", "Prozessautomatisierung"],
     bullets: [
       "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
       "Product Management interne Kalkulationsanwendung im Scrum Prozess",
@@ -93,6 +108,7 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "Data-Specialist Automobil",
     period: "Jul 2012 – Sep 2016",
+    tags: ["Relationale DB", "Herstellerdaten", "MS-Office"],
     bullets: [
       "Erhebung, Abfrage & Pflege von Herstellerdaten",
       "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
@@ -1962,18 +1978,20 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
-  const [scrollFlow, setScrollFlow] = useState(0.5);
+/* PLAYFUL, ASYMMETRIC NODE-MESH IN SCREENSHOT BLUE/SLATE/PERIWINKLE PALETTE WITH ANIMATED TRANSPARENCY */
+const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
+  const canvasRef = useRef(null);
+  const scrollProgressRef = useRef(0.5);
 
   useEffect(() => {
     if (reducedMotion) {
-      setScrollFlow(0.5);
+      scrollProgressRef.current = 0.5;
       return;
     }
 
     let rafId = null;
 
-    const updateFlow = () => {
+    const updateScroll = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const sec = sectionRef?.current;
@@ -1981,56 +1999,516 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
           const rect = sec.getBoundingClientRect();
           const vh = window.innerHeight || 1;
           const total = rect.height + vh;
-          setScrollFlow(clamp01((vh - rect.top) / Math.max(total, 1)));
+          scrollProgressRef.current = clamp01(
+            (vh - rect.top) / Math.max(total, 1),
+          );
         }
         rafId = null;
       });
     };
 
-    window.addEventListener("scroll", updateFlow, { passive: true });
-    window.addEventListener("resize", updateFlow);
-    updateFlow();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", updateScroll);
+    updateScroll();
 
     return () => {
-      window.removeEventListener("scroll", updateFlow);
-      window.removeEventListener("resize", updateFlow);
+      window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("resize", updateScroll);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [sectionRef, reducedMotion]);
 
-  const offsetA = (scrollFlow - 0.5) * 34;
-  const offsetB = (scrollFlow - 0.5) * -30;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let frameId = null;
+    let width = 0;
+    let height = 0;
+
+    // Organically staggered, asymmetrical coordinates inspired by fluid marble pockets
+    const nodes = [
+      {
+        nx: 0.04,
+        ny: 0.11,
+        depth: 0.85,
+        phase: 0.3,
+        r: 5.2,
+        tint: "ice",
+        alphaSpeed: 0.9,
+      },
+      {
+        nx: 0.14,
+        ny: 0.24,
+        depth: 1.25,
+        phase: 1.2,
+        r: 6.4,
+        tint: "cobalt",
+        alphaSpeed: 1.3,
+      },
+      {
+        nx: 0.27,
+        ny: 0.08,
+        depth: 0.72,
+        phase: 2.1,
+        r: 4.4,
+        tint: "slateBlue",
+        alphaSpeed: 0.75,
+      },
+      {
+        nx: 0.41,
+        ny: 0.21,
+        depth: 1.15,
+        phase: 2.9,
+        r: 6.0,
+        tint: "periwinkle",
+        alphaSpeed: 1.15,
+      },
+      {
+        nx: 0.57,
+        ny: 0.09,
+        depth: 0.9,
+        phase: 3.7,
+        r: 4.8,
+        tint: "ice",
+        alphaSpeed: 0.95,
+      },
+      {
+        nx: 0.72,
+        ny: 0.23,
+        depth: 1.3,
+        phase: 4.4,
+        r: 6.5,
+        tint: "midnight",
+        alphaSpeed: 1.25,
+      },
+      {
+        nx: 0.86,
+        ny: 0.12,
+        depth: 0.78,
+        phase: 5.1,
+        r: 5.0,
+        tint: "cobalt",
+        alphaSpeed: 0.85,
+      },
+      {
+        nx: 0.96,
+        ny: 0.27,
+        depth: 1.05,
+        phase: 5.8,
+        r: 4.6,
+        tint: "ice",
+        alphaSpeed: 1.05,
+      },
+
+      {
+        nx: 0.07,
+        ny: 0.41,
+        depth: 1.22,
+        phase: 0.8,
+        r: 5.8,
+        tint: "cobalt",
+        alphaSpeed: 1.2,
+      },
+      {
+        nx: 0.22,
+        ny: 0.52,
+        depth: 0.82,
+        phase: 1.6,
+        r: 4.7,
+        tint: "periwinkle",
+        alphaSpeed: 0.8,
+      },
+      {
+        nx: 0.37,
+        ny: 0.39,
+        depth: 1.18,
+        phase: 2.4,
+        r: 6.2,
+        tint: "ice",
+        alphaSpeed: 1.35,
+      },
+      {
+        nx: 0.53,
+        ny: 0.55,
+        depth: 0.92,
+        phase: 3.2,
+        r: 5.1,
+        tint: "slateBlue",
+        alphaSpeed: 0.9,
+      },
+      {
+        nx: 0.69,
+        ny: 0.42,
+        depth: 1.26,
+        phase: 4.0,
+        r: 6.2,
+        tint: "cobalt",
+        alphaSpeed: 1.1,
+      },
+      {
+        nx: 0.84,
+        ny: 0.54,
+        depth: 0.88,
+        phase: 4.7,
+        r: 4.9,
+        tint: "periwinkle",
+        alphaSpeed: 1.4,
+      },
+      {
+        nx: 0.95,
+        ny: 0.44,
+        depth: 1.12,
+        phase: 5.4,
+        r: 5.4,
+        tint: "midnight",
+        alphaSpeed: 0.78,
+      },
+
+      {
+        nx: 0.03,
+        ny: 0.71,
+        depth: 0.96,
+        phase: 1.0,
+        r: 5.0,
+        tint: "periwinkle",
+        alphaSpeed: 1.15,
+      },
+      {
+        nx: 0.16,
+        ny: 0.81,
+        depth: 1.28,
+        phase: 1.9,
+        r: 6.4,
+        tint: "midnight",
+        alphaSpeed: 0.88,
+      },
+      {
+        nx: 0.31,
+        ny: 0.69,
+        depth: 0.78,
+        phase: 2.7,
+        r: 4.6,
+        tint: "cobalt",
+        alphaSpeed: 1.25,
+      },
+      {
+        nx: 0.46,
+        ny: 0.83,
+        depth: 1.16,
+        phase: 3.5,
+        r: 5.9,
+        tint: "ice",
+        alphaSpeed: 1.0,
+      },
+      {
+        nx: 0.63,
+        ny: 0.71,
+        depth: 0.86,
+        phase: 4.3,
+        r: 5.0,
+        tint: "slateBlue",
+        alphaSpeed: 1.32,
+      },
+      {
+        nx: 0.78,
+        ny: 0.82,
+        depth: 1.24,
+        phase: 5.0,
+        r: 6.1,
+        tint: "cobalt",
+        alphaSpeed: 0.92,
+      },
+      {
+        nx: 0.93,
+        ny: 0.74,
+        depth: 0.84,
+        phase: 5.7,
+        r: 4.8,
+        tint: "periwinkle",
+        alphaSpeed: 1.18,
+      },
+
+      {
+        nx: 0.11,
+        ny: 0.95,
+        depth: 1.12,
+        phase: 1.4,
+        r: 5.3,
+        tint: "cobalt",
+        alphaSpeed: 1.05,
+      },
+      {
+        nx: 0.28,
+        ny: 0.92,
+        depth: 0.82,
+        phase: 2.2,
+        r: 4.5,
+        tint: "ice",
+        alphaSpeed: 1.28,
+      },
+      {
+        nx: 0.48,
+        ny: 0.96,
+        depth: 1.18,
+        phase: 3.0,
+        r: 5.6,
+        tint: "slateBlue",
+        alphaSpeed: 0.82,
+      },
+      {
+        nx: 0.67,
+        ny: 0.93,
+        depth: 0.88,
+        phase: 3.8,
+        r: 4.9,
+        tint: "periwinkle",
+        alphaSpeed: 1.22,
+      },
+      {
+        nx: 0.85,
+        ny: 0.95,
+        depth: 1.15,
+        phase: 4.6,
+        r: 5.5,
+        tint: "midnight",
+        alphaSpeed: 0.96,
+      },
+    ];
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      width = Math.max(1, parent.clientWidth);
+      height = Math.max(1, parent.clientHeight);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Screenshot-inspired blues, slate-steel, midnight navy & soft periwinkle/ice highlights
+    const getPalette = (tint) => {
+      if (tint === "cobalt") {
+        return {
+          core: "rgba(29, 78, 216, 0.92)",
+          glow: "rgba(37, 99, 235, 0.34)",
+          line: "rgba(29, 78, 216, 0.62)",
+          halo: "rgba(59, 130, 246, 0.22)",
+        };
+      }
+      if (tint === "ice") {
+        return {
+          core: "rgba(2, 132, 199, 0.92)",
+          glow: "rgba(125, 211, 252, 0.38)",
+          line: "rgba(14, 165, 233, 0.58)",
+          halo: "rgba(186, 230, 253, 0.24)",
+        };
+      }
+      if (tint === "midnight") {
+        return {
+          core: "rgba(15, 23, 42, 0.92)",
+          glow: "rgba(30, 58, 138, 0.30)",
+          line: "rgba(30, 58, 138, 0.58)",
+          halo: "rgba(59, 130, 246, 0.16)",
+        };
+      }
+      if (tint === "periwinkle") {
+        return {
+          core: "rgba(79, 70, 229, 0.88)",
+          glow: "rgba(165, 180, 252, 0.36)",
+          line: "rgba(99, 102, 241, 0.56)",
+          halo: "rgba(199, 210, 254, 0.22)",
+        };
+      }
+      return {
+        core: "rgba(30, 64, 175, 0.90)",
+        glow: "rgba(147, 197, 253, 0.34)",
+        line: "rgba(59, 130, 246, 0.58)",
+        halo: "rgba(147, 197, 253, 0.20)",
+      };
+    };
+
+    const drawFrame = (nowMs) => {
+      const t = reducedMotion ? 1.0 : nowMs * 0.001;
+      const p = scrollProgressRef.current - 0.5;
+      ctx.clearRect(0, 0, width, height);
+
+      const linkThreshold = Math.min(355, Math.max(220, width * 0.3));
+
+      const pts = nodes.map((n) => {
+        const parallaxY = reducedMotion ? 0 : -p * 115 * n.depth;
+        const parallaxX = reducedMotion ? 0 : p * 42 * (n.depth - 0.78);
+        const driftX = reducedMotion
+          ? 0
+          : Math.sin(t * (0.55 + n.alphaSpeed * 0.18) + n.phase) * 22 +
+            Math.cos(t * 0.34 + n.phase * 1.7) * 8;
+        const driftY = reducedMotion
+          ? 0
+          : Math.cos(t * (0.48 + n.alphaSpeed * 0.16) + n.phase * 1.25) * 18;
+        const pulse = reducedMotion
+          ? 1
+          : 0.84 + 0.28 * Math.sin(t * (1.1 + n.alphaSpeed * 0.45) + n.phase);
+        // Animated transparency wave per node
+        const nodeAlpha = reducedMotion
+          ? 0.88
+          : 0.44 +
+            0.52 *
+              (0.5 +
+                0.5 * Math.sin(t * (0.85 + n.alphaSpeed * 0.55) + n.phase));
+
+        return {
+          x: n.nx * width + parallaxX + driftX,
+          y: n.ny * height + parallaxY + driftY,
+          r: n.r,
+          pulse,
+          nodeAlpha,
+          phase: n.phase,
+          alphaSpeed: n.alphaSpeed,
+          tint: n.tint,
+        };
+      });
+
+      for (let i = 0; i < pts.length; i += 1) {
+        for (let j = i + 1; j < pts.length; j += 1) {
+          const dx = pts[j].x - pts[i].x;
+          const dy = pts[j].y - pts[i].y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist < linkThreshold) {
+            const proximity = Math.pow(1 - dist / linkThreshold, 0.72);
+            // Animated transparency breathing along each connection edge
+            const edgeWave = reducedMotion
+              ? 0.82
+              : 0.26 +
+                0.74 *
+                  (0.5 +
+                    0.5 *
+                      Math.sin(
+                        t * (0.75 + ((i + j) % 4) * 0.22) +
+                          (pts[i].phase + pts[j].phase) * 0.5,
+                      ));
+
+            const combinedAlpha = Math.min(
+              0.96,
+              (0.14 + proximity * 0.76) * edgeWave,
+            );
+            const palA = getPalette(pts[i].tint);
+            const palB = getPalette(pts[j].tint);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = palA.halo;
+            ctx.globalAlpha = combinedAlpha * 0.72;
+            ctx.lineWidth = 4.5;
+            ctx.stroke();
+            ctx.restore();
+
+            const grad = ctx.createLinearGradient(
+              pts[i].x,
+              pts[i].y,
+              pts[j].x,
+              pts[j].y,
+            );
+            grad.addColorStop(0, palA.line);
+            grad.addColorStop(1, palB.line);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = grad;
+            ctx.globalAlpha = combinedAlpha;
+            ctx.lineWidth = 1.6;
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+
+      pts.forEach((pt) => {
+        const pal = getPalette(pt.tint);
+        const outerR = pt.r * 3.8 * pt.pulse;
+
+        ctx.save();
+        ctx.globalAlpha = pt.nodeAlpha;
+
+        const glowGrad = ctx.createRadialGradient(
+          pt.x,
+          pt.y,
+          0.5,
+          pt.x,
+          pt.y,
+          outerR,
+        );
+        glowGrad.addColorStop(0, pal.glow);
+        glowGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, outerR, 0, Math.PI * 2);
+        ctx.fillStyle = glowGrad;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, pt.r * (0.94 + 0.14 * pt.pulse), 0, Math.PI * 2);
+        ctx.fillStyle = pal.core;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(pt.x, pt.y, Math.max(1.8, pt.r * 0.42), 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.94)";
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      if (!reducedMotion) {
+        frameId = window.requestAnimationFrame(drawFrame);
+      }
+    };
+
+    drawFrame(performance.now());
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
+  }, [reducedMotion]);
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
+      {/* Cool blue-slate-periwinkle undertone inspired by the screenshot */}
       <div
         style={{
           background:
-            "linear-gradient(180deg, #F4F5F9 0%, #F1F2F7 52%, #F3F3F8 100%)",
+            "linear-gradient(165deg, #EEF3FA 0%, #E7EEF8 48%, #ECEEF8 100%)",
         }}
         className="absolute inset-0"
       />
-
       <div
         style={{
-          transform: `translate3d(${offsetA}px, ${offsetA * 0.45}px, 0)`,
           background:
-            "radial-gradient(ellipse 65% 55% at 18% 24%, rgba(37, 99, 235, 0.055) 0%, rgba(96, 165, 250, 0.025) 58%, transparent 80%)",
+            "radial-gradient(ellipse 76% 64% at 18% 24%, rgba(37, 99, 235, 0.16) 0%, rgba(125, 211, 252, 0.10) 56%, transparent 85%)",
         }}
-        className="absolute -inset-20 transition-transform duration-500 ease-out will-change-transform"
+        className="absolute inset-0"
       />
-
       <div
         style={{
-          transform: `translate3d(${offsetB}px, ${offsetB * 0.4}px, 0)`,
           background:
-            "radial-gradient(ellipse 65% 55% at 84% 76%, rgba(124, 58, 237, 0.05) 0%, rgba(244, 114, 182, 0.022) 58%, transparent 82%)",
+            "radial-gradient(ellipse 74% 62% at 84% 72%, rgba(30, 58, 138, 0.14) 0%, rgba(165, 180, 252, 0.10) 58%, transparent 86%)",
         }}
-        className="absolute -inset-20 transition-transform duration-500 ease-out will-change-transform"
+        className="absolute inset-0"
       />
+      <canvas ref={canvasRef} className="relative z-10 w-full h-full block" />
     </div>
   );
 };
@@ -2042,20 +2520,20 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
     <div
       style={{
         boxShadow: isDark
-          ? "0 22px 48px -18px rgba(11, 11, 12, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16)"
+          ? "0 22px 48px -18px rgba(11, 11, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18)"
           : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
       }}
       className={`group relative overflow-hidden rounded-[28px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
         isDark
-          ? "bg-[#0B0B0C] border border-white/12 text-white hover:border-white/22"
-          : "bg-white/95 backdrop-blur-2xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
+          ? "bg-[#0B0B0C] border border-white/14 text-white hover:border-white/24"
+          : "bg-white/92 backdrop-blur-xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
       } ${className}`}
     >
       <div
         aria-hidden="true"
         style={{
           background: isDark
-            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.28) 38%, rgba(216, 180, 254, 0.22) 72%, transparent 100%)"
+            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.34) 38%, rgba(216, 180, 254, 0.28) 72%, transparent 100%)"
             : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)",
         }}
         className="pointer-events-none absolute inset-x-0 top-0 h-[1px]"
@@ -2065,7 +2543,7 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         aria-hidden="true"
         style={{
           background: isDark
-            ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.14) 0%, transparent 58%)"
+            ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.18) 0%, transparent 58%)"
             : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.9) 0%, transparent 65%)",
         }}
         className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100 opacity-85"
@@ -3250,9 +3728,9 @@ export default function App() {
       <section
         id="hero-stage"
         ref={heroStageRef}
-        className="relative h-[210vh] sm:h-[215vh] bg-[#FFFFFF]"
+        className="relative h-[215vh] sm:h-[225vh] bg-[#FFFFFF]"
       >
-        <div className="sticky top-0 h-[100dvh] min-h-[680px] sm:min-h-[620px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
+        <div className="sticky top-0 h-[100dvh] min-h-[680px] lg:min-h-[760px] w-full overflow-hidden bg-[#FFFFFF] flex flex-col justify-center">
           <div
             style={{
               opacity: revealedTitleOpacity,
@@ -3287,10 +3765,10 @@ export default function App() {
             </div>
           </div>
 
-          <div className="relative z-20 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative z-20 w-full max-w-6xl lg:max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
             <div
               style={{ pointerEvents: heroOpacity < 0.2 ? "none" : "auto" }}
-              className="relative rounded-[28px] sm:rounded-[40px] min-h-[610px] sm:min-h-[650px] flex flex-col justify-between overflow-visible"
+              className="relative rounded-[28px] sm:rounded-[40px] min-h-[610px] sm:min-h-[670px] lg:min-h-[750px] xl:min-h-[790px] flex flex-col justify-between overflow-visible"
             >
               <div
                 style={{
@@ -3343,7 +3821,7 @@ export default function App() {
                   className="absolute inset-0 rounded-[28px] sm:rounded-[40px] pointer-events-none"
                 />
 
-                <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-7 sm:pt-8">
+                <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 lg:px-11 pt-7 sm:pt-8 lg:pt-9">
                   <HeroAvatarSpeechMark
                     size={42}
                     reducedMotion={reducedMotion}
@@ -3367,17 +3845,17 @@ export default function App() {
                   </nav>
                 </header>
 
-                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 py-16 sm:py-16">
-                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-6 sm:mb-5">
+                <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 lg:px-20 py-16 sm:py-20 lg:py-24">
+                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-6 sm:mb-6">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Data Engineering &amp; AI Engineering</span>
                   </div>
 
-                  <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-[-0.045em] text-white leading-[1.06]">
+                  <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[82px] font-bold tracking-[-0.045em] text-white leading-[1.05]">
                     Malte Reppke
                   </h1>
 
-                  <p className="mt-7 sm:mt-7 max-w-2xl text-sm sm:text-lg md:text-[19px] text-white/85 font-medium leading-[1.72] sm:leading-[1.68]">
+                  <p className="mt-7 sm:mt-8 max-w-2xl lg:max-w-3xl text-sm sm:text-lg md:text-[19px] lg:text-[21px] text-white/85 font-medium leading-[1.72] sm:leading-[1.68]">
                     Data Engineering &amp; KI-Systeme bei der{" "}
                     <span className="border-b border-[#60A5FA] pb-0.5 text-white">
                       Provinzial
@@ -3386,18 +3864,18 @@ export default function App() {
                     Pipelines und praxisnahes AI Engineering.
                   </p>
 
-                  <div className="mt-10 sm:mt-10">
+                  <div className="mt-10 sm:mt-12">
                     <button
                       type="button"
                       onClick={() => jumpToSection("work")}
-                      className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer"
                     >
                       <span>Einblick in meine Projekte</span>
                     </button>
                   </div>
                 </div>
 
-                <div className="relative z-10 pb-7 sm:pb-8 flex flex-col items-center gap-2.5 sm:gap-2">
+                <div className="relative z-10 pb-7 sm:pb-8 lg:pb-9 flex flex-col items-center gap-2.5 sm:gap-2">
                   <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/65">
                     Nach unten scrollen
                   </span>
@@ -3458,13 +3936,13 @@ export default function App() {
         </div>
       </section>
 
-      {/* 3. MOTIVATION */}
+      {/* 3. MOTIVATION WITH FULL-SECTION BLUE-MARBLE NODE-MESH & ANIMATED TRANSPARENCY */}
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#F4F5F9] py-16 sm:py-24 overflow-hidden"
+        className="relative bg-[#E7EEF8] py-20 sm:py-28 overflow-hidden"
       >
-        <SubtleMotivationGradient
+        <HeroAlignedMeshParallax
           sectionRef={motivationSectionRef}
           reducedMotion={reducedMotion}
         />
@@ -3669,8 +4147,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* 4. STATIONEN & TECH STACK */}
-      <section id="experience" className="bg-[#FBFBFD] py-16 sm:py-24">
+      {/* 4. STATIONEN & TECH STACK (MODERN & CLEAN SPACING) */}
+      <section id="experience" className="bg-[#FBFBFD] py-20 sm:py-28">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <HeadlineFlow
@@ -3688,149 +4166,200 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="mt-11 grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
             <RevealBlock
               delay={60}
               reducedMotion={reducedMotion}
               className="lg:col-span-7"
             >
-              <div className="rounded-3xl border border-[#E4E4E7] bg-white p-6 sm:p-8 space-y-6">
-                <div className="border-b border-[#E4E4E7] pb-5">
-                  <div className="w-full">
+              <div className="rounded-[28px] border border-[#E4E4E7] bg-white p-6 sm:p-9 shadow-2xs divide-y divide-[#E4E4E7]/85">
+                <div className="pb-8">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <BrandWordmark brand="provinzial" />
-                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                      Provinzial Versicherung AG · Stationen im Überblick
-                    </p>
-                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
+                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
                       01.05.2025 – heute
-                    </p>
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs font-semibold text-[#52525B]">
+                    Provinzial Versicherung AG · Stationen im Überblick
+                  </p>
 
-                    <div className="mt-4 space-y-3.5">
-                      {PROVINZIAL_STATIONS.map((item) => (
-                        <div key={item.title} className="space-y-1">
-                          <div className="flex flex-wrap items-baseline justify-between gap-2">
-                            <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
-                              {item.title}
-                            </p>
-                            <span className="text-[11px] font-mono text-[#52525B]">
-                              {item.period}
-                            </span>
-                          </div>
-                          <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
-                            {item.bullets.map((bullet) => (
-                              <li key={bullet} className="list-disc">
-                                {bullet}
-                              </li>
-                            ))}
-                          </ul>
+                  <div className="mt-5 space-y-6">
+                    {PROVINZIAL_STATIONS.map((item) => (
+                      <div
+                        key={item.title}
+                        className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5"
+                      >
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
+                            {item.title}
+                          </h3>
+                          <span className="text-[11px] font-mono font-semibold text-[#52525B]">
+                            {item.period}
+                          </span>
                         </div>
+                        <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
+                          {item.bullets.map((bullet) => (
+                            <li key={bullet} className="list-disc">
+                              {bullet}
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="pt-1 flex flex-wrap gap-1.5">
+                          {item.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="py-8">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <BrandWordmark brand="vodafone" />
+                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
+                      Nov 2022 – Mär 2025
+                    </span>
+                  </div>
+                  <div className="mt-4 rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5">
+                    <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
+                      {VODAFONE_STATION.title} · Vodafone GmbH
+                    </h3>
+                    <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
+                      {VODAFONE_STATION.bullets.map((bullet) => (
+                        <li key={bullet} className="list-disc">
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="pt-1 flex flex-wrap gap-1.5">
+                      {VODAFONE_STATION.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
+                        >
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="border-b border-[#E4E4E7] pb-5">
-                  <div>
-                    <BrandWordmark brand="vodafone" />
-                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                      Backend / Data Integration Firmenkunden · Vodafone GmbH
-                    </p>
-                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                      Nov 2022 bis Mär 2025
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="w-full">
+                <div className="pt-8">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <BrandWordmark brand="controlexpert" />
-                    <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                      ControlExpert GmbH · Stationen im Überblick
-                    </p>
-                    <p className="text-xs font-mono text-[#52525B] mt-0.5">
+                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
                       Jul 2012 – Aug 2022
-                    </p>
+                    </span>
+                  </div>
+                  <p className="mt-2 text-xs font-semibold text-[#52525B]">
+                    ControlExpert GmbH · Stationen im Überblick
+                  </p>
 
-                    <div className="mt-4 space-y-1">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
-                          {CONTROLEXPERT_FEATURED_STATION.title}
-                        </p>
-                        <span className="text-[11px] font-mono text-[#52525B]">
-                          {CONTROLEXPERT_FEATURED_STATION.period}
-                        </span>
-                      </div>
-                      <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
-                        {CONTROLEXPERT_FEATURED_STATION.bullets.map(
-                          (bullet) => (
-                            <li key={bullet} className="list-disc">
-                              {bullet}
-                            </li>
-                          ),
-                        )}
-                      </ul>
+                  <div className="mt-4 rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5">
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
+                        {CONTROLEXPERT_FEATURED_STATION.title}
+                      </h3>
+                      <span className="text-[11px] font-mono font-semibold text-[#52525B]">
+                        {CONTROLEXPERT_FEATURED_STATION.period}
+                      </span>
                     </div>
-
-                    <div className="mt-4">
-                      <button
-                        type="button"
-                        aria-expanded={controlExpertExpanded}
-                        onClick={() =>
-                          setControlExpertExpanded((prev) => !prev)
-                        }
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0A66C2] hover:text-[#084E96] transition-colors cursor-pointer"
-                      >
-                        <span>
-                          {controlExpertExpanded
-                            ? "Frühere Stationen ausblenden"
-                            : `Frühere Stationen einblenden (${CONTROLEXPERT_MORE_STATIONS.length})`}
+                    <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
+                      {CONTROLEXPERT_FEATURED_STATION.bullets.map((bullet) => (
+                        <li key={bullet} className="list-disc">
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="pt-1 flex flex-wrap gap-1.5">
+                      {CONTROLEXPERT_FEATURED_STATION.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
+                        >
+                          {tag}
                         </span>
-                        <ChevronDown
-                          className={`w-3.5 h-3.5 ${
-                            reducedMotion
-                              ? ""
-                              : `transition-transform duration-300 ${
-                                  controlExpertExpanded ? "rotate-180" : ""
-                                }`
-                          }`}
-                        />
-                      </button>
+                      ))}
+                    </div>
+                  </div>
 
-                      <div
-                        className={`grid ${
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      aria-expanded={controlExpertExpanded}
+                      onClick={() => setControlExpertExpanded((prev) => !prev)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F4F4F5] hover:bg-[#EAECEF] text-xs font-bold text-[#0A66C2] transition-colors cursor-pointer"
+                    >
+                      <span>
+                        {controlExpertExpanded
+                          ? "Frühere Stationen ausblenden"
+                          : `Frühere Stationen einblenden (${CONTROLEXPERT_MORE_STATIONS.length})`}
+                      </span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 ${
                           reducedMotion
-                            ? controlExpertExpanded
-                              ? "grid-rows-[1fr] opacity-100 mt-3.5"
-                              : "grid-rows-[0fr] opacity-0 mt-0"
-                            : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                                controlExpertExpanded
-                                  ? "grid-rows-[1fr] opacity-100 mt-3.5"
-                                  : "grid-rows-[0fr] opacity-0 mt-0"
+                            ? ""
+                            : `transition-transform duration-300 ${
+                                controlExpertExpanded ? "rotate-180" : ""
                               }`
                         }`}
-                      >
-                        <div className="overflow-hidden">
-                          <div className="space-y-3.5 pt-1 border-t border-[#E4E4E7]/80">
-                            {CONTROLEXPERT_MORE_STATIONS.map((item) => (
-                              <div key={item.title} className="space-y-1">
-                                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                                  <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
-                                    {item.title}
-                                  </p>
-                                  <span className="text-[11px] font-mono text-[#52525B]">
-                                    {item.period}
-                                  </span>
-                                </div>
-                                <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
-                                  {item.bullets.map((bullet) => (
-                                    <li key={bullet} className="list-disc">
-                                      {bullet}
-                                    </li>
-                                  ))}
-                                </ul>
+                      />
+                    </button>
+
+                    <div
+                      className={`grid ${
+                        reducedMotion
+                          ? controlExpertExpanded
+                            ? "grid-rows-[1fr] opacity-100 mt-4"
+                            : "grid-rows-[0fr] opacity-0 mt-0"
+                          : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                              controlExpertExpanded
+                                ? "grid-rows-[1fr] opacity-100 mt-4"
+                                : "grid-rows-[0fr] opacity-0 mt-0"
+                            }`
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="space-y-4">
+                          {CONTROLEXPERT_MORE_STATIONS.map((item) => (
+                            <div
+                              key={item.title}
+                              className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2"
+                            >
+                              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                <h4 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
+                                  {item.title}
+                                </h4>
+                                <span className="text-[11px] font-mono font-semibold text-[#52525B]">
+                                  {item.period}
+                                </span>
                               </div>
-                            ))}
-                          </div>
+                              <ul className="pl-4 space-y-1 text-xs text-[#52525B] leading-relaxed">
+                                {item.bullets.map((bullet) => (
+                                  <li key={bullet} className="list-disc">
+                                    {bullet}
+                                  </li>
+                                ))}
+                              </ul>
+                              <div className="pt-1 flex flex-wrap gap-1.5">
+                                {item.tags.map((tag) => (
+                                  <span
+                                    key={tag}
+                                    className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -3844,39 +4373,49 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-5"
             >
-              <div className="h-full rounded-3xl border border-[#E4E4E7] bg-[#F5F5F7]/75 p-6 sm:p-8 flex flex-col justify-between">
+              <div className="rounded-[28px] border border-[#E4E4E7] bg-white p-6 sm:p-9 shadow-2xs space-y-8">
                 <div>
                   <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
-                    <Terminal className="w-4 h-4" />
+                    <Terminal className="w-4 h-4 text-[#0B0B0C]" />
                     <span>Tech Stack</span>
                   </div>
                   <h3 className="mt-3 text-xl font-bold tracking-[-0.03em] text-[#0B0B0C]">
                     Werkzeuge für Daten, Backend &amp; UI
                   </h3>
+                  <p className="mt-2 text-xs text-[#52525B] leading-relaxed">
+                    Hover oder Klick auf einen Skill zeigt Kontext und Einsatz
+                    aus bisherigen Projekten.
+                  </p>
                   <SkillChainList
                     skills={CORE_SKILL_PILLS}
                     reducedMotion={reducedMotion}
                   />
                 </div>
 
-                <div className="mt-8 pt-5 border-t border-[#E4E4E7] space-y-2.5 text-xs text-[#52525B]">
-                  <div className="flex items-start gap-2.5">
-                    <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C] mt-0.5" />
-                    <span>
-                      <strong className="font-bold text-[#0B0B0C]">
-                        M. Sc. KI und Business Analytics
-                      </strong>{" "}
-                      (FOM, nebenberuflich ab 01.09.2026)
-                    </span>
+                <div className="pt-7 border-t border-[#E4E4E7]/85 space-y-4">
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
+                    <GraduationCap className="w-4 h-4 text-[#0B0B0C]" />
+                    <span>Studium &amp; Akademischer Hintergrund</span>
                   </div>
-                  <div className="flex items-start gap-2.5">
-                    <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C] mt-0.5" />
-                    <span>
-                      <strong className="font-bold text-[#0B0B0C]">
-                        B. Sc. Wirtschaftsinformatik
-                      </strong>{" "}
-                      (FOM Düsseldorf, 1,9) · Fokus auf Datenprodukte &amp; BI
-                    </span>
+
+                  <div className="space-y-3 text-xs text-[#52525B]">
+                    <div className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 space-y-1">
+                      <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                        M. Sc. KI und Business Analytics
+                      </p>
+                      <p className="text-[11px] font-mono text-[#52525B]">
+                        FOM · Berufsbegleitend ab 01.09.2026
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 space-y-1">
+                      <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                        B. Sc. Wirtschaftsinformatik (1,9)
+                      </p>
+                      <p className="text-[11px] font-mono text-[#52525B]">
+                        FOM Düsseldorf · Fokus auf Datenprodukte &amp; BI
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
