@@ -1745,10 +1745,8 @@ const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
 
   return (
     <div className="w-full pt-0.5">
-      {/* Mac Display Bezel */}
       <div className="rounded-xl bg-[#18181B] p-[5px] shadow-[0_10px_24px_-8px_rgba(11,11,12,0.35)] border border-[#27272A]">
         <div className="rounded-[7px] overflow-hidden bg-white">
-          {/* macOS Browser Top Bar */}
           <div className="h-4 px-2 bg-[#F4F4F5] border-b border-[#E4E4E7] flex items-center justify-between gap-1.5">
             <div className="flex items-center gap-1 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#FF5F56]" />
@@ -1761,14 +1759,12 @@ const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
             <span className="w-4 shrink-0" />
           </div>
 
-          {/* Screen Content */}
           <div className="aspect-[16/9.5] w-full overflow-hidden">
             {renderScreenPreview()}
           </div>
         </div>
       </div>
 
-      {/* Mac Aluminum Chin & Stand */}
       <div className="mx-auto w-11 h-2 bg-gradient-to-b from-[#D4D4D8] to-[#E4E4E7] rounded-b-xs" />
       <div className="mx-auto w-20 h-[3px] bg-[#D4D4D8] rounded-full shadow-2xs" />
     </div>
@@ -2190,8 +2186,12 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* PLAYFUL, ASYMMETRIC NODE-MESH IN SCREENSHOT BLUE/SLATE/PERIWINKLE PALETTE WITH TOP & BOTTOM OUTREACH */
-const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
+/* CONTAINED NODE-MESH INSIDE MOTIVATION SECTION WITH SMOOTH TOP/BOTTOM EDGE FADE */
+const HeroAlignedMeshParallax = ({
+  sectionRef,
+  reducedMotion = false,
+  isMobileView = false,
+}) => {
   const canvasRef = useRef(null);
   const scrollProgressRef = useRef(0.5);
 
@@ -2242,108 +2242,44 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
 
     const nodes = [
       {
-        nx: 0.05,
-        ny: 0.03,
-        depth: 0.9,
-        phase: 0.2,
+        nx: 0.06,
+        ny: 0.1,
+        depth: 0.85,
+        phase: 0.3,
         r: 5.0,
         tint: "ice",
         alphaSpeed: 0.9,
       },
       {
-        nx: 0.19,
-        ny: 0.05,
-        depth: 1.25,
-        phase: 1.1,
-        r: 6.2,
-        tint: "cobalt",
-        alphaSpeed: 1.25,
-      },
-      {
-        nx: 0.34,
-        ny: 0.03,
-        depth: 0.78,
-        phase: 1.9,
-        r: 4.6,
-        tint: "periwinkle",
-        alphaSpeed: 0.85,
-      },
-      {
-        nx: 0.51,
-        ny: 0.04,
+        nx: 0.18,
+        ny: 0.22,
         depth: 1.15,
-        phase: 2.7,
-        r: 5.8,
-        tint: "ice",
-        alphaSpeed: 1.1,
-      },
-      {
-        nx: 0.68,
-        ny: 0.03,
-        depth: 0.86,
-        phase: 3.5,
-        r: 4.8,
+        phase: 1.2,
+        r: 6.0,
         tint: "cobalt",
-        alphaSpeed: 1.0,
-      },
-      {
-        nx: 0.83,
-        ny: 0.05,
-        depth: 1.28,
-        phase: 4.3,
-        r: 6.1,
-        tint: "midnight",
         alphaSpeed: 1.2,
       },
       {
-        nx: 0.95,
-        ny: 0.04,
-        depth: 0.95,
-        phase: 5.2,
-        r: 5.0,
-        tint: "periwinkle",
-        alphaSpeed: 0.95,
-      },
-
-      {
-        nx: 0.04,
-        ny: 0.13,
-        depth: 0.85,
-        phase: 0.3,
-        r: 5.2,
-        tint: "ice",
-        alphaSpeed: 0.9,
-      },
-      {
-        nx: 0.14,
-        ny: 0.24,
-        depth: 1.25,
-        phase: 1.2,
-        r: 6.4,
-        tint: "cobalt",
-        alphaSpeed: 1.3,
-      },
-      {
-        nx: 0.27,
-        ny: 0.11,
-        depth: 0.72,
-        phase: 2.1,
-        r: 4.4,
-        tint: "slateBlue",
-        alphaSpeed: 0.75,
-      },
-      {
-        nx: 0.41,
-        ny: 0.21,
-        depth: 1.15,
-        phase: 2.9,
-        r: 6.0,
-        tint: "periwinkle",
-        alphaSpeed: 1.15,
-      },
-      {
-        nx: 0.57,
+        nx: 0.31,
         ny: 0.12,
+        depth: 0.75,
+        phase: 2.1,
+        r: 4.5,
+        tint: "slateBlue",
+        alphaSpeed: 0.8,
+      },
+      {
+        nx: 0.44,
+        ny: 0.21,
+        depth: 1.1,
+        phase: 2.9,
+        r: 5.8,
+        tint: "periwinkle",
+        alphaSpeed: 1.1,
+      },
+      {
+        nx: 0.58,
+        ny: 0.13,
         depth: 0.9,
         phase: 3.7,
         r: 4.8,
@@ -2351,27 +2287,27 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         alphaSpeed: 0.95,
       },
       {
-        nx: 0.72,
+        nx: 0.73,
         ny: 0.23,
-        depth: 1.3,
+        depth: 1.2,
         phase: 4.4,
-        r: 6.5,
+        r: 6.2,
         tint: "midnight",
-        alphaSpeed: 1.25,
+        alphaSpeed: 1.2,
       },
       {
         nx: 0.86,
         ny: 0.14,
-        depth: 0.78,
+        depth: 0.8,
         phase: 5.1,
         r: 5.0,
         tint: "cobalt",
         alphaSpeed: 0.85,
       },
       {
-        nx: 0.96,
-        ny: 0.25,
-        depth: 1.05,
+        nx: 0.95,
+        ny: 0.24,
+        depth: 1.0,
         phase: 5.8,
         r: 4.6,
         tint: "ice",
@@ -2379,16 +2315,16 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
 
       {
-        nx: 0.07,
-        ny: 0.41,
-        depth: 1.22,
+        nx: 0.08,
+        ny: 0.42,
+        depth: 1.15,
         phase: 0.8,
-        r: 5.8,
+        r: 5.6,
         tint: "cobalt",
-        alphaSpeed: 1.2,
+        alphaSpeed: 1.15,
       },
       {
-        nx: 0.22,
+        nx: 0.23,
         ny: 0.52,
         depth: 0.82,
         phase: 1.6,
@@ -2397,29 +2333,29 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         alphaSpeed: 0.8,
       },
       {
-        nx: 0.37,
-        ny: 0.39,
-        depth: 1.18,
+        nx: 0.38,
+        ny: 0.4,
+        depth: 1.12,
         phase: 2.4,
-        r: 6.2,
+        r: 6.0,
         tint: "ice",
-        alphaSpeed: 1.35,
+        alphaSpeed: 1.3,
       },
       {
-        nx: 0.53,
+        nx: 0.54,
         ny: 0.55,
         depth: 0.92,
         phase: 3.2,
-        r: 5.1,
+        r: 5.0,
         tint: "slateBlue",
         alphaSpeed: 0.9,
       },
       {
         nx: 0.69,
-        ny: 0.42,
-        depth: 1.26,
+        ny: 0.43,
+        depth: 1.18,
         phase: 4.0,
-        r: 6.2,
+        r: 6.0,
         tint: "cobalt",
         alphaSpeed: 1.1,
       },
@@ -2430,181 +2366,117 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         phase: 4.7,
         r: 4.9,
         tint: "periwinkle",
-        alphaSpeed: 1.4,
+        alphaSpeed: 1.3,
       },
       {
-        nx: 0.95,
-        ny: 0.44,
-        depth: 1.12,
+        nx: 0.94,
+        ny: 0.45,
+        depth: 1.08,
         phase: 5.4,
-        r: 5.4,
+        r: 5.2,
         tint: "midnight",
-        alphaSpeed: 0.78,
+        alphaSpeed: 0.8,
       },
 
       {
-        nx: 0.03,
-        ny: 0.71,
-        depth: 0.96,
+        nx: 0.06,
+        ny: 0.72,
+        depth: 0.95,
         phase: 1.0,
         r: 5.0,
         tint: "periwinkle",
-        alphaSpeed: 1.15,
+        alphaSpeed: 1.1,
       },
       {
-        nx: 0.16,
+        nx: 0.19,
         ny: 0.81,
-        depth: 1.28,
+        depth: 1.18,
         phase: 1.9,
-        r: 6.4,
+        r: 6.0,
         tint: "midnight",
-        alphaSpeed: 0.88,
+        alphaSpeed: 0.9,
       },
       {
-        nx: 0.31,
-        ny: 0.69,
-        depth: 0.78,
+        nx: 0.33,
+        ny: 0.7,
+        depth: 0.8,
         phase: 2.7,
         r: 4.6,
         tint: "cobalt",
-        alphaSpeed: 1.25,
+        alphaSpeed: 1.2,
       },
       {
-        nx: 0.46,
+        nx: 0.48,
         ny: 0.83,
-        depth: 1.16,
+        depth: 1.1,
         phase: 3.5,
-        r: 5.9,
+        r: 5.8,
         tint: "ice",
         alphaSpeed: 1.0,
       },
       {
-        nx: 0.63,
-        ny: 0.71,
+        nx: 0.64,
+        ny: 0.72,
         depth: 0.86,
         phase: 4.3,
         r: 5.0,
         tint: "slateBlue",
-        alphaSpeed: 1.32,
+        alphaSpeed: 1.25,
       },
       {
-        nx: 0.78,
+        nx: 0.79,
         ny: 0.82,
-        depth: 1.24,
+        depth: 1.15,
         phase: 5.0,
-        r: 6.1,
+        r: 5.9,
         tint: "cobalt",
         alphaSpeed: 0.92,
       },
       {
-        nx: 0.93,
-        ny: 0.74,
-        depth: 0.84,
+        nx: 0.92,
+        ny: 0.75,
+        depth: 0.85,
         phase: 5.7,
         r: 4.8,
         tint: "periwinkle",
-        alphaSpeed: 1.18,
+        alphaSpeed: 1.15,
       },
 
       {
-        nx: 0.11,
+        nx: 0.14,
         ny: 0.91,
-        depth: 1.12,
+        depth: 1.05,
         phase: 1.4,
-        r: 5.3,
+        r: 5.0,
         tint: "cobalt",
         alphaSpeed: 1.05,
       },
       {
-        nx: 0.28,
+        nx: 0.35,
         ny: 0.9,
         depth: 0.82,
         phase: 2.2,
         r: 4.5,
         tint: "ice",
-        alphaSpeed: 1.28,
+        alphaSpeed: 1.2,
       },
       {
-        nx: 0.48,
-        ny: 0.92,
-        depth: 1.18,
+        nx: 0.56,
+        ny: 0.91,
+        depth: 1.08,
         phase: 3.0,
-        r: 5.6,
+        r: 5.3,
         tint: "slateBlue",
-        alphaSpeed: 0.82,
+        alphaSpeed: 0.85,
       },
       {
-        nx: 0.67,
+        nx: 0.77,
         ny: 0.9,
         depth: 0.88,
         phase: 3.8,
         r: 4.9,
         tint: "periwinkle",
-        alphaSpeed: 1.22,
-      },
-      {
-        nx: 0.85,
-        ny: 0.91,
-        depth: 1.15,
-        phase: 4.6,
-        r: 5.5,
-        tint: "midnight",
-        alphaSpeed: 0.96,
-      },
-
-      {
-        nx: 0.06,
-        ny: 0.97,
-        depth: 0.95,
-        phase: 0.6,
-        r: 5.2,
-        tint: "ice",
-        alphaSpeed: 1.05,
-      },
-      {
-        nx: 0.21,
-        ny: 0.96,
-        depth: 1.25,
-        phase: 1.5,
-        r: 6.0,
-        tint: "cobalt",
-        alphaSpeed: 1.2,
-      },
-      {
-        nx: 0.39,
-        ny: 0.97,
-        depth: 0.85,
-        phase: 2.3,
-        r: 4.8,
-        tint: "periwinkle",
-        alphaSpeed: 0.9,
-      },
-      {
-        nx: 0.56,
-        ny: 0.96,
-        depth: 1.18,
-        phase: 3.1,
-        r: 5.7,
-        tint: "ice",
         alphaSpeed: 1.15,
-      },
-      {
-        nx: 0.74,
-        ny: 0.97,
-        depth: 0.88,
-        phase: 4.1,
-        r: 5.1,
-        tint: "cobalt",
-        alphaSpeed: 1.0,
-      },
-      {
-        nx: 0.91,
-        ny: 0.96,
-        depth: 1.22,
-        phase: 4.9,
-        r: 5.8,
-        tint: "midnight",
-        alphaSpeed: 1.1,
       },
     ];
 
@@ -2625,41 +2497,41 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
     const getPalette = (tint) => {
       if (tint === "cobalt") {
         return {
-          core: "rgba(29, 78, 216, 0.92)",
-          glow: "rgba(37, 99, 235, 0.34)",
-          line: "rgba(29, 78, 216, 0.62)",
-          halo: "rgba(59, 130, 246, 0.22)",
+          core: "rgba(29, 78, 216, 0.90)",
+          glow: "rgba(37, 99, 235, 0.30)",
+          line: "rgba(29, 78, 216, 0.56)",
+          halo: "rgba(59, 130, 246, 0.18)",
         };
       }
       if (tint === "ice") {
         return {
-          core: "rgba(2, 132, 199, 0.92)",
-          glow: "rgba(125, 211, 252, 0.38)",
-          line: "rgba(14, 165, 233, 0.58)",
-          halo: "rgba(186, 230, 253, 0.24)",
+          core: "rgba(2, 132, 199, 0.90)",
+          glow: "rgba(125, 211, 252, 0.34)",
+          line: "rgba(14, 165, 233, 0.52)",
+          halo: "rgba(186, 230, 253, 0.20)",
         };
       }
       if (tint === "midnight") {
         return {
-          core: "rgba(15, 23, 42, 0.92)",
-          glow: "rgba(30, 58, 138, 0.30)",
-          line: "rgba(30, 58, 138, 0.58)",
-          halo: "rgba(59, 130, 246, 0.16)",
+          core: "rgba(15, 23, 42, 0.90)",
+          glow: "rgba(30, 58, 138, 0.26)",
+          line: "rgba(30, 58, 138, 0.52)",
+          halo: "rgba(59, 130, 246, 0.14)",
         };
       }
       if (tint === "periwinkle") {
         return {
-          core: "rgba(79, 70, 229, 0.88)",
-          glow: "rgba(165, 180, 252, 0.36)",
-          line: "rgba(99, 102, 241, 0.56)",
-          halo: "rgba(199, 210, 254, 0.22)",
+          core: "rgba(79, 70, 229, 0.86)",
+          glow: "rgba(165, 180, 252, 0.32)",
+          line: "rgba(99, 102, 241, 0.52)",
+          halo: "rgba(199, 210, 254, 0.18)",
         };
       }
       return {
-        core: "rgba(30, 64, 175, 0.90)",
-        glow: "rgba(147, 197, 253, 0.34)",
-        line: "rgba(59, 130, 246, 0.58)",
-        halo: "rgba(147, 197, 253, 0.20)",
+        core: "rgba(30, 64, 175, 0.88)",
+        glow: "rgba(147, 197, 253, 0.30)",
+        line: "rgba(59, 130, 246, 0.52)",
+        halo: "rgba(147, 197, 253, 0.16)",
       };
     };
 
@@ -2668,36 +2540,43 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       const p = scrollProgressRef.current - 0.5;
       ctx.clearRect(0, 0, width, height);
 
-      const linkThreshold = Math.min(355, Math.max(220, width * 0.3));
+      const linkThreshold = Math.min(330, Math.max(200, width * 0.28));
+      const motionScale = isMobileView ? 0.65 : 1;
 
       const pts = nodes.map((n) => {
-        const parallaxY = reducedMotion ? 0 : -p * 72 * n.depth;
-        const parallaxX = reducedMotion ? 0 : p * 34 * (n.depth - 0.82);
+        const parallaxY = reducedMotion ? 0 : -p * 42 * n.depth * motionScale;
+        const parallaxX = reducedMotion
+          ? 0
+          : p * 22 * (n.depth - 0.82) * motionScale;
         const driftX = reducedMotion
           ? 0
-          : Math.sin(t * (0.55 + n.alphaSpeed * 0.18) + n.phase) * 18 +
-            Math.cos(t * 0.34 + n.phase * 1.7) * 7;
+          : Math.sin(t * (0.5 + n.alphaSpeed * 0.16) + n.phase) *
+            14 *
+            motionScale;
         const driftY = reducedMotion
           ? 0
-          : Math.cos(t * (0.48 + n.alphaSpeed * 0.16) + n.phase * 1.25) * 14;
+          : Math.cos(t * (0.45 + n.alphaSpeed * 0.14) + n.phase * 1.25) *
+            11 *
+            motionScale;
         const pulse = reducedMotion
           ? 1
-          : 0.84 + 0.28 * Math.sin(t * (1.1 + n.alphaSpeed * 0.45) + n.phase);
+          : 0.86 + 0.24 * Math.sin(t * (1.05 + n.alphaSpeed * 0.4) + n.phase);
         const nodeAlpha = reducedMotion
-          ? 0.88
-          : 0.46 +
-            0.5 *
-              (0.5 +
-                0.5 * Math.sin(t * (0.85 + n.alphaSpeed * 0.55) + n.phase));
+          ? 0.85
+          : 0.48 +
+            0.46 *
+              (0.5 + 0.5 * Math.sin(t * (0.8 + n.alphaSpeed * 0.5) + n.phase));
+
+        const rawX = n.nx * width + parallaxX + driftX;
+        const rawY = n.ny * height + parallaxY + driftY;
 
         return {
-          x: n.nx * width + parallaxX + driftX,
-          y: n.ny * height + parallaxY + driftY,
-          r: n.r,
+          x: Math.min(Math.max(rawX, 18), Math.max(18, width - 18)),
+          y: Math.min(Math.max(rawY, 22), Math.max(22, height - 22)),
+          r: isMobileView ? n.r * 0.88 : n.r,
           pulse,
           nodeAlpha,
           phase: n.phase,
-          alphaSpeed: n.alphaSpeed,
           tint: n.tint,
         };
       });
@@ -2711,19 +2590,19 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
           if (dist < linkThreshold) {
             const proximity = Math.pow(1 - dist / linkThreshold, 0.72);
             const edgeWave = reducedMotion
-              ? 0.82
-              : 0.26 +
-                0.74 *
+              ? 0.8
+              : 0.28 +
+                0.72 *
                   (0.5 +
                     0.5 *
                       Math.sin(
-                        t * (0.75 + ((i + j) % 4) * 0.22) +
+                        t * (0.7 + ((i + j) % 4) * 0.2) +
                           (pts[i].phase + pts[j].phase) * 0.5,
                       ));
 
             const combinedAlpha = Math.min(
-              0.96,
-              (0.14 + proximity * 0.76) * edgeWave,
+              0.92,
+              (0.14 + proximity * 0.72) * edgeWave,
             );
             const palA = getPalette(pts[i].tint);
             const palB = getPalette(pts[j].tint);
@@ -2733,8 +2612,8 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
             ctx.moveTo(pts[i].x, pts[i].y);
             ctx.lineTo(pts[j].x, pts[j].y);
             ctx.strokeStyle = palA.halo;
-            ctx.globalAlpha = combinedAlpha * 0.72;
-            ctx.lineWidth = 4.5;
+            ctx.globalAlpha = combinedAlpha * 0.65;
+            ctx.lineWidth = 4;
             ctx.stroke();
             ctx.restore();
 
@@ -2753,7 +2632,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
             ctx.lineTo(pts[j].x, pts[j].y);
             ctx.strokeStyle = grad;
             ctx.globalAlpha = combinedAlpha;
-            ctx.lineWidth = 1.6;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
             ctx.restore();
           }
@@ -2762,7 +2641,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
 
       pts.forEach((pt) => {
         const pal = getPalette(pt.tint);
-        const outerR = pt.r * 3.8 * pt.pulse;
+        const outerR = pt.r * 3.4 * pt.pulse;
 
         ctx.save();
         ctx.globalAlpha = pt.nodeAlpha;
@@ -2783,12 +2662,12 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, pt.r * (0.94 + 0.14 * pt.pulse), 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, pt.r * (0.94 + 0.12 * pt.pulse), 0, Math.PI * 2);
         ctx.fillStyle = pal.core;
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(pt.x, pt.y, Math.max(1.8, pt.r * 0.42), 0, Math.PI * 2);
+        ctx.arc(pt.x, pt.y, Math.max(1.7, pt.r * 0.42), 0, Math.PI * 2);
         ctx.fillStyle = "rgba(255, 255, 255, 0.94)";
         ctx.fill();
 
@@ -2806,37 +2685,48 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       window.removeEventListener("resize", resize);
       if (frameId) window.cancelAnimationFrame(frameId);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, isMobileView]);
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute -top-14 -bottom-14 inset-x-0 overflow-visible select-none z-0"
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
       <div
         style={{
           background:
-            "linear-gradient(165deg, #EEF3FA 0%, #E7EEF8 48%, #ECEEF8 100%)",
+            "linear-gradient(165deg, #EEF3FA 0%, #E7EEF8 52%, #ECEEF8 100%)",
         }}
         className="absolute inset-0"
       />
       <div
         style={{
           background:
-            "radial-gradient(ellipse 76% 64% at 18% 24%, rgba(37, 99, 235, 0.16) 0%, rgba(125, 211, 252, 0.10) 56%, transparent 85%)",
+            "radial-gradient(ellipse 76% 64% at 18% 24%, rgba(37, 99, 235, 0.14) 0%, rgba(125, 211, 252, 0.08) 56%, transparent 85%)",
         }}
         className="absolute inset-0"
       />
       <div
         style={{
           background:
-            "radial-gradient(ellipse 74% 62% at 84% 72%, rgba(30, 58, 138, 0.14) 0%, rgba(165, 180, 252, 0.10) 58%, transparent 86%)",
+            "radial-gradient(ellipse 74% 62% at 84% 72%, rgba(30, 58, 138, 0.12) 0%, rgba(165, 180, 252, 0.08) 58%, transparent 86%)",
         }}
         className="absolute inset-0"
       />
-      <canvas
-        ref={canvasRef}
-        className="relative z-10 w-full h-full block overflow-visible"
+      <canvas ref={canvasRef} className="relative z-10 w-full h-full block" />
+      <div
+        style={{
+          background:
+            "linear-gradient(to bottom, #FFFFFF 0%, rgba(255, 255, 255, 0.72) 45%, rgba(255, 255, 255, 0) 100%)",
+        }}
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-24 z-20"
+      />
+      <div
+        style={{
+          background:
+            "linear-gradient(to top, #FBFBFD 0%, rgba(251, 251, 253, 0.72) 45%, rgba(251, 251, 253, 0) 100%)",
+        }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-16 sm:h-24 z-20"
       />
     </div>
   );
@@ -4242,7 +4132,7 @@ export default function App() {
       </section>
 
       {/* 2. PROJEKTE */}
-      <section id="work" className="bg-[#FFFFFF] py-20 sm:py-28">
+      <section id="work" className="bg-[#FFFFFF] pt-16 sm:pt-20 pb-14 sm:pb-16">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <HeadlineFlow
@@ -4283,23 +4173,24 @@ export default function App() {
         </div>
       </section>
 
-      {/* 3. MOTIVATION WITH FULL-SECTION BLUE-MARBLE NODE-MESH & TOP/BOTTOM OUTREACH */}
+      {/* 3. MOTIVATION WITH CONTAINED BLUE-MARBLE NODE-MESH & GENEROUS BREATHING ROOM */}
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#E7EEF8] py-24 sm:py-32 overflow-visible"
+        className="relative bg-[#E7EEF8] py-20 sm:py-28 lg:py-36 overflow-hidden"
       >
         <HeroAlignedMeshParallax
           sectionRef={motivationSectionRef}
           reducedMotion={reducedMotion}
+          isMobileView={isMobileView}
         />
 
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <div className="mb-8">
+          <div className="mb-8 sm:mb-10">
             <HeadlineFlow kicker="Motivation" reducedMotion={reducedMotion} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6">
             <MotivationSlideIn
               from="left"
               delay={60}
@@ -4500,7 +4391,10 @@ export default function App() {
       </section>
 
       {/* 4. STATIONEN & TECH STACK (MODERN & CLEAN SPACING) */}
-      <section id="experience" className="bg-[#FBFBFD] py-20 sm:py-28">
+      <section
+        id="experience"
+        className="bg-[#FBFBFD] pt-16 sm:pt-24 lg:pt-28 pb-20 sm:pb-28"
+      >
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <HeadlineFlow
