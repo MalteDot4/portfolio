@@ -1345,87 +1345,22 @@ const TIMELINE_PROJECTS = [
     accentHex: "#007A6E",
     accentTextClass: "text-[#007A6E]",
     markerOffsetClass: "pt-2 sm:pt-4",
-    title: "Customer Data Hub, IT-DWH & Data Products",
+    title: "Customer Data Hub, IT-DWH & Agentic AI",
     tagline:
-      "PySpark · Azure Synapse · IT-DWH Data Engineering · Kundenselektionen",
+      "PySpark · Azure Synapse · IT-DWH · Selektionsframework · OpenCode & Agentic Workflows",
     periodBracket: "[ > 1 Jahr Erfahrung ]",
-    role: "Data Engineer (IT-DWH, ab Jun 2026) · Data-Analyst Customer Data & Analytics (01.05.2025 – 31.03.2026)",
+    role: "Data & AI Engineer (IT-DWH, ab 01.06.2026) · Data-Analyst Customer Data & Analytics (01.05.2025 – 30.05.2026)",
     organization: "Provinzial Versicherung AG",
     summary:
-      "Zentrale Datenprodukte, IT-DWH-Pipelines und Kundenselektionen in PySpark und Azure Synapse als belastbare Grundlage für Analytik und KI-Systeme.",
+      "Zentrale Datenprodukte, ein PySpark-Selektionsframework und IT-DWH-Pipelines auf Azure Synapse – erweitert um AI Engineering mit OpenCode und Agentic-Development-Workflows.",
     highlights: [
-      "Datenprodukte, Pipelines und Datenarchitektur im IT-DWH für analytische und KI-gestützte Anwendungsfälle",
-      "Aufbau von Datenprodukten in PySpark innerhalb Azure Synapse sowie Kundenselektionen",
-      "Verantwortungsvolle Abstimmung zwischen Fachbereichen, Datenmodellen und produktiven Pipelines",
-    ],
-    stack: "Python · PySpark · Azure Synapse · IT-DWH · SQL · Data Products",
-  },
-  {
-    id: "vodafone-pageforge",
-    indexTag: "[ 02 ]",
-    brand: "vodafone",
-    accentHex: "#E60000",
-    accentTextClass: "text-[#E60000]",
-    markerOffsetClass: "pt-8 sm:pt-12",
-    title: "Firmenkundenportal & PageForge",
-    tagline:
-      "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
-    periodBracket: "[ > 2 Jahre Erfahrung ]",
-    role: "Backend / Data Integration Firmenkunden",
-    organization: "Vodafone GmbH",
-    summary:
-      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, PageForge für über 200 Business-Websites sowie Microservices und CI/CD.",
-    highlights: [
-      "Entwicklung & Datenintegration für das Vodafone Firmenkundenportal",
-      "Entwicklung des Vodafone Blogs sowie über 200 Business-Websites",
-      "Implementierung von Microservices für Vertragsdaten mit Node.js",
-      "Anhebung der Automatisierung CI/CD in der Git-Pipeline",
-    ],
-    stack: "Node.js · React.js · Next.js · Docker · CI/CD · Microservices",
-  },
-  {
-    id: "controlexpert-easyclaim",
-    indexTag: "[ 03 ]",
-    brand: "controlexpert",
-    accentHex: "#0A66C2",
-    accentTextClass: "text-[#0A66C2]",
-    markerOffsetClass: "pt-14 sm:pt-20",
-    title: "EasyClaim & Daten-/BI-Plattform",
-    tagline:
-      "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
-    periodBracket: "[ > 10 Jahre Erfahrung ]",
-    role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
-    organization: "ControlExpert GmbH",
-    summary:
-      "Webapplikation zur digitalen Schadenaufnahme, Data-Warehouse-Aufbau, SQL-Reporting sowie Prozess- und Datenlösungen im Versicherungs- und Automobilumfeld.",
-    highlights: [
-      "Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend & .NET C# im Backend",
-      "Absicherung der Codequalität mit Jest & Cypress im Kanban- und Design-Thinking-Umfeld",
-      "Entwicklung eines Data Warehouse mit SQL-Reporting & Visualisierung in Tableau",
-      "Digitalisierung & Prozessautomatisierung mit IBM BPM sowie interne Kalkulationsanwendung in Scrum",
-      "Erhebung, Abfrage & Pflege von Herstellerdaten in relationalen Datenbanken",
+      "AI Engineering mit OpenCode & Einführung von Core Agentic-Development-Workflows im IT-DWH-Projekt (ab 01.06.2026)",
+      "Entwicklung skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Systeme",
+      "Stark PySpark-getriebene Datenprodukt-Entwicklung auf Azure Synapse inkl. eigenem Selektionsframework für Kundenselektionen (01.05.2025 – 30.05.2026)",
+      "Ca. 6 Monate als Interim-PO (bis 01.04.2026) für das Data-Team",
     ],
     stack:
-      "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
-  },
-];
-
-const PROVINZIAL_STATIONS = [
-  {
-    title: "Data Engineer · IT-DWH",
-    period: "Ab 01.06.2026",
-    bullets: [
-      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als belastbare Grundlage für Analytik und KI-Anwendungen",
-      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
-    ],
-  },
-  {
-    title: "Data-Analyst Customer Data & Analytics",
-    period: "01.05.2025 – 30.05.2026",
-    bullets: [
-      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
-      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
-    ],
+      "Python · PySpark · Azure Synapse · OpenCode · Agentic Workflows · IT-DWH · SQL",
   },
 ];
 
