@@ -395,7 +395,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(renderLoop);
+      if (frameId) window.cancelAnimationFrame(frameId);
     };
   }, [paused]);
 
@@ -1329,34 +1329,32 @@ const CORE_SKILL_PILLS = [
 const InteractiveProjectColumn = ({
   project,
   isPinned,
-  isHovered,
-  onToggleOpenClick,
+  isExpanded,
+  onToggleExpandClick,
   onTogglePin,
   onHoverChange,
   reducedMotion,
 }) => {
-  const isOpen = isPinned || isHovered;
-
   return (
     <div
-      onClick={onToggleOpenClick}
+      onClick={onToggleExpandClick}
       onMouseEnter={() => onHoverChange(project.id)}
       onMouseLeave={() => onHoverChange(null)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onToggleOpenClick();
+          onToggleExpandClick();
         }
       }}
       role="button"
       tabIndex={0}
-      aria-expanded={isOpen}
+      aria-expanded={isExpanded}
       aria-label={`${project.title} – Steckbrief öffnen oder schließen`}
       className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] border-t md:border-t-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[340px] sm:min-h-[390px] ${
         reducedMotion
           ? "bg-[#FFFFFF]"
           : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isOpen
+              isExpanded
                 ? "bg-[#FAFAFA] shadow-[inset_0_2px_0_0_rgba(11,11,12,0.06)]"
                 : "bg-[#FFFFFF] hover:bg-[#FAFAFA]"
             }`
@@ -1378,7 +1376,7 @@ const InteractiveProjectColumn = ({
                 reducedMotion
                   ? ""
                   : `transition-transform duration-300 ${
-                      isOpen ? "scale-125" : "group-hover:scale-110"
+                      isExpanded ? "scale-125" : "group-hover:scale-110"
                     }`
               }`}
             />
@@ -1388,7 +1386,7 @@ const InteractiveProjectColumn = ({
                 reducedMotion
                   ? ""
                   : `transition-all duration-300 ${
-                      isOpen
+                      isExpanded
                         ? "h-[3px] opacity-100"
                         : "opacity-80 group-hover:opacity-100"
                     }`
@@ -1408,11 +1406,11 @@ const InteractiveProjectColumn = ({
         <div
           className={`grid ${
             reducedMotion
-              ? isOpen
+              ? isExpanded
                 ? "grid-rows-[1fr] opacity-100 mt-5"
                 : "grid-rows-[0fr] opacity-0 mt-0"
               : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                  isOpen
+                  isExpanded
                     ? "grid-rows-[1fr] opacity-100 mt-5"
                     : "grid-rows-[0fr] opacity-0 mt-0"
                 }`
@@ -1509,7 +1507,7 @@ const InteractiveProjectColumn = ({
         </span>
 
         <span
-          className={`inline-flex items-center gap-1 text-xs font-bold ${
+          className={`inline-flex items-center gap-1.5 text-xs font-bold ${
             project.accentTextClass
           } ${
             reducedMotion
@@ -1517,14 +1515,18 @@ const InteractiveProjectColumn = ({
               : "transition-transform duration-300 group-hover:translate-x-0.5"
           }`}
         >
-          <span>
-            {isPinned ? "Angepinnt" : isOpen ? "Schließen" : "Steckbrief"}
-          </span>
+          {isPinned && (
+            <Pin
+              aria-label="Angepinnt"
+              className="w-3 h-3 -rotate-45 fill-current shrink-0"
+            />
+          )}
+          <span>Steckbrief</span>
           <ChevronRight
             className={`w-3.5 h-3.5 ${
               reducedMotion
                 ? ""
-                : `transition-transform duration-300 ${isOpen ? "rotate-90" : ""}`
+                : `transition-transform duration-300 ${isExpanded ? "rotate-90" : ""}`
             }`}
           />
         </span>
@@ -1547,11 +1549,28 @@ export default function App() {
   const [activeSecIdx, setActiveSecIdx] = useState(0);
   const [copied, setCopied] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
   const [pinnedIds, setPinnedIds] = useState([]);
+  const [expandedIds, setExpandedIds] = useState([]);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateMobileFlag = () => {
+      const coarse = window.matchMedia
+        ? window.matchMedia("(pointer: coarse)").matches
+        : false;
+      const small = window.innerWidth < 768;
+      setIsMobileView(coarse || small);
+    };
+    updateMobileFlag();
+    window.addEventListener("resize", updateMobileFlag);
+    return () => window.removeEventListener("resize", updateMobileFlag);
+  }, []);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -1592,12 +1611,24 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    lastScrollYRef.current = window.scrollY;
     let rafId = null;
 
     const handleScroll = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const scrollY = window.scrollY;
+        const deltaY = Math.abs(scrollY - lastScrollYRef.current);
+        lastScrollYRef.current = scrollY;
+
+        const coarse = window.matchMedia
+          ? window.matchMedia("(pointer: coarse)").matches
+          : false;
+        const mobileNow = coarse || window.innerWidth < 768;
+        if (mobileNow && deltaY > 6) {
+          setExpandedIds((prev) => prev.filter((id) => pinnedIds.includes(id)));
+        }
+
         const maxScroll = Math.max(
           document.documentElement.scrollHeight - window.innerHeight,
           1,
@@ -1632,7 +1663,7 @@ export default function App() {
       window.removeEventListener("resize", handleScroll);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [pinnedIds]);
 
   const jumpToSection = (id) => {
     const target = document.getElementById(id);
@@ -1653,19 +1684,37 @@ export default function App() {
   };
 
   const handleTogglePin = (projectId) => {
+    const willPin = !pinnedIds.includes(projectId);
     setPinnedIds((prev) =>
-      prev.includes(projectId)
-        ? prev.filter((id) => id !== projectId)
-        : [...prev, projectId],
+      willPin ? [...prev, projectId] : prev.filter((id) => id !== projectId),
     );
+    if (willPin) {
+      setExpandedIds((prev) =>
+        prev.includes(projectId) ? prev : [...prev, projectId],
+      );
+    }
   };
 
   const handleProjectClick = (projectId) => {
-    setPinnedIds((prev) =>
-      prev.includes(projectId)
-        ? prev.filter((id) => id !== projectId)
-        : [...prev, projectId],
-    );
+    const isCurrentlyPinned = pinnedIds.includes(projectId);
+    const isCurrentlyExpanded =
+      isCurrentlyPinned || expandedIds.includes(projectId);
+
+    if (isCurrentlyExpanded) {
+      if (isCurrentlyPinned) {
+        setPinnedIds((prev) => prev.filter((id) => id !== projectId));
+      }
+      setExpandedIds((prev) => prev.filter((id) => id !== projectId));
+    } else {
+      setExpandedIds((prev) => [...prev, projectId]);
+    }
+  };
+
+  const handleClearAllPins = () => {
+    setPinnedIds([]);
+    if (isMobileView) {
+      setExpandedIds([]);
+    }
   };
 
   const handleCopyEmail = () => {
@@ -1920,7 +1969,7 @@ export default function App() {
             {pinnedIds.length > 0 && (
               <button
                 type="button"
-                onClick={() => setPinnedIds([])}
+                onClick={handleClearAllPins}
                 className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
               >
                 Alle Fixierungen lösen ({pinnedIds.length})
@@ -1930,18 +1979,26 @@ export default function App() {
 
           <RevealBlock delay={80} reducedMotion={reducedMotion}>
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
-              {TIMELINE_PROJECTS.map((project) => (
-                <InteractiveProjectColumn
-                  key={project.id}
-                  project={project}
-                  isPinned={pinnedIds.includes(project.id)}
-                  isHovered={hoveredProjectId === project.id}
-                  onToggleOpenClick={() => handleProjectClick(project.id)}
-                  onTogglePin={handleTogglePin}
-                  onHoverChange={setHoveredProjectId}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
+              {TIMELINE_PROJECTS.map((project) => {
+                const isPinned = pinnedIds.includes(project.id);
+                const isExpanded =
+                  isPinned ||
+                  expandedIds.includes(project.id) ||
+                  (!isMobileView && hoveredProjectId === project.id);
+
+                return (
+                  <InteractiveProjectColumn
+                    key={project.id}
+                    project={project}
+                    isPinned={isPinned}
+                    isExpanded={isExpanded}
+                    onToggleExpandClick={() => handleProjectClick(project.id)}
+                    onTogglePin={handleTogglePin}
+                    onHoverChange={setHoveredProjectId}
+                    reducedMotion={reducedMotion}
+                  />
+                );
+              })}
             </div>
           </RevealBlock>
         </div>
