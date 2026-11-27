@@ -19,14 +19,13 @@ import {
   ChevronRight,
   Pin,
 } from "lucide-react";
+import avatarLogo from "./assets/Logo.png";
 
 const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
 
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 const SUBTLE_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#F5F5F7"/><circle cx="32" cy="32" r="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="2"/><text x="32" y="38.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="20" font-weight="700" letter-spacing="-0.04em" fill="#0B0B0C">MR</text><circle cx="46" cy="18" r="3.2" fill="#2563EB"/></svg>`;
-
-const AVATAR_LOGO_SRC = "./Logo.png";
 
 const AvatarGreetingMark = ({
   size = 40,
@@ -102,7 +101,7 @@ const AvatarGreetingMark = ({
         }`}
       >
         <img
-          src={AVATAR_LOGO_SRC}
+          src={avatarLogo}
           alt="Malte Reppke Avatar"
           className="w-full h-full object-cover object-top"
         />
