@@ -35,7 +35,7 @@ const AvatarGreetingMark = ({
 }) => {
   const [hovered, setHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
-  const greetingText = "Hi!";
+  const greetingText = "Hi! Es freut mich dich kennenzulernen.";
 
   useEffect(() => {
     if (!hovered) {
@@ -56,7 +56,7 @@ const AvatarGreetingMark = ({
       if (idx >= greetingText.length) {
         window.clearInterval(interval);
       }
-    }, 95);
+    }, 42);
 
     return () => window.clearInterval(interval);
   }, [hovered, reducedMotion]);
@@ -79,7 +79,7 @@ const AvatarGreetingMark = ({
         }
         @keyframes mrSpeakPulse {
           0%, 100% { transform: translateY(0px) scale(1); }
-          50% { transform: translateY(-1.5px) scale(1.03); }
+          50% { transform: translateY(-1.5px) scale(1.02); }
         }
       `}</style>
 
@@ -111,7 +111,7 @@ const AvatarGreetingMark = ({
       <div
         role="status"
         aria-live="polite"
-        className={`pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 whitespace-nowrap ${
+        className={`pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 max-w-[260px] sm:max-w-[320px] ${
           reducedMotion
             ? hovered
               ? "opacity-100 translate-x-0"
@@ -133,7 +133,7 @@ const AvatarGreetingMark = ({
                 }
               : undefined
           }
-          className="inline-block text-sm leading-none select-none"
+          className="inline-block text-sm leading-none select-none shrink-0"
         >
           👋
         </span>
@@ -141,10 +141,10 @@ const AvatarGreetingMark = ({
         <span
           style={
             !reducedMotion && hovered && typedCount > 0
-              ? { animation: "mrSpeakPulse 0.9s ease-in-out infinite" }
+              ? { animation: "mrSpeakPulse 0.95s ease-in-out infinite" }
               : undefined
           }
-          className="inline-flex items-center text-xs sm:text-sm font-bold tracking-tight text-[#0B0B0C]"
+          className="inline-flex flex-wrap items-center text-xs font-bold tracking-tight text-[#0B0B0C] leading-snug"
         >
           <span>{greetingText.slice(0, typedCount)}</span>
           {hovered && !reducedMotion && typedCount < greetingText.length && (
