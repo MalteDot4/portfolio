@@ -5,6 +5,7 @@ import React, {
   useLayoutEffect,
   useMemo,
 } from "react";
+import { jsPDF } from "jspdf";
 import {
   Sparkles,
   Database,
@@ -180,19 +181,15 @@ const CV_POSITIONS = [
       company: "Provinzial Versicherung AG",
       period: "Ab 01.06.2026",
       role: "Data Engineer & AI Engineer · IT-DWH",
-      bullets: [
-        "Aufbau und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Anwendungen.",
-        "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt.",
-      ],
+      summary:
+        "Aufbau und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Anwendungen sowie AI Engineering mit OpenCode und Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt.",
     },
     en: {
       company: "Provinzial Versicherung AG",
       period: "Since Jun 2026",
       role: "Data Engineer & AI Engineer · Enterprise DWH",
-      bullets: [
-        "Architected and operated scalable data products, pipelines, and DWH foundations supporting analytics and applied AI workloads.",
-        "Drove AI engineering with OpenCode and established agentic development workflows to accelerate high-quality delivery.",
-      ],
+      summary:
+        "Architected and operated scalable data products, pipelines, and DWH foundations supporting analytics and applied AI workloads, driving AI engineering with OpenCode and agentic development workflows for reliable delivery.",
     },
   },
   {
@@ -202,19 +199,15 @@ const CV_POSITIONS = [
       company: "Provinzial Versicherung AG",
       period: "01.05.2025 – 30.05.2026",
       role: "Data-Analyst Customer Data & Analytics",
-      bullets: [
-        "Entwicklung PySpark-basierter Datenprodukte auf Azure Synapse inklusive eines Selektionsframeworks für Kundenselektionen.",
-        "Ca. sechs Monate (bis 01.04.2026) als Interim Product Owner für das Data-Team zur Steuerung und Priorisierung von Anforderungen.",
-      ],
+      summary:
+        "Entwicklung PySpark-basierter Datenprodukte auf Azure Synapse inklusive eines Selektionsframeworks für Kundenselektionen sowie ca. sechs Monate (bis 01.04.2026) als Interim Product Owner für das Data-Team zur Steuerung und Priorisierung von Anforderungen.",
     },
     en: {
       company: "Provinzial Versicherung AG",
       period: "May 2025 – May 2026",
       role: "Data Analyst · Customer Data & Analytics",
-      bullets: [
-        "Built PySpark data products on Azure Synapse, including a customer segmentation and selection framework.",
-        "Served as Interim Product Owner for the data team for approx. six months (until Apr 2026) to align backlog priorities and stakeholders.",
-      ],
+      summary:
+        "Built PySpark data products on Azure Synapse including a customer selection framework, while serving as Interim Product Owner for the data team for roughly six months (until Apr 2026) to align priorities and stakeholders.",
     },
   },
   {
@@ -224,19 +217,15 @@ const CV_POSITIONS = [
       company: "Vodafone GmbH",
       period: "Nov 2022 – Mär 2025",
       role: "Backend / Data Integration Firmenkunden",
-      bullets: [
-        "Entwicklung und Datenintegration für das Firmenkundenportal, den Blog sowie über 200 Business-Websites.",
-        "Implementierung von Microservices für Vertragsdaten in Node.js sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines.",
-      ],
+      summary:
+        "Entwicklung und Datenintegration für das Firmenkundenportal, den Blog sowie über 200 Business-Websites, inklusive Microservices für Vertragsdaten in Node.js und Ausbau der CI/CD-Automatisierung in Git-Pipelines.",
     },
     en: {
       company: "Vodafone GmbH",
       period: "Nov 2022 – Mar 2025",
       role: "Backend & Data Integration Engineer · Enterprise B2B",
-      bullets: [
-        "Developed and integrated data flows for the enterprise customer portal, blog, and 200+ business web properties.",
-        "Engineered Node.js contract-data microservices and increased CI/CD automation across Git delivery pipelines.",
-      ],
+      summary:
+        "Developed and integrated data flows for the enterprise customer portal, blog, and 200+ business web properties, implementing Node.js contract-data microservices and strengthening CI/CD automation across Git pipelines.",
     },
   },
   {
@@ -246,19 +235,15 @@ const CV_POSITIONS = [
       company: "ControlExpert GmbH",
       period: "Jul 2019 – Aug 2022",
       role: "Softwareentwickler Versicherungsbranche",
-      bullets: [
-        "Entwicklung einer Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend und .NET C# im Backend.",
-        "Agile Zusammenarbeit nach Kanban und Design Thinking mit automatisierten Tests in Jest und Cypress.",
-      ],
+      summary:
+        "Entwicklung einer Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend und .NET C# im Backend im agilen Kanban- und Design-Thinking-Umfeld mit automatisierten Tests in Jest und Cypress.",
     },
     en: {
       company: "ControlExpert GmbH",
       period: "Jul 2019 – Aug 2022",
       role: "Software Engineer · Insurance & Claims",
-      bullets: [
-        "Built a digital claims-intake web application using React.js on the frontend and .NET C# on the backend.",
-        "Delivered in Kanban and Design Thinking setups with automated test coverage via Jest and Cypress.",
-      ],
+      summary:
+        "Built a digital claims-intake web application with React.js on the frontend and .NET C# on the backend, collaborating in Kanban and Design Thinking workflows backed by automated Jest and Cypress tests.",
     },
   },
   {
@@ -268,442 +253,300 @@ const CV_POSITIONS = [
       company: "ControlExpert GmbH",
       period: "Jul 2012 – Jun 2019",
       role: "BI-Specialist · Business-Analyst · Data-Specialist",
-      bullets: [
-        "Aufbau eines Data Warehouse, SQL-Reporting und KPI-Visualisierung in Tableau für Fachbereiche.",
-        "Prozessautomatisierung mit IBM BPM, Product Management einer Kalkulationsanwendung in Scrum sowie Herstellerdatenpflege.",
-      ],
+      summary:
+        "Aufbau eines Data Warehouse mit SQL-Reporting und KPI-Visualisierung in Tableau sowie Prozessautomatisierung mit IBM BPM, Product Management einer Kalkulationsanwendung in Scrum und Herstellerdatenpflege.",
     },
     en: {
       company: "ControlExpert GmbH",
       period: "Jul 2012 – Jun 2019",
       role: "BI Specialist · Business Analyst · Data Specialist",
-      bullets: [
-        "Developed a data warehouse, SQL reporting layer, and Tableau KPI dashboards for business stakeholders.",
-        "Delivered IBM BPM process automation, Scrum product management for a calculation tool, and automotive data curation.",
-      ],
+      summary:
+        "Developed a data warehouse with SQL reporting and Tableau KPI dashboards, alongside IBM BPM process automation, Scrum product management for a calculation application, and automotive data curation.",
     },
   },
 ];
 
-/* TRUE WINDOWS-1252 / WINANSI BYTE ENCODER FOR PDF-1.4 TYPE1 FONTS */
-const CP1252_EXTRA_MAP = {
-  0x20ac: 0x80,
-  0x201a: 0x82,
-  0x0192: 0x83,
-  0x201e: 0x84,
-  0x2026: 0x85,
-  0x2020: 0x86,
-  0x2021: 0x87,
-  0x02c6: 0x88,
-  0x2030: 0x89,
-  0x0160: 0x8a,
-  0x2039: 0x8b,
-  0x0152: 0x8c,
-  0x017d: 0x8e,
-  0x2018: 0x91,
-  0x2019: 0x92,
-  0x201c: 0x93,
-  0x201d: 0x94,
-  0x2022: 0x95,
-  0x2013: 0x96,
-  0x2014: 0x97,
-  0x02dc: 0x98,
-  0x2122: 0x99,
-  0x0161: 0x9a,
-  0x203a: 0x9b,
-  0x0153: 0x9c,
-  0x017e: 0x9e,
-  0x0178: 0x9f,
-};
-
-const encodeWinAnsiBytes = (str = "") => {
-  const normalized = String(str)
-    .replace(/\u2013|\u2014/g, "-")
-    .replace(/\u00b7/g, "·");
-
-  const bytes = [];
-  for (let i = 0; i < normalized.length; i += 1) {
-    const code = normalized.charCodeAt(i);
-    if ((code >= 0x20 && code <= 0x7e) || (code >= 0xa0 && code <= 0xff)) {
-      bytes.push(code);
-    } else if (Object.prototype.hasOwnProperty.call(CP1252_EXTRA_MAP, code)) {
-      bytes.push(CP1252_EXTRA_MAP[code]);
-    } else {
-      bytes.push(0x2d);
-    }
-  }
-  return Uint8Array.from(bytes);
-};
-
-const toPdfLiteralString = (input = "") => {
-  const rawBytes = encodeWinAnsiBytes(input);
-  const out = [];
-  for (let i = 0; i < rawBytes.length; i += 1) {
-    const b = rawBytes[i];
-    if (b === 0x28 || b === 0x29 || b === 0x5c) {
-      out.push(0x5c, b);
-    } else if (b >= 0x20 && b <= 0x7e) {
-      out.push(b);
-    } else {
-      const octal = b.toString(8).padStart(3, "0");
-      out.push(0x5c);
-      for (let j = 0; j < octal.length; j += 1) {
-        out.push(octal.charCodeAt(j));
-      }
-    }
-  }
-  return `(${String.fromCharCode(...out)})`;
-};
-
-const wrapPdfText = (text, maxChars) => {
-  const words = String(text || "")
-    .split(/\s+/)
-    .filter(Boolean);
-  if (words.length === 0) return [];
-  const lines = [];
-  let current = words[0];
-
-  for (let i = 1; i < words.length; i += 1) {
-    const candidate = `${current} ${words[i]}`;
-    if (candidate.length <= maxChars) {
-      current = candidate;
-    } else {
-      lines.push(current);
-      current = words[i];
-    }
-  }
-  lines.push(current);
-  return lines;
-};
-
-const concatUint8Arrays = (chunks) => {
-  const total = chunks.reduce((sum, arr) => sum + arr.length, 0);
-  const merged = new Uint8Array(total);
-  let offset = 0;
-  chunks.forEach((arr) => {
-    merged.set(arr, offset);
-    offset += arr.length;
-  });
-  return merged;
-};
-
-/* CLASSIC BUSINESS CV TEMPLATE (2ND TEMPLATE LAYOUT) WITH DE / EN & LIGHT / DARK */
-const buildCvPdfBlob = ({
-  theme = "light",
-  lang = "de",
-  summary,
-  recruiterNote = "",
-  positions,
-  skills,
+/* TEMPLATE-EXACT DIRECT PDF GENERATOR (JSPDF, NO PRINT DIALOG) */
+const downloadCvPdfDirect = ({
+  isEn,
+  isDarkPdf,
+  summaryText,
+  displaySkills,
+  filteredPositions,
+  trimmedNote,
+  fileName,
 }) => {
-  const isDark = theme === "dark";
-  const isEn = lang === "en";
-  const pageW = 595.28;
-  const pageH = 841.89;
-  const marginX = 48;
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+  });
+
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const marginX = 18;
   const contentW = pageW - marginX * 2;
 
-  const bgRgb = isDark ? "0.051 0.055 0.067" : "1 1 1";
-  const inkRgb = isDark ? "0.95 0.96 0.98" : "0.075 0.082 0.102";
-  const bodyRgb = isDark ? "0.82 0.85 0.89" : "0.24 0.26 0.30";
-  const mutedRgb = isDark ? "0.62 0.66 0.73" : "0.42 0.45 0.50";
-  const ruleRgb = isDark ? "0.24 0.27 0.33" : "0.78 0.80 0.84";
-
-  const copy = isEn
+  const palette = isDarkPdf
     ? {
-        subtitle: "Data Engineer & AI Engineer",
-        contactLine:
-          "malte_reppke@web.de  ·  github.com/malte-reppke  ·  Hilden, Germany",
-        profileHeading: "EXECUTIVE PROFILE",
-        competenciesHeading: "CORE COMPETENCIES",
-        experienceHeading: "PROFESSIONAL EXPERIENCE",
-        educationHeading: "EDUCATION",
-        notesHeading: "RECRUITER NOTES",
-        edu1Title: "M.Sc. Artificial Intelligence & Business Analytics",
-        edu1Meta: "FOM University · Part-time from Sep 2026",
-        edu2Title: "B.Sc. Business Information Systems (1.9)",
-        edu2Meta: "FOM Düsseldorf · Focus on Data & BI",
+        bg: [13, 15, 20],
+        name: [248, 250, 252],
+        subtitle: [147, 197, 253],
+        meta: [148, 163, 184],
+        heading: [196, 181, 253],
+        role: [110, 231, 183],
+        body: [216, 222, 233],
+        muted: [148, 163, 184],
+        rule: [56, 65, 92],
+        accentBar: [99, 102, 241],
       }
     : {
-        subtitle: "Data Engineer & AI Engineer",
-        contactLine:
-          "malte_reppke@web.de  ·  github.com/malte-reppke  ·  Hilden, Deutschland",
-        profileHeading: "PROFIL",
-        competenciesHeading: "KERNKOMPETENZEN",
-        experienceHeading: "BERUFSERFAHRUNG",
-        educationHeading: "STUDIUM",
-        notesHeading: "NOTIZEN FÜR RECRUITER",
-        edu1Title: "M. Sc. KI und Business Analytics",
-        edu1Meta: "FOM · Berufsbegleitend ab 01.09.2026",
-        edu2Title: "B. Sc. Wirtschaftsinformatik (1,9)",
-        edu2Meta: "FOM Düsseldorf · Fokus Daten & BI",
+        bg: [255, 255, 255],
+        name: [24, 24, 27],
+        subtitle: [39, 39, 42],
+        meta: [113, 113, 122],
+        heading: [39, 39, 42],
+        role: [39, 39, 42],
+        body: [82, 82, 91],
+        muted: [113, 113, 122],
+        rule: [212, 212, 216],
+        accentBar: null,
       };
 
-  const ops = [];
+  const paintPageBackground = () => {
+    doc.setFillColor(...palette.bg);
+    doc.rect(0, 0, pageW, pageH, "F");
+    if (isDarkPdf && palette.accentBar) {
+      doc.setFillColor(...palette.accentBar);
+      doc.rect(0, 0, pageW, 2.2, "F");
+    }
+  };
 
-  // Background
-  ops.push(`${bgRgb} rg`);
-  ops.push(`0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)} re f`);
+  paintPageBackground();
 
-  // Header: Name + Subtitle + Contact line (clean editorial hierarchy)
-  let y = pageH - 64;
-  ops.push("BT");
-  ops.push(`/F2 24 Tf`);
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString("Malte Reppke")} Tj`);
+  let y = 21;
 
-  y -= 18;
-  ops.push(`/F2 10 Tf`);
-  ops.push(`${bodyRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.subtitle)} Tj`);
+  const ensureSpace = (neededMm) => {
+    if (y + neededMm > pageH - 18) {
+      doc.addPage();
+      paintPageBackground();
+      y = 21;
+    }
+  };
 
-  y -= 14;
-  ops.push(`/F1 9 Tf`);
-  ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.contactLine)} Tj`);
-  ops.push("ET");
+  const drawHorizontalRule = (afterGap = 6.5) => {
+    doc.setDrawColor(...palette.rule);
+    doc.setLineWidth(0.35);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += afterGap;
+  };
 
-  y -= 14;
-  ops.push(`${ruleRgb} RG`);
-  ops.push("0.9 w");
-  ops.push(
-    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
+  const drawSectionLabel = (label) => {
+    ensureSpace(13);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.8);
+    doc.setCharSpace(0.4);
+    doc.setTextColor(...palette.heading);
+    doc.text(label.toUpperCase(), marginX, y);
+    doc.setCharSpace(0);
+    y += 5.2;
+  };
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(24);
+  doc.setTextColor(...palette.name);
+  doc.text("Malte Reppke", marginX, y);
+  y += 7;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9.5);
+  doc.setTextColor(...palette.subtitle);
+  doc.text("Data Engineer & AI Engineer", marginX, y);
+  y += 4.6;
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8.4);
+  doc.setTextColor(...palette.meta);
+  doc.text(
+    `malte_reppke@web.de · github.com/malte-reppke · ${
+      isEn ? "Hilden, Germany" : "Hilden, Deutschland"
+    }`,
+    marginX,
+    y,
   );
+  y += 6.5;
+  drawHorizontalRule(7);
 
-  // Profile Section
-  y -= 20;
-  ops.push("BT");
-  ops.push("/F2 9.5 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.profileHeading)} Tj`);
+  drawSectionLabel(isEn ? "Executive Profile" : "Profil");
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9.2);
+  doc.setTextColor(...palette.body);
+  const profileLines = doc.splitTextToSize(summaryText || "", contentW);
+  ensureSpace(profileLines.length * 4.4 + 9);
+  doc.text(profileLines, marginX, y, { lineHeightFactor: 1.35 });
+  y += profileLines.length * 4.5 + 5.5;
+  drawHorizontalRule(7);
 
-  y -= 15;
-  const summaryLines = wrapPdfText(summary, 92);
-  ops.push("/F1 9.5 Tf");
-  ops.push(`${bodyRgb} rg`);
-  summaryLines.forEach((line, idx) => {
-    ops.push(`1 0 0 1 ${marginX} ${(y - idx * 13).toFixed(2)} Tm`);
-    ops.push(`${toPdfLiteralString(line)} Tj`);
-  });
-  ops.push("ET");
-  y -= summaryLines.length * 13 + 10;
+  drawSectionLabel(isEn ? "Core Competencies" : "Kernkompetenzen");
+  const skillsList = displaySkills.length > 0 ? displaySkills : ["-"];
+  const colCount = 3;
+  const colWidth = contentW / colCount;
+  const rowCount = Math.ceil(skillsList.length / colCount);
+  ensureSpace(rowCount * 5.2 + 9);
 
-  ops.push(`${ruleRgb} RG`);
-  ops.push("0.75 w");
-  ops.push(
-    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
-  );
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(...palette.body);
 
-  // 3-Column Core Competencies
-  y -= 19;
-  ops.push("BT");
-  ops.push("/F2 9.5 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.competenciesHeading)} Tj`);
-
-  y -= 15;
-  const skillList = skills.length > 0 ? skills : ["-"];
-  const colW = contentW / 3;
-  const rowsCount = Math.ceil(skillList.length / 3);
-  ops.push("/F1 9 Tf");
-  ops.push(`${bodyRgb} rg`);
-
-  for (let r = 0; r < rowsCount; r += 1) {
-    for (let c = 0; c < 3; c += 1) {
-      const s = skillList[r * 3 + c];
-      if (!s) continue;
-      const cellX = marginX + c * colW;
-      const cellY = y - r * 12.5;
-      ops.push(`1 0 0 1 ${cellX.toFixed(2)} ${cellY.toFixed(2)} Tm`);
-      ops.push(`${toPdfLiteralString(`· ${s}`)} Tj`);
+  for (let r = 0; r < rowCount; r += 1) {
+    for (let c = 0; c < colCount; c += 1) {
+      const skill = skillsList[r * colCount + c];
+      if (!skill) continue;
+      const x = marginX + c * colWidth;
+      const rowY = y + r * 5.2;
+      doc.text(String(skill), x, rowY);
     }
   }
-  ops.push("ET");
-  y -= rowsCount * 12.5 + 10;
+  y += rowCount * 5.2 + 5;
+  drawHorizontalRule(7);
 
-  ops.push(`${ruleRgb} RG`);
-  ops.push("0.75 w");
-  ops.push(
-    `${marginX} ${y.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${y.toFixed(2)} l S`,
-  );
+  drawSectionLabel(isEn ? "Professional Experience" : "Berufserfahrung");
 
-  // Experience Section (Company bold left, Date right, Role below, bullets)
-  y -= 19;
-  ops.push("BT");
-  ops.push("/F2 9.5 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.experienceHeading)} Tj`);
-  ops.push("ET");
-  y -= 16;
-
-  positions.forEach((pos) => {
-    if (y < 175) return;
-
-    ops.push("BT");
-    ops.push("/F2 10 Tf");
-    ops.push(`${inkRgb} rg`);
-    ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-    ops.push(`${toPdfLiteralString(pos.company)} Tj`);
-
-    ops.push("/F2 8.5 Tf");
-    ops.push(`${mutedRgb} rg`);
-    const periodLiteral = toPdfLiteralString(pos.period);
-    const estPeriodW = pos.period.length * 4.5;
-    ops.push(
-      `1 0 0 1 ${(pageW - marginX - Math.min(estPeriodW, 130)).toFixed(2)} ${y.toFixed(2)} Tm`,
+  if (filteredPositions.length === 0) {
+    ensureSpace(8);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(9);
+    doc.setTextColor(...palette.muted);
+    doc.text(
+      isEn ? "No positions selected." : "Keine Stationen ausgewählt.",
+      marginX,
+      y,
     );
-    ops.push(`${periodLiteral} Tj`);
+    y += 7;
+  } else {
+    filteredPositions.forEach((pos, idx) => {
+      const descLines = doc.splitTextToSize(pos.summary || "", contentW);
+      const estHeight = 11 + descLines.length * 4.4 + 4;
+      ensureSpace(estHeight);
 
-    y -= 12.5;
-    ops.push("/F2 9 Tf");
-    ops.push(`${bodyRgb} rg`);
-    ops.push(`1 0 0 1 ${marginX} ${y.toFixed(2)} Tm`);
-    ops.push(`${toPdfLiteralString(pos.role)} Tj`);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.8);
+      doc.setTextColor(...palette.name);
+      doc.text(pos.company || "", marginX, y);
 
-    y -= 12.5;
-    pos.bullets.forEach((b) => {
-      const bLines = wrapPdfText(b, 88);
-      bLines.forEach((line, lIdx) => {
-        if (y < 168) return;
-        const prefix = lIdx === 0 ? "- " : "  ";
-        ops.push("/F1 9 Tf");
-        ops.push(`${bodyRgb} rg`);
-        ops.push(`1 0 0 1 ${(marginX + 6).toFixed(2)} ${y.toFixed(2)} Tm`);
-        ops.push(`${toPdfLiteralString(`${prefix}${line}`)} Tj`);
-        y -= 12;
-      });
+      if (pos.period) {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8.4);
+        doc.setTextColor(...palette.role);
+        doc.text(pos.period, pageW - marginX, y, { align: "right" });
+      }
+      y += 4.4;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8.9);
+      doc.setTextColor(...palette.role);
+      doc.text(pos.role || "", marginX, y);
+      y += 4.6;
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(...palette.body);
+      doc.text(descLines, marginX, y, { lineHeightFactor: 1.35 });
+      y +=
+        descLines.length * 4.35 +
+        (idx < filteredPositions.length - 1 ? 4.5 : 2);
     });
-    ops.push("ET");
-    y -= 8;
-  });
+  }
 
-  // Two-column bottom: Left = Education, Right = Recruiter Notes
-  const footerTopY = Math.max(y - 2, 132);
-  ops.push(`${ruleRgb} RG`);
-  ops.push("0.75 w");
-  ops.push(
-    `${marginX} ${footerTopY.toFixed(2)} m ${(pageW - marginX).toFixed(2)} ${footerTopY.toFixed(
-      2,
-    )} l S`,
-  );
+  y += 2;
+  drawHorizontalRule(7.5);
 
-  const leftX = marginX;
-  const rightX = marginX + contentW * 0.52;
-  const colSpanW = contentW * 0.46;
-  const fY = footerTopY - 16;
+  const hasNote = Boolean(trimmedNote);
+  ensureSpace(hasNote ? 32 : 24);
 
-  // Vertical divider between left & right bottom columns
-  ops.push(`${ruleRgb} RG`);
-  ops.push("0.6 w");
-  ops.push(
-    `${(marginX + contentW * 0.49).toFixed(2)} ${(footerTopY - 6).toFixed(2)} m ${(
-      marginX +
-      contentW * 0.49
-    ).toFixed(2)} ${(footerTopY - 76).toFixed(2)} l S`,
-  );
-
-  ops.push("BT");
-  ops.push("/F2 9 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${fY.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.educationHeading)} Tj`);
-
-  ops.push("/F2 9 Tf");
-  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 14).toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.edu1Title)} Tj`);
-  ops.push("/F1 8.5 Tf");
-  ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 25).toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.edu1Meta)} Tj`);
-
-  ops.push("/F2 9 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 40).toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.edu2Title)} Tj`);
-  ops.push("/F1 8.5 Tf");
-  ops.push(`${mutedRgb} rg`);
-  ops.push(`1 0 0 1 ${leftX.toFixed(2)} ${(fY - 51).toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.edu2Meta)} Tj`);
-
-  // Right column: Recruiter Notes
-  ops.push("/F2 9 Tf");
-  ops.push(`${inkRgb} rg`);
-  ops.push(`1 0 0 1 ${rightX.toFixed(2)} ${fY.toFixed(2)} Tm`);
-  ops.push(`${toPdfLiteralString(copy.notesHeading)} Tj`);
-
-  const trimmedNote = recruiterNote.trim();
-  const noteDisplay = trimmedNote
-    ? trimmedNote
-    : isEn
-      ? "Optional recruiter note can be added before export."
-      : "Optionale Recruiter-Notiz kann vor dem Export ergänzt werden.";
-  const noteCharsPerLine = Math.max(26, Math.floor(colSpanW / 5.2));
-  const noteLines = wrapPdfText(noteDisplay, noteCharsPerLine).slice(0, 4);
-
-  ops.push("/F1 8.8 Tf");
-  ops.push(`${trimmedNote ? bodyRgb : mutedRgb} rg`);
-  noteLines.forEach((nLine, idx) => {
-    ops.push(
-      `1 0 0 1 ${rightX.toFixed(2)} ${(fY - 14 - idx * 12).toFixed(2)} Tm`,
-    );
-    ops.push(`${toPdfLiteralString(nLine)} Tj`);
-  });
-  ops.push("ET");
-
-  const streamBytes = encodeWinAnsiBytes(ops.join("\n"));
-
-  const objects = [
-    encodeWinAnsiBytes("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n"),
-    encodeWinAnsiBytes(
-      "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n",
-    ),
-    encodeWinAnsiBytes(
-      `3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(
-        2,
-      )} ${pageH.toFixed(2)}] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>\nendobj\n`,
-    ),
-    encodeWinAnsiBytes(
-      "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>\nendobj\n",
-    ),
-    encodeWinAnsiBytes(
-      "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>\nendobj\n",
-    ),
-    concatUint8Arrays([
-      encodeWinAnsiBytes(
-        `6 0 obj\n<< /Length ${streamBytes.length} >>\nstream\n`,
-      ),
-      streamBytes,
-      encodeWinAnsiBytes("\nendstream\nendobj\n"),
-    ]),
+  const eduLines = [
+    {
+      title: isEn
+        ? "M.Sc. Artificial Intelligence & Business Analytics"
+        : "M. Sc. KI und Business Analytics",
+      meta: isEn
+        ? "FOM University · Part-time from Sep 2026"
+        : "FOM · Berufsbegleitend ab 01.09.2026",
+    },
+    {
+      title: isEn
+        ? "B.Sc. Business Information Systems (1.9)"
+        : "B. Sc. Wirtschaftsinformatik (1,9)",
+      meta: isEn
+        ? "FOM Düsseldorf · Focus on Data & BI"
+        : "FOM Düsseldorf · Fokus Daten & BI",
+    },
   ];
 
-  const headerBytes = encodeWinAnsiBytes("%PDF-1.4\n");
-  const bodyChunks = [headerBytes];
-  const offsets = [0];
-  let runningOffset = headerBytes.length;
+  const drawEducationBlock = (x, topY, width) => {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.8);
+    doc.setCharSpace(0.4);
+    doc.setTextColor(...palette.heading);
+    doc.text((isEn ? "Education" : "Studium").toUpperCase(), x, topY);
+    doc.setCharSpace(0);
 
-  objects.forEach((objBytes) => {
-    offsets.push(runningOffset);
-    bodyChunks.push(objBytes);
-    runningOffset += objBytes.length;
-  });
+    let cy = topY + 5.5;
+    eduLines.forEach((edu, idx) => {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.2);
+      doc.setTextColor(...palette.name);
+      const tLines = doc.splitTextToSize(edu.title, width);
+      doc.text(tLines, x, cy);
+      cy += tLines.length * 4.1;
 
-  const xrefOffset = runningOffset;
-  let xrefStr = `xref\n0 ${objects.length + 1}\n`;
-  xrefStr += "0000000000 65535 f \n";
-  for (let i = 1; i < offsets.length; i += 1) {
-    xrefStr += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.3);
+      doc.setTextColor(...palette.muted);
+      const mLines = doc.splitTextToSize(edu.meta, width);
+      doc.text(mLines, x, cy);
+      cy += mLines.length * 4.1 + (idx === 0 ? 2.2 : 0);
+    });
+    return cy;
+  };
+
+  if (hasNote) {
+    const gap = 8;
+    const halfW = (contentW - gap) / 2;
+    const dividerX = marginX + halfW + gap / 2;
+    const rightX = marginX + halfW + gap;
+    const bottomTopY = y;
+
+    const ly = drawEducationBlock(marginX, bottomTopY, halfW);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.8);
+    doc.setCharSpace(0.4);
+    doc.setTextColor(...palette.heading);
+    doc.text(
+      (isEn ? "Personal CV Notes" : "Persönliche Notizen zum CV").toUpperCase(),
+      rightX,
+      bottomTopY,
+    );
+    doc.setCharSpace(0);
+
+    const ryStart = bottomTopY + 5.5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8.9);
+    doc.setTextColor(...palette.body);
+    const noteLines = doc.splitTextToSize(trimmedNote, halfW);
+    doc.text(noteLines, rightX, ryStart, { lineHeightFactor: 1.35 });
+    const ry = ryStart + noteLines.length * 4.1;
+
+    const bottomMaxY = Math.max(ly + 2, ry + 2);
+    doc.setDrawColor(...palette.rule);
+    doc.setLineWidth(0.35);
+    doc.line(dividerX, bottomTopY - 1, dividerX, bottomMaxY);
+  } else {
+    drawEducationBlock(marginX, y, contentW);
   }
-  xrefStr += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
 
-  bodyChunks.push(encodeWinAnsiBytes(xrefStr));
-  return new Blob([concatUint8Arrays(bodyChunks)], { type: "application/pdf" });
+  doc.save(`${fileName}.pdf`);
 };
 
 /* HERO AVATAR: ONLY SPEAKS ONCE ON LOAD, CLOSES AFTER A FEW SECONDS, SINGLE FOCUS PULSE */
@@ -988,19 +831,18 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   );
 };
 
-/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD (DE / EN, LIGHT / DARK, 2ND TEMPLATE LAYOUT) */
+/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD (DE / EN, LIGHT / DARK, TEMPLATE-EXACT LAYOUT) */
 const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   const [lang, setLang] = useState("de");
   const [pdfTheme, setPdfTheme] = useState("light");
   const [focusMode, setFocusMode] = useState(initialFocus);
-  const [compactBullets, setCompactBullets] = useState(false);
   const [selectedPositionIds, setSelectedPositionIds] = useState(() =>
     CV_POSITIONS.map((p) => p.id),
   );
   const [selectedSkillLabels, setSelectedSkillLabels] = useState(() =>
     CORE_SKILL_PILLS.slice(0, 9).map((s) => s.label),
   );
-  const [recruiterNote, setRecruiterNote] = useState("");
+  const [personalNote, setPersonalNote] = useState("");
   const [downloadStatus, setDownloadStatus] = useState("");
 
   useEffect(() => {
@@ -1052,12 +894,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
         company: localized.company,
         period: localized.period,
         role: localized.role,
-        bullets: compactBullets
-          ? localized.bullets.slice(0, 1)
-          : localized.bullets.slice(0, 2),
+        summary: localized.summary,
       };
     });
-  }, [selectedPositionIds, focusMode, compactBullets, isEn]);
+  }, [selectedPositionIds, focusMode, isEn]);
 
   const summaryText = useMemo(() => {
     if (isEn) {
@@ -1079,39 +919,28 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
     return "Data & AI Engineer mit Hintergrund in Softwareentwicklung, Business Intelligence und Datenintegration. Fokus auf verlässliche Datenprodukte, belastbare Pipelines und praxistaugliche KI-Systeme.";
   }, [focusMode, isEn]);
 
+  const trimmedNote = personalNote.trim();
+  const hasNote = Boolean(trimmedNote);
+  const suggestedFileName = `Malte_Reppke_CV_${isEn ? "EN" : "DE"}_${isDarkPdf ? "Dark" : "Light"}`;
+
   const handleDirectPdfDownload = () => {
-    const blob = buildCvPdfBlob({
-      theme: pdfTheme,
-      lang,
-      summary: summaryText,
-      recruiterNote,
-      positions: filteredPositions,
-      skills: displaySkills,
+    downloadCvPdfDirect({
+      isEn,
+      isDarkPdf,
+      summaryText,
+      displaySkills,
+      filteredPositions,
+      trimmedNote,
+      fileName: suggestedFileName,
     });
-
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    const langTag = isEn ? "EN" : "DE";
-    const modeTag = isDarkPdf ? "Dark" : "Light";
-    link.download = `Malte_Reppke_CV_${langTag}_${modeTag}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    window.setTimeout(() => {
-      window.URL.revokeObjectURL(url);
-      setDownloadStatus(
-        isEn
-          ? `PDF downloaded (${langTag} · ${modeTag})`
-          : `PDF heruntergeladen (${langTag} · ${modeTag})`,
-      );
-    }, 150);
+    setDownloadStatus(
+      isEn
+        ? `Downloaded ${suggestedFileName}.pdf`
+        : `${suggestedFileName}.pdf heruntergeladen`,
+    );
   };
 
   if (!open) return null;
-
-  const trimmedNote = recruiterNote.trim();
 
   return (
     <div
@@ -1142,18 +971,22 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             {downloadStatus && (
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
-                <Check className="w-3.5 h-3.5" />
-                <span>{downloadStatus}</span>
+              <span
+                role="status"
+                aria-label={downloadStatus}
+                title={downloadStatus}
+                className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 shrink-0"
+              >
+                <Check className="w-4 h-4 stroke-[2.5]" />
               </span>
             )}
 
             <button
               type="button"
               onClick={handleDirectPdfDownload}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer whitespace-nowrap"
             >
               <FileDown className="w-3.5 h-3.5" />
               <span>
@@ -1166,7 +999,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               type="button"
               onClick={onClose}
               aria-label="CV-Ansicht schließen"
-              className="w-9 h-9 rounded-full border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] flex items-center justify-center text-[#0B0B0C] transition-colors cursor-pointer"
+              className="w-9 h-9 rounded-full border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] flex items-center justify-center text-[#0B0B0C] transition-colors cursor-pointer shrink-0"
             >
               <X className="w-4 h-4" />
             </button>
@@ -1253,75 +1086,47 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 pt-1">
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
-                    {isEn ? "Focus" : "Fokus"}
-                  </label>
-                  <select
-                    value={focusMode}
-                    onChange={(e) => {
-                      setFocusMode(e.target.value);
-                      setDownloadStatus("");
-                    }}
-                    className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
-                  >
-                    <option value="all">
-                      {isEn ? "All (Full Profile)" : "Alles (Gesamtprofil)"}
-                    </option>
-                    <option value="data-ai">
-                      {isEn ? "Data & AI Engineering" : "Data & AI Engineering"}
-                    </option>
-                    <option value="fullstack-data">
-                      {isEn
-                        ? "Integration & Fullstack"
-                        : "Integration & Fullstack"}
-                    </option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
-                    {isEn ? "Detail Level" : "Umfang"}
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCompactBullets((prev) => !prev);
-                      setDownloadStatus("");
-                    }}
-                    className={`w-full rounded-xl border px-2.5 py-2 text-xs font-bold text-left transition-colors cursor-pointer ${
-                      compactBullets
-                        ? "bg-[#EEF2FF] border-[#818CF8] text-[#1E1B4B]"
-                        : "bg-[#F8FAFC] border-[#E4E4E7] text-[#0B0B0C]"
-                    }`}
-                  >
-                    {compactBullets
-                      ? isEn
-                        ? "Compact (1 bullet)"
-                        : "Kompakt (1 Punkt)"
-                      : isEn
-                        ? "Standard (2 bullets)"
-                        : "Standard (2 Punkte)"}
-                  </button>
-                </div>
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
+                  {isEn ? "Focus" : "Fokus"}
+                </label>
+                <select
+                  value={focusMode}
+                  onChange={(e) => {
+                    setFocusMode(e.target.value);
+                    setDownloadStatus("");
+                  }}
+                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
+                >
+                  <option value="all">
+                    {isEn ? "All (Full Profile)" : "Alles (Gesamtprofil)"}
+                  </option>
+                  <option value="data-ai">
+                    {isEn ? "Data & AI Engineering" : "Data & AI Engineering"}
+                  </option>
+                  <option value="fullstack-data">
+                    {isEn
+                      ? "Integration & Fullstack"
+                      : "Integration & Fullstack"}
+                  </option>
+                </select>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <label
-                    htmlFor="mr-recruiter-note"
+                    htmlFor="mr-personal-note"
                     className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B]"
                   >
                     {isEn
-                      ? "Recruiter Notes (optional)"
-                      : "Notizen für Recruiter (optional)"}
+                      ? "Personal CV Notes (optional)"
+                      : "Persönliche Notizen zum CV (optional)"}
                   </label>
-                  {recruiterNote && (
+                  {personalNote && (
                     <button
                       type="button"
                       onClick={() => {
-                        setRecruiterNote("");
+                        setPersonalNote("");
                         setDownloadStatus("");
                       }}
                       className="text-[11px] font-semibold text-[#52525B] hover:text-[#0B0B0C] cursor-pointer"
@@ -1331,17 +1136,17 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   )}
                 </div>
                 <textarea
-                  id="mr-recruiter-note"
+                  id="mr-personal-note"
                   rows={2}
-                  value={recruiterNote}
+                  value={personalNote}
                   onChange={(e) => {
-                    setRecruiterNote(e.target.value);
+                    setPersonalNote(e.target.value);
                     setDownloadStatus("");
                   }}
                   placeholder={
                     isEn
-                      ? "Optional note for recruiters (e.g. target role, availability, context)…"
-                      : "Optional: Eigene Notiz für Recruiter (z. B. Zielrolle, Verfügbarkeit oder Kontext)…"
+                      ? "e.g. Recruiting: Focus on Data & AI Engineering, open for conversation…"
+                      : "z. B. Recruiting: Fokus auf Data & AI Engineering, offen für Austausch…"
                   }
                   className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A] resize-y"
                 />
@@ -1442,36 +1247,32 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             </div>
           </div>
 
-          {/* 2ND TEMPLATE LIVE PREVIEW (CLASSIC BUSINESS CV LAYOUT) */}
           <div className="lg:col-span-7">
             <div
-              className={`rounded-2xl border p-6 sm:p-9 shadow-sm transition-colors duration-300 ${
+              className={`rounded-2xl border p-7 sm:p-10 shadow-sm transition-colors duration-300 ${
                 isDarkPdf
-                  ? "bg-[#0D0E11] border-white/15 text-[#F2F5F9]"
-                  : "bg-white border-[#E4E4E7] text-[#13151A]"
+                  ? "bg-[#0D0F14] border-indigo-400/25 text-[#F8FAFC]"
+                  : "bg-white border-[#E4E4E7] text-[#18181B]"
               }`}
             >
-              {/* Header */}
               <div
-                className={`pb-4 border-b ${
-                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                className={`pb-5 border-b ${
+                  isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
-                <h2 className="text-3xl sm:text-[34px] font-extrabold tracking-[-0.03em] leading-tight">
+                <h2 className="text-3xl sm:text-[34px] font-bold tracking-[-0.035em] leading-tight">
                   Malte Reppke
                 </h2>
                 <p
-                  className={`mt-1 text-xs sm:text-sm font-bold ${
-                    isDarkPdf ? "text-white/80" : "text-[#3D424D]"
+                  className={`mt-1.5 text-xs sm:text-sm font-bold ${
+                    isDarkPdf ? "text-[#93C5FD]" : "text-[#27272A]"
                   }`}
                 >
-                  {isEn
-                    ? "Data Engineer & AI Engineer"
-                    : "Data Engineer & AI Engineer"}
+                  Data Engineer &amp; AI Engineer
                 </p>
                 <p
                   className={`mt-1 text-[11px] sm:text-xs ${
-                    isDarkPdf ? "text-white/65" : "text-[#5A606C]"
+                    isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                   }`}
                 >
                   malte_reppke@web.de · github.com/malte-reppke ·{" "}
@@ -1479,69 +1280,61 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 </p>
               </div>
 
-              {/* Profile */}
               <div
-                className={`py-4 border-b ${
-                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                className={`py-5 border-b ${
+                  isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
                 <h3
-                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] ${
-                    isDarkPdf ? "text-white" : "text-[#13151A]"
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
                   }`}
                 >
                   {isEn ? "Executive Profile" : "Profil"}
                 </h3>
                 <p
-                  className={`mt-1.5 text-xs sm:text-[13px] leading-relaxed ${
-                    isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                  className={`mt-2 text-xs sm:text-[13px] leading-relaxed ${
+                    isDarkPdf ? "text-slate-200" : "text-[#52525B]"
                   }`}
                 >
                   {summaryText}
                 </p>
               </div>
 
-              {/* 3-Column Core Competencies */}
               <div
-                className={`py-4 border-b ${
-                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                className={`py-5 border-b ${
+                  isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
                 <h3
-                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
-                    isDarkPdf ? "text-white" : "text-[#13151A]"
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
+                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
                   }`}
                 >
                   {isEn ? "Core Competencies" : "Kernkompetenzen"}
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-5 gap-y-2 text-xs">
                   {displaySkills.map((item) => (
-                    <div
+                    <span
                       key={item}
-                      className={`flex items-center gap-1.5 ${
-                        isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                      className={`truncate ${
+                        isDarkPdf ? "text-slate-200" : "text-[#52525B]"
                       }`}
                     >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                          isDarkPdf ? "bg-[#93C5FD]" : "bg-[#3D424D]"
-                        }`}
-                      />
-                      <span className="truncate font-medium">{item}</span>
-                    </div>
+                      {item}
+                    </span>
                   ))}
                 </div>
               </div>
 
-              {/* Experience */}
               <div
-                className={`py-4 border-b ${
-                  isDarkPdf ? "border-white/20" : "border-[#C7CCD4]"
+                className={`py-5 border-b ${
+                  isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
                 <h3
-                  className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-3 ${
-                    isDarkPdf ? "text-white" : "text-[#13151A]"
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3.5 ${
+                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
                   }`}
                 >
                   {isEn ? "Professional Experience" : "Berufserfahrung"}
@@ -1550,7 +1343,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 {filteredPositions.length === 0 ? (
                   <p
                     className={`text-xs italic ${
-                      isDarkPdf ? "text-white/60" : "text-[#686E7A]"
+                      isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                     }`}
                   >
                     {isEn
@@ -1558,7 +1351,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                       : "Keine Station ausgewählt – bitte links Stationen aktivieren."}
                   </p>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-4.5">
                     {filteredPositions.map((pos) => (
                       <div key={pos.id}>
                         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -1566,57 +1359,61 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                             {pos.company}
                           </p>
                           <span
-                            className={`text-[11px] font-semibold ${
-                              isDarkPdf ? "text-white/70" : "text-[#4B505B]"
+                            className={`text-[11px] font-bold ${
+                              isDarkPdf ? "text-[#6EE7B7]" : "text-[#52525B]"
                             }`}
                           >
                             {pos.period}
                           </span>
                         </div>
                         <p
-                          className={`text-xs font-semibold ${
-                            isDarkPdf ? "text-[#93C5FD]" : "text-[#3D424D]"
+                          className={`text-xs font-bold mt-0.5 ${
+                            isDarkPdf ? "text-[#6EE7B7]" : "text-[#27272A]"
                           }`}
                         >
                           {pos.role}
                         </p>
-                        <ul
-                          className={`mt-1 space-y-1 text-xs ${
-                            isDarkPdf ? "text-white/80" : "text-[#2D313A]"
+                        <p
+                          className={`mt-1.5 text-xs leading-relaxed ${
+                            isDarkPdf ? "text-slate-200" : "text-[#52525B]"
                           }`}
                         >
-                          {pos.bullets.map((b) => (
-                            <li
-                              key={b}
-                              className="list-disc ml-4 leading-relaxed"
-                            >
-                              {b}
-                            </li>
-                          ))}
-                        </ul>
+                          {pos.summary}
+                        </p>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
 
-              {/* Bottom 2-Column Split: Education | Recruiter Notes */}
-              <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div
+                className={`pt-5 ${
+                  hasNote ? "grid grid-cols-1 sm:grid-cols-2 gap-6" : ""
+                }`}
+              >
                 <div
-                  className={`sm:pr-5 sm:border-r ${
-                    isDarkPdf ? "sm:border-white/20" : "sm:border-[#C7CCD4]"
-                  }`}
+                  className={
+                    hasNote
+                      ? `sm:pr-6 sm:border-r ${
+                          isDarkPdf
+                            ? "sm:border-slate-700/80"
+                            : "sm:border-[#D4D4D8]"
+                        }`
+                      : ""
+                  }
                 >
                   <h3
-                    className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
-                      isDarkPdf ? "text-white" : "text-[#13151A]"
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
+                      isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
                     }`}
                   >
                     {isEn ? "Education" : "Studium"}
                   </h3>
                   <div
-                    className={`space-y-2.5 text-xs ${
-                      isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                    className={`space-y-3 text-xs ${
+                      !hasNote
+                        ? "grid grid-cols-1 sm:grid-cols-2 gap-6 space-y-0"
+                        : ""
                     }`}
                   >
                     <div>
@@ -1626,8 +1423,8 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                           : "M. Sc. KI und Business Analytics"}
                       </p>
                       <p
-                        className={`text-[11px] ${
-                          isDarkPdf ? "text-white/65" : "text-[#5A606C]"
+                        className={`text-[11px] mt-0.5 ${
+                          isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                         }`}
                       >
                         {isEn
@@ -1642,8 +1439,8 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                           : "B. Sc. Wirtschaftsinformatik (1,9)"}
                       </p>
                       <p
-                        className={`text-[11px] ${
-                          isDarkPdf ? "text-white/65" : "text-[#5A606C]"
+                        className={`text-[11px] mt-0.5 ${
+                          isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                         }`}
                       >
                         {isEn
@@ -1654,34 +1451,26 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   </div>
                 </div>
 
-                <div>
-                  <h3
-                    className={`text-[11px] font-extrabold uppercase tracking-[0.14em] mb-2.5 ${
-                      isDarkPdf ? "text-white" : "text-[#13151A]"
-                    }`}
-                  >
-                    {isEn ? "Recruiter Notes" : "Notizen für Recruiter"}
-                  </h3>
-                  {trimmedNote ? (
+                {hasNote && (
+                  <div>
+                    <h3
+                      className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
+                        isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
+                      }`}
+                    >
+                      {isEn
+                        ? "Personal CV Notes"
+                        : "Persönliche Notizen zum CV"}
+                    </h3>
                     <p
                       className={`text-xs leading-relaxed ${
-                        isDarkPdf ? "text-white/85" : "text-[#2D313A]"
+                        isDarkPdf ? "text-slate-200" : "text-[#52525B]"
                       }`}
                     >
                       {trimmedNote}
                     </p>
-                  ) : (
-                    <p
-                      className={`text-xs italic ${
-                        isDarkPdf ? "text-white/55" : "text-[#686E7A]"
-                      }`}
-                    >
-                      {isEn
-                        ? "Optional note for recruiters appears here and in the exported PDF."
-                        : "Optionale Notiz für Recruiter erscheint hier und im exportierten PDF."}
-                    </p>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
