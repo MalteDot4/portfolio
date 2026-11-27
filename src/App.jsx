@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useMemo,
+} from "react";
 import {
   Sparkles,
   Database,
@@ -17,6 +23,13 @@ import {
   ChevronRight,
   ChevronDown,
   Pin,
+  FileText,
+  Sun,
+  Moon,
+  Bot,
+  X,
+  Printer,
+  Wand2,
 } from "lucide-react";
 import avatarLogo from "./assets/Logo.png";
 
@@ -32,17 +45,219 @@ const BRAND_URLS = {
   controlexpert: "https://www.controlexpert.com",
 };
 
+const PROVINZIAL_STATIONS = [
+  {
+    title: "Data Engineer & AI Engineer · IT-DWH",
+    period: "Ab 01.06.2026",
+    bullets: [
+      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
+      "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
+      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
+    ],
+  },
+  {
+    title: "Data-Analyst Customer Data & Analytics",
+    period: "01.05.2025 – 30.05.2026",
+    bullets: [
+      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
+      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
+    ],
+  },
+];
+
+const CONTROLEXPERT_FEATURED_STATION = {
+  title: "Softwareentwickler Versicherungsbranche",
+  period: "Jul 2019 – Aug 2022",
+  bullets: [
+    "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
+    "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
+    "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
+  ],
+};
+
+const CONTROLEXPERT_MORE_STATIONS = [
+  {
+    title: "BI-Specialist Versicherungsprozesse",
+    period: "Okt 2017 – Jun 2019 · Teilzeit",
+    bullets: [
+      "Erfolgreiche Entwicklung eines Data Warehouse",
+      "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
+    ],
+  },
+  {
+    title: "Business-Analyst Versicherungsprozesse",
+    period: "Okt 2016 – Sep 2017",
+    bullets: [
+      "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
+      "Product Management interne Kalkulationsanwendung im Scrum Prozess",
+    ],
+  },
+  {
+    title: "Data-Specialist Automobil",
+    period: "Jul 2012 – Sep 2016",
+    bullets: [
+      "Erhebung, Abfrage & Pflege von Herstellerdaten",
+      "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
+    ],
+  },
+];
+
+const CORE_SKILL_PILLS = [
+  {
+    label: "Python",
+    role: "Data & ETL Scripting",
+    projects:
+      "Datenaufbereitung, Automatisierung & Spark-Pipelines bei Provinzial (IT-DWH & Customer Data).",
+  },
+  {
+    label: "PySpark / Spark",
+    role: "Verteilte Datenverarbeitung",
+    projects:
+      "Aufbau von Datenprodukten und Selektionsframework für Kundenselektionen auf großen Datenbeständen bei Provinzial.",
+  },
+  {
+    label: "Azure & Synapse",
+    role: "Cloud Data Plattform",
+    projects:
+      "Datenprodukte, Pipelines und IT-DWH-Architektur im Azure-Synapse-Umfeld bei Provinzial.",
+  },
+  {
+    label: "SQL",
+    role: "Abfragen & Modellierung",
+    projects:
+      "Data-Warehouse-Aufbau, KPI-Reporting und relationale Datenabfragen bei ControlExpert & Provinzial.",
+  },
+  {
+    label: "React.js & Next.js",
+    role: "Web & UI Engineering",
+    projects:
+      "Digitale Schadenaufnahme (EasyClaim) bei ControlExpert sowie Business-Websites & Blog bei Vodafone.",
+  },
+  {
+    label: ".NET C#",
+    role: "Backend-Services",
+    projects:
+      "Backend-Logik und Services für die digitale Schadenaufnahme bei ControlExpert.",
+  },
+  {
+    label: "Node.js",
+    role: "API & Microservices",
+    projects:
+      "Microservices für Vertragsdaten und Firmenkunden-Integration bei Vodafone.",
+  },
+  {
+    label: "Jest, Vitest & Cypress",
+    role: "Qualitätssicherung & Tests",
+    projects:
+      "Unit- und End-to-End-Tests zur Absicherung der Codequalität im agilen Umfeld bei ControlExpert.",
+  },
+  {
+    label: "Git, Docker & CI/CD",
+    role: "Delivery & Automatisierung",
+    projects:
+      "Containerisierung sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines bei Vodafone.",
+  },
+  {
+    label: "Tableau & Power-BI",
+    role: "BI & Visualisierung",
+    projects:
+      "KPI-Visualisierung und Stakeholder-Reporting auf Basis von Data-Warehouse-Daten.",
+  },
+];
+
+const CV_POSITIONS = [
+  {
+    id: "provinzial-data-ai",
+    company: "Provinzial Versicherung AG",
+    period: "Ab 01.06.2026",
+    role: "Data Engineer & AI Engineer · IT-DWH",
+    track: "data-ai",
+    bullets: [
+      "Skalierbare Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Systeme",
+      "AI Engineering mit OpenCode & Etablierung von Agentic-Development-Workflows im Projekt",
+      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
+    ],
+  },
+  {
+    id: "provinzial-customer-data",
+    company: "Provinzial Versicherung AG",
+    period: "01.05.2025 – 30.05.2026",
+    role: "Data-Analyst Customer Data & Analytics",
+    track: "data-ai",
+    bullets: [
+      "PySpark-Datenprodukte auf Azure Synapse inkl. eigenem Selektionsframework für Kundenselektionen",
+      "Ca. 6 Monate (bis 01.04.2026) Interim-PO für das Data-Team zur Steuerung & Priorisierung",
+    ],
+  },
+  {
+    id: "vodafone-integration",
+    company: "Vodafone GmbH",
+    period: "Nov 2022 – Mär 2025",
+    role: "Backend / Data Integration Firmenkunden",
+    track: "fullstack-data",
+    bullets: [
+      "Entwicklung & Datenintegration für Firmenkundenportal, Blog sowie 200+ Business-Websites",
+      "Microservices für Vertragsdaten mit Node.js sowie höhere CI/CD-Automatisierung in Git-Pipelines",
+    ],
+  },
+  {
+    id: "controlexpert-dev",
+    company: "ControlExpert GmbH",
+    period: "Jul 2019 – Aug 2022",
+    role: "Softwareentwickler Versicherungsbranche",
+    track: "fullstack-data",
+    bullets: [
+      "Digitale Schadenaufnahme mit React.js im Frontend und .NET C# im Backend",
+      "Agile Arbeitsweise (Kanban & Design Thinking) sowie Qualitätssicherung mit Jest & Cypress",
+    ],
+  },
+  {
+    id: "controlexpert-bi-data",
+    company: "ControlExpert GmbH",
+    period: "Jul 2012 – Jun 2019",
+    role: "BI-Specialist · Business-Analyst · Data-Specialist",
+    track: "data-ai",
+    bullets: [
+      "Data-Warehouse-Aufbau, SQL-Reporting und KPI-Visualisierung in Tableau",
+      "Prozessautomatisierung mit IBM BPM, Kalkulationsanwendung in Scrum & Herstellerdatenpflege",
+    ],
+  },
+];
+
 const AvatarGreetingMark = ({
   size = 40,
   className = "",
   reducedMotion = false,
+  onOpenCvStudio = null,
+  autoIntroBubble = false,
+  showFocusHint = false,
 }) => {
   const [hovered, setHovered] = useState(false);
+  const [introActive, setIntroActive] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
   const greetingText = "Hi! Es freut mich dich kennenzulernen.";
 
   useEffect(() => {
-    if (!hovered) {
+    if (!autoIntroBubble) return;
+
+    const startTimer = window.setTimeout(() => {
+      setIntroActive(true);
+    }, 550);
+
+    const endTimer = window.setTimeout(() => {
+      setIntroActive(false);
+    }, 4600);
+
+    return () => {
+      window.clearTimeout(startTimer);
+      window.clearTimeout(endTimer);
+    };
+  }, [autoIntroBubble]);
+
+  const bubbleVisible = hovered || introActive;
+
+  useEffect(() => {
+    if (!bubbleVisible) {
       setTypedCount(0);
       return;
     }
@@ -60,18 +275,28 @@ const AvatarGreetingMark = ({
       if (idx >= greetingText.length) {
         window.clearInterval(interval);
       }
-    }, 42);
+    }, 34);
 
     return () => window.clearInterval(interval);
-  }, [hovered, reducedMotion]);
+  }, [bubbleVisible, reducedMotion]);
 
   return (
     <div
       className={`relative inline-flex items-center ${className}`}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => {
+        setIntroActive(false);
+        setHovered(true);
+      }}
       onMouseLeave={() => setHovered(false)}
-      onFocus={() => setHovered(true)}
-      onBlur={() => setHovered(false)}
+      onFocus={() => {
+        setIntroActive(false);
+        setHovered(true);
+      }}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setHovered(false);
+        }
+      }}
     >
       <style>{`
         @keyframes mrWaveHand {
@@ -85,23 +310,44 @@ const AvatarGreetingMark = ({
           0%, 100% { transform: translateY(0px) scale(1); }
           50% { transform: translateY(-1.5px) scale(1.02); }
         }
+        @keyframes mrFocusHalo {
+          0% { transform: scale(1); opacity: 0.72; }
+          75% { transform: scale(1.36); opacity: 0; }
+          100% { transform: scale(1.36); opacity: 0; }
+        }
       `}</style>
+
+      {showFocusHint && !reducedMotion && (
+        <span
+          aria-hidden="true"
+          style={{
+            animation:
+              "mrFocusHalo 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite",
+          }}
+          className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-[#60A5FA]"
+        />
+      )}
 
       <button
         type="button"
-        onClick={() =>
-          window.scrollTo({
-            top: 0,
-            behavior: reducedMotion ? "auto" : "smooth",
-          })
-        }
-        aria-label="Malte Reppke Avatar · Nach oben"
+        onClick={() => {
+          setIntroActive(false);
+          if (onOpenCvStudio) {
+            onOpenCvStudio();
+          } else {
+            window.scrollTo({
+              top: 0,
+              behavior: reducedMotion ? "auto" : "smooth",
+            });
+          }
+        }}
+        aria-label="Malte Reppke Avatar · CV-Agent öffnen"
         style={{ width: size, height: size }}
         className={`relative inline-flex items-center justify-center rounded-full bg-[#F5F5F7] border border-white/30 shadow-md overflow-hidden shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
           reducedMotion
             ? ""
             : `transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                hovered ? "scale-105" : "hover:scale-105"
+                bubbleVisible ? "scale-105" : "hover:scale-105"
               }`
         }`}
       >
@@ -115,51 +361,652 @@ const AvatarGreetingMark = ({
       <div
         role="status"
         aria-live="polite"
-        className={`pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex items-center gap-2 px-3.5 py-2 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 max-w-[260px] sm:max-w-[320px] ${
+        className={`${
+          bubbleVisible ? "pointer-events-auto" : "pointer-events-none"
+        } absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-2 px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 w-[240px] sm:w-[275px] ${
           reducedMotion
-            ? hovered
+            ? bubbleVisible
               ? "opacity-100 translate-x-0"
               : "opacity-0 -translate-x-1 hidden"
             : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                hovered
+                bubbleVisible
                   ? "opacity-100 translate-x-0 scale-100"
                   : "opacity-0 -translate-x-2 scale-95"
               }`
         }`}
       >
-        <span
-          aria-hidden="true"
-          style={
-            !reducedMotion && hovered
-              ? {
-                  animation: "mrWaveHand 1.15s ease-in-out infinite",
-                  transformOrigin: "75% 75%",
-                }
-              : undefined
-          }
-          className="inline-block text-sm leading-none select-none shrink-0"
-        >
-          👋
-        </span>
+        <div className="flex items-start gap-2">
+          <span
+            aria-hidden="true"
+            style={
+              !reducedMotion && bubbleVisible
+                ? {
+                    animation: "mrWaveHand 1.15s ease-in-out infinite",
+                    transformOrigin: "75% 75%",
+                  }
+                : undefined
+            }
+            className="inline-block text-sm leading-none select-none shrink-0 mt-0.5"
+          >
+            👋
+          </span>
 
-        <span
-          style={
-            !reducedMotion && hovered && typedCount > 0
-              ? { animation: "mrSpeakPulse 0.95s ease-in-out infinite" }
-              : undefined
-          }
-          className="inline-flex flex-wrap items-center text-xs font-bold tracking-tight text-[#0B0B0C] leading-snug"
-        >
-          <span>{greetingText.slice(0, typedCount)}</span>
-          {hovered && !reducedMotion && typedCount < greetingText.length && (
-            <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
-          )}
-        </span>
+          <span
+            style={
+              !reducedMotion && bubbleVisible && typedCount > 0
+                ? { animation: "mrSpeakPulse 0.95s ease-in-out infinite" }
+                : undefined
+            }
+            className="inline-flex flex-wrap items-center text-xs font-bold tracking-tight text-[#0B0B0C] leading-snug"
+          >
+            <span>{greetingText.slice(0, typedCount)}</span>
+            {bubbleVisible &&
+              !reducedMotion &&
+              typedCount < greetingText.length && (
+                <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
+              )}
+          </span>
+        </div>
+
+        {onOpenCvStudio && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIntroActive(false);
+              onOpenCvStudio();
+            }}
+            className="inline-flex items-center justify-between gap-1.5 w-full px-2.5 py-1.5 rounded-xl bg-[#0B0B0C] text-white text-[11px] font-bold hover:bg-[#18181B] transition-colors cursor-pointer"
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <FileText className="w-3 h-3 text-[#93C5FD]" />
+              <span>CV-Agent · PDF</span>
+            </span>
+            <ChevronRight className="w-3 h-3 text-white/70" />
+          </button>
+        )}
 
         <span
           aria-hidden="true"
           className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rotate-45 bg-white border-l border-b border-black/10"
         />
+      </div>
+    </div>
+  );
+};
+
+/* ON-PAGE MINI-LLM CV-ORCHESTRATOR & PDF-STUDIO */
+const AvatarCvAgentStudio = ({
+  open,
+  onClose,
+  reducedMotion = false,
+  initialFocus = "all",
+}) => {
+  const [pdfTheme, setPdfTheme] = useState("light");
+  const [focusMode, setFocusMode] = useState(initialFocus);
+  const [compactBullets, setCompactBullets] = useState(false);
+  const [selectedPositionIds, setSelectedPositionIds] = useState(() =>
+    CV_POSITIONS.map((p) => p.id),
+  );
+  const [selectedSkillLabels, setSelectedSkillLabels] = useState(() =>
+    CORE_SKILL_PILLS.slice(0, 7).map((s) => s.label),
+  );
+  const [agentStatus, setAgentStatus] = useState("ready");
+  const [agentStepLabel, setAgentStepLabel] = useState(
+    "Bereit für Auswahl & Export",
+  );
+  const [customNote, setCustomNote] = useState("");
+
+  useEffect(() => {
+    setFocusMode(initialFocus);
+  }, [initialFocus]);
+
+  const togglePosition = (id) => {
+    setSelectedPositionIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+    setAgentStatus("ready");
+    setAgentStepLabel("Auswahl geändert – Agent bereit");
+  };
+
+  const toggleSkill = (label) => {
+    setSelectedSkillLabels((prev) =>
+      prev.includes(label)
+        ? prev.filter((item) => item !== label)
+        : [...prev, label],
+    );
+    setAgentStatus("ready");
+    setAgentStepLabel("Skills angepasst – Agent bereit");
+  };
+
+  const runMiniLlmAgent = () => {
+    if (reducedMotion) {
+      setAgentStatus("done");
+      setAgentStepLabel("Mini-LLM hat Lebenslauf verdichtet");
+      return;
+    }
+
+    setAgentStatus("running");
+    setAgentStepLabel("1/3 Avatar sammelt Stationen & Skills…");
+
+    const t1 = window.setTimeout(() => {
+      setAgentStepLabel("2/3 Mini-LLM schärft Rollen & Impact-Bullets…");
+    }, 360);
+
+    const t2 = window.setTimeout(() => {
+      setAgentStepLabel(
+        `3/3 Lebenslauf im ${pdfTheme === "dark" ? "Darkmode" : "Lightmode"} strukturiert`,
+      );
+      setAgentStatus("done");
+    }, 760);
+
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  };
+
+  const filteredPositions = useMemo(() => {
+    return CV_POSITIONS.filter((pos) => {
+      if (!selectedPositionIds.includes(pos.id)) return false;
+      if (focusMode === "data-ai")
+        return pos.track === "data-ai" || pos.id.startsWith("provinzial");
+      if (focusMode === "fullstack-data") {
+        return (
+          pos.track === "fullstack-data" || pos.id === "provinzial-data-ai"
+        );
+      }
+      return true;
+    }).map((pos) => ({
+      ...pos,
+      bullets: compactBullets
+        ? pos.bullets.slice(0, 1)
+        : pos.bullets.slice(0, 2),
+    }));
+  }, [selectedPositionIds, focusMode, compactBullets]);
+
+  const summaryText = useMemo(() => {
+    if (customNote.trim()) return customNote.trim();
+    if (focusMode === "data-ai") {
+      return "Data & AI Engineer mit Fokus auf PySpark, Azure Synapse, IT-DWH-Pipelines und agentische Entwicklungs-Workflows – verbunden mit Erfahrung in BI, SQL und B2B-Systemen.";
+    }
+    if (focusMode === "fullstack-data") {
+      return "Ingenieur an der Schnittstelle von Datenintegration, Microservices (Node.js / .NET C#) und modernen Web-UIs (React / Next.js) mit starkem Fokus auf Testbarkeit & CI/CD.";
+    }
+    return "Data & AI Engineer mit Hintergrund in Softwareentwicklung, BI und Datenintegration. Fokus auf verlässliche Datenprodukte, skalierbare Pipelines und praxisnahes AI Engineering.";
+  }, [customNote, focusMode]);
+
+  const handleExportPdf = () => {
+    setAgentStatus("done");
+    setAgentStepLabel(`PDF-Ansicht (${pdfTheme.toUpperCase()}) wird geöffnet…`);
+    window.setTimeout(() => {
+      window.print();
+    }, 120);
+  };
+
+  if (!open) return null;
+
+  const isDarkPdf = pdfTheme === "dark";
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Avatar Mini-LLM Lebenslauf-Studio"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto"
+    >
+      <style>{`
+        @media print {
+          body > *:not(#mr-cv-print-root) {
+            display: none !important;
+          }
+          #mr-cv-print-root {
+            position: static !important;
+            inset: auto !important;
+            padding: 0 !important;
+            background: transparent !important;
+          }
+          .no-print {
+            display: none !important;
+          }
+          #mr-cv-sheet {
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+        }
+      `}</style>
+
+      <div
+        id="mr-cv-print-root"
+        className="w-full max-w-6xl rounded-[28px] bg-[#F4F5F9] border border-[#E4E4E7] shadow-2xl overflow-hidden my-auto"
+      >
+        <div className="no-print flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 bg-white border-b border-[#E4E4E7]">
+          <div className="flex items-center gap-3">
+            <img
+              src={avatarLogo}
+              alt="Avatar"
+              className="w-9 h-9 rounded-full object-cover object-top border border-[#E4E4E7]"
+            />
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#52525B]">
+                <Bot className="w-3.5 h-3.5 text-[#2563EB]" />
+                <span>Avatar Orchestrator · Mini-LLM CV-Showcase</span>
+              </div>
+              <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
+                Lebenslauf aus Skills &amp; Stationen zusammenstellen &amp; als
+                PDF ziehen
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={runMiniLlmAgent}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F4F4F5] hover:bg-[#E4E4E7] text-[#0B0B0C] text-xs font-bold transition-colors cursor-pointer"
+            >
+              <Wand2 className="w-3.5 h-3.5 text-[#7E22CE]" />
+              <span>Agent aktualisieren</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleExportPdf}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>PDF speichern ({isDarkPdf ? "Dark" : "Light"})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="CV-Studio schließen"
+              className="w-9 h-9 rounded-full border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] flex items-center justify-center text-[#0B0B0C] transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="no-print px-5 sm:px-7 py-2.5 bg-[#0B0B0C] text-white flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                agentStatus === "running"
+                  ? "bg-amber-400 animate-ping"
+                  : agentStatus === "done"
+                    ? "bg-emerald-400"
+                    : "bg-[#60A5FA]"
+              }`}
+            />
+            <span className="font-mono text-[11px] text-white/90">
+              {agentStepLabel}
+            </span>
+          </div>
+          <span className="text-[11px] text-white/60">
+            {filteredPositions.length} Stationen · {selectedSkillLabels.length}{" "}
+            Skills aktiv
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 p-4 sm:p-6">
+          <div className="no-print lg:col-span-5 space-y-4">
+            <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-4">
+              <div>
+                <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
+                  PDF-Modus
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setPdfTheme("light")}
+                    className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      !isDarkPdf
+                        ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                        : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                    }`}
+                  >
+                    <Sun className="w-3.5 h-3.5" />
+                    <span>Lightmode</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setPdfTheme("dark")}
+                    className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      isDarkPdf
+                        ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                        : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                    }`}
+                  >
+                    <Moon className="w-3.5 h-3.5" />
+                    <span>Darkmode</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
+                    Fokus
+                  </label>
+                  <select
+                    value={focusMode}
+                    onChange={(e) => setFocusMode(e.target.value)}
+                    className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
+                  >
+                    <option value="all">Alles (Gesamtprofil)</option>
+                    <option value="data-ai">Data &amp; AI Engineering</option>
+                    <option value="fullstack-data">
+                      Integration &amp; Fullstack
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
+                    Umfang
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setCompactBullets((prev) => !prev)}
+                    className={`w-full rounded-xl border px-2.5 py-2 text-xs font-bold text-left transition-colors cursor-pointer ${
+                      compactBullets
+                        ? "bg-[#EEF2FF] border-[#818CF8] text-[#1E1B4B]"
+                        : "bg-[#F8FAFC] border-[#E4E4E7] text-[#0B0B0C]"
+                    }`}
+                  >
+                    {compactBullets
+                      ? "Kompakt (1 Punkt)"
+                      : "Standard (2 Punkte)"}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
+                  Optionaler Schwerpunkt-Hinweis für Mini-LLM
+                </label>
+                <input
+                  type="text"
+                  value={customNote}
+                  onChange={(e) => setCustomNote(e.target.value)}
+                  placeholder="z. B. Fokus auf PySpark, Azure & Agentic Workflows…"
+                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A]"
+                />
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
+                  Stationen ein- / ausschließen
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSelectedPositionIds((prev) =>
+                      prev.length === CV_POSITIONS.length
+                        ? []
+                        : CV_POSITIONS.map((p) => p.id),
+                    )
+                  }
+                  className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer"
+                >
+                  {selectedPositionIds.length === CV_POSITIONS.length
+                    ? "Keine"
+                    : "Alle"}
+                </button>
+              </div>
+
+              <div className="space-y-1.5">
+                {CV_POSITIONS.map((pos) => {
+                  const checked = selectedPositionIds.includes(pos.id);
+                  return (
+                    <button
+                      key={pos.id}
+                      type="button"
+                      onClick={() => togglePosition(pos.id)}
+                      className={`w-full flex items-start justify-between gap-2.5 p-2.5 rounded-xl border text-left transition-colors cursor-pointer ${
+                        checked
+                          ? "bg-[#F8FAFC] border-[#CBD5E1] text-[#0B0B0C]"
+                          : "bg-white border-[#F1F5F9] text-[#71717A] opacity-65"
+                      }`}
+                    >
+                      <div>
+                        <p className="text-xs font-bold leading-snug">
+                          {pos.role}
+                        </p>
+                        <p className="text-[11px] text-[#52525B]">
+                          {pos.company} · {pos.period}
+                        </p>
+                      </div>
+                      <span
+                        className={`mt-0.5 w-4 h-4 rounded flex items-center justify-center shrink-0 border ${
+                          checked
+                            ? "bg-[#0B0B0C] border-[#0B0B0C] text-white"
+                            : "border-[#CBD5E1] bg-white"
+                        }`}
+                      >
+                        {checked && <Check className="w-3 h-3" />}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
+              <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
+                Skills im Lebenslauf
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {CORE_SKILL_PILLS.map((skill) => {
+                  const active = selectedSkillLabels.includes(skill.label);
+                  return (
+                    <button
+                      key={skill.label}
+                      type="button"
+                      onClick={() => toggleSkill(skill.label)}
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors cursor-pointer ${
+                        active
+                          ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
+                          : "bg-[#F8FAFC] text-[#52525B] border-[#E4E4E7] hover:text-[#0B0B0C]"
+                      }`}
+                    >
+                      {skill.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            <div
+              id="mr-cv-sheet"
+              className={`rounded-2xl border p-6 sm:p-8 shadow-sm transition-colors duration-300 ${
+                isDarkPdf
+                  ? "bg-[#0B0B0C] border-white/15 text-white"
+                  : "bg-white border-[#E4E4E7] text-[#0B0B0C]"
+              }`}
+            >
+              <div
+                className={`pb-5 border-b flex flex-col sm:flex-row sm:items-end justify-between gap-3 ${
+                  isDarkPdf ? "border-white/15" : "border-[#E4E4E7]"
+                }`}
+              >
+                <div>
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-[0.2em] ${
+                      isDarkPdf ? "text-[#93C5FD]" : "text-[#52525B]"
+                    }`}
+                  >
+                    Strukturierter Lebenslauf · Avatar Mini-LLM Export
+                  </span>
+                  <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold tracking-[-0.04em]">
+                    Malte Reppke
+                  </h2>
+                  <p
+                    className={`mt-1 text-xs sm:text-sm font-semibold ${
+                      isDarkPdf ? "text-white/80" : "text-[#3F3F46]"
+                    }`}
+                  >
+                    Data Engineer &amp; AI Engineer · Hilden, Deutschland
+                  </p>
+                </div>
+
+                <div
+                  className={`text-[11px] font-mono space-y-0.5 ${
+                    isDarkPdf ? "text-white/70" : "text-[#52525B]"
+                  }`}
+                >
+                  <div>malte_reppke@web.de</div>
+                  <div>github.com/malte-reppke</div>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <h3
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+                    isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                  }`}
+                >
+                  Profil (verdichtet durch Mini-LLM)
+                </h3>
+                <p
+                  className={`mt-1.5 text-xs sm:text-[13px] leading-relaxed ${
+                    isDarkPdf ? "text-white/85" : "text-[#27272A]"
+                  }`}
+                >
+                  {summaryText}
+                </p>
+              </div>
+
+              <div className="mt-6">
+                <h3
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
+                    isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                  }`}
+                >
+                  Berufserfahrung
+                </h3>
+
+                {filteredPositions.length === 0 ? (
+                  <p
+                    className={`text-xs italic ${
+                      isDarkPdf ? "text-white/60" : "text-[#71717A]"
+                    }`}
+                  >
+                    Keine Station ausgewählt – bitte links Stationen aktivieren.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {filteredPositions.map((pos) => (
+                      <div
+                        key={pos.id}
+                        className={`pl-3.5 border-l-2 ${
+                          isDarkPdf ? "border-[#60A5FA]/70" : "border-[#0B0B0C]"
+                        }`}
+                      >
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <p className="text-xs sm:text-sm font-bold">
+                            {pos.role}
+                          </p>
+                          <span
+                            className={`text-[11px] font-mono ${
+                              isDarkPdf ? "text-white/65" : "text-[#52525B]"
+                            }`}
+                          >
+                            {pos.period}
+                          </span>
+                        </div>
+                        <p
+                          className={`text-xs font-semibold ${
+                            isDarkPdf ? "text-[#93C5FD]" : "text-[#52525B]"
+                          }`}
+                        >
+                          {pos.company}
+                        </p>
+                        <ul
+                          className={`mt-1.5 space-y-1 text-xs ${
+                            isDarkPdf ? "text-white/80" : "text-[#27272A]"
+                          }`}
+                        >
+                          {pos.bullets.map((b) => (
+                            <li
+                              key={b}
+                              className="list-disc ml-4 leading-relaxed"
+                            >
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div
+                className={`mt-6 pt-5 border-t grid grid-cols-1 sm:grid-cols-2 gap-5 ${
+                  isDarkPdf ? "border-white/15" : "border-[#E4E4E7]"
+                }`}
+              >
+                <div>
+                  <h3
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
+                      isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                    }`}
+                  >
+                    Ausgewählte Skills
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedSkillLabels.map((label) => (
+                      <span
+                        key={label}
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-bold border ${
+                          isDarkPdf
+                            ? "bg-white/10 border-white/15 text-white"
+                            : "bg-[#F4F4F5] border-[#E4E4E7] text-[#0B0B0C]"
+                        }`}
+                      >
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
+                      isDarkPdf ? "text-white/60" : "text-[#52525B]"
+                    }`}
+                  >
+                    Studium
+                  </h3>
+                  <div
+                    className={`space-y-1.5 text-xs ${
+                      isDarkPdf ? "text-white/80" : "text-[#27272A]"
+                    }`}
+                  >
+                    <p>
+                      <strong>M. Sc. KI und Business Analytics</strong> · FOM
+                      (ab 01.09.2026)
+                    </p>
+                    <p>
+                      <strong>B. Sc. Wirtschaftsinformatik</strong> · FOM
+                      Düsseldorf (1,9)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -647,7 +1494,6 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* DEZENTER SCROLL-GRADIENT FÜR DIE MOTIVATION-SECTION (OHNE BUBBLES) */
 const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
   const [scrollFlow, setScrollFlow] = useState(0.5);
 
@@ -721,7 +1567,6 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
   );
 };
 
-/* APPLE-STYLE LIQUID CARD: SATTE SCHWARZE HAUPT-CARD & KLARE WEIẞE LIQUID-GLASS-CARDS */
 const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
   const isDark = variant === "dark";
 
@@ -738,7 +1583,6 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
           : "bg-white/95 backdrop-blur-2xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
       } ${className}`}
     >
-      {/* Dezenter Apple-Top-Schimmer */}
       <div
         aria-hidden="true"
         style={{
@@ -749,7 +1593,6 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         className="pointer-events-none absolute inset-x-0 top-0 h-[1px]"
       />
 
-      {/* Sehr zurückhaltender Akzent-Schimmer */}
       <div
         aria-hidden="true"
         style={{
@@ -765,7 +1608,6 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
   );
 };
 
-/* SCROLL-REAKTIVES E-MAIL-PARTIKEL- & WELLENFELD: FLIEẞT VON LINKS OBEN EIN & WIRD AM ENDE KOMPLETT READY */
 const ContactMailWaveField = ({
   sectionRef,
   email = "malte_reppke@web.de",
@@ -1137,7 +1979,6 @@ const ContactMailWaveField = ({
   );
 };
 
-/* SMOOTHES EINBLENDEN VON TEXTEN MIT STAGGER-DELAY */
 const TextReveal = ({
   children,
   delay = 0,
@@ -1197,7 +2038,6 @@ const TextReveal = ({
   );
 };
 
-/* SLIDE-IN VON AUSSEN FÜR DIE ELEMENTE DER MOTIVATION-SECTION */
 const MotivationSlideIn = ({
   children,
   from = "bottom",
@@ -1519,126 +2359,6 @@ const TIMELINE_PROJECTS = [
   },
 ];
 
-const PROVINZIAL_STATIONS = [
-  {
-    title: "Data Engineer & AI Engineer · IT-DWH",
-    period: "Ab 01.06.2026",
-    bullets: [
-      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
-      "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
-      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
-    ],
-  },
-  {
-    title: "Data-Analyst Customer Data & Analytics",
-    period: "01.05.2025 – 30.05.2026",
-    bullets: [
-      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
-      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
-    ],
-  },
-];
-
-const CONTROLEXPERT_FEATURED_STATION = {
-  title: "Softwareentwickler Versicherungsbranche",
-  period: "Jul 2019 – Aug 2022",
-  bullets: [
-    "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
-    "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
-    "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
-  ],
-};
-
-const CONTROLEXPERT_MORE_STATIONS = [
-  {
-    title: "BI-Specialist Versicherungsprozesse",
-    period: "Okt 2017 – Jun 2019 · Teilzeit",
-    bullets: [
-      "Erfolgreiche Entwicklung eines Data Warehouse",
-      "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
-    ],
-  },
-  {
-    title: "Business-Analyst Versicherungsprozesse",
-    period: "Okt 2016 – Sep 2017",
-    bullets: [
-      "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
-      "Product Management interne Kalkulationsanwendung im Scrum Prozess",
-    ],
-  },
-  {
-    title: "Data-Specialist Automobil",
-    period: "Jul 2012 – Sep 2016",
-    bullets: [
-      "Erhebung, Abfrage & Pflege von Herstellerdaten",
-      "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
-    ],
-  },
-];
-
-const CORE_SKILL_PILLS = [
-  {
-    label: "Python",
-    role: "Data & ETL Scripting",
-    projects:
-      "Datenaufbereitung, Automatisierung & Spark-Pipelines bei Provinzial (IT-DWH & Customer Data).",
-  },
-  {
-    label: "PySpark / Spark",
-    role: "Verteilte Datenverarbeitung",
-    projects:
-      "Aufbau von Datenprodukten und Selektionsframework für Kundenselektionen auf großen Datenbeständen bei Provinzial.",
-  },
-  {
-    label: "Azure & Synapse",
-    role: "Cloud Data Plattform",
-    projects:
-      "Datenprodukte, Pipelines und IT-DWH-Architektur im Azure-Synapse-Umfeld bei Provinzial.",
-  },
-  {
-    label: "SQL",
-    role: "Abfragen & Modellierung",
-    projects:
-      "Data-Warehouse-Aufbau, KPI-Reporting und relationale Datenabfragen bei ControlExpert & Provinzial.",
-  },
-  {
-    label: "React.js & Next.js",
-    role: "Web & UI Engineering",
-    projects:
-      "Digitale Schadenaufnahme (EasyClaim) bei ControlExpert sowie Business-Websites & Blog bei Vodafone.",
-  },
-  {
-    label: ".NET C#",
-    role: "Backend-Services",
-    projects:
-      "Backend-Logik und Services für die digitale Schadenaufnahme bei ControlExpert.",
-  },
-  {
-    label: "Node.js",
-    role: "API & Microservices",
-    projects:
-      "Microservices für Vertragsdaten und Firmenkunden-Integration bei Vodafone.",
-  },
-  {
-    label: "Jest, Vitest & Cypress",
-    role: "Qualitätssicherung & Tests",
-    projects:
-      "Unit- und End-to-End-Tests zur Absicherung der Codequalität im agilen Umfeld bei ControlExpert.",
-  },
-  {
-    label: "Git, Docker & CI/CD",
-    role: "Delivery & Automatisierung",
-    projects:
-      "Containerisierung sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines bei Vodafone.",
-  },
-  {
-    label: "Tableau & Power-BI",
-    role: "BI & Visualisierung",
-    projects:
-      "KPI-Visualisierung und Stakeholder-Reporting auf Basis von Data-Warehouse-Daten.",
-  },
-];
-
 const InteractiveProjectColumn = ({
   project,
   isPinned,
@@ -1869,6 +2589,7 @@ export default function App() {
   const [pinnedIds, setPinnedIds] = useState([]);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const [controlExpertExpanded, setControlExpertExpanded] = useState(false);
+  const [cvStudioOpen, setCvStudioOpen] = useState(false);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
@@ -2045,7 +2766,13 @@ export default function App() {
       }}
       className="min-h-screen w-full overflow-x-clip bg-[#FFFFFF] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-white antialiased"
     >
-      <div className="fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none">
+      <AvatarCvAgentStudio
+        open={cvStudioOpen}
+        onClose={() => setCvStudioOpen(false)}
+        reducedMotion={reducedMotion}
+      />
+
+      <div className="no-print fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none">
         <div
           className="h-full bg-[#0B0B0C] transition-[width] duration-150 ease-out"
           style={{ width: `${pageProgress * 100}%` }}
@@ -2153,6 +2880,9 @@ export default function App() {
                   <AvatarGreetingMark
                     size={42}
                     reducedMotion={reducedMotion}
+                    onOpenCvStudio={() => setCvStudioOpen(true)}
+                    autoIntroBubble={!reducedMotion}
+                    showFocusHint={!reducedMotion}
                     className="hidden sm:inline-flex"
                   />
 
@@ -2202,10 +2932,11 @@ export default function App() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => jumpToSection("contact")}
+                      onClick={() => setCvStudioOpen(true)}
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 active:scale-[0.98] transition-all cursor-pointer"
                     >
-                      <span>→ Kontakt</span>
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>CV als PDF</span>
                     </button>
                   </div>
                 </div>
@@ -2229,7 +2960,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 2. PROJEKTE (HORIZONTAL TIMELINE COLUMNS) */}
+      {/* 2. PROJEKTE */}
       <section id="work" className="bg-[#FFFFFF] py-20 sm:py-28">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -2485,12 +3216,36 @@ export default function App() {
       {/* 4. STATIONEN & TECH STACK */}
       <section id="experience" className="bg-[#FBFBFD] py-16 sm:py-24">
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <HeadlineFlow
-            kicker="03 / Stationen & Tech Stack"
-            title="Stationen & Kernkompetenzen"
-            as="h2"
-            reducedMotion={reducedMotion}
-          />
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <HeadlineFlow
+              kicker="03 / Stationen & Tech Stack"
+              title="Stationen & Kernkompetenzen"
+              as="h2"
+              reducedMotion={reducedMotion}
+            />
+
+            <div className="flex items-center gap-3 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setCvStudioOpen(true)}
+                aria-label="Avatar auf CV-Sektion klicken, um Lebenslauf-Studio zu öffnen"
+                title="Mit Avatar-Agent Lebenslauf als PDF öffnen"
+                className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C] shadow-xs transition-all cursor-pointer group"
+              >
+                <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F5F5F7] overflow-hidden border border-[#E4E4E7]">
+                  <img
+                    src={avatarLogo}
+                    alt="Malte Reppke Avatar CV"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </span>
+                <span className="text-xs font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
+                  <Bot className="w-3.5 h-3.5 text-[#2563EB]" />
+                  <span>CV als PDF</span>
+                </span>
+              </button>
+            </div>
+          </div>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
             <RevealBlock
@@ -2772,7 +3527,7 @@ export default function App() {
       </section>
 
       {/* FLOATING SECTION FLOW PILL */}
-      <div className="fixed bottom-5 right-5 z-40">
+      <div className="no-print fixed bottom-5 right-5 z-40">
         <button
           type="button"
           onClick={handleNextPill}
