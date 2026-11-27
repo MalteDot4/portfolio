@@ -647,203 +647,275 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* LUFTBLASEN IN ETWAS DUNKLEREM GRADIENT-STYLE, UNTERSCHIEDLICH GROSS ÜBER DIE GANZE SECTION (AUCH AN DEN SEITEN) */
-const AIR_BUBBLES = [
-  // Linke Seite (klein, mittel & groß)
+/* LIQUID TECH CARD: FLÜSSIGE FARBSCHLIEREN IM HERO-STIL + GLÄSERNE TIEFE */
+const LiquidTechCard = ({
+  children,
+  variant = "dark",
+  className = "",
+  reducedMotion = false,
+}) => {
+  const [flowT, setFlowT] = useState(0);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setFlowT(1.4);
+      return;
+    }
+
+    let rafId = null;
+    const t0 = performance.now();
+
+    const tick = (now) => {
+      setFlowT((now - t0) * 0.001);
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    rafId = window.requestAnimationFrame(tick);
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [reducedMotion]);
+
+  const blobAx = Math.sin(flowT * 0.34) * 28;
+  const blobAy = Math.cos(flowT * 0.27) * 20;
+  const blobBx = Math.cos(flowT * 0.31 + 1.2) * 32;
+  const blobBy = Math.sin(flowT * 0.25 + 0.8) * 22;
+
+  const isDark = variant === "dark";
+
+  return (
+    <div
+      style={{
+        background: isDark
+          ? "linear-gradient(145deg, rgba(6, 9, 20, 0.96) 0%, rgba(12, 22, 54, 0.94) 55%, rgba(24, 13, 46, 0.96) 100%)"
+          : "linear-gradient(145deg, rgba(246, 248, 255, 0.88) 0%, rgba(235, 241, 255, 0.84) 52%, rgba(245, 238, 255, 0.88) 100%)",
+        boxShadow: isDark
+          ? "0 22px 50px -18px rgba(4, 7, 18, 0.55), inset 0 1px 0 rgba(147, 197, 253, 0.22)"
+          : "0 20px 44px -20px rgba(29, 78, 216, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+      }}
+      className={`group relative overflow-hidden rounded-[28px] backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 ${
+        isDark
+          ? "border border-[#60A5FA]/25 text-white"
+          : "border border-[#93C5FD]/40 text-[#0B0B0C]"
+      } ${className}`}
+    >
+      {/* Flüssige Kobalt- & Himmelblau-Schliere */}
+      <div
+        aria-hidden="true"
+        style={{
+          transform: `translate3d(${blobAx}px, ${blobAy}px, 0) scale(${
+            1 + Math.sin(flowT * 0.4) * 0.08
+          })`,
+          background: isDark
+            ? "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.34) 0%, rgba(29, 78, 216, 0.14) 52%, transparent 75%)"
+            : "radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.22) 0%, rgba(147, 197, 253, 0.12) 55%, transparent 78%)",
+        }}
+        className="pointer-events-none absolute -top-16 -left-16 w-72 h-72 rounded-full blur-2xl will-change-transform"
+      />
+
+      {/* Flüssige Violett- & Rosé-Schliere */}
+      <div
+        aria-hidden="true"
+        style={{
+          transform: `translate3d(${blobBx}px, ${blobBy}px, 0) scale(${
+            1 + Math.cos(flowT * 0.36) * 0.08
+          })`,
+          background: isDark
+            ? "radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.32) 0%, rgba(244, 114, 182, 0.14) 52%, transparent 76%)"
+            : "radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.2) 0%, rgba(244, 114, 182, 0.12) 55%, transparent 78%)",
+        }}
+        className="pointer-events-none absolute -bottom-20 -right-16 w-80 h-80 rounded-full blur-2xl will-change-transform"
+      />
+
+      {/* Feines flüssiges Glanzband oben */}
+      <div
+        aria-hidden="true"
+        style={{
+          background: isDark
+            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.32) 35%, rgba(216, 180, 254, 0.28) 70%, transparent 100%)"
+            : "linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.25) 35%, rgba(168, 85, 247, 0.22) 70%, transparent 100%)",
+        }}
+        className="pointer-events-none absolute inset-x-6 top-0 h-[1px]"
+      />
+
+      <div className="relative z-10 h-full">{children}</div>
+    </div>
+  );
+};
+
+/* DUNKLE, HOCHWERTIGE LUFTBLASEN IN TECH-GRADIENT-STIL, UNTERSCHIEDLICH GROSS ÜBER DIE GANZE SECTION */
+const DARK_TECH_BUBBLES = [
+  // Linke Seite (groß, mittel, klein)
   {
-    id: "ab-1",
-    size: 112,
+    id: "dtb-1",
+    size: 122,
     leftPct: 3,
     topPct: 16,
     flyX: 28,
     flyY: -36,
     phase: 0.3,
     popAt: 0.77,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(147, 197, 253, 0.55) 0%, rgba(29, 78, 216, 0.72) 56%, rgba(15, 23, 56, 0.86) 100%)",
-    border: "rgba(147, 197, 253, 0.42)",
-    shadow:
-      "0 14px 32px rgba(29, 78, 216, 0.24), inset 0 2px 10px rgba(255, 255, 255, 0.32)",
+    bg: "radial-gradient(circle at 28% 24%, rgba(96, 165, 250, 0.42) 0%, rgba(23, 55, 148, 0.86) 52%, rgba(5, 8, 22, 0.96) 100%)",
+    border: "rgba(147, 197, 253, 0.34)",
+    glow: "0 18px 40px rgba(7, 14, 38, 0.42), inset 0 2px 12px rgba(191, 219, 254, 0.28)",
     spark: "#2563EB",
   },
   {
-    id: "ab-2",
-    size: 46,
-    leftPct: 8,
+    id: "dtb-2",
+    size: 52,
+    leftPct: 9,
     topPct: 48,
     flyX: 22,
     flyY: -44,
     phase: 1.1,
     popAt: 0.81,
-    style:
-      "radial-gradient(circle at 32% 28%, rgba(216, 180, 254, 0.55) 0%, rgba(109, 40, 217, 0.72) 58%, rgba(30, 14, 62, 0.86) 100%)",
-    border: "rgba(192, 132, 252, 0.42)",
-    shadow:
-      "0 10px 22px rgba(109, 40, 217, 0.22), inset 0 2px 8px rgba(255, 255, 255, 0.34)",
+    bg: "radial-gradient(circle at 30% 26%, rgba(192, 132, 252, 0.44) 0%, rgba(76, 29, 149, 0.86) 55%, rgba(9, 7, 26, 0.96) 100%)",
+    border: "rgba(216, 180, 254, 0.34)",
+    glow: "0 12px 26px rgba(15, 10, 38, 0.38), inset 0 1px 8px rgba(233, 213, 255, 0.3)",
     spark: "#7C3AED",
   },
   {
-    id: "ab-3",
-    size: 84,
+    id: "dtb-3",
+    size: 92,
     leftPct: 2,
     topPct: 79,
     flyX: 34,
     flyY: -38,
     phase: 2.0,
     popAt: 0.85,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(249, 168, 212, 0.52) 0%, rgba(126, 34, 206, 0.72) 58%, rgba(28, 12, 52, 0.88) 100%)",
-    border: "rgba(244, 114, 182, 0.38)",
-    shadow:
-      "0 12px 28px rgba(126, 34, 206, 0.22), inset 0 2px 9px rgba(255, 255, 255, 0.3)",
-    spark: "#A855F7",
+    bg: "radial-gradient(circle at 28% 24%, rgba(244, 114, 182, 0.36) 0%, rgba(88, 28, 135, 0.88) 54%, rgba(8, 7, 22, 0.96) 100%)",
+    border: "rgba(249, 168, 212, 0.28)",
+    glow: "0 14px 32px rgba(12, 8, 32, 0.4), inset 0 2px 10px rgba(251, 207, 232, 0.25)",
+    spark: "#9333EA",
   },
   {
-    id: "ab-4",
-    size: 30,
+    id: "dtb-4",
+    size: 32,
     leftPct: 14,
     topPct: 30,
     flyX: 18,
     flyY: -32,
     phase: 2.8,
     popAt: 0.88,
-    style:
-      "radial-gradient(circle at 32% 28%, rgba(186, 230, 253, 0.6) 0%, rgba(37, 99, 235, 0.75) 60%, rgba(15, 23, 56, 0.86) 100%)",
-    border: "rgba(125, 211, 252, 0.45)",
-    shadow:
-      "0 8px 18px rgba(37, 99, 235, 0.22), inset 0 1px 6px rgba(255, 255, 255, 0.38)",
+    bg: "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.48) 0%, rgba(29, 78, 216, 0.86) 58%, rgba(5, 8, 22, 0.96) 100%)",
+    border: "rgba(147, 197, 253, 0.38)",
+    glow: "0 8px 20px rgba(7, 14, 38, 0.35), inset 0 1px 6px rgba(224, 242, 254, 0.32)",
     spark: "#3B82F6",
   },
 
-  // Rechte Seite (klein, mittel & groß)
+  // Rechte Seite (groß, mittel, klein)
   {
-    id: "ab-5",
-    size: 98,
+    id: "dtb-5",
+    size: 108,
     leftPct: 93,
     topPct: 18,
     flyX: -30,
     flyY: -38,
     phase: 3.4,
     popAt: 0.79,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(216, 180, 254, 0.55) 0%, rgba(109, 40, 217, 0.74) 56%, rgba(22, 12, 54, 0.88) 100%)",
-    border: "rgba(192, 132, 252, 0.42)",
-    shadow:
-      "0 14px 32px rgba(109, 40, 217, 0.24), inset 0 2px 10px rgba(255, 255, 255, 0.32)",
-    spark: "#8B5CF6",
+    bg: "radial-gradient(circle at 28% 24%, rgba(167, 139, 250, 0.42) 0%, rgba(67, 24, 136, 0.88) 54%, rgba(7, 7, 24, 0.96) 100%)",
+    border: "rgba(196, 181, 253, 0.34)",
+    glow: "0 16px 36px rgba(10, 8, 34, 0.4), inset 0 2px 10px rgba(221, 214, 254, 0.28)",
+    spark: "#7C3AED",
   },
   {
-    id: "ab-6",
-    size: 40,
+    id: "dtb-6",
+    size: 44,
     leftPct: 95,
     topPct: 52,
     flyX: -24,
     flyY: -42,
     phase: 4.2,
     popAt: 0.84,
-    style:
-      "radial-gradient(circle at 32% 28%, rgba(147, 197, 253, 0.58) 0%, rgba(29, 78, 216, 0.74) 58%, rgba(14, 22, 54, 0.86) 100%)",
-    border: "rgba(147, 197, 253, 0.42)",
-    shadow:
-      "0 10px 22px rgba(29, 78, 216, 0.22), inset 0 2px 8px rgba(255, 255, 255, 0.35)",
+    bg: "radial-gradient(circle at 30% 26%, rgba(96, 165, 250, 0.44) 0%, rgba(23, 55, 148, 0.86) 56%, rgba(5, 8, 22, 0.96) 100%)",
+    border: "rgba(147, 197, 253, 0.34)",
+    glow: "0 10px 24px rgba(7, 14, 38, 0.36), inset 0 1px 7px rgba(191, 219, 254, 0.3)",
     spark: "#2563EB",
   },
   {
-    id: "ab-7",
-    size: 120,
+    id: "dtb-7",
+    size: 128,
     leftPct: 91,
     topPct: 82,
     flyX: -36,
     flyY: -34,
     phase: 4.9,
     popAt: 0.89,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(244, 114, 182, 0.48) 0%, rgba(91, 33, 182, 0.74) 56%, rgba(16, 14, 42, 0.88) 100%)",
-    border: "rgba(216, 180, 254, 0.4)",
-    shadow:
-      "0 16px 36px rgba(91, 33, 182, 0.24), inset 0 2px 11px rgba(255, 255, 255, 0.3)",
-    spark: "#9333EA",
+    bg: "radial-gradient(circle at 28% 24%, rgba(129, 140, 248, 0.38) 0%, rgba(49, 23, 118, 0.9) 54%, rgba(5, 7, 20, 0.97) 100%)",
+    border: "rgba(165, 180, 252, 0.3)",
+    glow: "0 18px 42px rgba(6, 10, 28, 0.44), inset 0 2px 12px rgba(199, 210, 254, 0.26)",
+    spark: "#4F46E5",
   },
   {
-    id: "ab-8",
-    size: 32,
+    id: "dtb-8",
+    size: 34,
     leftPct: 86,
     topPct: 35,
     flyX: -20,
     flyY: -34,
     phase: 5.5,
     popAt: 0.92,
-    style:
-      "radial-gradient(circle at 32% 28%, rgba(251, 207, 232, 0.56) 0%, rgba(126, 34, 206, 0.72) 60%, rgba(26, 12, 48, 0.86) 100%)",
-    border: "rgba(244, 114, 182, 0.4)",
-    shadow:
-      "0 8px 18px rgba(126, 34, 206, 0.2), inset 0 1px 6px rgba(255, 255, 255, 0.36)",
-    spark: "#C026D3",
+    bg: "radial-gradient(circle at 30% 26%, rgba(244, 114, 182, 0.4) 0%, rgba(91, 33, 182, 0.86) 58%, rgba(8, 7, 22, 0.96) 100%)",
+    border: "rgba(244, 114, 182, 0.32)",
+    glow: "0 8px 20px rgba(12, 8, 32, 0.34), inset 0 1px 6px rgba(251, 207, 232, 0.3)",
+    spark: "#9333EA",
   },
 
-  // Oben & unten quer über die gesamte Section
+  // Oben & unten über die gesamte Section
   {
-    id: "ab-9",
-    size: 56,
+    id: "dtb-9",
+    size: 62,
     leftPct: 28,
     topPct: 8,
     flyX: 16,
     flyY: -28,
     phase: 0.8,
     popAt: 0.82,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(147, 197, 253, 0.56) 0%, rgba(30, 64, 175, 0.74) 58%, rgba(15, 23, 56, 0.86) 100%)",
-    border: "rgba(147, 197, 253, 0.42)",
-    shadow:
-      "0 10px 24px rgba(30, 64, 175, 0.22), inset 0 2px 8px rgba(255, 255, 255, 0.34)",
+    bg: "radial-gradient(circle at 28% 24%, rgba(96, 165, 250, 0.42) 0%, rgba(23, 55, 148, 0.86) 56%, rgba(5, 8, 22, 0.96) 100%)",
+    border: "rgba(147, 197, 253, 0.34)",
+    glow: "0 12px 26px rgba(7, 14, 38, 0.36), inset 0 1px 8px rgba(191, 219, 254, 0.28)",
     spark: "#2563EB",
   },
   {
-    id: "ab-10",
-    size: 74,
+    id: "dtb-10",
+    size: 80,
     leftPct: 68,
     topPct: 9,
     flyX: -18,
     flyY: -30,
     phase: 1.7,
     popAt: 0.86,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(216, 180, 254, 0.55) 0%, rgba(109, 40, 217, 0.74) 58%, rgba(22, 12, 54, 0.88) 100%)",
-    border: "rgba(192, 132, 252, 0.42)",
-    shadow:
-      "0 12px 28px rgba(109, 40, 217, 0.22), inset 0 2px 9px rgba(255, 255, 255, 0.32)",
+    bg: "radial-gradient(circle at 28% 24%, rgba(192, 132, 252, 0.42) 0%, rgba(76, 29, 149, 0.86) 56%, rgba(9, 7, 26, 0.96) 100%)",
+    border: "rgba(216, 180, 254, 0.34)",
+    glow: "0 14px 30px rgba(15, 10, 38, 0.38), inset 0 2px 9px rgba(233, 213, 255, 0.28)",
     spark: "#7C3AED",
   },
   {
-    id: "ab-11",
-    size: 64,
+    id: "dtb-11",
+    size: 68,
     leftPct: 26,
     topPct: 91,
     flyX: 20,
     flyY: -36,
     phase: 2.4,
     popAt: 0.91,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(147, 197, 253, 0.55) 0%, rgba(29, 78, 216, 0.74) 58%, rgba(14, 22, 54, 0.86) 100%)",
-    border: "rgba(147, 197, 253, 0.42)",
-    shadow:
-      "0 12px 26px rgba(29, 78, 216, 0.22), inset 0 2px 8px rgba(255, 255, 255, 0.34)",
+    bg: "radial-gradient(circle at 28% 24%, rgba(125, 211, 252, 0.4) 0%, rgba(29, 78, 216, 0.86) 56%, rgba(5, 8, 22, 0.96) 100%)",
+    border: "rgba(147, 197, 253, 0.32)",
+    glow: "0 12px 28px rgba(7, 14, 38, 0.36), inset 0 1px 8px rgba(224, 242, 254, 0.28)",
     spark: "#3B82F6",
   },
   {
-    id: "ab-12",
-    size: 52,
+    id: "dtb-12",
+    size: 56,
     leftPct: 72,
     topPct: 90,
     flyX: -22,
     flyY: -36,
     phase: 3.9,
     popAt: 0.96,
-    style:
-      "radial-gradient(circle at 30% 26%, rgba(249, 168, 212, 0.52) 0%, rgba(126, 34, 206, 0.74) 58%, rgba(24, 11, 48, 0.88) 100%)",
-    border: "rgba(244, 114, 182, 0.4)",
-    shadow:
-      "0 10px 24px rgba(126, 34, 206, 0.22), inset 0 2px 8px rgba(255, 255, 255, 0.32)",
+    bg: "radial-gradient(circle at 28% 24%, rgba(244, 114, 182, 0.38) 0%, rgba(88, 28, 135, 0.88) 56%, rgba(8, 7, 22, 0.96) 100%)",
+    border: "rgba(249, 168, 212, 0.3)",
+    glow: "0 10px 24px rgba(12, 8, 32, 0.36), inset 0 1px 7px rgba(251, 207, 232, 0.26)",
     spark: "#9333EA",
   },
 ];
@@ -912,7 +984,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
   }, [sectionRef, reducedMotion]);
 
   const spawnBurst = (leftPct, topPct, ox, oy, size, color) => {
-    const burstId = `ab-burst-${burstCounterRef.current++}`;
+    const burstId = `dtb-burst-${burstCounterRef.current++}`;
     const sparks = Array.from({ length: 8 }, (_, i) => {
       const ang = (i / 8) * Math.PI * 2 + 0.25;
       const dist = 26 + (i % 3) * 9;
@@ -935,7 +1007,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
   useEffect(() => {
     if (reducedMotion || sectionPass < 0.76) return;
 
-    AIR_BUBBLES.forEach((spec) => {
+    DARK_TECH_BUBBLES.forEach((spec) => {
       if (
         sectionPass >= spec.popAt &&
         !autoTriggeredRef.current.includes(spec.id)
@@ -980,17 +1052,17 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
       <style>{`
-        @keyframes abPopRing {
+        @keyframes dtbPopRing {
           0% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.85; }
           100% { transform: translate(-50%, -50%) scale(2.05); opacity: 0; }
         }
-        @keyframes abSparkOut {
+        @keyframes dtbSparkOut {
           0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 0.95; }
           100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
         }
       `}</style>
 
-      {/* LEICHTER, SMOOTHER GRADIENT-HINTERGRUND */}
+      {/* BEIBEHALTENER GRADIENT-HINTERGRUND */}
       <div
         style={{
           background:
@@ -1017,8 +1089,8 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         className="absolute -inset-24 will-change-transform"
       />
 
-      {/* LUFTBLASEN IN DUNKLEREM GRADIENT-STYLE ÜBER DIE GANZE SECTION */}
-      {AIR_BUBBLES.map((spec) => {
+      {/* DUNKLE TECH-LUFTBLASEN ÜBER DIE GANZE SECTION */}
+      {DARK_TECH_BUBBLES.map((spec) => {
         const isPopped =
           manualPoppedIds.includes(spec.id) || autoPoppedIds.includes(spec.id);
 
@@ -1035,20 +1107,20 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
           Math.cos(sectionPass * Math.PI * 2.2 + spec.phase) * 6;
 
         const r1 = Math.round(
-          50 + wobbleWave * 11 + Math.sin(flowTime * 0.8 + spec.phase) * 5,
+          50 + wobbleWave * 12 + Math.sin(flowTime * 0.8 + spec.phase) * 5,
         );
         const r2 = Math.round(
-          49 - wobbleWave * 10 + Math.cos(flowTime * 0.7 + spec.phase) * 5,
+          49 - wobbleWave * 11 + Math.cos(flowTime * 0.7 + spec.phase) * 5,
         );
         const r3 = Math.round(
-          51 + wobbleWave * 9 + Math.sin(flowTime * 0.6 + spec.phase) * 5,
+          51 + wobbleWave * 10 + Math.sin(flowTime * 0.6 + spec.phase) * 5,
         );
         const bubbleShape = `${r1}% ${100 - r1}% ${r2}% ${100 - r2}% / ${r3}% ${r1}% ${
           100 - r1
         }% ${100 - r3}%`;
 
         const scale = isPopped ? 0.15 : 0.95 + Math.abs(wobbleWave) * 0.08;
-        const opacity = isPopped ? 0 : 0.9;
+        const opacity = isPopped ? 0 : 0.92;
 
         return (
           <button
@@ -1066,27 +1138,27 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               pointerEvents: !isPopped ? "auto" : "none",
               borderRadius: bubbleShape,
               transform: `translate3d(calc(-50% + ${ox}px), calc(-50% + ${oy}px), 0) scale(${scale})`,
-              background: spec.style,
+              background: spec.bg,
               border: `1px solid ${spec.border}`,
-              boxShadow: spec.shadow,
+              boxShadow: spec.glow,
             }}
-            className="absolute cursor-pointer transition-[transform,opacity] duration-250 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[2px]"
+            className="absolute cursor-pointer transition-[transform,opacity] duration-250 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[3px]"
           >
-            {/* Glänzender Luftblasen-Reflex oben links */}
+            {/* Edler dunkler Tech-Glanzreflex oben links */}
             <span
               style={{
                 background:
-                  "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 75%)",
+                  "radial-gradient(ellipse at 50% 50%, rgba(219, 234, 254, 0.58) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
               className="block w-[34%] h-[18%] ml-[20%] mt-[19%] rounded-full -rotate-24 pointer-events-none"
             />
-            {/* Kleines Sekundär-Glanzlicht unten rechts */}
+            {/* Subtiler violetter Rim-Schimmer unten rechts */}
             <span
               style={{
                 background:
-                  "radial-gradient(circle, rgba(219, 234, 254, 0.45) 0%, rgba(255, 255, 255, 0) 75%)",
+                  "radial-gradient(circle, rgba(192, 132, 252, 0.36) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
-              className="block w-[14%] h-[14%] ml-[66%] mt-[32%] rounded-full pointer-events-none"
+              className="block w-[16%] h-[16%] ml-[64%] mt-[30%] rounded-full pointer-events-none"
             />
           </button>
         );
@@ -1109,7 +1181,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               height: `${burst.size}px`,
               border: `1.5px solid ${burst.color}`,
               animation:
-                "abPopRing 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                "dtbPopRing 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
             className="block rounded-full"
           />
@@ -1123,7 +1195,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
                 "--dx": `${sp.dx}px`,
                 "--dy": `${sp.dy}px`,
                 animation:
-                  "abSparkOut 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                  "dtbSparkOut 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
               }}
               className="block rounded-full"
             />
@@ -2666,58 +2738,64 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-[#0B0B0C]/95 backdrop-blur-md text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
-                <div>
-                  <TextReveal delay={110} reducedMotion={reducedMotion}>
-                    <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
-                      <Cpu className="w-5 h-5 text-white" />
-                    </div>
-                  </TextReveal>
+              <LiquidTechCard
+                variant="dark"
+                reducedMotion={reducedMotion}
+                className="h-full"
+              >
+                <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
+                  <div>
+                    <TextReveal delay={110} reducedMotion={reducedMotion}>
+                      <div className="w-11 h-11 rounded-2xl bg-white/10 border border-[#93C5FD]/30 flex items-center justify-center mb-7">
+                        <Cpu className="w-5 h-5 text-[#93C5FD]" />
+                      </div>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={170}
+                      yOffset={10}
+                      reducedMotion={reducedMotion}
+                    >
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#93C5FD]">
+                        Datenprodukte &amp; AI Engineering
+                      </span>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={230}
+                      yOffset={16}
+                      reducedMotion={reducedMotion}
+                    >
+                      <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
+                        Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
+                      </h2>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={300}
+                      yOffset={14}
+                      reducedMotion={reducedMotion}
+                    >
+                      <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
+                        Mich motiviert es, aus komplexen Datenlandschaften
+                        verlässliche Datenprodukte, skalierbare Pipelines und
+                        praxistaugliche KI-Systeme zu bauen, die Fachbereiche
+                        und automatisierte Prozesse im Alltag messbar stärken.
+                      </p>
+                    </TextReveal>
+                  </div>
 
                   <TextReveal
-                    delay={170}
+                    delay={360}
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
-                      Datenprodukte &amp; AI Engineering
-                    </span>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={230}
-                    yOffset={16}
-                    reducedMotion={reducedMotion}
-                  >
-                    <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
-                      Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
-                    </h2>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={300}
-                    yOffset={14}
-                    reducedMotion={reducedMotion}
-                  >
-                    <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
-                      Mich motiviert es, aus komplexen Datenlandschaften
-                      verlässliche Datenprodukte, skalierbare Pipelines und
-                      praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
-                      automatisierte Prozesse im Alltag messbar stärken.
-                    </p>
+                    <div className="mt-8 pt-6 border-t border-white/12 text-xs sm:text-sm font-medium text-white/75">
+                      PySpark · Azure Synapse · Datenprodukte · AI Engineering
+                    </div>
                   </TextReveal>
                 </div>
-
-                <TextReveal
-                  delay={360}
-                  yOffset={10}
-                  reducedMotion={reducedMotion}
-                >
-                  <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
-                    PySpark · Azure Synapse · Datenprodukte · AI Engineering
-                  </div>
-                </TextReveal>
-              </div>
+              </LiquidTechCard>
             </MotivationSlideIn>
 
             <MotivationSlideIn
@@ -2726,58 +2804,64 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
-                <div>
-                  <TextReveal delay={180} reducedMotion={reducedMotion}>
-                    <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
-                      <Database className="w-5 h-5 text-[#0B0B0C]" />
-                    </div>
-                  </TextReveal>
+              <LiquidTechCard
+                variant="liquidLight"
+                reducedMotion={reducedMotion}
+                className="h-full"
+              >
+                <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
+                  <div>
+                    <TextReveal delay={180} reducedMotion={reducedMotion}>
+                      <div className="w-11 h-11 rounded-2xl bg-white/85 border border-[#93C5FD]/40 flex items-center justify-center mb-7 shadow-2xs">
+                        <Database className="w-5 h-5 text-[#1D4ED8]" />
+                      </div>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={240}
+                      yOffset={10}
+                      reducedMotion={reducedMotion}
+                    >
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#3B82F6]">
+                        Skalierbare Pipelines
+                      </span>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={300}
+                      yOffset={16}
+                      reducedMotion={reducedMotion}
+                    >
+                      <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                        Saubere Struktur statt Fragilität
+                      </h3>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={360}
+                      yOffset={14}
+                      reducedMotion={reducedMotion}
+                    >
+                      <p className="mt-4 text-sm sm:text-base text-[#3F3F46] leading-relaxed">
+                        Gute Systeme sind nachvollziehbar, testbar und
+                        automatisiert. Klare Schnittstellen und reproduzierbare
+                        Pipelines schaffen Vertrauen – von der Kundenselektion
+                        bis zur KI-fähigen Aufbereitung.
+                      </p>
+                    </TextReveal>
+                  </div>
 
                   <TextReveal
-                    delay={240}
+                    delay={420}
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                      Skalierbare Pipelines
-                    </span>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={300}
-                    yOffset={16}
-                    reducedMotion={reducedMotion}
-                  >
-                    <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                      Saubere Struktur statt Fragilität
-                    </h3>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={360}
-                    yOffset={14}
-                    reducedMotion={reducedMotion}
-                  >
-                    <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                      Gute Systeme sind nachvollziehbar, testbar und
-                      automatisiert. Klare Schnittstellen und reproduzierbare
-                      Pipelines schaffen Vertrauen – von der Kundenselektion bis
-                      zur KI-fähigen Aufbereitung.
-                    </p>
+                    <div className="mt-8 pt-6 border-t border-[#1D4ED8]/15 text-xs sm:text-sm font-medium text-[#52525B]">
+                      Reproduzierbarkeit · Qualität · Automatisierung
+                    </div>
                   </TextReveal>
                 </div>
-
-                <TextReveal
-                  delay={420}
-                  yOffset={10}
-                  reducedMotion={reducedMotion}
-                >
-                  <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
-                    Reproduzierbarkeit · Qualität · Automatisierung
-                  </div>
-                </TextReveal>
-              </div>
+              </LiquidTechCard>
             </MotivationSlideIn>
 
             <MotivationSlideIn
@@ -2786,59 +2870,65 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-12"
             >
-              <div className="rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
-                <div className="max-w-3xl">
-                  <TextReveal delay={240} reducedMotion={reducedMotion}>
-                    <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                  </TextReveal>
+              <LiquidTechCard
+                variant="liquidLight"
+                reducedMotion={reducedMotion}
+              >
+                <div className="p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                  <div className="max-w-3xl">
+                    <TextReveal delay={240} reducedMotion={reducedMotion}>
+                      <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5 shadow-2xs">
+                        <Layers className="w-5 h-5 text-[#93C5FD]" />
+                      </div>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={290}
+                      yOffset={10}
+                      reducedMotion={reducedMotion}
+                    >
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#6D28D9]">
+                        End-to-End-Perspektive
+                      </span>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={340}
+                      yOffset={16}
+                      reducedMotion={reducedMotion}
+                    >
+                      <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                        Von Datenpipelines &amp; Modellen bis in produktive
+                        AI-Systeme
+                      </h3>
+                    </TextReveal>
+
+                    <TextReveal
+                      delay={390}
+                      yOffset={14}
+                      reducedMotion={reducedMotion}
+                    >
+                      <p className="mt-3 text-sm sm:text-base text-[#3F3F46] leading-relaxed">
+                        Der Bogen von kuratierten Datenprodukten, Data
+                        Engineering und Services bis hin zu produktiven
+                        AI-Anwendungen und analytischen Workflows sorgt dafür,
+                        dass KI-Lösungen verlässlich, nachvollziehbar und im
+                        Alltag wirksam laufen.
+                      </p>
+                    </TextReveal>
+                  </div>
 
                   <TextReveal
-                    delay={290}
+                    delay={430}
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                      End-to-End-Perspektive
-                    </span>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={340}
-                    yOffset={16}
-                    reducedMotion={reducedMotion}
-                  >
-                    <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
-                      Von Datenpipelines &amp; Modellen bis in produktive
-                      AI-Systeme
-                    </h3>
-                  </TextReveal>
-
-                  <TextReveal
-                    delay={390}
-                    yOffset={14}
-                    reducedMotion={reducedMotion}
-                  >
-                    <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                      Der Bogen von kuratierten Datenprodukten, Data Engineering
-                      und Services bis hin zu produktiven AI-Anwendungen und
-                      analytischen Workflows sorgt dafür, dass KI-Lösungen
-                      verlässlich, nachvollziehbar und im Alltag wirksam laufen.
-                    </p>
+                    <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
+                      Data Products · AI Systems · Pipelines · Analytics
+                    </div>
                   </TextReveal>
                 </div>
-
-                <TextReveal
-                  delay={430}
-                  yOffset={10}
-                  reducedMotion={reducedMotion}
-                >
-                  <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
-                    Data Products · AI Systems · Pipelines · Analytics
-                  </div>
-                </TextReveal>
-              </div>
+              </LiquidTechCard>
             </MotivationSlideIn>
           </div>
         </div>
