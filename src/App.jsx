@@ -1413,18 +1413,18 @@ const TIMELINE_PROJECTS = [
 const PROVINZIAL_STATIONS = [
   {
     title: "Data Engineer · IT-DWH",
-    period: "Ab Jun 2026",
+    period: "Ab 01.06.2026",
     bullets: [
-      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
+      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als belastbare Grundlage für Analytik und KI-Anwendungen",
       "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
     ],
   },
   {
     title: "Data-Analyst Customer Data & Analytics",
-    period: "01.05.2025 – 31.03.2026",
+    period: "01.05.2025 – 30.05.2026",
     bullets: [
-      "Konzeption und Aufbau wiederverwendbarer Datenprodukte in PySpark auf Azure Synapse sowie Umsetzung präziser Kundenselektionen",
-      "Rund sechs Monate als Interim-PO zur Priorisierung und Steuerung von Daten- und Analyse-Anforderungen",
+      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
+      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
     ],
   },
 ];
