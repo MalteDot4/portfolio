@@ -9,14 +9,13 @@ import {
   Check,
   Copy,
   Terminal,
-  Cloud,
-  Code2,
   GraduationCap,
   MapPin,
   Mail,
   GitBranch,
   Globe,
   ChevronRight,
+  ChevronDown,
   Pin,
 } from "lucide-react";
 import avatarLogo from "./assets/Logo.png";
@@ -26,6 +25,12 @@ const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 const SUBTLE_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#F5F5F7"/><circle cx="32" cy="32" r="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="2"/><text x="32" y="38.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="20" font-weight="700" letter-spacing="-0.04em" fill="#0B0B0C">MR</text><circle cx="46" cy="18" r="3.2" fill="#2563EB"/></svg>`;
+
+const BRAND_URLS = {
+  provinzial: "https://www.provinzial.com",
+  vodafone: "https://www.vodafone.de",
+  controlexpert: "https://www.controlexpert.com",
+};
 
 const AvatarGreetingMark = ({
   size = 40,
@@ -160,26 +165,35 @@ const AvatarGreetingMark = ({
   );
 };
 
-const BrandWordmark = ({ brand, inverted = false }) => {
+const BrandWordmark = ({
+  brand,
+  inverted = false,
+  href = null,
+  stopPropagation = false,
+}) => {
+  const linkHref = href ?? BRAND_URLS[brand] ?? null;
+  const colorClass = inverted ? "text-white" : "text-[#0B0B0C]";
+  const hoverClass = linkHref
+    ? inverted
+      ? "hover:opacity-85 transition-opacity"
+      : "hover:opacity-75 transition-opacity"
+    : "";
+
+  let content = null;
+
   if (brand === "provinzial") {
-    return (
+    content = (
       <span
-        className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.06em] text-sm sm:text-base ${
-          inverted ? "text-white" : "text-[#0B0B0C]"
-        }`}
+        className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.06em] text-sm sm:text-base ${colorClass} ${hoverClass}`}
       >
         <span className="w-2.5 h-2.5 rounded-[2px] bg-[#007A6E] inline-block shrink-0" />
         <span>PROVINZIAL</span>
       </span>
     );
-  }
-
-  if (brand === "vodafone") {
-    return (
+  } else if (brand === "vodafone") {
+    content = (
       <span
-        className={`inline-flex items-center gap-2 font-extrabold tracking-[-0.035em] text-base sm:text-lg ${
-          inverted ? "text-white" : "text-[#0B0B0C]"
-        }`}
+        className={`inline-flex items-center gap-2 font-extrabold tracking-[-0.035em] text-base sm:text-lg ${colorClass} ${hoverClass}`}
       >
         <span className="w-4 h-4 rounded-full border-[2.5px] border-[#E60000] inline-flex items-center justify-center shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-[#E60000]" />
@@ -187,22 +201,94 @@ const BrandWordmark = ({ brand, inverted = false }) => {
         <span>vodafone</span>
       </span>
     );
-  }
-
-  return (
-    <span
-      className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.04em] text-sm sm:text-base ${
-        inverted ? "text-white" : "text-[#0B0B0C]"
-      }`}
-    >
-      <span className="w-2.5 h-2.5 rotate-45 bg-[#0A66C2] inline-block shrink-0" />
-      <span>
-        CONTROL
-        <span className={inverted ? "text-[#93C5FD]" : "text-[#0A66C2]"}>
-          EXPERT
+  } else {
+    content = (
+      <span
+        className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.04em] text-sm sm:text-base ${colorClass} ${hoverClass}`}
+      >
+        <span className="w-2.5 h-2.5 rotate-45 bg-[#0A66C2] inline-block shrink-0" />
+        <span>
+          CONTROL
+          <span className={inverted ? "text-[#93C5FD]" : "text-[#0A66C2]"}>
+            EXPERT
+          </span>
         </span>
       </span>
-    </span>
+    );
+  }
+
+  if (!linkHref) return content;
+
+  return (
+    <a
+      href={linkHref}
+      target="_blank"
+      rel="noreferrer"
+      onClick={stopPropagation ? (e) => e.stopPropagation() : undefined}
+      className="inline-flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] rounded-md"
+    >
+      {content}
+    </a>
+  );
+};
+
+const SkillChainList = ({ skills, reducedMotion = false }) => {
+  const [chained, setChained] = useState(Boolean(reducedMotion));
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setChained(true);
+      return;
+    }
+
+    const node = containerRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setChained(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setChained(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -16px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
+  return (
+    <div ref={containerRef} className="mt-5 flex flex-wrap gap-2">
+      {skills.map((skill, idx) => {
+        const delayMs = reducedMotion ? 0 : idx * 55;
+        return (
+          <span
+            key={skill}
+            style={{
+              transitionDelay: `${delayMs}ms`,
+              transform:
+                reducedMotion || chained
+                  ? "translate3d(0, 0, 0)"
+                  : "translate3d(-12px, 6px, 0)",
+            }}
+            className={`px-3 py-1.5 rounded-full bg-white border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] shadow-2xs select-none ${
+              reducedMotion
+                ? "opacity-100"
+                : `transition-[transform,opacity,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:-translate-y-0.5 hover:border-[#0B0B0C]/30 hover:shadow-xs ${
+                    chained ? "opacity-100" : "opacity-0"
+                  }`
+            }`}
+          >
+            {skill}
+          </span>
+        );
+      })}
+    </div>
   );
 };
 
@@ -1277,16 +1363,17 @@ const PROVINZIAL_STATIONS = [
   },
 ];
 
-const CONTROLEXPERT_STATIONS = [
-  {
-    title: "Softwareentwickler Versicherungsbranche",
-    period: "Jul 2019 – Aug 2022",
-    bullets: [
-      "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
-      "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
-      "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
-    ],
-  },
+const CONTROLEXPERT_FEATURED_STATION = {
+  title: "Softwareentwickler Versicherungsbranche",
+  period: "Jul 2019 – Aug 2022",
+  bullets: [
+    "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
+    "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
+    "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
+  ],
+};
+
+const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "BI-Specialist Versicherungsprozesse",
     period: "Okt 2017 – Jun 2019 · Teilzeit",
@@ -1329,27 +1416,30 @@ const CORE_SKILL_PILLS = [
 const InteractiveProjectColumn = ({
   project,
   isPinned,
-  isExpanded,
-  onToggleExpandClick,
+  isHovered,
+  isMobileView,
+  onToggleClick,
   onTogglePin,
   onHoverChange,
   reducedMotion,
 }) => {
+  const isExpanded = isPinned || (!isMobileView && isHovered);
+
   return (
     <div
-      onClick={onToggleExpandClick}
+      onClick={onToggleClick}
       onMouseEnter={() => onHoverChange(project.id)}
       onMouseLeave={() => onHoverChange(null)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onToggleExpandClick();
+          onToggleClick();
         }
       }}
       role="button"
       tabIndex={0}
       aria-expanded={isExpanded}
-      aria-label={`${project.title} – Steckbrief öffnen oder schließen`}
+      aria-label={`${project.title} – Steckbrief öffnen oder anpinnen`}
       className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] border-t md:border-t-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[340px] sm:min-h-[390px] ${
         reducedMotion
           ? "bg-[#FFFFFF]"
@@ -1365,7 +1455,7 @@ const InteractiveProjectColumn = ({
           <span className="font-mono text-xs font-bold tracking-wider text-[#52525B]">
             {project.indexTag}
           </span>
-          <BrandWordmark brand={project.brand} />
+          <BrandWordmark brand={project.brand} stopPropagation />
         </div>
 
         <div className={`relative ${project.markerOffsetClass}`}>
@@ -1551,8 +1641,8 @@ export default function App() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [pinnedIds, setPinnedIds] = useState([]);
-  const [expandedIds, setExpandedIds] = useState([]);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
+  const [controlExpertExpanded, setControlExpertExpanded] = useState(false);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
@@ -1671,55 +1761,19 @@ export default function App() {
   };
 
   const handleTogglePin = (projectId) => {
-    const willPin = !pinnedIds.includes(projectId);
     setPinnedIds((prev) =>
-      willPin ? [...prev, projectId] : prev.filter((id) => id !== projectId),
+      prev.includes(projectId)
+        ? prev.filter((id) => id !== projectId)
+        : [...prev, projectId],
     );
-    if (willPin) {
-      setExpandedIds((prev) =>
-        prev.includes(projectId) ? prev : [...prev, projectId],
-      );
-    } else if (isMobileView) {
-      setExpandedIds((prev) => prev.filter((id) => id !== projectId));
-    }
   };
 
   const handleProjectClick = (projectId) => {
-    if (isMobileView) {
-      const isCurrentlyPinned = pinnedIds.includes(projectId);
-      if (isCurrentlyPinned) {
-        setPinnedIds((prev) => prev.filter((id) => id !== projectId));
-        setExpandedIds((prev) => prev.filter((id) => id !== projectId));
-      } else {
-        setPinnedIds((prev) =>
-          prev.includes(projectId) ? prev : [...prev, projectId],
-        );
-        setExpandedIds((prev) =>
-          prev.includes(projectId) ? prev : [...prev, projectId],
-        );
-      }
-      return;
-    }
-
-    const isCurrentlyPinned = pinnedIds.includes(projectId);
-    const isCurrentlyExpanded =
-      isCurrentlyPinned || expandedIds.includes(projectId);
-
-    if (isCurrentlyExpanded) {
-      if (isCurrentlyPinned) {
-        setPinnedIds((prev) => prev.filter((id) => id !== projectId));
-      }
-      setExpandedIds((prev) => prev.filter((id) => id !== projectId));
-    } else {
-      setExpandedIds((prev) => [...prev, projectId]);
-    }
-  };
-
-  const handleClearAllPins = () => {
-    setPinnedIds([]);
-    if (isMobileView) {
-      setExpandedIds([]);
-    }
+    setPinnedIds((prev) =>
+      prev.includes(projectId)
+        ? prev.filter((id) => id !== projectId)
+        : [...prev, projectId],
+    );
   };
 
   const handleCopyEmail = () => {
@@ -1749,6 +1803,13 @@ export default function App() {
   const revealedTitleY = reducedMotion ? 0 : (1 - revealEase) * 28;
 
   const activeSectionObj = SECTIONS_FLOW[activeSecIdx] || SECTIONS_FLOW[0];
+
+  const navItems = [
+    { id: "work", label: "Projekte" },
+    { id: "motivation", label: "Motivation" },
+    { id: "experience", label: "Stationen" },
+    { id: "contact", label: "Kontakt" },
+  ];
 
   return (
     <div
@@ -1871,36 +1932,18 @@ export default function App() {
 
                   <nav
                     aria-label="Hauptnavigation"
-                    className="flex items-center gap-4 sm:gap-7 px-4 sm:px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-medium text-white/85"
+                    className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-medium text-white/80"
                   >
-                    <button
-                      type="button"
-                      onClick={() => jumpToSection("work")}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Projekte
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => jumpToSection("motivation")}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Motivation
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => jumpToSection("experience")}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Stationen
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => jumpToSection("contact")}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      Kontakt
-                    </button>
+                    {navItems.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => jumpToSection(item.id)}
+                        className="px-3 sm:px-3.5 py-1.5 rounded-full text-white/80 hover:text-white hover:bg-white/15 hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.22)] hover:-translate-y-[0.5px] active:scale-95 transition-all duration-200 cursor-pointer"
+                      >
+                        {item.label}
+                      </button>
+                    ))}
                   </nav>
                 </header>
 
@@ -1974,7 +2017,7 @@ export default function App() {
             {pinnedIds.length > 0 && (
               <button
                 type="button"
-                onClick={handleClearAllPins}
+                onClick={() => setPinnedIds([])}
                 className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
               >
                 Alle Fixierungen lösen ({pinnedIds.length})
@@ -1984,26 +2027,19 @@ export default function App() {
 
           <RevealBlock delay={80} reducedMotion={reducedMotion}>
             <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
-              {TIMELINE_PROJECTS.map((project) => {
-                const isPinned = pinnedIds.includes(project.id);
-                const isExpanded =
-                  isPinned ||
-                  expandedIds.includes(project.id) ||
-                  (!isMobileView && hoveredProjectId === project.id);
-
-                return (
-                  <InteractiveProjectColumn
-                    key={project.id}
-                    project={project}
-                    isPinned={isPinned}
-                    isExpanded={isExpanded}
-                    onToggleExpandClick={() => handleProjectClick(project.id)}
-                    onTogglePin={handleTogglePin}
-                    onHoverChange={setHoveredProjectId}
-                    reducedMotion={reducedMotion}
-                  />
-                );
-              })}
+              {TIMELINE_PROJECTS.map((project) => (
+                <InteractiveProjectColumn
+                  key={project.id}
+                  project={project}
+                  isPinned={pinnedIds.includes(project.id)}
+                  isHovered={hoveredProjectId === project.id}
+                  isMobileView={isMobileView}
+                  onToggleClick={() => handleProjectClick(project.id)}
+                  onTogglePin={handleTogglePin}
+                  onHoverChange={setHoveredProjectId}
+                  reducedMotion={reducedMotion}
+                />
+              ))}
             </div>
           </RevealBlock>
         </div>
@@ -2229,7 +2265,7 @@ export default function App() {
               className="lg:col-span-7"
             >
               <div className="rounded-3xl border border-[#E4E4E7] bg-white p-6 sm:p-8 space-y-6">
-                <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
+                <div className="border-b border-[#E4E4E7] pb-5">
                   <div className="w-full">
                     <BrandWordmark brand="provinzial" />
                     <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
@@ -2261,10 +2297,9 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-                  <Database className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
 
-                <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
+                <div className="border-b border-[#E4E4E7] pb-5">
                   <div>
                     <BrandWordmark brand="vodafone" />
                     <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
@@ -2274,10 +2309,9 @@ export default function App() {
                       Nov 2022 bis Mär 2025
                     </p>
                   </div>
-                  <Cloud className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
 
-                <div className="flex items-start justify-between gap-4">
+                <div>
                   <div className="w-full">
                     <BrandWordmark brand="controlexpert" />
                     <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
@@ -2287,29 +2321,90 @@ export default function App() {
                       Jul 2012 – Aug 2022
                     </p>
 
-                    <div className="mt-4 space-y-3.5">
-                      {CONTROLEXPERT_STATIONS.map((item) => (
-                        <div key={item.title} className="space-y-1">
-                          <div className="flex flex-wrap items-baseline justify-between gap-2">
-                            <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
-                              {item.title}
-                            </p>
-                            <span className="text-[11px] font-mono text-[#52525B]">
-                              {item.period}
-                            </span>
-                          </div>
-                          <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
-                            {item.bullets.map((bullet) => (
-                              <li key={bullet} className="list-disc">
-                                {bullet}
-                              </li>
+                    <div className="mt-4 space-y-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                          {CONTROLEXPERT_FEATURED_STATION.title}
+                        </p>
+                        <span className="text-[11px] font-mono text-[#52525B]">
+                          {CONTROLEXPERT_FEATURED_STATION.period}
+                        </span>
+                      </div>
+                      <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
+                        {CONTROLEXPERT_FEATURED_STATION.bullets.map(
+                          (bullet) => (
+                            <li key={bullet} className="list-disc">
+                              {bullet}
+                            </li>
+                          ),
+                        )}
+                      </ul>
+                    </div>
+
+                    <div className="mt-4">
+                      <button
+                        type="button"
+                        aria-expanded={controlExpertExpanded}
+                        onClick={() =>
+                          setControlExpertExpanded((prev) => !prev)
+                        }
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0A66C2] hover:text-[#084E96] transition-colors cursor-pointer"
+                      >
+                        <span>
+                          {controlExpertExpanded
+                            ? "Frühere Stationen ausblenden"
+                            : `Frühere Stationen einblenden (${CONTROLEXPERT_MORE_STATIONS.length})`}
+                        </span>
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 ${
+                            reducedMotion
+                              ? ""
+                              : `transition-transform duration-300 ${
+                                  controlExpertExpanded ? "rotate-180" : ""
+                                }`
+                          }`}
+                        />
+                      </button>
+
+                      <div
+                        className={`grid ${
+                          reducedMotion
+                            ? controlExpertExpanded
+                              ? "grid-rows-[1fr] opacity-100 mt-3.5"
+                              : "grid-rows-[0fr] opacity-0 mt-0"
+                            : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                                controlExpertExpanded
+                                  ? "grid-rows-[1fr] opacity-100 mt-3.5"
+                                  : "grid-rows-[0fr] opacity-0 mt-0"
+                              }`
+                        }`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="space-y-3.5 pt-1 border-t border-[#E4E4E7]/80">
+                            {CONTROLEXPERT_MORE_STATIONS.map((item) => (
+                              <div key={item.title} className="space-y-1">
+                                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                  <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                                    {item.title}
+                                  </p>
+                                  <span className="text-[11px] font-mono text-[#52525B]">
+                                    {item.period}
+                                  </span>
+                                </div>
+                                <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
+                                  {item.bullets.map((bullet) => (
+                                    <li key={bullet} className="list-disc">
+                                      {bullet}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
-                  <Code2 className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
               </div>
             </RevealBlock>
@@ -2328,16 +2423,10 @@ export default function App() {
                   <h3 className="mt-3 text-xl font-bold tracking-[-0.03em] text-[#0B0B0C]">
                     Werkzeuge für Daten, Backend &amp; UI
                   </h3>
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {CORE_SKILL_PILLS.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-3 py-1.5 rounded-full bg-white border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C]"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                  <SkillChainList
+                    skills={CORE_SKILL_PILLS}
+                    reducedMotion={reducedMotion}
+                  />
                 </div>
 
                 <div className="mt-8 pt-5 border-t border-[#E4E4E7] space-y-2.5 text-xs text-[#52525B]">
