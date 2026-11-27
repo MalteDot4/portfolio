@@ -695,7 +695,7 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
       <div
         style={{
           background:
-            "linear-gradient(180deg, #F7F8FC 0%, #F4F5FA 52%, #F6F5FB 100%)",
+            "linear-gradient(180deg, #F4F5F9 0%, #F1F2F7 52%, #F3F3F8 100%)",
         }}
         className="absolute inset-0"
       />
@@ -704,7 +704,7 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
         style={{
           transform: `translate3d(${offsetA}px, ${offsetA * 0.45}px, 0)`,
           background:
-            "radial-gradient(ellipse 65% 55% at 18% 24%, rgba(37, 99, 235, 0.065) 0%, rgba(96, 165, 250, 0.03) 58%, transparent 80%)",
+            "radial-gradient(ellipse 65% 55% at 18% 24%, rgba(37, 99, 235, 0.055) 0%, rgba(96, 165, 250, 0.025) 58%, transparent 80%)",
         }}
         className="absolute -inset-20 transition-transform duration-500 ease-out will-change-transform"
       />
@@ -713,7 +713,7 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
         style={{
           transform: `translate3d(${offsetB}px, ${offsetB * 0.4}px, 0)`,
           background:
-            "radial-gradient(ellipse 65% 55% at 84% 76%, rgba(124, 58, 237, 0.06) 0%, rgba(244, 114, 182, 0.028) 58%, transparent 82%)",
+            "radial-gradient(ellipse 65% 55% at 84% 76%, rgba(124, 58, 237, 0.05) 0%, rgba(244, 114, 182, 0.022) 58%, transparent 82%)",
         }}
         className="absolute -inset-20 transition-transform duration-500 ease-out will-change-transform"
       />
@@ -721,7 +721,7 @@ const SubtleMotivationGradient = ({ sectionRef, reducedMotion = false }) => {
   );
 };
 
-/* APPLE-STYLE LIQUID CARD: SATTE SCHWARZE HAUPT-CARD & LEICHTE LIQUID-GLASS-CARDS */
+/* APPLE-STYLE LIQUID CARD: SATTE SCHWARZE HAUPT-CARD & KLARE WEIẞE LIQUID-GLASS-CARDS */
 const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
   const isDark = variant === "dark";
 
@@ -730,12 +730,12 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
       style={{
         boxShadow: isDark
           ? "0 22px 48px -18px rgba(11, 11, 12, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16)"
-          : "0 14px 32px -18px rgba(15, 23, 42, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.88)",
+          : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
       }}
       className={`group relative overflow-hidden rounded-[28px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
         isDark
           ? "bg-[#0B0B0C] border border-white/12 text-white hover:border-white/22"
-          : "bg-white/78 backdrop-blur-2xl border border-[#E4E4E7]/90 text-[#0B0B0C] hover:bg-white/92 hover:border-[#D4D4D8]"
+          : "bg-white/95 backdrop-blur-2xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
       } ${className}`}
     >
       {/* Dezenter Apple-Top-Schimmer */}
@@ -744,7 +744,7 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         style={{
           background: isDark
             ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.28) 38%, rgba(216, 180, 254, 0.22) 72%, transparent 100%)"
-            : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%)",
+            : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)",
         }}
         className="pointer-events-none absolute inset-x-0 top-0 h-[1px]"
       />
@@ -755,9 +755,9 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         style={{
           background: isDark
             ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.14) 0%, transparent 58%)"
-            : "radial-gradient(circle at 88% 12%, rgba(99, 102, 241, 0.055) 0%, transparent 60%)",
+            : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.9) 0%, transparent 65%)",
         }}
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100 opacity-80"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100 opacity-85"
       />
 
       <div className="relative z-10 h-full">{children}</div>
@@ -2275,7 +2275,7 @@ export default function App() {
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#F7F8FC] py-16 sm:py-24 overflow-hidden"
+        className="relative bg-[#F4F5F9] py-16 sm:py-24 overflow-hidden"
       >
         <SubtleMotivationGradient
           sectionRef={motivationSectionRef}
@@ -2363,7 +2363,7 @@ export default function App() {
                 <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
                   <div>
                     <TextReveal delay={180} reducedMotion={reducedMotion}>
-                      <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
+                      <div className="w-11 h-11 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-7">
                         <Database className="w-5 h-5 text-[#0B0B0C]" />
                       </div>
                     </TextReveal>
@@ -2407,7 +2407,7 @@ export default function App() {
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
+                    <div className="mt-8 pt-6 border-t border-[#ECEEF2] text-xs sm:text-sm font-medium text-[#52525B]">
                       Reproduzierbarkeit · Qualität · Automatisierung
                     </div>
                   </TextReveal>
