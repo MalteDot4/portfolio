@@ -475,7 +475,6 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         }}
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] sm:w-[620px] sm:h-[620px] rounded-full will-change-transform transition-transform duration-150 ease-out"
       >
-        {/* Äußerer irisierender Ring / Glas-Rand wie im Referenzbild */}
         <div
           style={{
             background:
@@ -487,7 +486,6 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
           className="w-full h-full rounded-full opacity-85"
         />
 
-        {/* Subtiler innerer Glas-Schimmer & Lichtbogen */}
         <div
           style={{
             background:
@@ -496,7 +494,6 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
           className="absolute inset-3 rounded-full"
         />
 
-        {/* Akzent-Lichtbogen auf dem Ring */}
         <div
           style={{
             background:
@@ -505,6 +502,378 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
           className="absolute inset-0 rounded-full blur-[1px]"
         />
       </div>
+    </div>
+  );
+};
+
+/* SCROLL-REAKTIVES E-MAIL-PARTIKEL- & WELLENFELD: FLIEẞT VON LINKS OBEN EIN & WIRD AM ENDE KOMPLETT READY */
+const ContactMailWaveField = ({
+  sectionRef,
+  email = "malte_reppke@web.de",
+  reducedMotion = false,
+}) => {
+  const canvasRef = useRef(null);
+  const pointerRef = useRef({ x: -999, y: -999, active: false });
+  const pickedRef = useRef(null);
+  const scrollReadyRef = useRef(reducedMotion ? 1 : 0);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [pickedHint, setPickedHint] = useState(null);
+  const [isFieldReady, setIsFieldReady] = useState(Boolean(reducedMotion));
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateTouch = () => {
+      const coarse = window.matchMedia
+        ? window.matchMedia("(pointer: coarse)").matches
+        : false;
+      const small = window.innerWidth < 768;
+      setIsTouchDevice(coarse || small);
+    };
+    updateTouch();
+    window.addEventListener("resize", updateTouch);
+    return () => window.removeEventListener("resize", updateTouch);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      scrollReadyRef.current = 1;
+      setIsFieldReady(true);
+      return;
+    }
+
+    let rafId = null;
+
+    const updateScrollReady = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        const sec = sectionRef?.current;
+        if (sec) {
+          const rect = sec.getBoundingClientRect();
+          const vh = window.innerHeight || 1;
+          const raw =
+            (vh - rect.top) / (vh * 0.85 + Math.max(rect.height * 0.35, 120));
+          const eased = easeOutCubic(clamp01(raw));
+          scrollReadyRef.current = eased;
+          const nowReady = eased >= 0.92;
+          setIsFieldReady((prev) => (prev === nowReady ? prev : nowReady));
+        }
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("scroll", updateScrollReady, { passive: true });
+    window.addEventListener("resize", updateScrollReady);
+    updateScrollReady();
+
+    return () => {
+      window.removeEventListener("scroll", updateScrollReady);
+      window.removeEventListener("resize", updateScrollReady);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [sectionRef, reducedMotion]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let frameId = null;
+    let width = 0;
+    let height = 0;
+
+    const createArtifacts = () => {
+      const count = isTouchDevice ? 14 : 26;
+      return Array.from({ length: count }, (_, idx) => ({
+        id: idx,
+        nx: ((idx * 37) % 88) / 100 + 0.06,
+        ny: ((idx * 53) % 76) / 100 + 0.12,
+        vx: ((idx % 5) - 2) * 0.000075 || 0.000045,
+        phase: idx * 0.72,
+        stagger: (idx % 9) * 0.055,
+        scale: 0.78 + (idx % 4) * 0.14,
+        kind: idx % 3 === 0 ? "at" : "mail",
+        x: 0,
+        y: 0,
+      }));
+    };
+
+    let artifacts = [];
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      width = Math.max(1, parent.clientWidth);
+      height = Math.max(1, parent.clientHeight);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (artifacts.length === 0) {
+        artifacts = createArtifacts();
+      }
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    const drawEnvelope = (x, y, s, alpha, highlight) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(s * (highlight ? 1.24 : 1), s * (highlight ? 1.24 : 1));
+      ctx.strokeStyle = highlight
+        ? `rgba(255, 255, 255, ${Math.min(0.95, alpha + 0.45)})`
+        : `rgba(255, 255, 255, ${alpha})`;
+      ctx.lineWidth = highlight ? 1.45 : 1.05;
+      ctx.lineJoin = "round";
+
+      const w = 12;
+      const h = 8.5;
+      ctx.strokeRect(-w / 2, -h / 2, w, h);
+
+      ctx.beginPath();
+      ctx.moveTo(-w / 2, -h / 2);
+      ctx.lineTo(0, 0.8);
+      ctx.lineTo(w / 2, -h / 2);
+      ctx.stroke();
+
+      if (highlight) {
+        ctx.beginPath();
+        ctx.arc(0, 0, 14, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(147, 197, 253, 0.35)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+
+    const drawAtSign = (x, y, s, alpha, highlight) => {
+      ctx.save();
+      ctx.translate(x, y);
+      const r = 4.2 * s * (highlight ? 1.22 : 1);
+      ctx.strokeStyle = highlight
+        ? `rgba(196, 181, 253, ${Math.min(0.95, alpha + 0.45)})`
+        : `rgba(255, 255, 255, ${alpha})`;
+      ctx.lineWidth = highlight ? 1.4 : 1.05;
+
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 0.58, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 1.65);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const renderFrame = (nowMs) => {
+      const t = reducedMotion ? 1.2 : nowMs * 0.001;
+      const readyGlobal = scrollReadyRef.current;
+      ctx.clearRect(0, 0, width, height);
+
+      const waveCount = 4;
+      for (let wIdx = 0; wIdx < waveCount; wIdx++) {
+        const waveLocal = easeOutCubic(
+          clamp01((readyGlobal - wIdx * 0.08) / 0.72),
+        );
+        const shiftFromTopLeftX = (1 - waveLocal) * -140;
+        const shiftFromTopLeftY = (1 - waveLocal) * -65;
+
+        ctx.save();
+        ctx.translate(shiftFromTopLeftX, shiftFromTopLeftY);
+        ctx.beginPath();
+        const baseY = height * (0.28 + wIdx * 0.16);
+        for (let x = -160; x <= width + 160; x += 14) {
+          const waveOffset =
+            Math.sin(x * 0.0075 + t * (0.65 + wIdx * 0.12) + wIdx * 1.4) *
+              (11 + wIdx * 3) +
+            Math.cos(x * 0.014 - t * 0.45) * 4;
+          const y = baseY + waveOffset;
+          if (x === -160) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `rgba(255, 255, 255, ${
+          (0.03 + wIdx * 0.008) * (0.2 + waveLocal * 0.8)
+        })`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      let closest = null;
+      let minDist = 64;
+
+      artifacts.forEach((item) => {
+        if (!reducedMotion && readyGlobal > 0.15) {
+          item.nx += item.vx * (0.35 + readyGlobal * 0.65);
+          if (item.nx > 0.95) item.nx = 0.05;
+          if (item.nx < 0.05) item.nx = 0.95;
+        }
+
+        const itemProgress = easeOutCubic(
+          clamp01(
+            (readyGlobal - item.stagger) / Math.max(1 - item.stagger, 0.25),
+          ),
+        );
+
+        const targetX = item.nx * width;
+        const targetY =
+          item.ny * height +
+          Math.sin(t * 0.85 + item.phase) * (3 + itemProgress * 6);
+
+        const startX = targetX - (135 + (item.id % 4) * 28);
+        const startY = targetY - (85 + (item.id % 3) * 24);
+
+        item.x = startX + (targetX - startX) * itemProgress;
+        item.y = startY + (targetY - startY) * itemProgress;
+
+        const canInteract = !isTouchDevice && readyGlobal >= 0.9;
+        let dx = 0;
+        let dy = 0;
+        let dist = 999;
+
+        if (canInteract && pointerRef.current.active) {
+          dx = item.x - pointerRef.current.x;
+          dy = item.y - pointerRef.current.y;
+          dist = Math.hypot(dx, dy);
+          if (dist < minDist) {
+            minDist = dist;
+            closest = item;
+          }
+        }
+
+        const repel =
+          canInteract && pointerRef.current.active && dist < 85 && dist > 0.01
+            ? ((85 - dist) / 85) * 10
+            : 0;
+        const drawX = item.x + (dist > 0.01 ? (dx / dist) * repel : 0);
+        const drawY = item.y + (dist > 0.01 ? (dy / dist) * repel : 0);
+
+        const isPicked = canInteract && closest && closest.id === item.id;
+        const visibilityFactor = 0.08 + itemProgress * 0.92;
+        const baseAlpha =
+          (isTouchDevice ? 0.14 : 0.18 + (item.id % 3) * 0.04) *
+          visibilityFactor;
+
+        if (item.kind === "at") {
+          drawAtSign(
+            drawX,
+            drawY,
+            item.scale * (0.82 + itemProgress * 0.18),
+            baseAlpha,
+            isPicked,
+          );
+        } else {
+          drawEnvelope(
+            drawX,
+            drawY,
+            item.scale * (0.82 + itemProgress * 0.18),
+            baseAlpha,
+            isPicked,
+          );
+        }
+
+        ctx.beginPath();
+        ctx.arc(drawX + 16, drawY - 6, isPicked ? 2.1 : 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = isPicked
+          ? "rgba(255, 255, 255, 0.82)"
+          : `rgba(255, 255, 255, ${0.22 * visibilityFactor})`;
+        ctx.fill();
+      });
+
+      if (!isTouchDevice && readyGlobal >= 0.9) {
+        pickedRef.current = closest;
+        setPickedHint((prev) => {
+          if (!closest) return null;
+          const next = {
+            x: Math.min(Math.max(closest.x, 96), width - 96),
+            y: Math.max(closest.y - 22, 26),
+            label: `E-Mail senden · ${email}`,
+          };
+          if (
+            prev &&
+            prev.label === next.label &&
+            Math.abs(prev.x - next.x) < 1 &&
+            Math.abs(prev.y - next.y) < 1
+          ) {
+            return prev;
+          }
+          return next;
+        });
+      } else {
+        pickedRef.current = null;
+        setPickedHint(null);
+      }
+
+      if (!reducedMotion) {
+        frameId = window.requestAnimationFrame(renderFrame);
+      }
+    };
+
+    renderFrame(performance.now());
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
+  }, [email, isTouchDevice, reducedMotion]);
+
+  const handlePointerMove = (e) => {
+    if (isTouchDevice || !isFieldReady) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    pointerRef.current = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      active: true,
+    };
+  };
+
+  const handlePointerLeave = () => {
+    pointerRef.current.active = false;
+    pickedRef.current = null;
+    setPickedHint(null);
+  };
+
+  const handleCanvasClick = () => {
+    if (isTouchDevice || !isFieldReady) return;
+    if (pickedRef.current) {
+      window.location.href = `mailto:${email}`;
+    }
+  };
+
+  return (
+    <div
+      onMouseMove={handlePointerMove}
+      onMouseLeave={handlePointerLeave}
+      onClick={handleCanvasClick}
+      className={`absolute inset-0 z-0 overflow-hidden rounded-3xl transition-opacity duration-500 ${
+        isFieldReady ? "opacity-100" : "opacity-75"
+      } ${
+        !isTouchDevice && isFieldReady && pickedHint
+          ? "cursor-pointer"
+          : "pointer-events-none"
+      }`}
+    >
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        className={`w-full h-full block transition-[filter] duration-500 ${
+          isFieldReady ? "blur-0" : "blur-[1.2px]"
+        }`}
+      />
+
+      {!isTouchDevice && isFieldReady && pickedHint && (
+        <div
+          style={{
+            left: `${pickedHint.x}px`,
+            top: `${pickedHint.y}px`,
+          }}
+          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full z-20 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#0B0B0C] text-[11px] font-bold shadow-lg whitespace-nowrap"
+        >
+          <Mail className="w-3 h-3 text-[#0B0B0C]" />
+          <span>{pickedHint.label}</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -572,7 +941,7 @@ const TextReveal = ({
 /* SLIDE-IN VON AUSSEN FÜR DIE ELEMENTE DER MOTIVATION-SECTION */
 const MotivationSlideIn = ({
   children,
-  from = "bottom", // 'left' | 'right' | 'bottom'
+  from = "bottom",
   delay = 0,
   className = "",
   reducedMotion = false,
@@ -1008,7 +1377,9 @@ const InteractiveProjectColumn = ({
               className={`w-2.5 h-2.5 rounded-full shrink-0 ${
                 reducedMotion
                   ? ""
-                  : `transition-transform duration-300 ${isOpen ? "scale-125" : "group-hover:scale-110"}`
+                  : `transition-transform duration-300 ${
+                      isOpen ? "scale-125" : "group-hover:scale-110"
+                    }`
               }`}
             />
             <div
@@ -1016,7 +1387,11 @@ const InteractiveProjectColumn = ({
               className={`h-[2px] flex-1 rounded-full ${
                 reducedMotion
                   ? ""
-                  : `transition-all duration-300 ${isOpen ? "h-[3px] opacity-100" : "opacity-80 group-hover:opacity-100"}`
+                  : `transition-all duration-300 ${
+                      isOpen
+                        ? "h-[3px] opacity-100"
+                        : "opacity-80 group-hover:opacity-100"
+                    }`
               }`}
             />
           </div>
@@ -1134,7 +1509,9 @@ const InteractiveProjectColumn = ({
         </span>
 
         <span
-          className={`inline-flex items-center gap-1 text-xs font-bold ${project.accentTextClass} ${
+          className={`inline-flex items-center gap-1 text-xs font-bold ${
+            project.accentTextClass
+          } ${
             reducedMotion
               ? ""
               : "transition-transform duration-300 group-hover:translate-x-0.5"
@@ -1174,6 +1551,7 @@ export default function App() {
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
+  const contactSectionRef = useRef(null);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -1927,11 +2305,21 @@ export default function App() {
       </section>
 
       {/* 5. KONTAKT */}
-      <section id="contact" className="bg-[#FFFFFF] py-16 sm:py-24 pb-28">
+      <section
+        ref={contactSectionRef}
+        id="contact"
+        className="bg-[#FFFFFF] py-16 sm:py-24 pb-28"
+      >
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <ContactFlow reducedMotion={reducedMotion}>
-            <div className="rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
-              <div className="max-w-xl">
+            <div className="relative overflow-hidden rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white p-7 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <ContactMailWaveField
+                sectionRef={contactSectionRef}
+                email="malte_reppke@web.de"
+                reducedMotion={reducedMotion}
+              />
+
+              <div className="relative z-10 max-w-xl">
                 <HeadlineFlow
                   kicker="04 / Kontakt"
                   title="Lust auf Austausch zu Data & AI Engineering?"
@@ -1949,7 +2337,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="relative z-10 flex flex-wrap items-center gap-3">
                 <a
                   href="mailto:malte_reppke@web.de"
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors"
