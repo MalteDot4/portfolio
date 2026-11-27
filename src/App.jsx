@@ -421,6 +421,221 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
+/* DEZENTE SCROLL-REAKTIVE SPHERE IM HINTERGRUND DER MOTIVATION-SECTION */
+const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
+  const [spin, setSpin] = useState(0);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setSpin(0.45);
+      return;
+    }
+
+    let rafId = null;
+
+    const updateFromScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        const sec = sectionRef?.current;
+        if (sec) {
+          const rect = sec.getBoundingClientRect();
+          const vh = window.innerHeight || 1;
+          const totalTravel = rect.height + vh;
+          const p = clamp01((vh - rect.top) / Math.max(totalTravel, 1));
+          setSpin(p);
+        }
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", updateFromScroll);
+    updateFromScroll();
+
+    return () => {
+      window.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", updateFromScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [sectionRef, reducedMotion]);
+
+  const rotationDeg = -28 + spin * 135;
+  const scaleVal = 0.94 + Math.sin(spin * Math.PI) * 0.1;
+  const translateY = (0.5 - spin) * 48;
+  const translateX = (spin - 0.5) * 32;
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
+    >
+      <div
+        style={{
+          transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotationDeg}deg) scale(${scaleVal})`,
+        }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] sm:w-[620px] sm:h-[620px] rounded-full will-change-transform transition-transform duration-150 ease-out"
+      >
+        {/* Äußerer irisierender Ring / Glas-Rand wie im Referenzbild */}
+        <div
+          style={{
+            background:
+              "conic-gradient(from 140deg at 50% 50%, rgba(168, 85, 247, 0.42), rgba(59, 130, 246, 0.34), rgba(236, 72, 153, 0.36), rgba(99, 102, 241, 0.22), rgba(168, 85, 247, 0.42))",
+            WebkitMask:
+              "radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
+            mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
+          }}
+          className="w-full h-full rounded-full opacity-85"
+        />
+
+        {/* Subtiler innerer Glas-Schimmer & Lichtbogen */}
+        <div
+          style={{
+            background:
+              "radial-gradient(circle at 32% 24%, rgba(147, 197, 253, 0.22) 0%, rgba(192, 132, 252, 0.12) 44%, rgba(255, 255, 255, 0) 72%)",
+          }}
+          className="absolute inset-3 rounded-full"
+        />
+
+        {/* Akzent-Lichtbogen auf dem Ring */}
+        <div
+          style={{
+            background:
+              "radial-gradient(ellipse 36% 12% at 68% 12%, rgba(244, 114, 182, 0.55), rgba(129, 140, 248, 0.25) 60%, transparent 100%)",
+          }}
+          className="absolute inset-0 rounded-full blur-[1px]"
+        />
+      </div>
+    </div>
+  );
+};
+
+/* SMOOTHES EINBLENDEN VON TEXTEN MIT STAGGER-DELAY */
+const TextReveal = ({
+  children,
+  delay = 0,
+  yOffset = 14,
+  className = "",
+  reducedMotion = false,
+}) => {
+  const [shown, setShown] = useState(Boolean(reducedMotion));
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setShown(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setShown(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -18px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        transitionDelay: reducedMotion ? "0ms" : `${delay}ms`,
+        transform:
+          reducedMotion || shown
+            ? "translate3d(0, 0, 0)"
+            : `translate3d(0, ${yOffset}px, 0)`,
+      }}
+      className={`${
+        reducedMotion
+          ? "opacity-100"
+          : `transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+              shown ? "opacity-100" : "opacity-0"
+            }`
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+/* SLIDE-IN VON AUSSEN FÜR DIE ELEMENTE DER MOTIVATION-SECTION */
+const MotivationSlideIn = ({
+  children,
+  from = "bottom", // 'left' | 'right' | 'bottom'
+  delay = 0,
+  className = "",
+  reducedMotion = false,
+}) => {
+  const [visible, setVisible] = useState(Boolean(reducedMotion));
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setVisible(true);
+      return;
+    }
+
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -20px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
+  const initialTransform =
+    from === "left"
+      ? "translate3d(-38px, 10px, 0) scale(0.985)"
+      : from === "right"
+        ? "translate3d(38px, 10px, 0) scale(0.985)"
+        : "translate3d(0, 32px, 0) scale(0.985)";
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        transitionDelay: reducedMotion ? "0ms" : `${delay}ms`,
+        transform:
+          reducedMotion || visible
+            ? "translate3d(0, 0, 0) scale(1)"
+            : initialTransform,
+      }}
+      className={`${
+        reducedMotion
+          ? "opacity-100"
+          : `transition-[transform,opacity] duration-[850ms] ease-[cubic-bezier(0.19,1,0.22,1)] will-change-transform ${
+              visible ? "opacity-100" : "opacity-0"
+            }`
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
 const RevealBlock = ({
   children,
   delay = 0,
@@ -958,6 +1173,7 @@ export default function App() {
   const [pinnedIds, setPinnedIds] = useState([]);
   const [hoveredProjectId, setHoveredProjectId] = useState(null);
   const heroStageRef = useRef(null);
+  const motivationSectionRef = useRef(null);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -1354,8 +1570,17 @@ export default function App() {
       </section>
 
       {/* 3. MOTIVATION */}
-      <section id="motivation" className="bg-[#F5F5F7] py-16 sm:py-24">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      <section
+        id="motivation"
+        ref={motivationSectionRef}
+        className="relative bg-[#F5F5F7] py-16 sm:py-24 overflow-hidden"
+      >
+        <MotivationScrollSphere
+          sectionRef={motivationSectionRef}
+          reducedMotion={reducedMotion}
+        />
+
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="mb-8">
             <HeadlineFlow
               kicker="02 / Motivation"
@@ -1364,113 +1589,185 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <RevealBlock
-              delay={40}
+            <MotivationSlideIn
+              from="left"
+              delay={60}
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-[#0B0B0C] text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div className="h-full rounded-[28px] bg-[#0B0B0C]/95 backdrop-blur-md text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
                 <div>
-                  <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
-                    <Cpu className="w-5 h-5 text-white" />
-                  </div>
+                  <TextReveal delay={110} reducedMotion={reducedMotion}>
+                    <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
+                      <Cpu className="w-5 h-5 text-white" />
+                    </div>
+                  </TextReveal>
 
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
-                    Datenprodukte &amp; AI Engineering
-                  </span>
-
-                  <HeadlineFlow
-                    title="Verlässliche Datenprodukte & praxisnahe KI-Systeme"
-                    as="h2"
-                    titleClassName="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white"
+                  <TextReveal
+                    delay={170}
+                    yOffset={10}
                     reducedMotion={reducedMotion}
-                  />
+                  >
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                      Datenprodukte &amp; AI Engineering
+                    </span>
+                  </TextReveal>
 
-                  <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
-                    Mich motiviert es, aus komplexen Datenlandschaften
-                    verlässliche Datenprodukte, skalierbare Pipelines und
-                    praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
-                    automatisierte Prozesse im Alltag messbar stärken.
-                  </p>
+                  <TextReveal
+                    delay={230}
+                    yOffset={16}
+                    reducedMotion={reducedMotion}
+                  >
+                    <h2 className="mt-3 text-2xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white">
+                      Verlässliche Datenprodukte &amp; praxisnahe KI-Systeme
+                    </h2>
+                  </TextReveal>
+
+                  <TextReveal
+                    delay={300}
+                    yOffset={14}
+                    reducedMotion={reducedMotion}
+                  >
+                    <p className="mt-4 text-sm sm:text-base text-white/80 leading-relaxed">
+                      Mich motiviert es, aus komplexen Datenlandschaften
+                      verlässliche Datenprodukte, skalierbare Pipelines und
+                      praxistaugliche KI-Systeme zu bauen, die Fachbereiche und
+                      automatisierte Prozesse im Alltag messbar stärken.
+                    </p>
+                  </TextReveal>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
-                  PySpark · Azure Synapse · Datenprodukte · AI Engineering
-                </div>
+                <TextReveal
+                  delay={360}
+                  yOffset={10}
+                  reducedMotion={reducedMotion}
+                >
+                  <div className="mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm font-medium text-white/75">
+                    PySpark · Azure Synapse · Datenprodukte · AI Engineering
+                  </div>
+                </TextReveal>
               </div>
-            </RevealBlock>
+            </MotivationSlideIn>
 
-            <RevealBlock
-              delay={100}
+            <MotivationSlideIn
+              from="right"
+              delay={140}
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-white border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div className="h-full rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
                 <div>
-                  <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
-                    <Database className="w-5 h-5 text-[#0B0B0C]" />
-                  </div>
+                  <TextReveal delay={180} reducedMotion={reducedMotion}>
+                    <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
+                      <Database className="w-5 h-5 text-[#0B0B0C]" />
+                    </div>
+                  </TextReveal>
 
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                    Skalierbare Pipelines
-                  </span>
-
-                  <HeadlineFlow
-                    title="Saubere Struktur statt Fragilität"
-                    as="h3"
-                    titleClassName="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]"
+                  <TextReveal
+                    delay={240}
+                    yOffset={10}
                     reducedMotion={reducedMotion}
-                  />
+                  >
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                      Skalierbare Pipelines
+                    </span>
+                  </TextReveal>
 
-                  <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                    Gute Systeme sind nachvollziehbar, testbar und
-                    automatisiert. Klare Schnittstellen und reproduzierbare
-                    Pipelines schaffen Vertrauen – von der Kundenselektion bis
-                    zur KI-fähigen Aufbereitung.
-                  </p>
+                  <TextReveal
+                    delay={300}
+                    yOffset={16}
+                    reducedMotion={reducedMotion}
+                  >
+                    <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                      Saubere Struktur statt Fragilität
+                    </h3>
+                  </TextReveal>
+
+                  <TextReveal
+                    delay={360}
+                    yOffset={14}
+                    reducedMotion={reducedMotion}
+                  >
+                    <p className="mt-4 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                      Gute Systeme sind nachvollziehbar, testbar und
+                      automatisiert. Klare Schnittstellen und reproduzierbare
+                      Pipelines schaffen Vertrauen – von der Kundenselektion bis
+                      zur KI-fähigen Aufbereitung.
+                    </p>
+                  </TextReveal>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
-                  Reproduzierbarkeit · Qualität · Automatisierung
-                </div>
+                <TextReveal
+                  delay={420}
+                  yOffset={10}
+                  reducedMotion={reducedMotion}
+                >
+                  <div className="mt-8 pt-6 border-t border-[#E4E4E7] text-xs sm:text-sm font-medium text-[#52525B]">
+                    Reproduzierbarkeit · Qualität · Automatisierung
+                  </div>
+                </TextReveal>
               </div>
-            </RevealBlock>
+            </MotivationSlideIn>
 
-            <RevealBlock
-              delay={160}
+            <MotivationSlideIn
+              from="bottom"
+              delay={200}
               reducedMotion={reducedMotion}
               className="lg:col-span-12"
             >
-              <div className="rounded-[28px] bg-white border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
+              <div className="rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
                 <div className="max-w-3xl">
-                  <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
-                    <Layers className="w-5 h-5" />
-                  </div>
+                  <TextReveal delay={240} reducedMotion={reducedMotion}>
+                    <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
+                      <Layers className="w-5 h-5" />
+                    </div>
+                  </TextReveal>
 
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
-                    End-to-End-Perspektive
-                  </span>
-
-                  <HeadlineFlow
-                    title="Von Daten & Backend bis in produktive Anwendungen"
-                    as="h3"
-                    titleClassName="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]"
+                  <TextReveal
+                    delay={290}
+                    yOffset={10}
                     reducedMotion={reducedMotion}
-                  />
+                  >
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                      End-to-End-Perspektive
+                    </span>
+                  </TextReveal>
 
-                  <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
-                    Die Verbindung aus Data Engineering, Microservices,
-                    Web-APIs, BI und CI/CD hilft dabei, technische Lösungen so
-                    zu entwerfen, dass sie in realen Umgebungen dauerhaft stabil
-                    laufen.
-                  </p>
+                  <TextReveal
+                    delay={340}
+                    yOffset={16}
+                    reducedMotion={reducedMotion}
+                  >
+                    <h3 className="mt-2 text-2xl sm:text-3xl font-bold tracking-[-0.035em] leading-[1.15] text-[#0B0B0C]">
+                      Von Daten &amp; Backend bis in produktive Anwendungen
+                    </h3>
+                  </TextReveal>
+
+                  <TextReveal
+                    delay={390}
+                    yOffset={14}
+                    reducedMotion={reducedMotion}
+                  >
+                    <p className="mt-3 text-sm sm:text-base text-[#52525B] leading-relaxed">
+                      Die Verbindung aus Data Engineering, Microservices,
+                      Web-APIs, BI und CI/CD hilft dabei, technische Lösungen so
+                      zu entwerfen, dass sie in realen Umgebungen dauerhaft
+                      stabil laufen.
+                    </p>
+                  </TextReveal>
                 </div>
 
-                <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
-                  Data · Microservices · Web · CI/CD
-                </div>
+                <TextReveal
+                  delay={430}
+                  yOffset={10}
+                  reducedMotion={reducedMotion}
+                >
+                  <div className="text-xs sm:text-sm font-semibold text-[#52525B] lg:text-right shrink-0">
+                    Data · Microservices · Web · CI/CD
+                  </div>
+                </TextReveal>
               </div>
-            </RevealBlock>
+            </MotivationSlideIn>
           </div>
         </div>
       </section>
