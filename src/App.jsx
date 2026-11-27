@@ -17,6 +17,7 @@ import {
   GitBranch,
   Globe,
   ChevronRight,
+  Pin,
 } from "lucide-react";
 
 const clamp01 = (val) => Math.min(Math.max(val, 0), 1);
@@ -291,7 +292,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(renderLoop);
+      if (frameId) window.cancelAnimationFrame(frameId);
     };
   }, [paused]);
 
@@ -508,7 +509,7 @@ const TIMELINE_PROJECTS = [
     title: "Customer Data Hub & Data Products",
     tagline:
       "PySpark · Azure Synapse · Kundenselektionen & KI-fähige Datenarchitektur",
-    periodBracket: "[ Mai 2025 – Heute ]",
+    periodBracket: "[ > 1 Jahr Erfahrung ]",
     role: "Data-Analyst Customer Data & Analytics",
     organization: "Provinzial Versicherung AG",
     summary:
@@ -530,7 +531,7 @@ const TIMELINE_PROJECTS = [
     title: "Firmenkundenportal & PageForge",
     tagline:
       "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
-    periodBracket: "[ Nov 2022 – Mär 2025 ]",
+    periodBracket: "[ > 2 Jahre Erfahrung ]",
     role: "Backend / Data Integration Firmenkunden",
     organization: "Vodafone GmbH",
     summary:
@@ -553,7 +554,7 @@ const TIMELINE_PROJECTS = [
     title: "EasyClaim & Daten-/BI-Plattform",
     tagline:
       "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
-    periodBracket: "[ Jul 2012 – Aug 2022 ]",
+    periodBracket: "[ > 10 Jahre Erfahrung ]",
     role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
     organization: "ControlExpert GmbH",
     summary:
@@ -714,24 +715,48 @@ const InteractiveProjectColumn = ({
 
                 <button
                   type="button"
-                  role="switch"
-                  aria-checked={isPinned}
+                  aria-pressed={isPinned}
                   onClick={(e) => {
                     e.stopPropagation();
                     onTogglePin(project.id);
                   }}
                   style={{
-                    backgroundColor: isPinned ? project.accentHex : "#E4E4E7",
-                    boxShadow: isPinned
-                      ? `0 0 0 2px ${project.accentHex}33`
-                      : "none",
+                    borderColor: isPinned ? project.accentHex : "#D4D4D8",
+                    color: isPinned ? "#FFFFFF" : "#52525B",
                   }}
-                  className="relative inline-flex h-5 w-9 items-center rounded-full border border-black/10 transition-all duration-200 shrink-0 cursor-pointer"
-                  aria-label={`Steckbrief für ${project.organization} fixieren`}
+                  className={`relative overflow-hidden inline-flex items-center justify-center w-8 h-8 rounded-full border bg-white shadow-xs cursor-pointer ${
+                    reducedMotion
+                      ? ""
+                      : "transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-90 hover:scale-105"
+                  }`}
+                  aria-label={`Steckbrief für ${project.organization} anpinnen`}
+                  title={isPinned ? "Steckbrief lösen" : "Steckbrief anpinnen"}
                 >
                   <span
-                    className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow-sm transition-transform duration-200 ${
-                      isPinned ? "translate-x-4" : "translate-x-0.5"
+                    style={{ backgroundColor: project.accentHex }}
+                    className={`absolute inset-0 rounded-full ${
+                      reducedMotion
+                        ? isPinned
+                          ? "scale-100 opacity-100"
+                          : "scale-0 opacity-0"
+                        : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                            isPinned
+                              ? "scale-100 opacity-100"
+                              : "scale-0 opacity-0"
+                          }`
+                    }`}
+                  />
+                  <Pin
+                    className={`relative z-10 w-3.5 h-3.5 ${
+                      reducedMotion
+                        ? isPinned
+                          ? "-rotate-45 fill-current"
+                          : "rotate-0"
+                        : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                            isPinned
+                              ? "-rotate-45 scale-110 fill-current"
+                              : "rotate-0 scale-100"
+                          }`
                     }`}
                   />
                 </button>
@@ -779,7 +804,7 @@ const InteractiveProjectColumn = ({
           }`}
         >
           <span>
-            {isPinned ? "Fixiert" : isOpen ? "Schließen" : "Steckbrief"}
+            {isPinned ? "Angepinnt" : isOpen ? "Schließen" : "Steckbrief"}
           </span>
           <ChevronRight
             className={`w-3.5 h-3.5 ${
@@ -1067,14 +1092,14 @@ export default function App() {
                   className="absolute inset-0 rounded-[28px] sm:rounded-[40px] pointer-events-none"
                 />
 
-                <header className="relative z-10 flex items-center justify-between px-5 sm:px-9 pt-6 sm:pt-8">
+                <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-6 sm:pt-8">
                   <button
                     type="button"
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
                     aria-label="MR Monogramm · Nach oben"
-                    className="inline-flex items-center hover:scale-105 transition-transform cursor-pointer"
+                    className="hidden sm:inline-flex items-center hover:scale-105 transition-transform cursor-pointer"
                   >
                     <AiGradientMark size={36} />
                   </button>
