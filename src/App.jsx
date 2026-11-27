@@ -610,20 +610,20 @@ const TIMELINE_PROJECTS = [
     accentHex: "#007A6E",
     accentTextClass: "text-[#007A6E]",
     markerOffsetClass: "pt-2 sm:pt-4",
-    title: "Customer Data Hub & Data Products",
+    title: "Customer Data Hub, IT-DWH & Data Products",
     tagline:
-      "PySpark · Azure Synapse · Kundenselektionen & KI-fähige Datenarchitektur",
+      "PySpark · Azure Synapse · IT-DWH Data Engineering · Kundenselektionen",
     periodBracket: "[ > 1 Jahr Erfahrung ]",
-    role: "Data-Analyst Customer Data & Analytics",
+    role: "Data Engineer (IT-DWH, ab Jun 2026) · Data-Analyst Customer Data & Analytics (01.05.2025 – 31.03.2026)",
     organization: "Provinzial Versicherung AG",
     summary:
-      "Zentrale Datenprodukte und Kundenselektionen in PySpark und Azure Synapse als belastbare Grundlage für Analytik und KI-Systeme.",
+      "Zentrale Datenprodukte, IT-DWH-Pipelines und Kundenselektionen in PySpark und Azure Synapse als belastbare Grundlage für Analytik und KI-Systeme.",
     highlights: [
-      "Entwicklung Datenprodukte in PySpark innerhalb Azure Synapse",
-      "Kundenselektionen für Direktmarketing Use-Cases",
-      "Weiterentwicklung der agilen Arbeitsorganisation im Team",
+      "Nach dem 01.04.2026 Wechsel ins IT-DWH als Data Engineer für Datenprodukte & Pipelines",
+      "01.05.2025 – 31.03.2026 Data-Analyst Customer Data & Analytics (inkl. ca. 6 Monaten als Interim-PO bis zum Start der neuen PO am 01.04.2026)",
+      "Aufbau von Datenprodukten in PySpark innerhalb Azure Synapse sowie Kundenselektionen",
     ],
-    stack: "Python · PySpark · Azure Synapse · SQL · Data Products",
+    stack: "Python · PySpark · Azure Synapse · IT-DWH · SQL · Data Products",
   },
   {
     id: "vodafone-pageforge",
@@ -672,6 +672,25 @@ const TIMELINE_PROJECTS = [
     ],
     stack:
       "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
+  },
+];
+
+const PROVINZIAL_STATIONS = [
+  {
+    title: "Data Engineer · IT-DWH",
+    period: "Ab Jun 2026",
+    bullets: [
+      "Wechsel in das IT-DWH als Data Engineer für Datenprodukte, Pipelines und Datenarchitektur (nach Start der neuen PO am 01.04.2026)",
+      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
+    ],
+  },
+  {
+    title: "Data-Analyst Customer Data & Analytics",
+    period: "01.05.2025 – 31.03.2026",
+    bullets: [
+      "Aufbau von Datenprodukten in PySpark innerhalb Azure Synapse sowie Kundenselektionen",
+      "Ca. 6 Monate als Interim-PO vor dem Start der neuen PO am 01.04.2026",
+    ],
   },
 ];
 
@@ -1475,15 +1494,36 @@ export default function App() {
             >
               <div className="rounded-3xl border border-[#E4E4E7] bg-white p-6 sm:p-8 space-y-6">
                 <div className="flex items-start justify-between gap-4 border-b border-[#E4E4E7] pb-5">
-                  <div>
+                  <div className="w-full">
                     <BrandWordmark brand="provinzial" />
                     <p className="mt-1.5 text-sm font-bold text-[#0B0B0C]">
-                      Data-Analyst Customer Data &amp; Analytics · Provinzial
-                      Versicherung AG
+                      Provinzial Versicherung AG · Stationen im Überblick
                     </p>
                     <p className="text-xs font-mono text-[#52525B] mt-0.5">
-                      Mai 2025 bis heute
+                      01.05.2025 – heute
                     </p>
+
+                    <div className="mt-4 space-y-3.5">
+                      {PROVINZIAL_STATIONS.map((item) => (
+                        <div key={item.title} className="space-y-1">
+                          <div className="flex flex-wrap items-baseline justify-between gap-2">
+                            <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                              {item.title}
+                            </p>
+                            <span className="text-[11px] font-mono text-[#52525B]">
+                              {item.period}
+                            </span>
+                          </div>
+                          <ul className="pl-4 space-y-1 text-xs text-[#52525B]">
+                            {item.bullets.map((bullet) => (
+                              <li key={bullet} className="list-disc">
+                                {bullet}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <Database className="w-5 h-5 text-[#52525B] shrink-0" />
                 </div>
@@ -1564,12 +1604,25 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-8 pt-5 border-t border-[#E4E4E7] flex items-center gap-2.5 text-xs text-[#52525B]">
-                  <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C]" />
-                  <span>
-                    B. Sc. Wirtschaftsinformatik (FOM Düsseldorf, 1,9) · Fokus
-                    auf Datenprodukte &amp; BI
-                  </span>
+                <div className="mt-8 pt-5 border-t border-[#E4E4E7] space-y-2.5 text-xs text-[#52525B]">
+                  <div className="flex items-start gap-2.5">
+                    <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C] mt-0.5" />
+                    <span>
+                      <strong className="font-bold text-[#0B0B0C]">
+                        M. Sc. KI und Business Analytics
+                      </strong>{" "}
+                      (FOM, nebenberuflich ab 01.09.2026)
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <GraduationCap className="w-4 h-4 shrink-0 text-[#0B0B0C] mt-0.5" />
+                    <span>
+                      <strong className="font-bold text-[#0B0B0C]">
+                        B. Sc. Wirtschaftsinformatik
+                      </strong>{" "}
+                      (FOM Düsseldorf, 1,9) · Fokus auf Datenprodukte &amp; BI
+                    </span>
+                  </div>
                 </div>
               </div>
             </RevealBlock>
