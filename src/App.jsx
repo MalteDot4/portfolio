@@ -1556,6 +1556,225 @@ const BrandWordmark = ({
   );
 };
 
+/* COMPACT MAC MONITOR WITH BRANDED PROJECT SCREENSHOT / UI PREVIEW */
+const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
+  const renderScreenPreview = () => {
+    if (previewImage) {
+      return (
+        <img
+          src={previewImage}
+          alt={previewAlt}
+          className="w-full h-full object-cover object-top block"
+        />
+      );
+    }
+
+    if (brand === "provinzial") {
+      return (
+        <div className="w-full h-full bg-gradient-to-br from-[#F4FBF9] via-white to-[#E6F4F1] p-2.5 flex flex-col justify-between text-left select-none">
+          <div className="flex items-center justify-between">
+            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold tracking-wider uppercase text-[#005B52]">
+              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#007A6E]" />
+              PROVINZIAL
+            </span>
+            <span className="px-1.5 py-0.5 rounded-full bg-[#007A6E]/10 text-[#007A6E] text-[7px] font-bold">
+              Kundenkampagne · Live
+            </span>
+          </div>
+
+          <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
+            <div className="col-span-7 space-y-1">
+              <span className="inline-block px-1.5 py-0.5 rounded bg-[#007A6E] text-white text-[6.5px] font-bold uppercase tracking-wide">
+                Schutz-Check 2026
+              </span>
+              <p className="text-[10px] font-extrabold text-[#0B0B0C] leading-[1.15] tracking-tight">
+                Rundum abgesichert – passend zu Ihrer Lebensphase.
+              </p>
+              <p className="text-[7px] text-[#52525B] leading-tight">
+                Zielgruppenselektion via PySpark &amp; Customer Data Hub.
+              </p>
+              <div className="pt-0.5 flex items-center gap-1">
+                <span className="px-1.5 py-0.5 rounded bg-[#007A6E] text-white text-[6.5px] font-bold">
+                  Angebot prüfen
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-white border border-[#D4D4D8] text-[#27272A] text-[6.5px] font-semibold">
+                  Berater finden
+                </span>
+              </div>
+            </div>
+
+            <div className="col-span-5 rounded-lg bg-white border border-[#D7EAE6] p-1.5 shadow-2xs space-y-1.5">
+              <div className="flex items-center justify-between text-[6.5px] font-bold text-[#52525B]">
+                <span>Selektion</span>
+                <span className="text-[#007A6E]">+34 % CTR</span>
+              </div>
+              <div className="space-y-1">
+                <div>
+                  <div className="flex justify-between text-[6px] text-[#52525B] mb-0.5">
+                    <span>Bestandskunden</span>
+                    <span>88%</span>
+                  </div>
+                  <div className="h-1 rounded-full bg-[#E4E4E7] overflow-hidden">
+                    <div className="h-full w-[88%] bg-[#007A6E] rounded-full" />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between text-[6px] text-[#52525B] mb-0.5">
+                    <span>Vorsorge-Match</span>
+                    <span>74%</span>
+                  </div>
+                  <div className="h-1 rounded-full bg-[#E4E4E7] overflow-hidden">
+                    <div className="h-full w-[74%] bg-[#14B8A6] rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (brand === "vodafone") {
+      return (
+        <div className="w-full h-full bg-gradient-to-br from-[#190507] via-[#2B070B] to-[#6B0000] p-2.5 flex flex-col justify-between text-left text-white select-none">
+          <div className="flex items-center justify-between">
+            <span className="inline-flex items-center gap-1 text-[8.5px] font-extrabold tracking-tight">
+              <span className="w-2.5 h-2.5 rounded-full border-[1.5px] border-[#E60000] inline-flex items-center justify-center">
+                <span className="w-1 h-1 rounded-full bg-[#E60000]" />
+              </span>
+              vodafone{" "}
+              <span className="text-white/60 font-semibold">business</span>
+            </span>
+            <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[6.5px] font-bold text-white/85">
+              200+ Sites
+            </span>
+          </div>
+
+          <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
+            <div className="col-span-7 space-y-1">
+              <span className="inline-block px-1.5 py-0.5 rounded bg-[#E60000] text-white text-[6.5px] font-bold uppercase tracking-wide">
+                Firmenkunden-Tarife
+              </span>
+              <p className="text-[10px] font-extrabold leading-[1.15] tracking-tight">
+                Red Business Prime &amp; Glasfaser für Unternehmen.
+              </p>
+              <p className="text-[7px] text-white/75 leading-tight">
+                Echtzeit-Vertragsdaten &amp; PageForge Landingpages.
+              </p>
+              <div className="pt-0.5">
+                <span className="inline-block px-2 py-0.5 rounded-full bg-white text-[#0B0B0C] text-[6.5px] font-extrabold">
+                  Tarife vergleichen
+                </span>
+              </div>
+            </div>
+
+            <div className="col-span-5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15 p-1.5 space-y-1">
+              <div className="rounded bg-white/10 px-1.5 py-1">
+                <p className="text-[6px] uppercase text-white/65 font-bold">
+                  5G &amp; Daten
+                </p>
+                <p className="text-[8.5px] font-extrabold text-white">
+                  Unlimited
+                </p>
+              </div>
+              <div className="rounded bg-[#E60000]/80 px-1.5 py-1">
+                <p className="text-[6px] uppercase text-white/85 font-bold">
+                  API Status
+                </p>
+                <p className="text-[7.5px] font-bold text-white">
+                  Node.js · 99.98%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="w-full h-full bg-gradient-to-br from-[#F3F8FE] via-white to-[#E8F1FC] p-2.5 flex flex-col justify-between text-left select-none">
+        <div className="flex items-center justify-between">
+          <span className="inline-flex items-center gap-1 text-[8px] font-extrabold uppercase tracking-wider text-[#0B0B0C]">
+            <span className="w-1.5 h-1.5 rotate-45 bg-[#0A66C2]" />
+            CONTROL<span className="text-[#0A66C2]">EXPERT</span>
+          </span>
+          <span className="px-1.5 py-0.5 rounded-full bg-[#0A66C2]/10 text-[#0A66C2] text-[7px] font-bold">
+            EasyClaim
+          </span>
+        </div>
+
+        <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
+          <div className="col-span-7 space-y-1">
+            <span className="inline-block px-1.5 py-0.5 rounded bg-[#0A66C2] text-white text-[6.5px] font-bold uppercase tracking-wide">
+              Digitale Schadenaufnahme
+            </span>
+            <p className="text-[10px] font-extrabold text-[#0B0B0C] leading-[1.15] tracking-tight">
+              Kfz-Schaden in 3 Minuten digital erfassen.
+            </p>
+            <p className="text-[7px] text-[#52525B] leading-tight">
+              Geführter Foto-Upload, Kalkulation &amp; Status-Tracking.
+            </p>
+            <div className="pt-0.5 flex items-center gap-1">
+              <span className="px-1.5 py-0.5 rounded bg-[#0A66C2] text-white text-[6.5px] font-bold">
+                1. Fahrzeug
+              </span>
+              <span className="px-1.5 py-0.5 rounded bg-[#0A66C2]/15 text-[#0A66C2] text-[6.5px] font-bold">
+                2. Schadenbild ✓
+              </span>
+            </div>
+          </div>
+
+          <div className="col-span-5 rounded-lg bg-white border border-[#D5E4F7] p-1.5 shadow-2xs space-y-1">
+            <div className="rounded bg-[#EFF6FF] border border-[#BFDBFE] p-1 text-center">
+              <div className="mx-auto w-6 h-3.5 rounded-xs bg-[#0A66C2]/15 border border-[#0A66C2]/40 flex items-center justify-center text-[6px] font-extrabold text-[#0A66C2]">
+                KFZ
+              </div>
+              <p className="mt-0.5 text-[6px] font-bold text-[#1E3A8A]">
+                Frontschaden erkannt
+              </p>
+            </div>
+            <div className="flex items-center justify-between text-[6px] font-bold text-[#52525B] px-0.5">
+              <span>React &amp; .NET</span>
+              <span className="text-emerald-600">Validiert</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="w-full pt-0.5">
+      {/* Mac Display Bezel */}
+      <div className="rounded-xl bg-[#18181B] p-[5px] shadow-[0_10px_24px_-8px_rgba(11,11,12,0.35)] border border-[#27272A]">
+        <div className="rounded-[7px] overflow-hidden bg-white">
+          {/* macOS Browser Top Bar */}
+          <div className="h-4 px-2 bg-[#F4F4F5] border-b border-[#E4E4E7] flex items-center justify-between gap-1.5">
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5F56]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FFBD2E]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#27C93F]" />
+            </div>
+            <span className="px-2 py-[1px] rounded bg-white border border-[#E4E4E7] text-[6.5px] font-mono text-[#52525B] truncate max-w-[145px]">
+              {previewUrl}
+            </span>
+            <span className="w-4 shrink-0" />
+          </div>
+
+          {/* Screen Content */}
+          <div className="aspect-[16/9.5] w-full overflow-hidden">
+            {renderScreenPreview()}
+          </div>
+        </div>
+      </div>
+
+      {/* Mac Aluminum Chin & Stand */}
+      <div className="mx-auto w-11 h-2 bg-gradient-to-b from-[#D4D4D8] to-[#E4E4E7] rounded-b-xs" />
+      <div className="mx-auto w-20 h-[3px] bg-[#D4D4D8] rounded-full shadow-2xs" />
+    </div>
+  );
+};
+
 const SkillPillItem = ({
   item,
   idx,
@@ -3274,18 +3493,12 @@ const TIMELINE_PROJECTS = [
     tagline:
       "PySpark · Azure Synapse · IT-DWH · Selektionsframework · OpenCode & Agentic Workflows",
     durationLabel: "> 1 Jahr Erfahrung",
-    role: "Data & AI Engineer (IT-DWH, ab 01.06.2026) · Data-Analyst Customer Data & Analytics (01.05.2025 – 30.05.2026)",
     organization: "Provinzial Versicherung AG",
-    summary:
-      "Zentrale Datenprodukte, ein PySpark-Selektionsframework und IT-DWH-Pipelines auf Azure Synapse – erweitert um AI Engineering mit OpenCode und Agentic-Development-Workflows.",
-    highlights: [
-      "AI Engineering mit OpenCode & Einführung von Core Agentic-Development-Workflows im IT-DWH-Projekt (ab 01.06.2026)",
-      "Entwicklung skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH für Analytik und KI-Systeme",
-      "Stark PySpark-getriebene Datenprodukt-Entwicklung auf Azure Synapse inkl. eigenem Selektionsframework für Kundenselektionen (01.05.2025 – 30.05.2026)",
-      "Ca. 6 Monate als Interim-PO (bis 01.04.2026) für das Data-Team",
-    ],
-    stack:
-      "Python · PySpark · Azure Synapse · OpenCode · Agentic Workflows · IT-DWH · SQL",
+    previewUrl: "provinzial.de/kampagnen-hub",
+    previewImage: null,
+    previewAlt: "Provinzial Kundenkampagne & Selektions-Engine",
+    teaser:
+      "Aufbau von PySpark-Datenprodukten und einem Selektionsframework auf Azure Synapse für zielgerichtete Kundenkampagnen sowie AI Engineering im IT-DWH.",
   },
   {
     id: "vodafone-pageforge",
@@ -3300,17 +3513,12 @@ const TIMELINE_PROJECTS = [
     tagline:
       "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
     durationLabel: "> 2 Jahre Erfahrung",
-    role: "Backend / Data Integration Firmenkunden",
     organization: "Vodafone GmbH",
-    summary:
-      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, PageForge für über 200 Business-Websites sowie Microservices und CI/CD.",
-    highlights: [
-      "Entwicklung & Datenintegration für das Vodafone Firmenkundenportal",
-      "Entwicklung des Vodafone Blogs sowie über 200 Business-Websites",
-      "Implementierung von Microservices für Vertragsdaten mit Node.js",
-      "Anhebung der Automatisierung CI/CD in der Git-Pipeline",
-    ],
-    stack: "Node.js · React.js · Next.js · Docker · CI/CD · Microservices",
+    previewUrl: "vodafone.de/business",
+    previewImage: null,
+    previewAlt: "Vodafone Business Landingpage & Firmenkundenportal",
+    teaser:
+      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, die Business-Landingpages (200+ Sites) sowie Node.js-Vertrags-Microservices.",
   },
   {
     id: "controlexpert-easyclaim",
@@ -3325,19 +3533,12 @@ const TIMELINE_PROJECTS = [
     tagline:
       "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
     durationLabel: "> 10 Jahre Erfahrung",
-    role: "Softwareentwickler · BI-Specialist · Business-Analyst · Data-Specialist",
     organization: "ControlExpert GmbH",
-    summary:
-      "Webapplikation zur digitalen Schadenaufnahme, Data-Warehouse-Aufbau, SQL-Reporting sowie Prozess- und Datenlösungen im Versicherungs- und Automobilumfeld.",
-    highlights: [
-      "Webapplikation zur digitalen Schadenaufnahme mit React.js im Frontend & .NET C# im Backend",
-      "Absicherung der Codequalität mit Jest & Cypress im Kanban- und Design-Thinking-Umfeld",
-      "Entwicklung eines Data Warehouse mit SQL-Reporting & Visualisierung in Tableau",
-      "Digitalisierung & Prozessautomatisierung mit IBM BPM sowie interne Kalkulationsanwendung in Scrum",
-      "Erhebung, Abfrage & Pflege von Herstellerdaten in relationalen Datenbanken",
-    ],
-    stack:
-      "React.js · .NET C# · Jest · Cypress · SQL · Tableau · IBM BPM · Data Warehouse",
+    previewUrl: "easyclaim.controlexpert.com",
+    previewImage: null,
+    previewAlt: "ControlExpert EasyClaim digitale Schadenaufnahme",
+    teaser:
+      "Entwicklung der digitalen Schadenaufnahme EasyClaim (React.js & .NET C#) sowie Aufbau von Data-Warehouse- und Tableau-Reporting-Lösungen.",
   },
 ];
 
@@ -3447,10 +3648,10 @@ const InteractiveProjectColumn = ({
           }`}
         >
           <div className="overflow-hidden">
-            <div className="rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] p-4 sm:p-5 space-y-3">
+            <div className="rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] p-4 space-y-3.5">
               <div className="flex items-center justify-between gap-2">
                 <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
-                  Steckbrief · {project.organization}
+                  Projekt-Einblick · {project.organization}
                 </span>
 
                 <button
@@ -3464,7 +3665,7 @@ const InteractiveProjectColumn = ({
                     borderColor: isPinned ? project.accentHex : "#D4D4D8",
                     color: isPinned ? "#FFFFFF" : "#52525B",
                   }}
-                  className={`relative overflow-hidden inline-flex items-center justify-center w-8 h-8 rounded-full border bg-white shadow-xs cursor-pointer ${
+                  className={`relative overflow-hidden inline-flex items-center justify-center w-7 h-7 rounded-full border bg-white shadow-xs cursor-pointer ${
                     reducedMotion
                       ? ""
                       : "transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-90 hover:scale-105"
@@ -3487,7 +3688,7 @@ const InteractiveProjectColumn = ({
                     }`}
                   />
                   <Pin
-                    className={`relative z-10 w-3.5 h-3.5 ${
+                    className={`relative z-10 w-3 h-3 ${
                       reducedMotion
                         ? isPinned
                           ? "-rotate-45 fill-current"
@@ -3502,29 +3703,15 @@ const InteractiveProjectColumn = ({
                 </button>
               </div>
 
-              <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C] leading-snug">
-                {project.role}
-              </p>
+              <MacProjectMonitor
+                brand={project.brand}
+                previewImage={project.previewImage}
+                previewAlt={project.previewAlt}
+                previewUrl={project.previewUrl}
+              />
 
-              <p className="text-xs text-[#52525B] leading-relaxed">
-                {project.summary}
-              </p>
-
-              <ul className="space-y-1.5 text-xs text-[#0B0B0C] leading-snug">
-                {project.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span
-                      style={{ backgroundColor: project.accentHex }}
-                      className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"
-                    />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <p className="pt-2 border-t border-[#E4E4E7] text-[11px] font-semibold text-[#52525B]">
-                <strong className="font-bold text-[#0B0B0C]">Stack:</strong>{" "}
-                {project.stack}
+              <p className="text-xs text-[#27272A] font-medium leading-relaxed">
+                {project.teaser}
               </p>
             </div>
           </div>
