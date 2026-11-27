@@ -234,6 +234,7 @@ const BrandWordmark = ({
 
 const SkillChainList = ({ skills, reducedMotion = false }) => {
   const [chained, setChained] = useState(Boolean(reducedMotion));
+  const [activeSkillLabel, setActiveSkillLabel] = useState(null);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -264,11 +265,16 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
 
   return (
     <div ref={containerRef} className="mt-5 flex flex-wrap gap-2">
-      {skills.map((skill, idx) => {
+      {skills.map((item, idx) => {
+        const label = typeof item === "string" ? item : item.label;
+        const role = typeof item === "string" ? "Tech Stack" : item.role;
+        const projects = typeof item === "string" ? "" : item.projects;
         const delayMs = reducedMotion ? 0 : idx * 55;
+        const isOpen = activeSkillLabel === label;
+
         return (
-          <span
-            key={skill}
+          <div
+            key={label}
             style={{
               transitionDelay: `${delayMs}ms`,
               transform:
@@ -276,16 +282,76 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
                   ? "translate3d(0, 0, 0)"
                   : "translate3d(-12px, 6px, 0)",
             }}
-            className={`px-3 py-1.5 rounded-full bg-white border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] shadow-2xs select-none ${
+            onMouseEnter={() => setActiveSkillLabel(label)}
+            onMouseLeave={() =>
+              setActiveSkillLabel((prev) => (prev === label ? null : prev))
+            }
+            onFocus={() => setActiveSkillLabel(label)}
+            onBlur={() =>
+              setActiveSkillLabel((prev) => (prev === label ? null : prev))
+            }
+            className={`relative inline-flex ${isOpen ? "z-30" : "z-10"} ${
               reducedMotion
                 ? "opacity-100"
-                : `transition-[transform,opacity,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:-translate-y-0.5 hover:border-[#0B0B0C]/30 hover:shadow-xs ${
+                : `transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                     chained ? "opacity-100" : "opacity-0"
                   }`
             }`}
           >
-            {skill}
-          </span>
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              onClick={() =>
+                setActiveSkillLabel((prev) => (prev === label ? null : label))
+              }
+              className={`px-3 py-1.5 rounded-full bg-white border text-xs font-bold shadow-2xs select-none cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9333EA] ${
+                isOpen
+                  ? "text-[#7E22CE] border-[#C084FC] bg-[#FAF5FF] -translate-y-0.5 shadow-sm"
+                  : "text-[#0B0B0C] border-[#E4E4E7] hover:text-[#7E22CE] hover:border-[#C084FC] hover:bg-[#FAF5FF] hover:-translate-y-0.5 hover:shadow-xs"
+              } ${
+                reducedMotion
+                  ? ""
+                  : "transition-[color,background-color,border-color,transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              }`}
+            >
+              {label}
+            </button>
+
+            <div
+              role="tooltip"
+              className={`pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-full mb-2.5 w-64 sm:w-72 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] border border-[#E4E4E7] shadow-[0_14px_32px_-8px_rgba(11,11,12,0.22)] p-3.5 text-left ${
+                reducedMotion
+                  ? isOpen
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-1 hidden"
+                  : `transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      isOpen
+                        ? "opacity-100 translate-y-0 scale-100"
+                        : "opacity-0 translate-y-1.5 scale-95"
+                    }`
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7E22CE]">
+                  {role}
+                </span>
+                <span className="text-[10px] font-mono font-semibold text-[#71717A]">
+                  {label}
+                </span>
+              </div>
+
+              {projects && (
+                <p className="mt-1.5 text-xs text-[#27272A] leading-relaxed font-medium">
+                  {projects}
+                </p>
+              )}
+
+              <span
+                aria-hidden="true"
+                className="absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-white border-r border-b border-[#E4E4E7]"
+              />
+            </div>
+          </div>
         );
       })}
     </div>
@@ -1401,16 +1467,66 @@ const CONTROLEXPERT_MORE_STATIONS = [
 ];
 
 const CORE_SKILL_PILLS = [
-  "Python",
-  "PySpark / Spark",
-  "Azure & Synapse",
-  "SQL",
-  "React.js & Next.js",
-  ".NET C#",
-  "Node.js",
-  "Jest, Vitest & Cypress",
-  "Git, Docker & CI/CD",
-  "Tableau & Power-BI",
+  {
+    label: "Python",
+    role: "Data & ETL Scripting",
+    projects:
+      "Datenaufbereitung, Automatisierung & Spark-Pipelines bei Provinzial (IT-DWH & Customer Data).",
+  },
+  {
+    label: "PySpark / Spark",
+    role: "Verteilte Datenverarbeitung",
+    projects:
+      "Aufbau von Datenprodukten und Kundenselektionen auf großen Datenbeständen bei Provinzial.",
+  },
+  {
+    label: "Azure & Synapse",
+    role: "Cloud Data Plattform",
+    projects:
+      "Datenprodukte, Pipelines und IT-DWH-Architektur im Azure-Synapse-Umfeld bei Provinzial.",
+  },
+  {
+    label: "SQL",
+    role: "Abfragen & Modellierung",
+    projects:
+      "Data-Warehouse-Aufbau, KPI-Reporting und relationale Datenabfragen bei ControlExpert & Provinzial.",
+  },
+  {
+    label: "React.js & Next.js",
+    role: "Web & UI Engineering",
+    projects:
+      "Digitale Schadenaufnahme (EasyClaim) bei ControlExpert sowie Business-Websites & Blog bei Vodafone.",
+  },
+  {
+    label: ".NET C#",
+    role: "Backend-Services",
+    projects:
+      "Backend-Logik und Services für die digitale Schadenaufnahme bei ControlExpert.",
+  },
+  {
+    label: "Node.js",
+    role: "API & Microservices",
+    projects:
+      "Microservices für Vertragsdaten und Firmenkunden-Integration bei Vodafone.",
+  },
+  {
+    label: "Jest, Vitest & Cypress",
+    role: "Qualitätssicherung & Tests",
+    projects:
+      "Unit- und End-to-End-Tests zur Absicherung der Codequalität im agilen Umfeld bei ControlExpert.",
+  },
+  {
+    label: "Git, Docker & CI/CD",
+    role: "Delivery & Automatisierung",
+    projects:
+      "Containerisierung sowie Ausbau der CI/CD-Automatisierung in Git-Pipelines bei Vodafone.",
+  },
+  {
+    label: "Tableau & Power-BI",
+    role: "BI & Visualisierung",
+    projects:
+      "KPI-Visualisierung und Stakeholder-Reporting auf Basis von Data-Warehouse-Daten.",
+  },
 ];
 
 const InteractiveProjectColumn = ({
