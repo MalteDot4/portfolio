@@ -647,116 +647,89 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* DUNKLES TECH-FARBSCHEMA + PARTIKEL-MOVEMENT + WOBBELNDE GRADIENT-BUBBLES + ZERPLATZEN BEI ~80% SCROLL-EXIT */
-const TECH_BUBBLES = [
+/* LEICHTER GRADIENT-HINTERGRUND + PRÄSENTE, WOBBELNDE HERO-FARBEN-BUBBLES + ZERPLATZEN GEGEN ENDE (OHNE COUNTER) */
+const HIGHLIGHT_BUBBLES = [
   {
-    id: "tb-1",
-    size: 86,
-    homeX: -390,
+    id: "hb-1",
+    size: 118,
+    homeX: -410,
     homeY: -155,
-    phase: 0.4,
+    phase: 0.3,
     popAt: 0.78,
     gradient:
-      "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.52) 0%, rgba(37, 99, 235, 0.34) 48%, rgba(15, 23, 42, 0.72) 100%)",
-    border: "rgba(125, 211, 252, 0.42)",
-    glow: "0 0 28px rgba(59, 130, 246, 0.24)",
-    spark: "#60A5FA",
+      "radial-gradient(circle at 30% 26%, rgba(147, 197, 253, 0.78) 0%, rgba(37, 99, 235, 0.44) 52%, rgba(96, 165, 250, 0.16) 100%)",
+    border: "rgba(59, 130, 246, 0.45)",
+    glow: "0 14px 36px rgba(37, 99, 235, 0.22)",
+    spark: "#3B82F6",
   },
   {
-    id: "tb-2",
-    size: 72,
-    homeX: 395,
+    id: "hb-2",
+    size: 102,
+    homeX: 415,
     homeY: -145,
-    phase: 1.5,
+    phase: 1.4,
     popAt: 0.82,
     gradient:
-      "radial-gradient(circle at 30% 26%, rgba(233, 213, 255, 0.52) 0%, rgba(139, 92, 246, 0.36) 50%, rgba(24, 14, 48, 0.74) 100%)",
-    border: "rgba(192, 132, 252, 0.42)",
-    glow: "0 0 28px rgba(168, 85, 247, 0.24)",
-    spark: "#C084FC",
+      "radial-gradient(circle at 30% 26%, rgba(216, 180, 254, 0.78) 0%, rgba(139, 92, 246, 0.44) 52%, rgba(167, 139, 250, 0.16) 100%)",
+    border: "rgba(139, 92, 246, 0.45)",
+    glow: "0 14px 36px rgba(139, 92, 246, 0.22)",
+    spark: "#8B5CF6",
   },
   {
-    id: "tb-3",
-    size: 96,
-    homeX: -355,
+    id: "hb-3",
+    size: 128,
+    homeX: -375,
     homeY: 165,
-    phase: 2.6,
-    popAt: 0.85,
+    phase: 2.5,
+    popAt: 0.86,
     gradient:
-      "radial-gradient(circle at 30% 26%, rgba(251, 207, 232, 0.48) 0%, rgba(124, 58, 237, 0.34) 52%, rgba(13, 18, 38, 0.76) 100%)",
-    border: "rgba(244, 114, 182, 0.38)",
-    glow: "0 0 32px rgba(236, 72, 153, 0.2)",
-    spark: "#F472B6",
+      "radial-gradient(circle at 30% 26%, rgba(251, 207, 232, 0.82) 0%, rgba(168, 85, 247, 0.38) 54%, rgba(244, 114, 182, 0.18) 100%)",
+    border: "rgba(217, 70, 239, 0.38)",
+    glow: "0 16px 40px rgba(192, 132, 252, 0.22)",
+    spark: "#D946EF",
   },
   {
-    id: "tb-4",
-    size: 78,
-    homeX: 375,
+    id: "hb-4",
+    size: 108,
+    homeX: 390,
     homeY: 158,
-    phase: 3.7,
-    popAt: 0.88,
+    phase: 3.6,
+    popAt: 0.9,
     gradient:
-      "radial-gradient(circle at 30% 26%, rgba(165, 243, 252, 0.5) 0%, rgba(29, 78, 216, 0.36) 50%, rgba(10, 15, 32, 0.76) 100%)",
-    border: "rgba(96, 165, 250, 0.4)",
-    glow: "0 0 28px rgba(56, 189, 248, 0.22)",
-    spark: "#38BDF8",
+      "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.76) 0%, rgba(29, 78, 216, 0.42) 52%, rgba(99, 102, 241, 0.16) 100%)",
+    border: "rgba(56, 189, 248, 0.45)",
+    glow: "0 14px 36px rgba(29, 78, 216, 0.2)",
+    spark: "#2563EB",
   },
   {
-    id: "tb-5",
-    size: 56,
-    homeX: -145,
+    id: "hb-5",
+    size: 82,
+    homeX: -155,
     homeY: -205,
-    phase: 4.6,
-    popAt: 0.91,
+    phase: 4.5,
+    popAt: 0.93,
     gradient:
-      "radial-gradient(circle at 30% 26%, rgba(216, 180, 254, 0.5) 0%, rgba(59, 130, 246, 0.32) 52%, rgba(12, 17, 36, 0.75) 100%)",
-    border: "rgba(167, 139, 250, 0.4)",
-    glow: "0 0 22px rgba(139, 92, 246, 0.22)",
-    spark: "#A78BFA",
-  },
-  {
-    id: "tb-6",
-    size: 64,
-    homeX: 165,
-    homeY: -195,
-    phase: 5.3,
-    popAt: 0.94,
-    gradient:
-      "radial-gradient(circle at 30% 26%, rgba(249, 168, 212, 0.48) 0%, rgba(99, 102, 241, 0.34) 52%, rgba(14, 16, 36, 0.76) 100%)",
-    border: "rgba(244, 114, 182, 0.38)",
-    glow: "0 0 24px rgba(236, 72, 153, 0.2)",
-    spark: "#F472B6",
-  },
-  {
-    id: "tb-7",
-    size: 60,
-    homeX: -135,
-    homeY: 205,
-    phase: 1.0,
-    popAt: 0.96,
-    gradient:
-      "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.5) 0%, rgba(139, 92, 246, 0.32) 52%, rgba(11, 16, 34, 0.76) 100%)",
-    border: "rgba(125, 211, 252, 0.38)",
-    glow: "0 0 22px rgba(59, 130, 246, 0.2)",
-    spark: "#60A5FA",
-  },
-  {
-    id: "tb-8",
-    size: 54,
-    homeX: 155,
-    homeY: 198,
-    phase: 2.0,
-    popAt: 0.985,
-    gradient:
-      "radial-gradient(circle at 30% 26%, rgba(196, 181, 253, 0.5) 0%, rgba(37, 99, 235, 0.34) 52%, rgba(10, 15, 32, 0.76) 100%)",
-    border: "rgba(167, 139, 250, 0.38)",
-    glow: "0 0 22px rgba(129, 140, 248, 0.22)",
+      "radial-gradient(circle at 30% 26%, rgba(196, 181, 253, 0.76) 0%, rgba(59, 130, 246, 0.38) 54%, rgba(255, 255, 255, 0.14) 100%)",
+    border: "rgba(129, 140, 248, 0.42)",
+    glow: "0 10px 28px rgba(99, 102, 241, 0.2)",
     spark: "#818CF8",
+  },
+  {
+    id: "hb-6",
+    size: 90,
+    homeX: 175,
+    homeY: -195,
+    phase: 5.2,
+    popAt: 0.97,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(249, 168, 212, 0.78) 0%, rgba(139, 92, 246, 0.38) 54%, rgba(147, 197, 253, 0.15) 100%)",
+    border: "rgba(236, 72, 153, 0.38)",
+    glow: "0 12px 30px rgba(236, 72, 153, 0.18)",
+    spark: "#EC4899",
   },
 ];
 
 const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
-  const particleCanvasRef = useRef(null);
   const [sectionPass, setSectionPass] = useState(0);
   const [flowTime, setFlowTime] = useState(0);
   const [manualPoppedIds, setManualPoppedIds] = useState([]);
@@ -785,7 +758,6 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
     };
   }, [reducedMotion]);
 
-  // Berechnet, wie weit die Section durchlaufen wird (0 = Eintritt, ~0.8+ = Section verlässt das Bild)
   useEffect(() => {
     if (reducedMotion) {
       setSectionPass(0.35);
@@ -801,7 +773,6 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         if (sec) {
           const rect = sec.getBoundingClientRect();
           const vh = window.innerHeight || 1;
-          // 0 wenn Oberkante am unteren Rand ankommt, ~0.8+ wenn Section nach oben aus dem Bild gleitet
           const totalDist = rect.height + vh;
           const raw = clamp01((vh - rect.top) / Math.max(totalDist, 1));
           setSectionPass(raw);
@@ -822,14 +793,14 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
   }, [sectionRef, reducedMotion]);
 
   const spawnBurst = (x, y, size, color) => {
-    const burstId = `tb-burst-${burstCounterRef.current++}`;
-    const sparks = Array.from({ length: 7 }, (_, i) => {
-      const ang = (i / 7) * Math.PI * 2 + 0.35;
-      const dist = 24 + (i % 3) * 9;
+    const burstId = `hb-burst-${burstCounterRef.current++}`;
+    const sparks = Array.from({ length: 8 }, (_, i) => {
+      const ang = (i / 8) * Math.PI * 2 + 0.25;
+      const dist = 28 + (i % 3) * 10;
       return {
         dx: Math.cos(ang) * dist,
         dy: Math.sin(ang) * dist,
-        size: i % 2 === 0 ? 5 : 3.5,
+        size: i % 2 === 0 ? 5.5 : 4,
       };
     });
 
@@ -839,14 +810,14 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
     ]);
     window.setTimeout(() => {
       setPopBursts((prev) => prev.filter((item) => item.id !== burstId));
-    }, 540);
+    }, 560);
   };
 
-  // Wenn 80%+ erreicht sind und die Section aus dem Bild kommt, Bubbles sanft zerplatzen lassen
+  // Gegen Ende (~78%–97%, wenn die Section aus dem Bild gleitet) sanft zerplatzen lassen
   useEffect(() => {
-    if (reducedMotion || sectionPass < 0.78) return;
+    if (reducedMotion || sectionPass < 0.76) return;
 
-    TECH_BUBBLES.forEach((spec) => {
+    HIGHLIGHT_BUBBLES.forEach((spec) => {
       if (
         sectionPass >= spec.popAt &&
         !autoTriggeredRef.current.includes(spec.id)
@@ -854,106 +825,30 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         autoTriggeredRef.current = [...autoTriggeredRef.current, spec.id];
         setAutoPoppedIds((prev) => [...prev, spec.id]);
 
-        const wobbleX =
-          Math.sin(flowTime * 0.45 + spec.phase) * 16 +
-          (sectionPass - 0.5) * 48;
-        const wobbleY =
-          Math.cos(flowTime * 0.36 + spec.phase) * 14 +
-          (sectionPass - 0.5) * -36;
-        spawnBurst(
-          spec.homeX + wobbleX,
-          spec.homeY + wobbleY,
-          spec.size,
-          spec.spark,
-        );
+        const wobble = Math.sin(sectionPass * Math.PI * 2.4 + spec.phase);
+        const bx =
+          spec.homeX +
+          Math.sin(flowTime * 0.45 + spec.phase) * 18 +
+          (sectionPass - 0.5) * 64 +
+          wobble * 10;
+        const by =
+          spec.homeY +
+          Math.cos(flowTime * 0.36 + spec.phase) * 15 +
+          (sectionPass - 0.5) * -48 +
+          Math.cos(sectionPass * Math.PI * 2.4 + spec.phase) * 9;
+
+        spawnBurst(bx, by, spec.size, spec.spark);
       }
     });
   }, [sectionPass, flowTime, reducedMotion]);
 
-  // Wenn man wieder in die Section zurückscrollt (< 0.55), zerplatzte Bubbles wieder sanft erscheinen lassen
+  // Beim Zurückscrollen in die Section Bubbles wieder sanft erscheinen lassen
   useEffect(() => {
     if (sectionPass < 0.55 && autoTriggeredRef.current.length > 0) {
       autoTriggeredRef.current = [];
       setAutoPoppedIds([]);
     }
   }, [sectionPass]);
-
-  // Sanfter Partikel-Canvas im Hintergrund
-  useEffect(() => {
-    const canvas = particleCanvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let frameId = null;
-    let w = 0;
-    let h = 0;
-
-    const particles = Array.from({ length: 34 }, (_, idx) => ({
-      nx: ((idx * 43) % 94) / 100 + 0.03,
-      ny: ((idx * 61) % 92) / 100 + 0.04,
-      r: 1 + (idx % 3) * 0.65,
-      vx: ((idx % 7) - 3) * 0.000045 || 0.00003,
-      vy: ((idx % 5) - 2) * 0.000035 || -0.000025,
-      phase: idx * 0.65,
-      tint:
-        idx % 3 === 0
-          ? "125, 211, 252"
-          : idx % 3 === 1
-            ? "192, 132, 252"
-            : "244, 114, 182",
-    }));
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      w = Math.max(1, parent.clientWidth);
-      h = Math.max(1, parent.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const drawParticles = (nowMs) => {
-      const t = reducedMotion ? 1.2 : nowMs * 0.001;
-      ctx.clearRect(0, 0, w, h);
-
-      particles.forEach((pt) => {
-        if (!reducedMotion) {
-          pt.nx += pt.vx;
-          pt.ny += pt.vy;
-          if (pt.nx > 0.97) pt.nx = 0.03;
-          if (pt.nx < 0.03) pt.nx = 0.97;
-          if (pt.ny > 0.96) pt.ny = 0.04;
-          if (pt.ny < 0.04) pt.ny = 0.96;
-        }
-
-        const px = pt.nx * w + Math.sin(t * 0.5 + pt.phase) * 8;
-        const py = pt.ny * h + Math.cos(t * 0.4 + pt.phase) * 8;
-        const alpha = 0.22 + Math.sin(t * 0.9 + pt.phase) * 0.1;
-
-        ctx.beginPath();
-        ctx.arc(px, py, pt.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${pt.tint}, ${Math.max(0.08, alpha)})`;
-        ctx.fill();
-      });
-
-      if (!reducedMotion) {
-        frameId = window.requestAnimationFrame(drawParticles);
-      }
-    };
-
-    drawParticles(performance.now());
-
-    return () => {
-      window.removeEventListener("resize", resize);
-      if (frameId) window.cancelAnimationFrame(frameId);
-    };
-  }, [reducedMotion]);
 
   const handleManualPop = (e, spec, bx, by) => {
     e.stopPropagation();
@@ -963,14 +858,12 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
     spawnBurst(bx, by, spec.size, spec.spark);
   };
 
-  // Smoothes Hintergrund-Movement im Hero-Farbschema
-  const gradShiftAx = Math.sin(flowTime * 0.16) * 44 + (sectionPass - 0.5) * 48;
+  // Leichter, smoother Gradient-Shift angelehnt an das Hero-Farbschema
+  const gradShiftAx = Math.sin(flowTime * 0.16) * 42 + (sectionPass - 0.5) * 44;
   const gradShiftAy =
-    Math.cos(flowTime * 0.13) * 32 + (sectionPass - 0.5) * -36;
-  const gradShiftBx = Math.cos(flowTime * 0.14) * 48 - (sectionPass - 0.5) * 42;
-  const gradShiftBy = Math.sin(flowTime * 0.12) * 34 + (sectionPass - 0.5) * 32;
-
-  const totalPopped = new Set([...manualPoppedIds, ...autoPoppedIds]).size;
+    Math.cos(flowTime * 0.13) * 28 + (sectionPass - 0.5) * -32;
+  const gradShiftBx = Math.cos(flowTime * 0.14) * 46 - (sectionPass - 0.5) * 38;
+  const gradShiftBy = Math.sin(flowTime * 0.12) * 30 + (sectionPass - 0.5) * 28;
 
   return (
     <div
@@ -978,31 +871,30 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
       <style>{`
-        @keyframes tbPopRing {
+        @keyframes hbPopRing {
           0% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.85; }
-          100% { transform: translate(-50%, -50%) scale(2.05); opacity: 0; }
+          100% { transform: translate(-50%, -50%) scale(2.1); opacity: 0; }
         }
-        @keyframes tbSparkOut {
-          0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 1; }
+        @keyframes hbSparkOut {
+          0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 0.95; }
           100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
         }
       `}</style>
 
-      {/* DUNKLES TECH-GRUNDTHEMA IM HERO-FARBSCHEMA */}
+      {/* LEICHTER, SMOOTHER GRADIENT IM HERO-FARBSCHEMA (KOBALTBLAU · VIOLETT · ROSE) */}
       <div
         style={{
           background:
-            "linear-gradient(145deg, #05070F 0%, #091128 48%, #130B24 100%)",
+            "linear-gradient(135deg, #F4F6FC 0%, #EEF2FF 48%, #F8F3FD 100%)",
         }}
         className="absolute inset-0"
       />
 
-      {/* SMOOTHE FARBVERLÄUFE (KOBALTBLAU · CYAN · VIOLETT · ZARTES ROSE) */}
       <div
         style={{
           transform: `translate3d(${gradShiftAx}px, ${gradShiftAy}px, 0)`,
           background:
-            "radial-gradient(ellipse 64% 54% at 24% 30%, rgba(37, 99, 235, 0.28) 0%, rgba(56, 189, 248, 0.12) 52%, transparent 78%)",
+            "radial-gradient(ellipse 66% 56% at 22% 30%, rgba(37, 99, 235, 0.16) 0%, rgba(96, 165, 250, 0.08) 54%, transparent 78%)",
         }}
         className="absolute -inset-24 will-change-transform"
       />
@@ -1011,51 +903,44 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         style={{
           transform: `translate3d(${gradShiftBx}px, ${gradShiftBy}px, 0)`,
           background:
-            "radial-gradient(ellipse 66% 58% at 78% 68%, rgba(124, 58, 237, 0.26) 0%, rgba(244, 114, 182, 0.12) 55%, transparent 80%)",
+            "radial-gradient(ellipse 68% 58% at 78% 68%, rgba(124, 58, 237, 0.15) 0%, rgba(244, 114, 182, 0.09) 56%, transparent 80%)",
         }}
         className="absolute -inset-24 will-change-transform"
       />
 
-      {/* SANFTES PARTIKEL-MOVEMENT */}
-      <canvas
-        ref={particleCanvasRef}
-        className="absolute inset-0 w-full h-full block opacity-85"
-      />
-
-      {/* WOBBELNDE GRADIENT-BUBBLES (SCROLL-SMOOTH + ZERPLATZEN BEI ~80% EXIT) */}
-      {TECH_BUBBLES.map((spec) => {
+      {/* PRÄSENTE, WOBBELNDE BUBBLES IM HERO-FARBSCHEMA */}
+      {HIGHLIGHT_BUBBLES.map((spec) => {
         const isPopped =
           manualPoppedIds.includes(spec.id) || autoPoppedIds.includes(spec.id);
 
-        // Leichtes, organisches Wobbeln beim Scrollen & Schweben
-        const scrollWobble = Math.sin(sectionPass * Math.PI * 2 + spec.phase);
+        const scrollWobble = Math.sin(sectionPass * Math.PI * 2.4 + spec.phase);
         const wobbleX =
-          Math.sin(flowTime * 0.42 + spec.phase) * 14 +
-          (sectionPass - 0.5) * 56 +
-          scrollWobble * 8;
+          Math.sin(flowTime * 0.45 + spec.phase) * 18 +
+          (sectionPass - 0.5) * 64 +
+          scrollWobble * 10;
         const wobbleY =
-          Math.cos(flowTime * 0.34 + spec.phase) * 12 +
-          (sectionPass - 0.5) * -42 +
-          Math.cos(sectionPass * Math.PI * 2 + spec.phase) * 7;
+          Math.cos(flowTime * 0.36 + spec.phase) * 15 +
+          (sectionPass - 0.5) * -48 +
+          Math.cos(sectionPass * Math.PI * 2.4 + spec.phase) * 9;
 
         const r1 = Math.round(
-          50 + scrollWobble * 10 + Math.sin(flowTime * 0.7 + spec.phase) * 5,
+          50 + scrollWobble * 13 + Math.sin(flowTime * 0.75 + spec.phase) * 6,
         );
         const r2 = Math.round(
-          48 - scrollWobble * 9 + Math.cos(flowTime * 0.6 + spec.phase) * 5,
+          48 - scrollWobble * 12 + Math.cos(flowTime * 0.65 + spec.phase) * 6,
         );
         const r3 = Math.round(
-          52 + scrollWobble * 8 + Math.sin(flowTime * 0.5 + spec.phase) * 5,
+          52 + scrollWobble * 11 + Math.sin(flowTime * 0.55 + spec.phase) * 6,
         );
-        const bubbleShape = `${r1}% ${100 - r1}% ${r2}% ${100 - r2}% / ${r3}% ${r1}% ${
+        const bubbleRadius = `${r1}% ${100 - r1}% ${r2}% ${100 - r2}% / ${r3}% ${r1}% ${
           100 - r1
         }% ${100 - r3}%`;
 
         const bx = spec.homeX + wobbleX;
         const by = spec.homeY + wobbleY;
 
-        const scale = isPopped ? 0.12 : 0.94 + Math.abs(scrollWobble) * 0.08;
-        const opacity = isPopped ? 0 : 0.86;
+        const scale = isPopped ? 0.14 : 0.94 + Math.abs(scrollWobble) * 0.1;
+        const opacity = isPopped ? 0 : 0.9;
 
         return (
           <button
@@ -1069,20 +954,20 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               height: `${spec.size}px`,
               opacity,
               pointerEvents: !isPopped ? "auto" : "none",
-              borderRadius: bubbleShape,
+              borderRadius: bubbleRadius,
               transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${scale})`,
               background: spec.gradient,
-              border: `1px solid ${spec.border}`,
-              boxShadow: `inset 0 2px 10px rgba(255, 255, 255, 0.25), ${spec.glow}`,
+              border: `1.5px solid ${spec.border}`,
+              boxShadow: `inset 0 2px 12px rgba(255, 255, 255, 0.75), ${spec.glow}`,
             }}
             className="absolute left-1/2 top-1/2 cursor-pointer transition-[transform,opacity] duration-250 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[2px]"
           >
             <span
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 75%)",
+                  "radial-gradient(circle, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
-              className="block w-[34%] h-[20%] ml-[22%] mt-[20%] rounded-full -rotate-20 pointer-events-none"
+              className="block w-[36%] h-[22%] ml-[20%] mt-[18%] rounded-full -rotate-20 pointer-events-none"
             />
           </button>
         );
@@ -1103,7 +988,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               height: `${burst.size}px`,
               border: `1.5px solid ${burst.color}`,
               animation:
-                "tbPopRing 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                "hbPopRing 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
             className="block rounded-full"
           />
@@ -1117,19 +1002,13 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
                 "--dx": `${sp.dx}px`,
                 "--dy": `${sp.dy}px`,
                 animation:
-                  "tbSparkOut 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                  "hbSparkOut 0.54s cubic-bezier(0.16, 1, 0.3, 1) forwards",
               }}
               className="block rounded-full"
             />
           ))}
         </div>
       ))}
-
-      {totalPopped > 0 && (
-        <div className="absolute bottom-4 right-5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-mono font-semibold text-white/80">
-          Bubbles geplatzt: {totalPopped}/{TECH_BUBBLES.length}
-        </div>
-      )}
     </div>
   );
 };
@@ -1690,7 +1569,6 @@ const HeadlineFlow = ({
   title,
   as: Tag = "h2",
   titleClassName = "mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]",
-  kickerClassName = "block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]",
   reducedMotion = false,
 }) => {
   const [shown, setShown] = useState(Boolean(reducedMotion));
@@ -1728,7 +1606,7 @@ const HeadlineFlow = ({
         <div className="overflow-hidden">
           <span
             style={{ transitionDelay: reducedMotion ? "0ms" : "40ms" }}
-            className={`${kickerClassName} ${
+            className={`block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] ${
               reducedMotion
                 ? "opacity-100 translate-y-0"
                 : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -2645,7 +2523,7 @@ export default function App() {
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#05070F] text-white py-16 sm:py-24 overflow-hidden"
+        className="relative bg-[#F5F5F7] py-16 sm:py-24 overflow-hidden"
       >
         <MotivationScrollSphere
           sectionRef={motivationSectionRef}
@@ -2656,7 +2534,6 @@ export default function App() {
           <div className="mb-8">
             <HeadlineFlow
               kicker="02 / Motivation"
-              kickerClassName="block text-[11px] font-bold uppercase tracking-[0.2em] text-white/65"
               reducedMotion={reducedMotion}
             />
           </div>
@@ -2668,7 +2545,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-[#0B1022]/85 backdrop-blur-md border border-white/12 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg">
+              <div className="h-full rounded-[28px] bg-[#0B0B0C]/95 backdrop-blur-md text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
                 <div>
                   <TextReveal delay={110} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
@@ -2681,7 +2558,7 @@ export default function App() {
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#93C5FD]">
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
                       Datenprodukte &amp; AI Engineering
                     </span>
                   </TextReveal>
@@ -2728,7 +2605,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-white/95 backdrop-blur-md border border-white/20 p-7 sm:p-9 flex flex-col justify-between shadow-lg">
+              <div className="h-full rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
                 <div>
                   <TextReveal delay={180} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
@@ -2788,7 +2665,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-12"
             >
-              <div className="rounded-[28px] bg-white/95 backdrop-blur-md border border-white/20 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-lg">
+              <div className="rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
                 <div className="max-w-3xl">
                   <TextReveal delay={240} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
