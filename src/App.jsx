@@ -647,190 +647,185 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* SMOOTHER SECTION-BACKGROUND IM HERO-FARBSCHEMA + SANFTE SCROLL-BEWEGUNG + AQUARIUM-KUGELN (KLICKBAR ZUM PLATZEN) */
-const AQUARIUM_BUBBLES = [
+/* DUNKLES TECH-FARBSCHEMA + PARTIKEL-MOVEMENT + WOBBELNDE GRADIENT-BUBBLES + ZERPLATZEN BEI ~80% SCROLL-EXIT */
+const TECH_BUBBLES = [
   {
-    id: "aq-1",
-    size: 42,
-    fromX: -65,
-    fromY: -40,
-    toX: -400,
-    toY: -170,
-    phase: 0.3,
-    hue: "blue",
+    id: "tb-1",
+    size: 86,
+    homeX: -390,
+    homeY: -155,
+    phase: 0.4,
+    popAt: 0.78,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.52) 0%, rgba(37, 99, 235, 0.34) 48%, rgba(15, 23, 42, 0.72) 100%)",
+    border: "rgba(125, 211, 252, 0.42)",
+    glow: "0 0 28px rgba(59, 130, 246, 0.24)",
+    spark: "#60A5FA",
   },
   {
-    id: "aq-2",
-    size: 34,
-    fromX: 72,
-    fromY: -36,
-    toX: 415,
-    toY: -160,
+    id: "tb-2",
+    size: 72,
+    homeX: 395,
+    homeY: -145,
     phase: 1.5,
-    hue: "violet",
+    popAt: 0.82,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(233, 213, 255, 0.52) 0%, rgba(139, 92, 246, 0.36) 50%, rgba(24, 14, 48, 0.74) 100%)",
+    border: "rgba(192, 132, 252, 0.42)",
+    glow: "0 0 28px rgba(168, 85, 247, 0.24)",
+    spark: "#C084FC",
   },
   {
-    id: "aq-3",
-    size: 48,
-    fromX: -60,
-    fromY: 48,
-    toX: -380,
-    toY: 180,
-    phase: 2.7,
-    hue: "rose",
+    id: "tb-3",
+    size: 96,
+    homeX: -355,
+    homeY: 165,
+    phase: 2.6,
+    popAt: 0.85,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(251, 207, 232, 0.48) 0%, rgba(124, 58, 237, 0.34) 52%, rgba(13, 18, 38, 0.76) 100%)",
+    border: "rgba(244, 114, 182, 0.38)",
+    glow: "0 0 32px rgba(236, 72, 153, 0.2)",
+    spark: "#F472B6",
   },
   {
-    id: "aq-4",
-    size: 36,
-    fromX: 68,
-    fromY: 50,
-    toX: 390,
-    toY: 170,
-    phase: 3.9,
-    hue: "blue",
+    id: "tb-4",
+    size: 78,
+    homeX: 375,
+    homeY: 158,
+    phase: 3.7,
+    popAt: 0.88,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(165, 243, 252, 0.5) 0%, rgba(29, 78, 216, 0.36) 50%, rgba(10, 15, 32, 0.76) 100%)",
+    border: "rgba(96, 165, 250, 0.4)",
+    glow: "0 0 28px rgba(56, 189, 248, 0.22)",
+    spark: "#38BDF8",
   },
   {
-    id: "aq-5",
-    size: 28,
-    fromX: -20,
-    fromY: -78,
-    toX: -190,
-    toY: -220,
-    phase: 4.8,
-    hue: "violet",
+    id: "tb-5",
+    size: 56,
+    homeX: -145,
+    homeY: -205,
+    phase: 4.6,
+    popAt: 0.91,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(216, 180, 254, 0.5) 0%, rgba(59, 130, 246, 0.32) 52%, rgba(12, 17, 36, 0.75) 100%)",
+    border: "rgba(167, 139, 250, 0.4)",
+    glow: "0 0 22px rgba(139, 92, 246, 0.22)",
+    spark: "#A78BFA",
   },
   {
-    id: "aq-6",
-    size: 32,
-    fromX: 30,
-    fromY: -76,
-    toX: 225,
-    toY: -210,
-    phase: 5.5,
-    hue: "rose",
+    id: "tb-6",
+    size: 64,
+    homeX: 165,
+    homeY: -195,
+    phase: 5.3,
+    popAt: 0.94,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(249, 168, 212, 0.48) 0%, rgba(99, 102, 241, 0.34) 52%, rgba(14, 16, 36, 0.76) 100%)",
+    border: "rgba(244, 114, 182, 0.38)",
+    glow: "0 0 24px rgba(236, 72, 153, 0.2)",
+    spark: "#F472B6",
   },
   {
-    id: "aq-7",
-    size: 34,
-    fromX: -28,
-    fromY: 80,
-    toX: -170,
-    toY: 220,
-    phase: 1.1,
-    hue: "blue",
+    id: "tb-7",
+    size: 60,
+    homeX: -135,
+    homeY: 205,
+    phase: 1.0,
+    popAt: 0.96,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(125, 211, 252, 0.5) 0%, rgba(139, 92, 246, 0.32) 52%, rgba(11, 16, 34, 0.76) 100%)",
+    border: "rgba(125, 211, 252, 0.38)",
+    glow: "0 0 22px rgba(59, 130, 246, 0.2)",
+    spark: "#60A5FA",
   },
   {
-    id: "aq-8",
-    size: 30,
-    fromX: 24,
-    fromY: 78,
-    toX: 210,
-    toY: 210,
-    phase: 2.1,
-    hue: "violet",
+    id: "tb-8",
+    size: 54,
+    homeX: 155,
+    homeY: 198,
+    phase: 2.0,
+    popAt: 0.985,
+    gradient:
+      "radial-gradient(circle at 30% 26%, rgba(196, 181, 253, 0.5) 0%, rgba(37, 99, 235, 0.34) 52%, rgba(10, 15, 32, 0.76) 100%)",
+    border: "rgba(167, 139, 250, 0.38)",
+    glow: "0 0 22px rgba(129, 140, 248, 0.22)",
+    spark: "#818CF8",
   },
 ];
 
-const AQUARIUM_HUES = {
-  blue: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(147, 197, 253, 0.45) 0%, rgba(59, 130, 246, 0.18) 58%, rgba(255, 255, 255, 0.06) 100%)",
-    border: "rgba(96, 165, 250, 0.34)",
-    spark: "#60A5FA",
-  },
-  violet: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(216, 180, 254, 0.45) 0%, rgba(139, 92, 246, 0.18) 58%, rgba(255, 255, 255, 0.06) 100%)",
-    border: "rgba(167, 139, 250, 0.34)",
-    spark: "#A78BFA",
-  },
-  rose: {
-    bg: "radial-gradient(circle at 32% 28%, rgba(251, 207, 232, 0.48) 0%, rgba(236, 72, 153, 0.15) 58%, rgba(255, 255, 255, 0.06) 100%)",
-    border: "rgba(244, 114, 182, 0.32)",
-    spark: "#F472B6",
-  },
-};
-
 const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
-  const [scrollT, setScrollT] = useState(0);
+  const particleCanvasRef = useRef(null);
+  const [sectionPass, setSectionPass] = useState(0);
   const [flowTime, setFlowTime] = useState(0);
-  const [poppedIds, setPoppedIds] = useState([]);
+  const [manualPoppedIds, setManualPoppedIds] = useState([]);
+  const [autoPoppedIds, setAutoPoppedIds] = useState([]);
   const [popBursts, setPopBursts] = useState([]);
+  const autoTriggeredRef = useRef([]);
   const burstCounterRef = useRef(0);
 
   useEffect(() => {
     if (reducedMotion) {
-      setFlowTime(1.4);
+      setFlowTime(1.5);
       return;
     }
 
     let rafId = null;
     const t0 = performance.now();
 
-    const step = (now) => {
+    const tick = (now) => {
       setFlowTime((now - t0) * 0.001);
-      rafId = window.requestAnimationFrame(step);
+      rafId = window.requestAnimationFrame(tick);
     };
 
-    rafId = window.requestAnimationFrame(step);
+    rafId = window.requestAnimationFrame(tick);
     return () => {
       if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [reducedMotion]);
 
+  // Berechnet, wie weit die Section durchlaufen wird (0 = Eintritt, ~0.8+ = Section verlässt das Bild)
   useEffect(() => {
     if (reducedMotion) {
-      setScrollT(0.65);
+      setSectionPass(0.35);
       return;
     }
 
     let rafId = null;
 
-    const updateFromScroll = () => {
+    const updatePass = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const sec = sectionRef?.current;
         if (sec) {
           const rect = sec.getBoundingClientRect();
           const vh = window.innerHeight || 1;
-          const totalTravel = rect.height + vh * 0.75;
-          const raw = clamp01(
-            (vh * 0.88 - rect.top) / Math.max(totalTravel, 1),
-          );
-          setScrollT(easeOutCubic(raw));
+          // 0 wenn Oberkante am unteren Rand ankommt, ~0.8+ wenn Section nach oben aus dem Bild gleitet
+          const totalDist = rect.height + vh;
+          const raw = clamp01((vh - rect.top) / Math.max(totalDist, 1));
+          setSectionPass(raw);
         }
         rafId = null;
       });
     };
 
-    window.addEventListener("scroll", updateFromScroll, { passive: true });
-    window.addEventListener("resize", updateFromScroll);
-    updateFromScroll();
+    window.addEventListener("scroll", updatePass, { passive: true });
+    window.addEventListener("resize", updatePass);
+    updatePass();
 
     return () => {
-      window.removeEventListener("scroll", updateFromScroll);
-      window.removeEventListener("resize", updateFromScroll);
+      window.removeEventListener("scroll", updatePass);
+      window.removeEventListener("resize", updatePass);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [sectionRef, reducedMotion]);
 
-  useEffect(() => {
-    if (poppedIds.length < AQUARIUM_BUBBLES.length) return;
-    const timer = window.setTimeout(() => {
-      setPoppedIds([]);
-    }, 3400);
-    return () => window.clearTimeout(timer);
-  }, [poppedIds.length]);
-
-  const handlePop = (e, spec, bx, by) => {
-    e.stopPropagation();
-    if (poppedIds.includes(spec.id)) return;
-
-    setPoppedIds((prev) => [...prev, spec.id]);
-
-    const burstId = `aq-burst-${burstCounterRef.current++}`;
-    const hue = AQUARIUM_HUES[spec.hue] || AQUARIUM_HUES.blue;
+  const spawnBurst = (x, y, size, color) => {
+    const burstId = `tb-burst-${burstCounterRef.current++}`;
     const sparks = Array.from({ length: 7 }, (_, i) => {
-      const ang = (i / 7) * Math.PI * 2 + 0.3;
-      const dist = 22 + (i % 3) * 8;
+      const ang = (i / 7) * Math.PI * 2 + 0.35;
+      const dist = 24 + (i % 3) * 9;
       return {
         dx: Math.cos(ang) * dist,
         dy: Math.sin(ang) * dist,
@@ -840,27 +835,142 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
 
     setPopBursts((prev) => [
       ...prev,
-      { id: burstId, x: bx, y: by, size: spec.size, color: hue.spark, sparks },
+      { id: burstId, x, y, size, color, sparks },
     ]);
-
     window.setTimeout(() => {
       setPopBursts((prev) => prev.filter((item) => item.id !== burstId));
-    }, 520);
+    }, 540);
   };
 
-  // Sehr ruhiger, fließender Hintergrund-Shift angelehnt an den Hero-Gradienten
-  const bgAx = Math.sin(flowTime * 0.14) * 34 + (scrollT - 0.5) * 36;
-  const bgAy = Math.cos(flowTime * 0.11) * 24 + (scrollT - 0.5) * 28;
-  const bgBx = Math.cos(flowTime * 0.13) * 38 - (scrollT - 0.5) * 32;
-  const bgBy = Math.sin(flowTime * 0.12) * 26 - (scrollT - 0.5) * 24;
+  // Wenn 80%+ erreicht sind und die Section aus dem Bild kommt, Bubbles sanft zerplatzen lassen
+  useEffect(() => {
+    if (reducedMotion || sectionPass < 0.78) return;
 
-  // Ruhige Scroll-Parallax- und Drift-Werte für die Sphäre
-  const driftX = Math.sin(flowTime * 0.24) * 18 + (scrollT - 0.5) * 44;
-  const driftY = Math.cos(flowTime * 0.19) * 14 + (scrollT - 0.5) * -32;
-  const orbRot = Math.sin(flowTime * 0.16) * 8 + (scrollT - 0.5) * 18;
-  const orbScale = 0.96 + scrollT * 0.06;
+    TECH_BUBBLES.forEach((spec) => {
+      if (
+        sectionPass >= spec.popAt &&
+        !autoTriggeredRef.current.includes(spec.id)
+      ) {
+        autoTriggeredRef.current = [...autoTriggeredRef.current, spec.id];
+        setAutoPoppedIds((prev) => [...prev, spec.id]);
 
-  const splitT = clamp01((scrollT - 0.12) / 0.8);
+        const wobbleX =
+          Math.sin(flowTime * 0.45 + spec.phase) * 16 +
+          (sectionPass - 0.5) * 48;
+        const wobbleY =
+          Math.cos(flowTime * 0.36 + spec.phase) * 14 +
+          (sectionPass - 0.5) * -36;
+        spawnBurst(
+          spec.homeX + wobbleX,
+          spec.homeY + wobbleY,
+          spec.size,
+          spec.spark,
+        );
+      }
+    });
+  }, [sectionPass, flowTime, reducedMotion]);
+
+  // Wenn man wieder in die Section zurückscrollt (< 0.55), zerplatzte Bubbles wieder sanft erscheinen lassen
+  useEffect(() => {
+    if (sectionPass < 0.55 && autoTriggeredRef.current.length > 0) {
+      autoTriggeredRef.current = [];
+      setAutoPoppedIds([]);
+    }
+  }, [sectionPass]);
+
+  // Sanfter Partikel-Canvas im Hintergrund
+  useEffect(() => {
+    const canvas = particleCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let frameId = null;
+    let w = 0;
+    let h = 0;
+
+    const particles = Array.from({ length: 34 }, (_, idx) => ({
+      nx: ((idx * 43) % 94) / 100 + 0.03,
+      ny: ((idx * 61) % 92) / 100 + 0.04,
+      r: 1 + (idx % 3) * 0.65,
+      vx: ((idx % 7) - 3) * 0.000045 || 0.00003,
+      vy: ((idx % 5) - 2) * 0.000035 || -0.000025,
+      phase: idx * 0.65,
+      tint:
+        idx % 3 === 0
+          ? "125, 211, 252"
+          : idx % 3 === 1
+            ? "192, 132, 252"
+            : "244, 114, 182",
+    }));
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      w = Math.max(1, parent.clientWidth);
+      h = Math.max(1, parent.clientHeight);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    const drawParticles = (nowMs) => {
+      const t = reducedMotion ? 1.2 : nowMs * 0.001;
+      ctx.clearRect(0, 0, w, h);
+
+      particles.forEach((pt) => {
+        if (!reducedMotion) {
+          pt.nx += pt.vx;
+          pt.ny += pt.vy;
+          if (pt.nx > 0.97) pt.nx = 0.03;
+          if (pt.nx < 0.03) pt.nx = 0.97;
+          if (pt.ny > 0.96) pt.ny = 0.04;
+          if (pt.ny < 0.04) pt.ny = 0.96;
+        }
+
+        const px = pt.nx * w + Math.sin(t * 0.5 + pt.phase) * 8;
+        const py = pt.ny * h + Math.cos(t * 0.4 + pt.phase) * 8;
+        const alpha = 0.22 + Math.sin(t * 0.9 + pt.phase) * 0.1;
+
+        ctx.beginPath();
+        ctx.arc(px, py, pt.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${pt.tint}, ${Math.max(0.08, alpha)})`;
+        ctx.fill();
+      });
+
+      if (!reducedMotion) {
+        frameId = window.requestAnimationFrame(drawParticles);
+      }
+    };
+
+    drawParticles(performance.now());
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      if (frameId) window.cancelAnimationFrame(frameId);
+    };
+  }, [reducedMotion]);
+
+  const handleManualPop = (e, spec, bx, by) => {
+    e.stopPropagation();
+    if (manualPoppedIds.includes(spec.id) || autoPoppedIds.includes(spec.id))
+      return;
+    setManualPoppedIds((prev) => [...prev, spec.id]);
+    spawnBurst(bx, by, spec.size, spec.spark);
+  };
+
+  // Smoothes Hintergrund-Movement im Hero-Farbschema
+  const gradShiftAx = Math.sin(flowTime * 0.16) * 44 + (sectionPass - 0.5) * 48;
+  const gradShiftAy =
+    Math.cos(flowTime * 0.13) * 32 + (sectionPass - 0.5) * -36;
+  const gradShiftBx = Math.cos(flowTime * 0.14) * 48 - (sectionPass - 0.5) * 42;
+  const gradShiftBy = Math.sin(flowTime * 0.12) * 34 + (sectionPass - 0.5) * 32;
+
+  const totalPopped = new Set([...manualPoppedIds, ...autoPoppedIds]).size;
 
   return (
     <div
@@ -868,161 +978,109 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
       <style>{`
-        @keyframes aqPopRing {
-          0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.75; }
-          100% { transform: translate(-50%, -50%) scale(1.85); opacity: 0; }
+        @keyframes tbPopRing {
+          0% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.85; }
+          100% { transform: translate(-50%, -50%) scale(2.05); opacity: 0; }
         }
-        @keyframes aqSparkFly {
-          0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 0.9; }
+        @keyframes tbSparkOut {
+          0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 1; }
           100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
         }
       `}</style>
 
-      {/* SANFT FLIEẞENDER SECTION-HINTERGRUND IM HERO-FARBSCHEMA (KOBALTBLAU · VIOLETT · ROSE) */}
+      {/* DUNKLES TECH-GRUNDTHEMA IM HERO-FARBSCHEMA */}
       <div
         style={{
           background:
-            "linear-gradient(135deg, rgba(245, 247, 252, 0.96) 0%, rgba(238, 242, 255, 0.92) 50%, rgba(248, 244, 253, 0.96) 100%)",
+            "linear-gradient(145deg, #05070F 0%, #091128 48%, #130B24 100%)",
         }}
         className="absolute inset-0"
       />
 
+      {/* SMOOTHE FARBVERLÄUFE (KOBALTBLAU · CYAN · VIOLETT · ZARTES ROSE) */}
       <div
         style={{
-          transform: `translate3d(${bgAx}px, ${bgAy}px, 0)`,
+          transform: `translate3d(${gradShiftAx}px, ${gradShiftAy}px, 0)`,
           background:
-            "radial-gradient(ellipse 62% 52% at 22% 30%, rgba(37, 99, 235, 0.085) 0%, rgba(96, 165, 250, 0.04) 55%, transparent 78%)",
+            "radial-gradient(ellipse 64% 54% at 24% 30%, rgba(37, 99, 235, 0.28) 0%, rgba(56, 189, 248, 0.12) 52%, transparent 78%)",
         }}
-        className="absolute -inset-20 will-change-transform"
+        className="absolute -inset-24 will-change-transform"
       />
 
       <div
         style={{
-          transform: `translate3d(${bgBx}px, ${bgBy}px, 0)`,
+          transform: `translate3d(${gradShiftBx}px, ${gradShiftBy}px, 0)`,
           background:
-            "radial-gradient(ellipse 64% 56% at 78% 68%, rgba(124, 58, 237, 0.08) 0%, rgba(244, 114, 182, 0.045) 56%, transparent 80%)",
+            "radial-gradient(ellipse 66% 58% at 78% 68%, rgba(124, 58, 237, 0.26) 0%, rgba(244, 114, 182, 0.12) 55%, transparent 80%)",
         }}
-        className="absolute -inset-20 will-change-transform"
+        className="absolute -inset-24 will-change-transform"
       />
 
-      {/* RUHIGER FILAMENT-ORB MIT SCROLL-PARALLAX */}
-      <div
-        style={{
-          transform: `translate3d(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px), 0) rotate(${orbRot}deg) scale(${orbScale})`,
-        }}
-        className="absolute left-1/2 top-1/2 w-[300px] h-[300px] sm:w-[390px] sm:h-[390px] will-change-transform opacity-65"
-      >
-        <div
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.11) 0%, rgba(139, 92, 246, 0.08) 54%, transparent 74%)",
-            filter: "blur(22px)",
-          }}
-          className="absolute -inset-6 rounded-full"
-        />
+      {/* SANFTES PARTIKEL-MOVEMENT */}
+      <canvas
+        ref={particleCanvasRef}
+        className="absolute inset-0 w-full h-full block opacity-85"
+      />
 
-        <svg
-          viewBox="0 0 400 400"
-          className="w-full h-full overflow-visible"
-          style={{
-            filter: "drop-shadow(0 0 12px rgba(99, 102, 241, 0.16))",
-          }}
-        >
-          <defs>
-            <linearGradient
-              id="mrSmoothFilamentA"
-              x1="15%"
-              y1="10%"
-              x2="85%"
-              y2="90%"
-            >
-              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.52" />
-              <stop offset="55%" stopColor="#8B5CF6" stopOpacity="0.44" />
-              <stop offset="100%" stopColor="#EC4899" stopOpacity="0.38" />
-            </linearGradient>
-            <linearGradient
-              id="mrSmoothFilamentB"
-              x1="85%"
-              y1="15%"
-              x2="15%"
-              y2="85%"
-            >
-              <stop offset="0%" stopColor="#A855F7" stopOpacity="0.45" />
-              <stop offset="60%" stopColor="#38BDF8" stopOpacity="0.38" />
-              <stop offset="100%" stopColor="#818CF8" stopOpacity="0.28" />
-            </linearGradient>
-          </defs>
+      {/* WOBBELNDE GRADIENT-BUBBLES (SCROLL-SMOOTH + ZERPLATZEN BEI ~80% EXIT) */}
+      {TECH_BUBBLES.map((spec) => {
+        const isPopped =
+          manualPoppedIds.includes(spec.id) || autoPoppedIds.includes(spec.id);
 
-          <circle
-            cx="200"
-            cy="200"
-            r="154"
-            fill="none"
-            stroke="url(#mrSmoothFilamentA)"
-            strokeWidth="1.2"
-            strokeOpacity="0.6"
-          />
+        // Leichtes, organisches Wobbeln beim Scrollen & Schweben
+        const scrollWobble = Math.sin(sectionPass * Math.PI * 2 + spec.phase);
+        const wobbleX =
+          Math.sin(flowTime * 0.42 + spec.phase) * 14 +
+          (sectionPass - 0.5) * 56 +
+          scrollWobble * 8;
+        const wobbleY =
+          Math.cos(flowTime * 0.34 + spec.phase) * 12 +
+          (sectionPass - 0.5) * -42 +
+          Math.cos(sectionPass * Math.PI * 2 + spec.phase) * 7;
 
-          <path
-            d="M 72 142 C 128 98, 220 118, 254 190 C 282 252, 214 330, 136 312"
-            fill="none"
-            stroke="url(#mrSmoothFilamentA)"
-            strokeWidth="1.45"
-            strokeLinecap="round"
-          />
-          <path
-            d="M 108 96 C 186 84, 286 138, 302 220 C 312 276, 244 344, 166 338"
-            fill="none"
-            stroke="url(#mrSmoothFilamentB)"
-            strokeWidth="1.15"
-            strokeLinecap="round"
-          />
-          <path
-            d="M 136 282 C 114 214, 168 134, 246 132 C 298 131, 332 186, 312 244"
-            fill="none"
-            stroke="url(#mrSmoothFilamentA)"
-            strokeWidth="1.05"
-            strokeLinecap="round"
-          />
-        </svg>
-      </div>
+        const r1 = Math.round(
+          50 + scrollWobble * 10 + Math.sin(flowTime * 0.7 + spec.phase) * 5,
+        );
+        const r2 = Math.round(
+          48 - scrollWobble * 9 + Math.cos(flowTime * 0.6 + spec.phase) * 5,
+        );
+        const r3 = Math.round(
+          52 + scrollWobble * 8 + Math.sin(flowTime * 0.5 + spec.phase) * 5,
+        );
+        const bubbleShape = `${r1}% ${100 - r1}% ${r2}% ${100 - r2}% / ${r3}% ${r1}% ${
+          100 - r1
+        }% ${100 - r3}%`;
 
-      {/* AQUARIUM-ARTIG VERTEILTE KUGELN BEIM SCROLLEN (KLICKBAR ZUM PLATZEN) */}
-      {AQUARIUM_BUBBLES.map((spec) => {
-        const isPopped = poppedIds.includes(spec.id);
-        const aqX = Math.sin(flowTime * 0.3 + spec.phase) * 14;
-        const aqY = Math.cos(flowTime * 0.25 + spec.phase) * 11;
+        const bx = spec.homeX + wobbleX;
+        const by = spec.homeY + wobbleY;
 
-        const bx = spec.fromX + (spec.toX - spec.fromX) * splitT + aqX;
-        const by = spec.fromY + (spec.toY - spec.fromY) * splitT + aqY;
-
-        const bScale = isPopped ? 0.15 : 0.7 + splitT * 0.3;
-        const bOpacity = isPopped ? 0 : clamp01(0.2 + splitT * 0.48);
-        const hue = AQUARIUM_HUES[spec.hue] || AQUARIUM_HUES.blue;
+        const scale = isPopped ? 0.12 : 0.94 + Math.abs(scrollWobble) * 0.08;
+        const opacity = isPopped ? 0 : 0.86;
 
         return (
           <button
             key={spec.id}
             type="button"
             tabIndex={-1}
-            onClick={(e) => handlePop(e, spec, bx, by)}
-            title="Kugel platzen lassen"
+            onClick={(e) => handleManualPop(e, spec, bx, by)}
+            title="Bubble platzen lassen"
             style={{
               width: `${spec.size}px`,
               height: `${spec.size}px`,
-              opacity: bOpacity,
-              pointerEvents: bOpacity > 0.25 && !isPopped ? "auto" : "none",
-              transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${bScale})`,
-              background: hue.bg,
-              border: `1px solid ${hue.border}`,
-              boxShadow: "inset 0 1px 5px rgba(255, 255, 255, 0.45)",
+              opacity,
+              pointerEvents: !isPopped ? "auto" : "none",
+              borderRadius: bubbleShape,
+              transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${scale})`,
+              background: spec.gradient,
+              border: `1px solid ${spec.border}`,
+              boxShadow: `inset 0 2px 10px rgba(255, 255, 255, 0.25), ${spec.glow}`,
             }}
-            className="absolute left-1/2 top-1/2 rounded-full cursor-pointer transition-[transform,opacity] duration-200 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[1px]"
+            className="absolute left-1/2 top-1/2 cursor-pointer transition-[transform,opacity] duration-250 ease-out hover:scale-110 active:scale-75 focus:outline-none backdrop-blur-[2px]"
           >
             <span
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255, 255, 255, 0.68) 0%, rgba(255, 255, 255, 0) 75%)",
+                  "radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
               className="block w-[34%] h-[20%] ml-[22%] mt-[20%] rounded-full -rotate-20 pointer-events-none"
             />
@@ -1030,7 +1088,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         );
       })}
 
-      {/* PLATZ-EFFEKT BEIM ANKLICKEN */}
+      {/* PLATZ-EFFEKT (RING + FUNKEN) */}
       {popBursts.map((burst) => (
         <div
           key={burst.id}
@@ -1045,7 +1103,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
               height: `${burst.size}px`,
               border: `1.5px solid ${burst.color}`,
               animation:
-                "aqPopRing 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                "tbPopRing 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
             }}
             className="block rounded-full"
           />
@@ -1059,7 +1117,7 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
                 "--dx": `${sp.dx}px`,
                 "--dy": `${sp.dy}px`,
                 animation:
-                  "aqSparkFly 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                  "tbSparkOut 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
               }}
               className="block rounded-full"
             />
@@ -1067,9 +1125,9 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
         </div>
       ))}
 
-      {poppedIds.length > 0 && (
-        <div className="absolute bottom-4 right-5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-[#E4E4E7] text-[11px] font-mono font-semibold text-[#52525B]">
-          Kugeln geplatzt: {poppedIds.length}/{AQUARIUM_BUBBLES.length}
+      {totalPopped > 0 && (
+        <div className="absolute bottom-4 right-5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-mono font-semibold text-white/80">
+          Bubbles geplatzt: {totalPopped}/{TECH_BUBBLES.length}
         </div>
       )}
     </div>
@@ -1632,6 +1690,7 @@ const HeadlineFlow = ({
   title,
   as: Tag = "h2",
   titleClassName = "mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]",
+  kickerClassName = "block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B]",
   reducedMotion = false,
 }) => {
   const [shown, setShown] = useState(Boolean(reducedMotion));
@@ -1669,7 +1728,7 @@ const HeadlineFlow = ({
         <div className="overflow-hidden">
           <span
             style={{ transitionDelay: reducedMotion ? "0ms" : "40ms" }}
-            className={`block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] ${
+            className={`${kickerClassName} ${
               reducedMotion
                 ? "opacity-100 translate-y-0"
                 : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -2586,7 +2645,7 @@ export default function App() {
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#F5F5F7] py-16 sm:py-24 overflow-hidden"
+        className="relative bg-[#05070F] text-white py-16 sm:py-24 overflow-hidden"
       >
         <MotivationScrollSphere
           sectionRef={motivationSectionRef}
@@ -2597,6 +2656,7 @@ export default function App() {
           <div className="mb-8">
             <HeadlineFlow
               kicker="02 / Motivation"
+              kickerClassName="block text-[11px] font-bold uppercase tracking-[0.2em] text-white/65"
               reducedMotion={reducedMotion}
             />
           </div>
@@ -2608,7 +2668,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-[#0B0B0C]/95 backdrop-blur-md text-white p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div className="h-full rounded-[28px] bg-[#0B1022]/85 backdrop-blur-md border border-white/12 text-white p-7 sm:p-9 flex flex-col justify-between shadow-lg">
                 <div>
                   <TextReveal delay={110} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-7">
@@ -2621,7 +2681,7 @@ export default function App() {
                     yOffset={10}
                     reducedMotion={reducedMotion}
                   >
-                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#93C5FD]">
                       Datenprodukte &amp; AI Engineering
                     </span>
                   </TextReveal>
@@ -2668,7 +2728,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <div className="h-full rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col justify-between shadow-sm">
+              <div className="h-full rounded-[28px] bg-white/95 backdrop-blur-md border border-white/20 p-7 sm:p-9 flex flex-col justify-between shadow-lg">
                 <div>
                   <TextReveal delay={180} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
@@ -2728,7 +2788,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-12"
             >
-              <div className="rounded-[28px] bg-white/90 backdrop-blur-md border border-[#E4E4E7]/90 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-sm">
+              <div className="rounded-[28px] bg-white/95 backdrop-blur-md border border-white/20 p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-lg">
                 <div className="max-w-3xl">
                   <TextReveal delay={240} reducedMotion={reducedMotion}>
                     <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
