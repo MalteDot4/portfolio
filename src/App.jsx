@@ -820,7 +820,7 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
 
       <div
         role="tooltip"
-        className={`pointer-events-none absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2.5 z-30 w-[235px] sm:w-[255px] px-3.5 py-2.5 rounded-2xl rounded-br-xs sm:rounded-bl-xs bg-[#0B0B0C] text-white shadow-[0_12px_28px_-6px_rgba(11,11,12,0.32)] border border-white/15 ${
+        className={`pointer-events-none absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2.5 z-30 w-[235px] sm:w-[255px] max-w-[calc(100vw-2rem)] px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-[#0B0B0C] text-white shadow-[0_12px_28px_-6px_rgba(11,11,12,0.32)] border border-white/15 ${
           reducedMotion
             ? hovered
               ? "opacity-100"
@@ -2028,7 +2028,6 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
     let width = 0;
     let height = 0;
 
-    // Organically staggered, asymmetrical coordinates inspired by fluid marble pockets
     const nodes = [
       {
         nx: 0.04,
@@ -2292,7 +2291,6 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Screenshot-inspired blues, slate-steel, midnight navy & soft periwinkle/ice highlights
     const getPalette = (tint) => {
       if (tint === "cobalt") {
         return {
@@ -2354,7 +2352,6 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         const pulse = reducedMotion
           ? 1
           : 0.84 + 0.28 * Math.sin(t * (1.1 + n.alphaSpeed * 0.45) + n.phase);
-        // Animated transparency wave per node
         const nodeAlpha = reducedMotion
           ? 0.88
           : 0.44 +
@@ -2382,7 +2379,6 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
 
           if (dist < linkThreshold) {
             const proximity = Math.pow(1 - dist / linkThreshold, 0.72);
-            // Animated transparency breathing along each connection edge
             const edgeWave = reducedMotion
               ? 0.82
               : 0.26 +
@@ -2486,7 +2482,6 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
-      {/* Cool blue-slate-periwinkle undertone inspired by the screenshot */}
       <div
         style={{
           background:
@@ -2513,20 +2508,58 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
   );
 };
 
-const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
+/* ON MOBILE: ONLY LIGHT CARDS ANIMATED TO WHITE WHEN IN VIEWPORT (DARK CARD STAYS DARK) */
+const AppleLiquidCard = ({
+  children,
+  variant = "dark",
+  className = "",
+  isMobileView = false,
+}) => {
+  const cardRef = useRef(null);
+  const [inViewMobile, setInViewMobile] = useState(false);
   const isDark = variant === "dark";
+
+  useEffect(() => {
+    if (!isMobileView || isDark) {
+      setInViewMobile(false);
+      return;
+    }
+
+    const node = cardRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") {
+      setInViewMobile(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInViewMobile(entry.isIntersecting);
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [isMobileView, isDark]);
+
+  const mobileWhiteActive = !isDark && isMobileView && inViewMobile;
 
   return (
     <div
+      ref={cardRef}
       style={{
         boxShadow: isDark
           ? "0 22px 48px -18px rgba(11, 11, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18)"
-          : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
+          : mobileWhiteActive
+            ? "0 20px 42px -16px rgba(15, 23, 42, 0.14), 0 2px 6px -1px rgba(15, 23, 42, 0.05), inset 0 1.5px 0 rgba(255, 255, 255, 1)"
+            : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
       }}
-      className={`group relative overflow-hidden rounded-[28px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
+      className={`group relative overflow-hidden rounded-[28px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
         isDark
           ? "bg-[#0B0B0C] border border-white/14 text-white hover:border-white/24"
-          : "bg-white/92 backdrop-blur-xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
+          : mobileWhiteActive
+            ? "bg-white border border-white text-[#0B0B0C]"
+            : "bg-white/92 backdrop-blur-xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
       } ${className}`}
     >
       <div
@@ -2534,9 +2567,11 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         style={{
           background: isDark
             ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.34) 38%, rgba(216, 180, 254, 0.28) 72%, transparent 100%)"
-            : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)",
+            : mobileWhiteActive
+              ? "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)"
+              : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%)",
         }}
-        className="pointer-events-none absolute inset-x-0 top-0 h-[1px]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[1px] transition-opacity duration-700"
       />
 
       <div
@@ -2544,9 +2579,11 @@ const AppleLiquidCard = ({ children, variant = "dark", className = "" }) => {
         style={{
           background: isDark
             ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.18) 0%, transparent 58%)"
-            : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.9) 0%, transparent 65%)",
+            : mobileWhiteActive
+              ? "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.95) 0%, transparent 65%)"
+              : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.72) 0%, transparent 65%)",
         }}
-        className="pointer-events-none absolute inset-0 transition-opacity duration-500 group-hover:opacity-100 opacity-85"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-700 group-hover:opacity-100 opacity-85"
       />
 
       <div className="relative z-10 h-full">{children}</div>
@@ -3332,7 +3369,7 @@ const InteractiveProjectColumn = ({
       tabIndex={0}
       aria-expanded={isExpanded}
       aria-label={`${project.title} – Steckbrief öffnen oder anpinnen`}
-      className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] border-t md:border-t-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[340px] sm:min-h-[390px] ${
+      className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] rounded-3xl md:rounded-none border md:border-t-0 md:border-b-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[320px] sm:min-h-[390px] ${
         reducedMotion
           ? "bg-[#FFFFFF]"
           : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -3917,7 +3954,7 @@ export default function App() {
           </div>
 
           <RevealBlock delay={80} reducedMotion={reducedMotion}>
-            <div className="grid grid-cols-1 md:grid-cols-3 rounded-3xl border border-[#E4E4E7] overflow-hidden bg-white shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:rounded-3xl md:border md:border-[#E4E4E7] md:overflow-hidden md:bg-white md:shadow-sm">
               {TIMELINE_PROJECTS.map((project) => (
                 <InteractiveProjectColumn
                   key={project.id}
@@ -3962,7 +3999,11 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <AppleLiquidCard variant="dark" className="h-full">
+              <AppleLiquidCard
+                variant="dark"
+                isMobileView={isMobileView}
+                className="h-full"
+              >
                 <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
                   <div>
                     <TextReveal delay={110} reducedMotion={reducedMotion}>
@@ -4024,7 +4065,11 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-6"
             >
-              <AppleLiquidCard variant="liquid" className="h-full">
+              <AppleLiquidCard
+                variant="liquid"
+                isMobileView={isMobileView}
+                className="h-full"
+              >
                 <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
                   <div>
                     <TextReveal delay={180} reducedMotion={reducedMotion}>
@@ -4086,7 +4131,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-12"
             >
-              <AppleLiquidCard variant="liquid">
+              <AppleLiquidCard variant="liquid" isMobileView={isMobileView}>
                 <div className="p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                   <div className="max-w-3xl">
                     <TextReveal delay={240} reducedMotion={reducedMotion}>
