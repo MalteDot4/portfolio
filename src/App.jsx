@@ -647,279 +647,381 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* WOBBELNDE & IN BLASEN AUFSPALTENDE TRANSITION-SPHÄRE IM HINTERGRUND DER MOTIVATION-SECTION */
-const SATELLITE_BUBBLES = [
+/* MINIMALER HINTERGRUND + DAUERHAFT LANGSAM FLOWENDER ORB + BEIM SCROLLEN SPLITTEN KLEINERE BLASEN AB (PER KLICK PLATZBAR ALS EASTER EGG) */
+const SPLIT_BUBBLE_SPECS = [
   {
-    id: "b1",
-    size: 168,
-    baseX: -245,
-    baseY: -135,
-    spreadX: -125,
-    spreadY: -85,
-    angle: -0.7,
-    gradient:
-      "radial-gradient(circle at 30% 28%, rgba(244, 114, 182, 0.34), rgba(168, 85, 247, 0.22) 55%, rgba(59, 130, 246, 0.06) 85%, transparent 100%)",
-    borderColor: "rgba(216, 180, 254, 0.55)",
+    id: "orb-mini-1",
+    size: 56,
+    anchorX: -120,
+    anchorY: -78,
+    driftX: -145,
+    driftY: -96,
+    phase: 0.4,
+    hue: "cyan",
   },
   {
-    id: "b2",
-    size: 132,
-    baseX: 255,
-    baseY: -115,
-    spreadX: 135,
-    spreadY: -75,
-    angle: 1.4,
-    gradient:
-      "radial-gradient(circle at 32% 30%, rgba(147, 197, 253, 0.36), rgba(99, 102, 241, 0.22) 58%, rgba(168, 85, 247, 0.06) 85%, transparent 100%)",
-    borderColor: "rgba(147, 197, 253, 0.55)",
+    id: "orb-mini-2",
+    size: 44,
+    anchorX: 132,
+    anchorY: -64,
+    driftX: 155,
+    driftY: -88,
+    phase: 1.7,
+    hue: "violet",
   },
   {
-    id: "b3",
-    size: 196,
-    baseX: -220,
-    baseY: 155,
-    spreadX: -115,
-    spreadY: 105,
-    angle: 2.3,
-    gradient:
-      "radial-gradient(circle at 35% 30%, rgba(192, 132, 252, 0.32), rgba(236, 72, 153, 0.18) 58%, rgba(59, 130, 246, 0.05) 85%, transparent 100%)",
-    borderColor: "rgba(244, 114, 182, 0.48)",
+    id: "orb-mini-3",
+    size: 64,
+    anchorX: -110,
+    anchorY: 88,
+    driftX: -138,
+    driftY: 112,
+    phase: 2.9,
+    hue: "indigo",
   },
   {
-    id: "b4",
-    size: 148,
-    baseX: 235,
-    baseY: 160,
-    spreadX: 130,
-    spreadY: 95,
-    angle: 3.9,
-    gradient:
-      "radial-gradient(circle at 28% 28%, rgba(244, 114, 182, 0.3), rgba(59, 130, 246, 0.22) 60%, transparent 90%)",
-    borderColor: "rgba(168, 85, 247, 0.46)",
+    id: "orb-mini-4",
+    size: 48,
+    anchorX: 124,
+    anchorY: 92,
+    driftX: 148,
+    driftY: 108,
+    phase: 4.1,
+    hue: "cyan",
   },
   {
-    id: "b5",
-    size: 88,
-    baseX: 15,
-    baseY: -250,
-    spreadX: 24,
-    spreadY: -120,
-    angle: 5.1,
-    gradient:
-      "radial-gradient(circle at 35% 30%, rgba(196, 181, 253, 0.42), rgba(59, 130, 246, 0.18) 70%, transparent 100%)",
-    borderColor: "rgba(196, 181, 253, 0.6)",
+    id: "orb-mini-5",
+    size: 38,
+    anchorX: 18,
+    anchorY: -135,
+    driftX: 34,
+    driftY: -138,
+    phase: 5.2,
+    hue: "violet",
   },
   {
-    id: "b6",
-    size: 104,
-    baseX: -25,
-    baseY: 245,
-    spreadX: -32,
-    spreadY: 118,
-    angle: 0.9,
-    gradient:
-      "radial-gradient(circle at 30% 30%, rgba(251, 207, 232, 0.38), rgba(168, 85, 247, 0.2) 68%, transparent 100%)",
-    borderColor: "rgba(244, 114, 182, 0.52)",
+    id: "orb-mini-6",
+    size: 42,
+    anchorX: -24,
+    anchorY: 136,
+    driftX: -38,
+    driftY: 134,
+    phase: 0.9,
+    hue: "indigo",
   },
 ];
 
-const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
-  const [spin, setSpin] = useState(0);
-  const [scrollImpulse, setScrollImpulse] = useState(0);
-  const [tick, setTick] = useState(0);
-  const lastScrollYRef = useRef(0);
-  const impulseRef = useRef(0);
+const ORB_BUBBLE_STYLES = {
+  cyan: {
+    surface:
+      "radial-gradient(circle at 30% 25%, rgba(165, 243, 252, 0.85) 0%, rgba(56, 189, 248, 0.52) 38%, rgba(30, 58, 138, 0.78) 82%, rgba(15, 23, 42, 0.92) 100%)",
+    ring: "rgba(125, 211, 252, 0.72)",
+    glow: "0 10px 24px -6px rgba(14, 165, 233, 0.35)",
+    sparkColor: "#38BDF8",
+  },
+  violet: {
+    surface:
+      "radial-gradient(circle at 30% 25%, rgba(233, 213, 255, 0.85) 0%, rgba(168, 85, 247, 0.54) 40%, rgba(59, 7, 100, 0.8) 84%, rgba(15, 23, 42, 0.92) 100%)",
+    ring: "rgba(216, 180, 254, 0.72)",
+    glow: "0 10px 24px -6px rgba(168, 85, 247, 0.35)",
+    sparkColor: "#C084FC",
+  },
+  indigo: {
+    surface:
+      "radial-gradient(circle at 30% 25%, rgba(199, 210, 254, 0.82) 0%, rgba(99, 102, 241, 0.5) 42%, rgba(23, 37, 84, 0.82) 84%, rgba(9, 13, 22, 0.94) 100%)",
+    ring: "rgba(165, 180, 252, 0.68)",
+    glow: "0 10px 24px -6px rgba(99, 102, 241, 0.32)",
+    sparkColor: "#818CF8",
+  },
+};
 
+const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
+  const [scrollSplit, setScrollSplit] = useState(0);
+  const [flowTime, setFlowTime] = useState(0);
+  const [poppedIds, setPoppedIds] = useState([]);
+  const [popBursts, setPopBursts] = useState([]);
+  const burstIdCounterRef = useRef(0);
+
+  // Kontinuierlicher, langsamer Flow des Haupt-Orbs & der abgesplitteten Blasen
   useEffect(() => {
     if (reducedMotion) {
-      setSpin(0.45);
-      setScrollImpulse(0.2);
+      setFlowTime(1.4);
       return;
     }
 
     let rafId = null;
-    let decayId = null;
+    const t0 = performance.now();
 
-    const decayLoop = () => {
-      if (Math.abs(impulseRef.current) > 0.002) {
-        impulseRef.current *= 0.88;
-        setScrollImpulse(impulseRef.current);
-        decayId = window.requestAnimationFrame(decayLoop);
-      } else {
-        impulseRef.current = 0;
-        setScrollImpulse(0);
-        decayId = null;
-      }
+    const tick = (now) => {
+      setFlowTime((now - t0) * 0.001);
+      rafId = window.requestAnimationFrame(tick);
     };
 
-    const updateFromScroll = () => {
+    rafId = window.requestAnimationFrame(tick);
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [reducedMotion]);
+
+  // Scroll-Anteil steuert das Absplittern der kleineren Blasen
+  useEffect(() => {
+    if (reducedMotion) {
+      setScrollSplit(0.75);
+      return;
+    }
+
+    let rafId = null;
+
+    const updateSplit = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
-        const currentY = window.scrollY;
-        const deltaY = currentY - lastScrollYRef.current;
-        lastScrollYRef.current = currentY;
-
         const sec = sectionRef?.current;
         if (sec) {
           const rect = sec.getBoundingClientRect();
           const vh = window.innerHeight || 1;
-          const totalTravel = rect.height + vh;
-          const p = clamp01((vh - rect.top) / Math.max(totalTravel, 1));
-          setSpin(p);
-          setTick((t) => t + 1);
-
-          const clampedDelta = Math.max(-65, Math.min(65, deltaY));
-          impulseRef.current = Math.max(
-            -1,
-            Math.min(1, impulseRef.current * 0.55 + clampedDelta / 48),
+          const totalTravel = rect.height + vh * 0.75;
+          const raw = clamp01(
+            (vh * 0.85 - rect.top) / Math.max(totalTravel, 1),
           );
-          setScrollImpulse(impulseRef.current);
-
-          if (!decayId) {
-            decayId = window.requestAnimationFrame(decayLoop);
-          }
+          setScrollSplit(easeOutCubic(raw));
         }
         rafId = null;
       });
     };
 
-    lastScrollYRef.current = window.scrollY;
-    window.addEventListener("scroll", updateFromScroll, { passive: true });
-    window.addEventListener("resize", updateFromScroll);
-    updateFromScroll();
+    window.addEventListener("scroll", updateSplit, { passive: true });
+    window.addEventListener("resize", updateSplit);
+    updateSplit();
 
     return () => {
-      window.removeEventListener("scroll", updateFromScroll);
-      window.removeEventListener("resize", updateFromScroll);
+      window.removeEventListener("scroll", updateSplit);
+      window.removeEventListener("resize", updateSplit);
       if (rafId) window.cancelAnimationFrame(rafId);
-      if (decayId) window.cancelAnimationFrame(decayId);
     };
   }, [sectionRef, reducedMotion]);
 
-  // Split-Kurve: in der Mitte der Section spaltet sich die Sphäre in Blasen auf und zieht sich nach außen
-  const splitFactor = Math.sin(spin * Math.PI);
-  const wobbleAmp =
-    0.055 + splitFactor * 0.085 + Math.abs(scrollImpulse) * 0.075;
-  const phase = spin * Math.PI * 3.2 + tick * 0.09 + scrollImpulse * 1.4;
+  // Wenn alle Blasen geplatzt sind, nach 3,2s frisch nachwachsen lassen
+  useEffect(() => {
+    if (poppedIds.length < SPLIT_BUBBLE_SPECS.length) return;
+    const resetTimer = window.setTimeout(() => {
+      setPoppedIds([]);
+    }, 3200);
+    return () => window.clearTimeout(resetTimer);
+  }, [poppedIds.length]);
 
-  // Organisches Wobbeln der Haupt-Radius-Werte
-  const r1 = Math.round(52 + Math.sin(phase) * wobbleAmp * 110);
-  const r2 = Math.round(48 + Math.cos(phase * 1.15 + 1.1) * wobbleAmp * 115);
-  const r3 = Math.round(54 + Math.sin(phase * 0.9 + 2.2) * wobbleAmp * 105);
-  const r4 = Math.round(46 + Math.cos(phase * 1.25 + 3.4) * wobbleAmp * 115);
-  const r5 = Math.round(50 + Math.sin(phase * 1.05 + 0.6) * wobbleAmp * 110);
-  const r6 = Math.round(49 + Math.cos(phase * 0.85 + 1.9) * wobbleAmp * 110);
-  const r7 = Math.round(53 + Math.sin(phase * 1.2 + 2.8) * wobbleAmp * 105);
-  const r8 = Math.round(47 + Math.cos(phase * 0.95 + 4.0) * wobbleAmp * 115);
+  const handlePopBubble = (e, spec, bx, by) => {
+    e.stopPropagation();
+    if (poppedIds.includes(spec.id)) return;
 
-  const organicRadius = `${r1}% ${100 - r1}% ${r3}% ${100 - r3}% / ${r5}% ${r6}% ${100 - r6}% ${100 - r5}%`;
+    setPoppedIds((prev) => [...prev, spec.id]);
 
-  const stretchX =
-    1 + Math.sin(phase * 1.3) * wobbleAmp * 0.55 - scrollImpulse * 0.04;
-  const stretchY =
-    1 + Math.cos(phase * 1.1) * wobbleAmp * 0.55 + scrollImpulse * 0.04;
-  const rotationDeg = -28 + spin * 145 + scrollImpulse * 10;
-  const mainScale = 0.96 - splitFactor * 0.14 + Math.sin(spin * Math.PI) * 0.06;
-  const translateY = (0.5 - spin) * 56 + scrollImpulse * 14;
-  const translateX = (spin - 0.5) * 38;
+    const burstId = `burst-${burstIdCounterRef.current++}`;
+    const style = ORB_BUBBLE_STYLES[spec.hue] || ORB_BUBBLE_STYLES.cyan;
+    const sparks = Array.from({ length: 8 }, (_, idx) => {
+      const angle = (idx / 8) * Math.PI * 2 + 0.25;
+      const dist = 26 + (idx % 3) * 10;
+      return {
+        dx: Math.cos(angle) * dist,
+        dy: Math.sin(angle) * dist,
+        size: idx % 2 === 0 ? 6 : 4,
+      };
+    });
+
+    setPopBursts((prev) => [
+      ...prev,
+      {
+        id: burstId,
+        x: bx,
+        y: by,
+        size: spec.size,
+        color: style.sparkColor,
+        sparks,
+      },
+    ]);
+
+    window.setTimeout(() => {
+      setPopBursts((prev) => prev.filter((item) => item.id !== burstId));
+    }, 560);
+  };
+
+  // Sanfter, langsamer organischer Flow (ähnlich einem schwebenden Glaskugel-Orb)
+  const slowX = Math.sin(flowTime * 0.42) * 18;
+  const slowY = Math.cos(flowTime * 0.34) * 14;
+  const slowRot = Math.sin(flowTime * 0.25) * 8;
+  const breathe = 1 + Math.sin(flowTime * 0.55) * 0.025;
+
+  const rA = Math.round(50 + Math.sin(flowTime * 0.5) * 4);
+  const rB = Math.round(49 + Math.cos(flowTime * 0.44 + 1.2) * 4);
+  const rC = Math.round(51 + Math.sin(flowTime * 0.38 + 2.4) * 4);
+  const orbRadius = `${rA}% ${100 - rA}% ${rB}% ${100 - rB}% / ${rC}% ${rA}% ${100 - rA}% ${100 - rC}%`;
+
+  const splitProgress = clamp01((scrollSplit - 0.12) / 0.78);
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
-      {/* WOBBELNDE HAUPT-SPHÄRE */}
+      <style>{`
+        @keyframes mrBubblePopRing {
+          0% { transform: translate(-50%, -50%) scale(0.65); opacity: 0.9; }
+          100% { transform: translate(-50%, -50%) scale(1.95); opacity: 0; }
+        }
+        @keyframes mrBubbleSparkOut {
+          0% { transform: translate(-50%, -50%) translate(0px, 0px) scale(1); opacity: 1; }
+          100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+      `}</style>
+
+      {/* MINIMALER HELLE HINTERGRUND-SCHIMMER */}
       <div
         style={{
-          transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotationDeg}deg) scale(${
-            mainScale * stretchX
-          }, ${mainScale * stretchY})`,
+          background:
+            "radial-gradient(circle at 50% 48%, rgba(56, 189, 248, 0.09) 0%, rgba(168, 85, 247, 0.07) 36%, rgba(245, 245, 247, 0) 70%)",
         }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[430px] h-[430px] sm:w-[600px] sm:h-[600px] will-change-transform transition-transform duration-150 ease-out"
+        className="absolute inset-0"
+      />
+
+      {/* LANGSAM FLOWENDER GLASKUGEL-ORB */}
+      <div
+        style={{
+          transform: `translate3d(calc(-50% + ${slowX}px), calc(-50% + ${slowY}px), 0) rotate(${slowRot}deg) scale(${breathe})`,
+        }}
+        className="absolute left-1/2 top-1/2 w-[300px] h-[300px] sm:w-[410px] sm:h-[410px] will-change-transform"
       >
+        {/* Äußerer weicher Farb-Schimmer */}
         <div
           style={{
-            borderRadius: organicRadius,
+            borderRadius: orbRadius,
             background:
-              "conic-gradient(from 140deg at 50% 50%, rgba(168, 85, 247, 0.46), rgba(59, 130, 246, 0.38), rgba(236, 72, 153, 0.4), rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.46))",
-            WebkitMask:
-              "radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
-            mask: "radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
+              "radial-gradient(circle at 68% 26%, rgba(56, 189, 248, 0.28) 0%, rgba(99, 102, 241, 0.2) 48%, rgba(168, 85, 247, 0.16) 76%, transparent 100%)",
+            filter: "blur(18px)",
           }}
-          className="w-full h-full opacity-90 transition-[border-radius] duration-150 ease-out"
+          className="absolute -inset-6 opacity-85"
         />
 
+        {/* Tief glänzender Sphären-Körper im minimalistischen Stil */}
         <div
           style={{
-            borderRadius: `${r2}% ${100 - r2}% ${r4}% ${100 - r4}% / ${r7}% ${r8}% ${100 - r8}% ${100 - r7}%`,
+            borderRadius: orbRadius,
             background:
-              "radial-gradient(circle at 32% 24%, rgba(147, 197, 253, 0.24) 0%, rgba(192, 132, 252, 0.14) 46%, rgba(255, 255, 255, 0) 74%)",
+              "radial-gradient(circle at 66% 24%, rgba(125, 211, 252, 0.42) 0%, rgba(37, 99, 235, 0.34) 26%, rgba(15, 23, 42, 0.88) 66%, rgba(9, 13, 24, 0.96) 100%)",
+            boxShadow:
+              "inset -16px -18px 36px rgba(168, 85, 247, 0.28), inset 10px 12px 26px rgba(186, 230, 253, 0.24), 0 24px 60px -18px rgba(15, 23, 42, 0.22)",
           }}
-          className="absolute inset-3 transition-[border-radius] duration-150 ease-out"
-        />
+          className="relative w-full h-full overflow-hidden border border-white/40"
+        >
+          {/* Subtile Lichtbrechung im Inneren */}
+          <div
+            style={{
+              background:
+                "radial-gradient(ellipse 68% 36% at 32% 22%, rgba(255, 255, 255, 0.26) 0%, rgba(147, 197, 253, 0.08) 55%, transparent 100%)",
+            }}
+            className="absolute inset-0"
+          />
 
-        <div
-          style={{
-            borderRadius: organicRadius,
-            background:
-              "radial-gradient(ellipse 38% 14% at 68% 12%, rgba(244, 114, 182, 0.58), rgba(129, 140, 248, 0.26) 62%, transparent 100%)",
-          }}
-          className="absolute inset-0 blur-[1px] transition-[border-radius] duration-150 ease-out"
-        />
+          {/* Feiner Glanzpunkt oben links */}
+          <div
+            style={{
+              background:
+                "radial-gradient(circle, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 70%)",
+            }}
+            className="absolute top-[14%] left-[22%] w-[24%] h-[14%] -rotate-25 blur-[2px]"
+          />
+        </div>
       </div>
 
-      {/* AUFSPALTENDE SATELLITEN-BLASEN */}
-      {SATELLITE_BUBBLES.map((bubble, idx) => {
-        const bubblePhase = phase * 1.2 + bubble.angle;
-        const bWobble =
-          0.08 + splitFactor * 0.1 + Math.abs(scrollImpulse) * 0.09;
-        const brA = Math.round(50 + Math.sin(bubblePhase) * bWobble * 120);
-        const brB = Math.round(
-          48 + Math.cos(bubblePhase * 1.3 + idx) * bWobble * 120,
-        );
-        const bubbleRadius = `${brA}% ${100 - brA}% ${brB}% ${100 - brB}% / ${brB}% ${brA}% ${100 - brA}% ${100 - brB}%`;
+      {/* BEIM SCROLLEN ABSPLITTENDE KLEINERE BLASEN (KLICKBAR ZUM PLATZEN) */}
+      {SPLIT_BUBBLE_SPECS.map((spec) => {
+        const isPopped = poppedIds.includes(spec.id);
+        const floatX = Math.sin(flowTime * 0.65 + spec.phase) * 9;
+        const floatY = Math.cos(flowTime * 0.55 + spec.phase) * 9;
 
-        const bx =
-          bubble.baseX +
-          bubble.spreadX * splitFactor +
-          Math.cos(bubblePhase) * (10 + splitFactor * 16) +
-          scrollImpulse * (idx % 2 === 0 ? 12 : -12);
-        const by =
-          bubble.baseY +
-          bubble.spreadY * splitFactor +
-          Math.sin(bubblePhase * 1.1) * (10 + splitFactor * 16) +
-          scrollImpulse * 10;
+        const startX = spec.anchorX * 0.42;
+        const startY = spec.anchorY * 0.42;
+        const targetX = spec.driftX;
+        const targetY = spec.driftY;
 
-        const bScale =
-          (0.55 + splitFactor * 0.55) *
-          (1 + Math.sin(bubblePhase) * bWobble * 0.45);
-        const bOpacity = clamp01(0.22 + splitFactor * 0.78);
+        const bx = startX + (targetX - startX) * splitProgress + floatX;
+        const by = startY + (targetY - startY) * splitProgress + floatY;
+
+        const bScale = isPopped ? 0.1 : 0.45 + splitProgress * 0.58;
+        const bOpacity = isPopped ? 0 : clamp01((splitProgress - 0.04) * 1.6);
+        const style = ORB_BUBBLE_STYLES[spec.hue] || ORB_BUBBLE_STYLES.cyan;
 
         return (
-          <div
-            key={bubble.id}
+          <button
+            key={spec.id}
+            type="button"
+            tabIndex={-1}
+            onClick={(e) => handlePopBubble(e, spec, bx, by)}
+            title="Blase platzen lassen"
             style={{
-              width: `${bubble.size}px`,
-              height: `${bubble.size}px`,
+              width: `${spec.size}px`,
+              height: `${spec.size}px`,
               opacity: bOpacity,
-              transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${bScale}) rotate(${
-                Math.sin(bubblePhase) * 14
-              }deg)`,
+              pointerEvents: bOpacity > 0.25 && !isPopped ? "auto" : "none",
+              transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${bScale})`,
+              background: style.surface,
+              border: `1px solid ${style.ring}`,
+              boxShadow: style.glow,
             }}
-            className="absolute left-1/2 top-1/2 will-change-transform transition-transform duration-150 ease-out"
+            className="group absolute left-1/2 top-1/2 rounded-full cursor-pointer transition-[transform,opacity] duration-200 ease-out hover:scale-110 active:scale-75 focus:outline-none"
           >
-            <div
+            <span
               style={{
-                borderRadius: bubbleRadius,
-                background: bubble.gradient,
-                border: `1px solid ${bubble.borderColor}`,
-                boxShadow: "inset 0 0 18px rgba(255, 255, 255, 0.35)",
+                background:
+                  "radial-gradient(circle, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 75%)",
               }}
-              className="w-full h-full backdrop-blur-[1px] transition-[border-radius] duration-150 ease-out"
+              className="block w-[36%] h-[22%] ml-[20%] mt-[18%] rounded-full -rotate-20 pointer-events-none"
             />
-          </div>
+          </button>
         );
       })}
+
+      {/* PLATZ-EFFEKT (RING + FUNKEN) WENN EINE BLASE ANGEKLICKT WIRD */}
+      {popBursts.map((burst) => (
+        <div
+          key={burst.id}
+          style={{
+            transform: `translate3d(calc(-50% + ${burst.x}px), calc(-50% + ${burst.y}px), 0)`,
+          }}
+          className="absolute left-1/2 top-1/2 pointer-events-none"
+        >
+          <span
+            style={{
+              width: `${burst.size}px`,
+              height: `${burst.size}px`,
+              border: `2px solid ${burst.color}`,
+              animation:
+                "mrBubblePopRing 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+            }}
+            className="block rounded-full"
+          />
+          {burst.sparks.map((sp, i) => (
+            <span
+              key={i}
+              style={{
+                width: `${sp.size}px`,
+                height: `${sp.size}px`,
+                backgroundColor: burst.color,
+                "--dx": `${sp.dx}px`,
+                "--dy": `${sp.dy}px`,
+                animation:
+                  "mrBubbleSparkOut 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+              }}
+              className="block rounded-full"
+            />
+          ))}
+        </div>
+      ))}
+
+      {/* DISKRETER EASTER-EGG-ZÄHLER, SOBAID BLASEN GEPLATZT SIND */}
+      {poppedIds.length > 0 && (
+        <div className="absolute bottom-4 right-5 px-3 py-1 rounded-full bg-white/85 backdrop-blur-sm border border-[#E4E4E7] text-[11px] font-mono font-semibold text-[#52525B] shadow-2xs">
+          Bubbles geplatzt: {poppedIds.length}/{SPLIT_BUBBLE_SPECS.length}
+        </div>
+      )}
     </div>
   );
 };
