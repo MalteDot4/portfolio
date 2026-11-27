@@ -2190,7 +2190,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* PLAYFUL, ASYMMETRIC NODE-MESH IN SCREENSHOT BLUE/SLATE/PERIWINKLE PALETTE WITH ANIMATED TRANSPARENCY */
+/* PLAYFUL, ASYMMETRIC NODE-MESH IN SCREENSHOT BLUE/SLATE/PERIWINKLE PALETTE WITH TOP & BOTTOM OUTREACH */
 const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
   const canvasRef = useRef(null);
   const scrollProgressRef = useRef(0.5);
@@ -2242,8 +2242,72 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
 
     const nodes = [
       {
+        nx: 0.05,
+        ny: 0.03,
+        depth: 0.9,
+        phase: 0.2,
+        r: 5.0,
+        tint: "ice",
+        alphaSpeed: 0.9,
+      },
+      {
+        nx: 0.19,
+        ny: 0.05,
+        depth: 1.25,
+        phase: 1.1,
+        r: 6.2,
+        tint: "cobalt",
+        alphaSpeed: 1.25,
+      },
+      {
+        nx: 0.34,
+        ny: 0.03,
+        depth: 0.78,
+        phase: 1.9,
+        r: 4.6,
+        tint: "periwinkle",
+        alphaSpeed: 0.85,
+      },
+      {
+        nx: 0.51,
+        ny: 0.04,
+        depth: 1.15,
+        phase: 2.7,
+        r: 5.8,
+        tint: "ice",
+        alphaSpeed: 1.1,
+      },
+      {
+        nx: 0.68,
+        ny: 0.03,
+        depth: 0.86,
+        phase: 3.5,
+        r: 4.8,
+        tint: "cobalt",
+        alphaSpeed: 1.0,
+      },
+      {
+        nx: 0.83,
+        ny: 0.05,
+        depth: 1.28,
+        phase: 4.3,
+        r: 6.1,
+        tint: "midnight",
+        alphaSpeed: 1.2,
+      },
+      {
+        nx: 0.95,
+        ny: 0.04,
+        depth: 0.95,
+        phase: 5.2,
+        r: 5.0,
+        tint: "periwinkle",
+        alphaSpeed: 0.95,
+      },
+
+      {
         nx: 0.04,
-        ny: 0.11,
+        ny: 0.13,
         depth: 0.85,
         phase: 0.3,
         r: 5.2,
@@ -2261,7 +2325,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.27,
-        ny: 0.08,
+        ny: 0.11,
         depth: 0.72,
         phase: 2.1,
         r: 4.4,
@@ -2279,7 +2343,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.57,
-        ny: 0.09,
+        ny: 0.12,
         depth: 0.9,
         phase: 3.7,
         r: 4.8,
@@ -2297,7 +2361,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.86,
-        ny: 0.12,
+        ny: 0.14,
         depth: 0.78,
         phase: 5.1,
         r: 5.0,
@@ -2306,7 +2370,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.96,
-        ny: 0.27,
+        ny: 0.25,
         depth: 1.05,
         phase: 5.8,
         r: 4.6,
@@ -2444,7 +2508,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
 
       {
         nx: 0.11,
-        ny: 0.95,
+        ny: 0.91,
         depth: 1.12,
         phase: 1.4,
         r: 5.3,
@@ -2453,7 +2517,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.28,
-        ny: 0.92,
+        ny: 0.9,
         depth: 0.82,
         phase: 2.2,
         r: 4.5,
@@ -2462,7 +2526,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.48,
-        ny: 0.96,
+        ny: 0.92,
         depth: 1.18,
         phase: 3.0,
         r: 5.6,
@@ -2471,7 +2535,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.67,
-        ny: 0.93,
+        ny: 0.9,
         depth: 0.88,
         phase: 3.8,
         r: 4.9,
@@ -2480,12 +2544,67 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       },
       {
         nx: 0.85,
-        ny: 0.95,
+        ny: 0.91,
         depth: 1.15,
         phase: 4.6,
         r: 5.5,
         tint: "midnight",
         alphaSpeed: 0.96,
+      },
+
+      {
+        nx: 0.06,
+        ny: 0.97,
+        depth: 0.95,
+        phase: 0.6,
+        r: 5.2,
+        tint: "ice",
+        alphaSpeed: 1.05,
+      },
+      {
+        nx: 0.21,
+        ny: 0.96,
+        depth: 1.25,
+        phase: 1.5,
+        r: 6.0,
+        tint: "cobalt",
+        alphaSpeed: 1.2,
+      },
+      {
+        nx: 0.39,
+        ny: 0.97,
+        depth: 0.85,
+        phase: 2.3,
+        r: 4.8,
+        tint: "periwinkle",
+        alphaSpeed: 0.9,
+      },
+      {
+        nx: 0.56,
+        ny: 0.96,
+        depth: 1.18,
+        phase: 3.1,
+        r: 5.7,
+        tint: "ice",
+        alphaSpeed: 1.15,
+      },
+      {
+        nx: 0.74,
+        ny: 0.97,
+        depth: 0.88,
+        phase: 4.1,
+        r: 5.1,
+        tint: "cobalt",
+        alphaSpeed: 1.0,
+      },
+      {
+        nx: 0.91,
+        ny: 0.96,
+        depth: 1.22,
+        phase: 4.9,
+        r: 5.8,
+        tint: "midnight",
+        alphaSpeed: 1.1,
       },
     ];
 
@@ -2552,22 +2671,22 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
       const linkThreshold = Math.min(355, Math.max(220, width * 0.3));
 
       const pts = nodes.map((n) => {
-        const parallaxY = reducedMotion ? 0 : -p * 115 * n.depth;
-        const parallaxX = reducedMotion ? 0 : p * 42 * (n.depth - 0.78);
+        const parallaxY = reducedMotion ? 0 : -p * 72 * n.depth;
+        const parallaxX = reducedMotion ? 0 : p * 34 * (n.depth - 0.82);
         const driftX = reducedMotion
           ? 0
-          : Math.sin(t * (0.55 + n.alphaSpeed * 0.18) + n.phase) * 22 +
-            Math.cos(t * 0.34 + n.phase * 1.7) * 8;
+          : Math.sin(t * (0.55 + n.alphaSpeed * 0.18) + n.phase) * 18 +
+            Math.cos(t * 0.34 + n.phase * 1.7) * 7;
         const driftY = reducedMotion
           ? 0
-          : Math.cos(t * (0.48 + n.alphaSpeed * 0.16) + n.phase * 1.25) * 18;
+          : Math.cos(t * (0.48 + n.alphaSpeed * 0.16) + n.phase * 1.25) * 14;
         const pulse = reducedMotion
           ? 1
           : 0.84 + 0.28 * Math.sin(t * (1.1 + n.alphaSpeed * 0.45) + n.phase);
         const nodeAlpha = reducedMotion
           ? 0.88
-          : 0.44 +
-            0.52 *
+          : 0.46 +
+            0.5 *
               (0.5 +
                 0.5 * Math.sin(t * (0.85 + n.alphaSpeed * 0.55) + n.phase));
 
@@ -2692,7 +2811,7 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
+      className="pointer-events-none absolute -top-14 -bottom-14 inset-x-0 overflow-visible select-none z-0"
     >
       <div
         style={{
@@ -2715,7 +2834,10 @@ const HeroAlignedMeshParallax = ({ sectionRef, reducedMotion = false }) => {
         }}
         className="absolute inset-0"
       />
-      <canvas ref={canvasRef} className="relative z-10 w-full h-full block" />
+      <canvas
+        ref={canvasRef}
+        className="relative z-10 w-full h-full block overflow-visible"
+      />
     </div>
   );
 };
@@ -3490,8 +3612,6 @@ const TIMELINE_PROJECTS = [
     accentTextClass: "text-[#007A6E]",
     markerOffsetClass: "pt-2 sm:pt-3",
     title: "Customer Data Hub, IT-DWH & Agentic AI",
-    tagline:
-      "PySpark · Azure Synapse · IT-DWH · Selektionsframework · OpenCode & Agentic Workflows",
     durationLabel: "> 1 Jahr Erfahrung",
     organization: "Provinzial Versicherung AG",
     previewUrl: "provinzial.de/kampagnen-hub",
@@ -3510,8 +3630,6 @@ const TIMELINE_PROJECTS = [
     accentTextClass: "text-[#E60000]",
     markerOffsetClass: "pt-6 sm:pt-9",
     title: "Firmenkundenportal & PageForge",
-    tagline:
-      "B2B-Vertrags-Microservices · PageForge für 200+ Sites · Node.js APIs & CI/CD",
     durationLabel: "> 2 Jahre Erfahrung",
     organization: "Vodafone GmbH",
     previewUrl: "vodafone.de/business",
@@ -3530,8 +3648,6 @@ const TIMELINE_PROJECTS = [
     accentTextClass: "text-[#0A66C2]",
     markerOffsetClass: "pt-10 sm:pt-14",
     title: "EasyClaim & Daten-/BI-Plattform",
-    tagline:
-      "Digitale Schadenaufnahme · React.js & .NET C# · Data Warehouse · Tableau & BI",
     durationLabel: "> 10 Jahre Erfahrung",
     organization: "ControlExpert GmbH",
     previewUrl: "easyclaim.controlexpert.com",
@@ -3628,10 +3744,6 @@ const InteractiveProjectColumn = ({
           <h3 className="text-xl sm:text-2xl lg:text-[25px] font-bold tracking-[-0.035em] text-[#0B0B0C] leading-[1.15]">
             {project.title}
           </h3>
-
-          <p className="mt-2.5 text-xs sm:text-sm font-medium text-[#52525B] leading-relaxed">
-            {project.tagline}
-          </p>
         </div>
 
         <div
@@ -3755,7 +3867,7 @@ const InteractiveProjectColumn = ({
 const SECTIONS_FLOW = [
   { id: "hero-stage", nextTitle: "Einblick in meine Projekte" },
   { id: "work", nextTitle: "Was mich motiviert" },
-  { id: "motivation", nextTitle: "Stationen & Tech Stack" },
+  { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
   { id: "contact", nextTitle: "Nach oben ↑" },
 ];
@@ -4171,11 +4283,11 @@ export default function App() {
         </div>
       </section>
 
-      {/* 3. MOTIVATION WITH FULL-SECTION BLUE-MARBLE NODE-MESH & ANIMATED TRANSPARENCY */}
+      {/* 3. MOTIVATION WITH FULL-SECTION BLUE-MARBLE NODE-MESH & TOP/BOTTOM OUTREACH */}
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#E7EEF8] py-20 sm:py-28 overflow-hidden"
+        className="relative bg-[#E7EEF8] py-24 sm:py-32 overflow-visible"
       >
         <HeroAlignedMeshParallax
           sectionRef={motivationSectionRef}
@@ -4392,7 +4504,7 @@ export default function App() {
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <HeadlineFlow
-              kicker="Stationen & Tech Stack"
+              kicker="Tech Stack"
               title="Stationen & Kernkompetenzen"
               as="h2"
               reducedMotion={reducedMotion}
