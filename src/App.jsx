@@ -647,21 +647,118 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* DEZENTE SCROLL-REAKTIVE SPHERE IM HINTERGRUND DER MOTIVATION-SECTION */
+/* WOBBELNDE & IN BLASEN AUFSPALTENDE TRANSITION-SPHÄRE IM HINTERGRUND DER MOTIVATION-SECTION */
+const SATELLITE_BUBBLES = [
+  {
+    id: "b1",
+    size: 168,
+    baseX: -245,
+    baseY: -135,
+    spreadX: -125,
+    spreadY: -85,
+    angle: -0.7,
+    gradient:
+      "radial-gradient(circle at 30% 28%, rgba(244, 114, 182, 0.34), rgba(168, 85, 247, 0.22) 55%, rgba(59, 130, 246, 0.06) 85%, transparent 100%)",
+    borderColor: "rgba(216, 180, 254, 0.55)",
+  },
+  {
+    id: "b2",
+    size: 132,
+    baseX: 255,
+    baseY: -115,
+    spreadX: 135,
+    spreadY: -75,
+    angle: 1.4,
+    gradient:
+      "radial-gradient(circle at 32% 30%, rgba(147, 197, 253, 0.36), rgba(99, 102, 241, 0.22) 58%, rgba(168, 85, 247, 0.06) 85%, transparent 100%)",
+    borderColor: "rgba(147, 197, 253, 0.55)",
+  },
+  {
+    id: "b3",
+    size: 196,
+    baseX: -220,
+    baseY: 155,
+    spreadX: -115,
+    spreadY: 105,
+    angle: 2.3,
+    gradient:
+      "radial-gradient(circle at 35% 30%, rgba(192, 132, 252, 0.32), rgba(236, 72, 153, 0.18) 58%, rgba(59, 130, 246, 0.05) 85%, transparent 100%)",
+    borderColor: "rgba(244, 114, 182, 0.48)",
+  },
+  {
+    id: "b4",
+    size: 148,
+    baseX: 235,
+    baseY: 160,
+    spreadX: 130,
+    spreadY: 95,
+    angle: 3.9,
+    gradient:
+      "radial-gradient(circle at 28% 28%, rgba(244, 114, 182, 0.3), rgba(59, 130, 246, 0.22) 60%, transparent 90%)",
+    borderColor: "rgba(168, 85, 247, 0.46)",
+  },
+  {
+    id: "b5",
+    size: 88,
+    baseX: 15,
+    baseY: -250,
+    spreadX: 24,
+    spreadY: -120,
+    angle: 5.1,
+    gradient:
+      "radial-gradient(circle at 35% 30%, rgba(196, 181, 253, 0.42), rgba(59, 130, 246, 0.18) 70%, transparent 100%)",
+    borderColor: "rgba(196, 181, 253, 0.6)",
+  },
+  {
+    id: "b6",
+    size: 104,
+    baseX: -25,
+    baseY: 245,
+    spreadX: -32,
+    spreadY: 118,
+    angle: 0.9,
+    gradient:
+      "radial-gradient(circle at 30% 30%, rgba(251, 207, 232, 0.38), rgba(168, 85, 247, 0.2) 68%, transparent 100%)",
+    borderColor: "rgba(244, 114, 182, 0.52)",
+  },
+];
+
 const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
   const [spin, setSpin] = useState(0);
+  const [scrollImpulse, setScrollImpulse] = useState(0);
+  const [tick, setTick] = useState(0);
+  const lastScrollYRef = useRef(0);
+  const impulseRef = useRef(0);
 
   useEffect(() => {
     if (reducedMotion) {
       setSpin(0.45);
+      setScrollImpulse(0.2);
       return;
     }
 
     let rafId = null;
+    let decayId = null;
+
+    const decayLoop = () => {
+      if (Math.abs(impulseRef.current) > 0.002) {
+        impulseRef.current *= 0.88;
+        setScrollImpulse(impulseRef.current);
+        decayId = window.requestAnimationFrame(decayLoop);
+      } else {
+        impulseRef.current = 0;
+        setScrollImpulse(0);
+        decayId = null;
+      }
+    };
 
     const updateFromScroll = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        const deltaY = currentY - lastScrollYRef.current;
+        lastScrollYRef.current = currentY;
+
         const sec = sectionRef?.current;
         if (sec) {
           const rect = sec.getBoundingClientRect();
@@ -669,11 +766,24 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
           const totalTravel = rect.height + vh;
           const p = clamp01((vh - rect.top) / Math.max(totalTravel, 1));
           setSpin(p);
+          setTick((t) => t + 1);
+
+          const clampedDelta = Math.max(-65, Math.min(65, deltaY));
+          impulseRef.current = Math.max(
+            -1,
+            Math.min(1, impulseRef.current * 0.55 + clampedDelta / 48),
+          );
+          setScrollImpulse(impulseRef.current);
+
+          if (!decayId) {
+            decayId = window.requestAnimationFrame(decayLoop);
+          }
         }
         rafId = null;
       });
     };
 
+    lastScrollYRef.current = window.scrollY;
     window.addEventListener("scroll", updateFromScroll, { passive: true });
     window.addEventListener("resize", updateFromScroll);
     updateFromScroll();
@@ -682,52 +792,134 @@ const MotivationScrollSphere = ({ sectionRef, reducedMotion = false }) => {
       window.removeEventListener("scroll", updateFromScroll);
       window.removeEventListener("resize", updateFromScroll);
       if (rafId) window.cancelAnimationFrame(rafId);
+      if (decayId) window.cancelAnimationFrame(decayId);
     };
   }, [sectionRef, reducedMotion]);
 
-  const rotationDeg = -28 + spin * 135;
-  const scaleVal = 0.94 + Math.sin(spin * Math.PI) * 0.1;
-  const translateY = (0.5 - spin) * 48;
-  const translateX = (spin - 0.5) * 32;
+  // Split-Kurve: in der Mitte der Section spaltet sich die Sphäre in Blasen auf und zieht sich nach außen
+  const splitFactor = Math.sin(spin * Math.PI);
+  const wobbleAmp =
+    0.055 + splitFactor * 0.085 + Math.abs(scrollImpulse) * 0.075;
+  const phase = spin * Math.PI * 3.2 + tick * 0.09 + scrollImpulse * 1.4;
+
+  // Organisches Wobbeln der Haupt-Radius-Werte
+  const r1 = Math.round(52 + Math.sin(phase) * wobbleAmp * 110);
+  const r2 = Math.round(48 + Math.cos(phase * 1.15 + 1.1) * wobbleAmp * 115);
+  const r3 = Math.round(54 + Math.sin(phase * 0.9 + 2.2) * wobbleAmp * 105);
+  const r4 = Math.round(46 + Math.cos(phase * 1.25 + 3.4) * wobbleAmp * 115);
+  const r5 = Math.round(50 + Math.sin(phase * 1.05 + 0.6) * wobbleAmp * 110);
+  const r6 = Math.round(49 + Math.cos(phase * 0.85 + 1.9) * wobbleAmp * 110);
+  const r7 = Math.round(53 + Math.sin(phase * 1.2 + 2.8) * wobbleAmp * 105);
+  const r8 = Math.round(47 + Math.cos(phase * 0.95 + 4.0) * wobbleAmp * 115);
+
+  const organicRadius = `${r1}% ${100 - r1}% ${r3}% ${100 - r3}% / ${r5}% ${r6}% ${100 - r6}% ${100 - r5}%`;
+
+  const stretchX =
+    1 + Math.sin(phase * 1.3) * wobbleAmp * 0.55 - scrollImpulse * 0.04;
+  const stretchY =
+    1 + Math.cos(phase * 1.1) * wobbleAmp * 0.55 + scrollImpulse * 0.04;
+  const rotationDeg = -28 + spin * 145 + scrollImpulse * 10;
+  const mainScale = 0.96 - splitFactor * 0.14 + Math.sin(spin * Math.PI) * 0.06;
+  const translateY = (0.5 - spin) * 56 + scrollImpulse * 14;
+  const translateX = (spin - 0.5) * 38;
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
+      {/* WOBBELNDE HAUPT-SPHÄRE */}
       <div
         style={{
-          transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotationDeg}deg) scale(${scaleVal})`,
+          transform: `translate3d(${translateX}px, ${translateY}px, 0) rotate(${rotationDeg}deg) scale(${
+            mainScale * stretchX
+          }, ${mainScale * stretchY})`,
         }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] sm:w-[620px] sm:h-[620px] rounded-full will-change-transform transition-transform duration-150 ease-out"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[430px] h-[430px] sm:w-[600px] sm:h-[600px] will-change-transform transition-transform duration-150 ease-out"
       >
         <div
           style={{
+            borderRadius: organicRadius,
             background:
-              "conic-gradient(from 140deg at 50% 50%, rgba(168, 85, 247, 0.42), rgba(59, 130, 246, 0.34), rgba(236, 72, 153, 0.36), rgba(99, 102, 241, 0.22), rgba(168, 85, 247, 0.42))",
+              "conic-gradient(from 140deg at 50% 50%, rgba(168, 85, 247, 0.46), rgba(59, 130, 246, 0.38), rgba(236, 72, 153, 0.4), rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.46))",
             WebkitMask:
-              "radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
-            mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
+              "radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
+            mask: "radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 2px), #000 100%, transparent 100%)",
           }}
-          className="w-full h-full rounded-full opacity-85"
+          className="w-full h-full opacity-90 transition-[border-radius] duration-150 ease-out"
         />
 
         <div
           style={{
+            borderRadius: `${r2}% ${100 - r2}% ${r4}% ${100 - r4}% / ${r7}% ${r8}% ${100 - r8}% ${100 - r7}%`,
             background:
-              "radial-gradient(circle at 32% 24%, rgba(147, 197, 253, 0.22) 0%, rgba(192, 132, 252, 0.12) 44%, rgba(255, 255, 255, 0) 72%)",
+              "radial-gradient(circle at 32% 24%, rgba(147, 197, 253, 0.24) 0%, rgba(192, 132, 252, 0.14) 46%, rgba(255, 255, 255, 0) 74%)",
           }}
-          className="absolute inset-3 rounded-full"
+          className="absolute inset-3 transition-[border-radius] duration-150 ease-out"
         />
 
         <div
           style={{
+            borderRadius: organicRadius,
             background:
-              "radial-gradient(ellipse 36% 12% at 68% 12%, rgba(244, 114, 182, 0.55), rgba(129, 140, 248, 0.25) 60%, transparent 100%)",
+              "radial-gradient(ellipse 38% 14% at 68% 12%, rgba(244, 114, 182, 0.58), rgba(129, 140, 248, 0.26) 62%, transparent 100%)",
           }}
-          className="absolute inset-0 rounded-full blur-[1px]"
+          className="absolute inset-0 blur-[1px] transition-[border-radius] duration-150 ease-out"
         />
       </div>
+
+      {/* AUFSPALTENDE SATELLITEN-BLASEN */}
+      {SATELLITE_BUBBLES.map((bubble, idx) => {
+        const bubblePhase = phase * 1.2 + bubble.angle;
+        const bWobble =
+          0.08 + splitFactor * 0.1 + Math.abs(scrollImpulse) * 0.09;
+        const brA = Math.round(50 + Math.sin(bubblePhase) * bWobble * 120);
+        const brB = Math.round(
+          48 + Math.cos(bubblePhase * 1.3 + idx) * bWobble * 120,
+        );
+        const bubbleRadius = `${brA}% ${100 - brA}% ${brB}% ${100 - brB}% / ${brB}% ${brA}% ${100 - brA}% ${100 - brB}%`;
+
+        const bx =
+          bubble.baseX +
+          bubble.spreadX * splitFactor +
+          Math.cos(bubblePhase) * (10 + splitFactor * 16) +
+          scrollImpulse * (idx % 2 === 0 ? 12 : -12);
+        const by =
+          bubble.baseY +
+          bubble.spreadY * splitFactor +
+          Math.sin(bubblePhase * 1.1) * (10 + splitFactor * 16) +
+          scrollImpulse * 10;
+
+        const bScale =
+          (0.55 + splitFactor * 0.55) *
+          (1 + Math.sin(bubblePhase) * bWobble * 0.45);
+        const bOpacity = clamp01(0.22 + splitFactor * 0.78);
+
+        return (
+          <div
+            key={bubble.id}
+            style={{
+              width: `${bubble.size}px`,
+              height: `${bubble.size}px`,
+              opacity: bOpacity,
+              transform: `translate3d(calc(-50% + ${bx}px), calc(-50% + ${by}px), 0) scale(${bScale}) rotate(${
+                Math.sin(bubblePhase) * 14
+              }deg)`,
+            }}
+            className="absolute left-1/2 top-1/2 will-change-transform transition-transform duration-150 ease-out"
+          >
+            <div
+              style={{
+                borderRadius: bubbleRadius,
+                background: bubble.gradient,
+                border: `1px solid ${bubble.borderColor}`,
+                boxShadow: "inset 0 0 18px rgba(255, 255, 255, 0.35)",
+              }}
+              className="w-full h-full backdrop-blur-[1px] transition-[border-radius] duration-150 ease-out"
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };
