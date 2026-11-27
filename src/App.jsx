@@ -47,7 +47,6 @@ const PROVINZIAL_STATIONS = [
   {
     title: "Data Engineer & AI Engineer · IT-DWH",
     period: "Ab 01.06.2026",
-    tags: ["IT-DWH", "OpenCode", "Agentic Workflows", "Data Products"],
     bullets: [
       "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
       "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
@@ -57,7 +56,6 @@ const PROVINZIAL_STATIONS = [
   {
     title: "Data-Analyst Customer Data & Analytics",
     period: "01.05.2025 – 30.05.2026",
-    tags: ["PySpark", "Azure Synapse", "Selektionsframework", "Interim-PO"],
     bullets: [
       "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
       "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
@@ -68,7 +66,6 @@ const PROVINZIAL_STATIONS = [
 const VODAFONE_STATION = {
   title: "Backend / Data Integration Firmenkunden",
   period: "Nov 2022 – Mär 2025",
-  tags: ["Node.js", "Microservices", "PageForge", "Git CI/CD"],
   bullets: [
     "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal sowie den Blog und über 200 Business-Websites",
     "Aufbau von Node.js-Microservices für Vertragsdaten und Ausbau der CI/CD-Automatisierung in Git-Pipelines",
@@ -78,7 +75,6 @@ const VODAFONE_STATION = {
 const CONTROLEXPERT_FEATURED_STATION = {
   title: "Softwareentwickler Versicherungsbranche",
   period: "Jul 2019 – Aug 2022",
-  tags: ["React.js", ".NET C#", "Jest", "Cypress", "Kanban"],
   bullets: [
     "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
     "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
@@ -90,7 +86,6 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "BI-Specialist Versicherungsprozesse",
     period: "Okt 2017 – Jun 2019 · Teilzeit",
-    tags: ["Data Warehouse", "SQL", "Tableau"],
     bullets: [
       "Erfolgreiche Entwicklung eines Data Warehouse",
       "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
@@ -99,7 +94,6 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "Business-Analyst Versicherungsprozesse",
     period: "Okt 2016 – Sep 2017",
-    tags: ["IBM BPM", "Scrum", "Prozessautomatisierung"],
     bullets: [
       "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
       "Product Management interne Kalkulationsanwendung im Scrum Prozess",
@@ -108,7 +102,6 @@ const CONTROLEXPERT_MORE_STATIONS = [
   {
     title: "Data-Specialist Automobil",
     period: "Jul 2012 – Sep 2016",
-    tags: ["Relationale DB", "Herstellerdaten", "MS-Office"],
     bullets: [
       "Erhebung, Abfrage & Pflege von Herstellerdaten",
       "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
@@ -4221,9 +4214,14 @@ export default function App() {
                 <div className="pb-8">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <BrandWordmark brand="provinzial" />
-                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                      01.05.2025 – heute
-                    </span>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="px-2.5 py-1 rounded-full bg-[#007A6E]/10 border border-[#007A6E]/20 text-[11px] font-bold text-[#007A6E]">
+                        Versicherung
+                      </span>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
+                        01.05.2025 – heute
+                      </span>
+                    </div>
                   </div>
                   <p className="mt-2 text-xs font-semibold text-[#52525B]">
                     Provinzial Versicherung AG · Stationen im Überblick
@@ -4250,16 +4248,6 @@ export default function App() {
                             </li>
                           ))}
                         </ul>
-                        <div className="pt-1 flex flex-wrap gap-1.5">
-                          {item.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
                       </div>
                     ))}
                   </div>
@@ -4268,9 +4256,14 @@ export default function App() {
                 <div className="py-8">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <BrandWordmark brand="vodafone" />
-                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                      Nov 2022 – Mär 2025
-                    </span>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="px-2.5 py-1 rounded-full bg-[#E60000]/10 border border-[#E60000]/20 text-[11px] font-bold text-[#E60000]">
+                        Telekommunikation
+                      </span>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
+                        Nov 2022 – Mär 2025
+                      </span>
+                    </div>
                   </div>
                   <div className="mt-4 rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5">
                     <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
@@ -4283,25 +4276,20 @@ export default function App() {
                         </li>
                       ))}
                     </ul>
-                    <div className="pt-1 flex flex-wrap gap-1.5">
-                      {VODAFONE_STATION.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </div>
 
                 <div className="pt-8">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <BrandWordmark brand="controlexpert" />
-                    <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                      Jul 2012 – Aug 2022
-                    </span>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="px-2.5 py-1 rounded-full bg-[#0A66C2]/10 border border-[#0A66C2]/20 text-[11px] font-bold text-[#0A66C2]">
+                        InsurTech &amp; Automotive
+                      </span>
+                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
+                        Jul 2012 – Aug 2022
+                      </span>
+                    </div>
                   </div>
                   <p className="mt-2 text-xs font-semibold text-[#52525B]">
                     ControlExpert GmbH · Stationen im Überblick
@@ -4323,16 +4311,6 @@ export default function App() {
                         </li>
                       ))}
                     </ul>
-                    <div className="pt-1 flex flex-wrap gap-1.5">
-                      {CONTROLEXPERT_FEATURED_STATION.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
                   <div className="mt-4">
@@ -4393,16 +4371,6 @@ export default function App() {
                                   </li>
                                 ))}
                               </ul>
-                              <div className="pt-1 flex flex-wrap gap-1.5">
-                                {item.tags.map((tag) => (
-                                  <span
-                                    key={tag}
-                                    className="px-2.5 py-0.5 rounded-full bg-white border border-[#E4E4E7] text-[11px] font-semibold text-[#27272A]"
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
                             </div>
                           ))}
                         </div>
