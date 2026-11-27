@@ -26,34 +26,138 @@ const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 const SUBTLE_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#F5F5F7"/><circle cx="32" cy="32" r="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="2"/><text x="32" y="38.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="20" font-weight="700" letter-spacing="-0.04em" fill="#0B0B0C">MR</text><circle cx="46" cy="18" r="3.2" fill="#2563EB"/></svg>`;
 
-const AiGradientMark = ({ size = 34, className = "" }) => {
+const AVATAR_LOGO_SRC = "./Logo.png";
+
+const AvatarGreetingMark = ({
+  size = 40,
+  className = "",
+  reducedMotion = false,
+}) => {
+  const [hovered, setHovered] = useState(false);
+  const [typedCount, setTypedCount] = useState(0);
+  const greetingText = "Hi!";
+
+  useEffect(() => {
+    if (!hovered) {
+      setTypedCount(0);
+      return;
+    }
+
+    if (reducedMotion) {
+      setTypedCount(greetingText.length);
+      return;
+    }
+
+    setTypedCount(0);
+    let idx = 0;
+    const interval = window.setInterval(() => {
+      idx += 1;
+      setTypedCount(idx);
+      if (idx >= greetingText.length) {
+        window.clearInterval(interval);
+      }
+    }, 95);
+
+    return () => window.clearInterval(interval);
+  }, [hovered, reducedMotion]);
+
   return (
-    <span
-      style={{ width: size, height: size }}
-      className={`inline-flex items-center justify-center rounded-full bg-[#F5F5F7]/95 border border-black/10 shadow-sm shrink-0 ${className}`}
-      aria-hidden="true"
+    <div
+      className={`relative inline-flex items-center ${className}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
-      <svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <style>{`
+        @keyframes mrWaveHand {
+          0%, 100% { transform: rotate(0deg); }
+          20% { transform: rotate(18deg); }
+          40% { transform: rotate(-12deg); }
+          60% { transform: rotate(16deg); }
+          80% { transform: rotate(-8deg); }
+        }
+        @keyframes mrSpeakPulse {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-1.5px) scale(1.03); }
+        }
+      `}</style>
+
+      <button
+        type="button"
+        onClick={() =>
+          window.scrollTo({
+            top: 0,
+            behavior: reducedMotion ? "auto" : "smooth",
+          })
+        }
+        aria-label="Malte Reppke Avatar · Nach oben"
+        style={{ width: size, height: size }}
+        className={`relative inline-flex items-center justify-center rounded-full bg-[#F5F5F7] border border-white/30 shadow-md overflow-hidden shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+          reducedMotion
+            ? ""
+            : `transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                hovered ? "scale-105" : "hover:scale-105"
+              }`
+        }`}
       >
-        <text
-          x="32"
-          y="39"
-          textAnchor="middle"
-          fontFamily="-apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Inter', sans-serif"
-          fontSize="21"
-          fontWeight="700"
-          letterSpacing="-0.04em"
-          fill="#0B0B0C"
+        <img
+          src={AVATAR_LOGO_SRC}
+          alt="Malte Reppke Avatar"
+          className="w-full h-full object-cover object-top"
+        />
+      </button>
+
+      <div
+        role="status"
+        aria-live="polite"
+        className={`pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] shadow-[0_12px_28px_-6px_rgba(0,0,0,0.38)] border border-black/10 whitespace-nowrap ${
+          reducedMotion
+            ? hovered
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-1 hidden"
+            : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                hovered
+                  ? "opacity-100 translate-x-0 scale-100"
+                  : "opacity-0 -translate-x-2 scale-95"
+              }`
+        }`}
+      >
+        <span
+          aria-hidden="true"
+          style={
+            !reducedMotion && hovered
+              ? {
+                  animation: "mrWaveHand 1.15s ease-in-out infinite",
+                  transformOrigin: "75% 75%",
+                }
+              : undefined
+          }
+          className="inline-block text-sm leading-none select-none"
         >
-          MR
-        </text>
-        <circle cx="47" cy="17" r="3.2" fill="#2563EB" />
-      </svg>
-    </span>
+          👋
+        </span>
+
+        <span
+          style={
+            !reducedMotion && hovered && typedCount > 0
+              ? { animation: "mrSpeakPulse 0.9s ease-in-out infinite" }
+              : undefined
+          }
+          className="inline-flex items-center text-xs sm:text-sm font-bold tracking-tight text-[#0B0B0C]"
+        >
+          <span>{greetingText.slice(0, typedCount)}</span>
+          {hovered && !reducedMotion && typedCount < greetingText.length && (
+            <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
+          )}
+        </span>
+
+        <span
+          aria-hidden="true"
+          className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rotate-45 bg-white border-l border-b border-black/10"
+        />
+      </div>
+    </div>
   );
 };
 
@@ -292,7 +396,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId) window.cancelAnimationFrame(renderLoop);
     };
   }, [paused]);
 
@@ -1093,16 +1197,11 @@ export default function App() {
                 />
 
                 <header className="relative z-10 flex items-center justify-center sm:justify-between px-5 sm:px-9 pt-6 sm:pt-8">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }
-                    aria-label="MR Monogramm · Nach oben"
-                    className="hidden sm:inline-flex items-center hover:scale-105 transition-transform cursor-pointer"
-                  >
-                    <AiGradientMark size={36} />
-                  </button>
+                  <AvatarGreetingMark
+                    size={42}
+                    reducedMotion={reducedMotion}
+                    className="hidden sm:inline-flex"
+                  />
 
                   <nav
                     aria-label="Hauptnavigation"
