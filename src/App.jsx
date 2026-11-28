@@ -48,7 +48,7 @@ const BRAND_THEME = {
     color: "#E60000",
   },
   controlexpert: {
-    color: "#3B8A98",
+    color: "#2563EB",
   },
 };
 
@@ -305,6 +305,13 @@ const CV_POSITIONS = [
     },
   },
 ];
+
+const DARK_BLUE_SILK_BACKGROUND = `
+  radial-gradient(ellipse 75% 65% at 18% 22%, rgba(49, 86, 152, 0.56) 0%, rgba(24, 43, 84, 0.24) 55%, transparent 82%),
+  radial-gradient(ellipse 70% 60% at 85% 24%, rgba(116, 132, 166, 0.34) 0%, rgba(56, 78, 122, 0.14) 58%, transparent 85%),
+  radial-gradient(ellipse 80% 70% at 55% 88%, rgba(29, 53, 102, 0.48) 0%, rgba(7, 10, 18, 0.92) 75%),
+  linear-gradient(155deg, #101A30 0%, #080C16 48%, #15223D 100%)
+`;
 
 /* DIRECT PDF GENERATOR (JSPDF) */
 const downloadCvPdfDirect = ({
@@ -2116,6 +2123,7 @@ const MacProjectMonitor = ({
       );
     }
 
+    /* EASYCLAIM BLEIBT TÜRKIS */
     if (variant === "secondary-a") {
       return (
         <div className="w-full h-full bg-[#4B96A3] text-white flex flex-col justify-between text-left select-none overflow-hidden">
@@ -2648,10 +2656,15 @@ const CollapsibleCompanyCard = ({
                   </span>
                 </div>
 
-                <ul className="pl-4 space-y-1.5 text-xs sm:text-[13.5px] text-[#52525B] leading-relaxed">
+                <ul className="space-y-2 text-xs sm:text-[13.5px] text-[#52525B] leading-relaxed">
                   {roleItem.bullets.map((bullet) => (
-                    <li key={bullet} className="list-disc">
-                      {bullet}
+                    <li key={bullet} className="flex items-start gap-2.5">
+                      <span
+                        aria-hidden="true"
+                        style={{ backgroundColor: theme.color }}
+                        className="mt-[0.42em] w-1.5 h-1.5 rounded-[1.5px] shrink-0"
+                      />
+                      <span>{bullet}</span>
                     </li>
                   ))}
                 </ul>
@@ -3445,16 +3458,23 @@ const AppleLiquidCard = ({
   return (
     <div
       ref={cardRef}
-      style={{
-        boxShadow: isDark
-          ? "0 22px 48px -18px rgba(11, 11, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18)"
-          : mobileWhiteActive
-            ? "0 20px 42px -16px rgba(15, 23, 42, 0.14), 0 2px 6px -1px rgba(15, 23, 42, 0.05), inset 0 1.5px 0 rgba(255, 255, 255, 1)"
-            : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
-      }}
+      style={
+        isDark
+          ? {
+              backgroundColor: "#070A12",
+              backgroundImage: DARK_BLUE_SILK_BACKGROUND,
+              boxShadow:
+                "0 22px 48px -18px rgba(6, 10, 22, 0.52), inset 0 1px 0 rgba(186, 204, 238, 0.22)",
+            }
+          : {
+              boxShadow: mobileWhiteActive
+                ? "0 20px 42px -16px rgba(15, 23, 42, 0.14), 0 2px 6px -1px rgba(15, 23, 42, 0.05), inset 0 1.5px 0 rgba(255, 255, 255, 1)"
+                : "0 18px 38px -16px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.04), inset 0 1.5px 0 rgba(255, 255, 255, 1)",
+            }
+      }
       className={`group relative overflow-hidden rounded-[28px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 ${
         isDark
-          ? "bg-[#0B0B0C] border border-white/14 text-white hover:border-white/24"
+          ? "border border-[#3B5584]/45 text-white hover:border-[#6A88BE]/60"
           : mobileWhiteActive
             ? "bg-white border border-white text-[#0B0B0C]"
             : "bg-white/92 backdrop-blur-xl border border-white/90 text-[#0B0B0C] hover:bg-white hover:border-white"
@@ -3464,7 +3484,7 @@ const AppleLiquidCard = ({
         aria-hidden="true"
         style={{
           background: isDark
-            ? "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%)"
+            ? "linear-gradient(90deg, transparent 0%, rgba(186, 204, 238, 0.34) 50%, transparent 100%)"
             : mobileWhiteActive
               ? "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)"
               : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%)",
@@ -3476,7 +3496,7 @@ const AppleLiquidCard = ({
         aria-hidden="true"
         style={{
           background: isDark
-            ? "radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.09) 0%, transparent 55%)"
+            ? "radial-gradient(circle at 88% 14%, rgba(116, 132, 166, 0.16) 0%, transparent 55%)"
             : mobileWhiteActive
               ? "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.95) 0%, transparent 65%)"
               : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.72) 0%, transparent 65%)",
@@ -3768,8 +3788,10 @@ const FullscreenPullContactSection = ({
         <div
           style={{
             clipPath: `inset(${topClipPercent}% 0% 0% 0%)`,
+            backgroundColor: "#070A12",
+            backgroundImage: DARK_BLUE_SILK_BACKGROUND,
           }}
-          className="relative w-full h-full bg-[#0B0B0C] text-[#FFFFFF] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-12 will-change-[clip-path]"
+          className="relative w-full h-full text-[#FFFFFF] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-12 will-change-[clip-path]"
         >
           <div
             aria-hidden="true"
@@ -5283,7 +5305,7 @@ export default function App() {
               reducedMotion={reducedMotion}
               className="lg:col-span-5"
             >
-              <div className="rounded-[28px] border border-[#DBE6F6] bg-[#EFF4FC] p-6 sm:p-8 shadow-2xs space-y-8">
+              <div className="rounded-[28px] border border-[#C7D9F2] bg-[#E8F0FB] p-6 sm:p-8 shadow-2xs space-y-8">
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#71717A]">
                     <Terminal className="w-4 h-4 text-[#0B0B0C]" />
@@ -5296,7 +5318,7 @@ export default function App() {
                   />
                 </div>
 
-                <div className="pt-7 border-t border-[#D8E3F4] space-y-4">
+                <div className="pt-7 border-t border-[#BFD3EE] space-y-4">
                   <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#71717A]">
                     <GraduationCap className="w-4 h-4 text-[#0B0B0C]" />
                     <span>Studium &amp; Akademischer Hintergrund</span>
