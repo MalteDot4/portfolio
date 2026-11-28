@@ -3702,7 +3702,7 @@ const ContactMailWaveField = ({
   );
 };
 
-/* FULLSCREEN PULL CONTACT SECTION – PILLS REVEAL AT FULL HEIGHT WITH CLEAN SPACING */
+/* FULLSCREEN PULL CONTACT SECTION – CLAMPED TO VIEWPORT & CENTERED ON MOBILE AT END */
 const FullscreenPullContactSection = ({
   contactSectionRef,
   email = "malte_reppke@web.de",
@@ -3749,13 +3749,14 @@ const FullscreenPullContactSection = ({
     };
   }, [contactSectionRef, reducedMotion]);
 
-  const targetHeightPx = Math.max(80, Math.round(pullProgress * 1000));
+  const pullVh = Math.max(14, Math.round(pullProgress * 100));
   const radiusPx = Math.round((1 - pullProgress) * 44);
   const sideInsetPx = Math.round((1 - pullProgress) * 44);
   const titleProgress = clamp01((pullProgress - 0.14) / 0.78);
   const letterSpacingEm = (-0.015 - titleProgress * 0.045).toFixed(3);
 
   const isFullHeight = reducedMotion || pullProgress >= 0.88;
+  const mobileCenteredEnd = isMobileView && isFullHeight;
   const desktopActionsProgress = clamp01((pullProgress - 0.42) / 0.58);
 
   return (
@@ -3769,12 +3770,14 @@ const FullscreenPullContactSection = ({
           style={{
             marginLeft: `${sideInsetPx}px`,
             marginRight: `${sideInsetPx}px`,
-            minHeight: reducedMotion ? "1000px" : `${targetHeightPx}px`,
+            minHeight: reducedMotion ? "100dvh" : `${pullVh}dvh`,
             borderRadius: `${radiusPx}px ${radiusPx}px 0px 0px`,
             opacity: reducedMotion ? 1 : clamp01(0.2 + pullProgress * 0.8),
             boxShadow: `0 -28px 90px -24px rgba(11, 11, 12, ${(0.18 + pullProgress * 0.36).toFixed(2)})`,
           }}
-          className="relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col justify-between px-5 sm:px-10 lg:px-14 pt-12 sm:pt-16 pb-24 sm:pb-16 transition-[border-radius,margin] duration-150 ease-out"
+          className={`relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col px-5 sm:px-10 lg:px-14 pt-12 sm:pt-16 pb-20 sm:pb-16 transition-[border-radius,margin] duration-150 ease-out ${
+            mobileCenteredEnd ? "justify-center" : "justify-between"
+          }`}
         >
           <div
             aria-hidden="true"
@@ -3797,9 +3800,11 @@ const FullscreenPullContactSection = ({
           <div
             style={{
               opacity: clamp01((pullProgress - 0.22) / 0.55),
-              transform: `translate3d(0, ${(1 - clamp01((pullProgress - 0.22) / 0.55)) * -16}px, 0)`,
+              transform: `translate3d(0, ${(1 - clamp01((pullProgress - 0.22) / 0.55)) * -12}px, 0)`,
             }}
-            className="relative z-10 flex items-center justify-end"
+            className={`relative z-10 flex items-center justify-end shrink-0 ${
+              mobileCenteredEnd ? "mb-6" : ""
+            }`}
           >
             <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-white/75">
               <MapPin className="w-4 h-4 shrink-0 text-white/70" />
@@ -3807,17 +3812,21 @@ const FullscreenPullContactSection = ({
             </div>
           </div>
 
-          <div className="relative z-10 my-auto py-10 flex flex-col items-center text-center">
+          <div
+            className={`relative z-10 flex flex-col items-center text-center ${
+              mobileCenteredEnd ? "my-4 py-4" : "my-auto py-8 sm:py-10"
+            }`}
+          >
             <div
               style={{
                 opacity: clamp01(titleProgress * 1.2),
-                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 64}px, 0)`,
+                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 48}px, 0)`,
               }}
               className="w-full select-none will-change-transform"
             >
               <h2
                 style={{ letterSpacing: `${letterSpacingEm}em` }}
-                className="block font-extrabold uppercase leading-[0.82] text-[#FFFFFF] text-[clamp(4.2rem,17.5vw,16.5rem)]"
+                className="block font-extrabold uppercase leading-[0.82] text-[#FFFFFF] text-[clamp(3.8rem,16.5vw,16.5rem)]"
               >
                 KONTAKT
               </h2>
@@ -3834,7 +3843,7 @@ const FullscreenPullContactSection = ({
                       })`,
                     }
               }
-              className={`mt-14 sm:mt-16 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
+              className={`mt-10 sm:mt-16 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
                 isMobileView
                   ? reducedMotion
                     ? "opacity-100"
@@ -3891,7 +3900,7 @@ const FullscreenPullContactSection = ({
             </div>
           </div>
 
-          <div className="relative z-10 h-2" />
+          {!mobileCenteredEnd && <div className="relative z-10 h-2 shrink-0" />}
         </div>
       </div>
     </section>
@@ -4784,6 +4793,8 @@ export default function App() {
   const revealedTitleScale = reducedMotion ? 1 : 0.93 + revealEase * 0.07;
   const revealedTitleY = reducedMotion ? 0 : (1 - revealEase) * 28;
 
+  const anchorVisible = reducedMotion || activeSecIdx > 0 || revealEase >= 0.45;
+
   const activeSectionObj = SECTIONS_FLOW[activeSecIdx] || SECTIONS_FLOW[0];
 
   const navItems = [
@@ -4965,7 +4976,7 @@ export default function App() {
                       onClick={() => jumpToSection("work")}
                       className="inline-flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer shadow-sm"
                     >
-                      <span>Einblick in meine Projekte</span>
+                      <span>Meine Projekte</span>
                     </button>
                   </div>
                 </div>
@@ -5333,8 +5344,20 @@ export default function App() {
         isMobileView={isMobileView}
       />
 
-      {/* FLOATING SECTION FLOW PILL */}
-      <div className="fixed bottom-5 right-5 z-40">
+      {/* FLOATING SECTION FLOW PILL – STARTS AFTER HERO AT INTRO TEXT */}
+      <div
+        className={`fixed bottom-5 right-5 z-40 ${
+          reducedMotion
+            ? anchorVisible
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+            : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                anchorVisible
+                  ? "opacity-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 translate-y-3 pointer-events-none"
+              }`
+        }`}
+      >
         <button
           type="button"
           onClick={handleNextPill}
