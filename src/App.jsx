@@ -3598,6 +3598,7 @@ const FullscreenPullContactSection = ({
   copied = false,
   onCopyEmail,
   reducedMotion = false,
+  isMobileView = false,
 }) => {
   const [revealProgress, setRevealProgress] = useState(reducedMotion ? 1 : 0);
 
@@ -3624,7 +3625,7 @@ const FullscreenPullContactSection = ({
           const contactBased = clamp01((vh - rect.top) / sectionTravel);
 
           let raw = contactBased;
-          if (expRect && expRect.height > 0) {
+          if (!isMobileView && expRect && expRect.height > 0) {
             const expExitProgress = clamp01(
               -expRect.top / Math.max(expRect.height * 0.88, 1),
             );
@@ -3654,6 +3655,7 @@ const FullscreenPullContactSection = ({
     experienceSectionRef,
     onPullProgressChange,
     reducedMotion,
+    isMobileView,
   ]);
 
   const p = reducedMotion ? 1 : revealProgress;
@@ -4576,7 +4578,7 @@ const ProjectsViewportCarousel = ({
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "Projekte & Wirkung" },
+  { id: "hero-stage", nextTitle: "Belastbare Datenprodukte & KI-Systeme" },
   { id: "work", nextTitle: "Was mich motiviert" },
   { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
@@ -4760,10 +4762,27 @@ export default function App() {
 
   const activeSectionObj = SECTIONS_FLOW[activeSecIdx] || SECTIONS_FLOW[0];
 
-  const expFadeFactor = reducedMotion ? 0 : clamp01(contactPullProgress * 1.35);
-  const expContentOpacity = (1 - expFadeFactor * 0.88).toFixed(3);
-  const expContentShiftY = Math.round(-expFadeFactor * 26);
-  const expContentScale = (1 - expFadeFactor * 0.025).toFixed(4);
+  const rawExpFade = reducedMotion
+    ? 0
+    : isMobileView
+      ? clamp01((contactPullProgress - 0.45) / 0.35)
+      : clamp01(contactPullProgress * 1.35);
+
+  const expFadeFactor = isMobileView
+    ? rawExpFade * rawExpFade * (3 - 2 * rawExpFade)
+    : rawExpFade;
+
+  const expContentOpacity = (
+    1 -
+    expFadeFactor * (isMobileView ? 1 : 0.88)
+  ).toFixed(3);
+  const expContentShiftY = Math.round(
+    -expFadeFactor * (isMobileView ? 18 : 26),
+  );
+  const expContentScale = (
+    1 -
+    expFadeFactor * (isMobileView ? 0.02 : 0.025)
+  ).toFixed(4);
 
   const navItems = [
     { id: "work", label: "Projekte" },
@@ -4970,7 +4989,7 @@ export default function App() {
 
       {/* 2. FEATURED WORK CAROUSEL */}
       <section id="work" className="bg-[#FFFFFF] pt-24 pb-16 sm:py-28 lg:py-32">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-10">
           <HeadlineFlow
             kicker="Projekte & Wirkung"
             title="Einblick in meine Projekte"
@@ -5318,6 +5337,7 @@ export default function App() {
         copied={copied}
         onCopyEmail={handleCopyEmail}
         reducedMotion={reducedMotion}
+        isMobileView={isMobileView}
       />
 
       {/* FLOATING SECTION FLOW PILL */}
