@@ -21,9 +21,7 @@ import {
   Mail,
   GitBranch,
   Globe,
-  ChevronRight,
   ChevronDown,
-  Pin,
   FileDown,
   Sun,
   Moon,
@@ -38,73 +36,107 @@ const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 const SUBTLE_FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#F5F5F7"/><circle cx="32" cy="32" r="24" fill="#FFFFFF" stroke="#E4E4E7" stroke-width="2"/><text x="32" y="38.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-size="20" font-weight="700" letter-spacing="-0.04em" fill="#0B0B0C">MR</text><circle cx="46" cy="18" r="3.2" fill="#2563EB"/></svg>`;
 
 const BRAND_URLS = {
-  provinzial: "https://www.provinzial.com",
-  vodafone: "https://www.vodafone.de",
+  provinzial: "https://www.provinzial.de/suedwest/",
+  vodafone: "https://www.vodafone.de/business",
   controlexpert: "https://www.controlexpert.com",
 };
 
-const PROVINZIAL_STATIONS = [
-  {
-    title: "Data Engineer & AI Engineer · IT-DWH",
-    period: "Ab 01.06.2026",
-    bullets: [
-      "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
-      "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
-      "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
-    ],
+const BRAND_THEME = {
+  provinzial: {
+    color: "#007A6E",
   },
-  {
-    title: "Data-Analyst Customer Data & Analytics",
-    period: "01.05.2025 – 30.05.2026",
-    bullets: [
-      "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
-      "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
-    ],
+  vodafone: {
+    color: "#E60000",
   },
-];
-
-const VODAFONE_STATION = {
-  title: "Backend / Data Integration Firmenkunden",
-  period: "Nov 2022 – Mär 2025",
-  bullets: [
-    "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal sowie den Blog und über 200 Business-Websites",
-    "Aufbau von Node.js-Microservices für Vertragsdaten und Ausbau der CI/CD-Automatisierung in Git-Pipelines",
-  ],
+  controlexpert: {
+    color: "#3B8A98",
+  },
 };
 
-const CONTROLEXPERT_FEATURED_STATION = {
-  title: "Softwareentwickler Versicherungsbranche",
-  period: "Jul 2019 – Aug 2022",
-  bullets: [
-    "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
-    "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
-    "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
-  ],
-};
-
-const CONTROLEXPERT_MORE_STATIONS = [
+const COMPANY_GROUPS = [
   {
-    title: "BI-Specialist Versicherungsprozesse",
-    period: "Okt 2017 – Jun 2019 · Teilzeit",
-    bullets: [
-      "Erfolgreiche Entwicklung eines Data Warehouse",
-      "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
+    id: "provinzial",
+    brand: "provinzial",
+    company: "Provinzial Versicherung AG",
+    industry: "Versicherung",
+    period: "01.05.2025 – heute",
+    roles: [
+      {
+        title: "Data Engineer & AI Engineer · IT-DWH",
+        period: "Ab 01.06.2026",
+        bullets: [
+          "Entwicklung und Betrieb skalierbarer Datenprodukte, Pipelines und Datenarchitekturen im IT-DWH als Fundament für Analytik und KI-Anwendungen",
+          "AI Engineering mit OpenCode sowie Etablierung von Agentic-Development-Workflows zur beschleunigten, qualitätsgesicherten Entwicklung im Projekt",
+          "Berufsbegleitend ab 01.09.2026 M. Sc. KI und Business Analytics an der FOM",
+        ],
+      },
+      {
+        title: "Data-Analyst Customer Data & Analytics",
+        period: "01.05.2025 – 30.05.2026",
+        bullets: [
+          "Stark PySpark-getriebene Entwicklung von Datenprodukten auf Azure Synapse – unter anderem Entwicklung eines Selektionsframeworks für Kundenselektionen",
+          "Rund sechs Monate (bis zum 01.04.2026) als Interim-PO für das Data-Team zur Steuerung und Priorisierung von Anforderungen",
+        ],
+      },
     ],
   },
   {
-    title: "Business-Analyst Versicherungsprozesse",
-    period: "Okt 2016 – Sep 2017",
-    bullets: [
-      "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
-      "Product Management interne Kalkulationsanwendung im Scrum Prozess",
+    id: "vodafone",
+    brand: "vodafone",
+    company: "Vodafone GmbH",
+    industry: "Telekommunikation",
+    period: "Nov 2022 – Mär 2025",
+    roles: [
+      {
+        title: "Backend / Data Integration Firmenkunden",
+        period: "Nov 2022 – Mär 2025",
+        bullets: [
+          "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal sowie den Blog und über 200 Business-Websites",
+          "Aufbau von Node.js-Microservices für Vertragsdaten und Ausbau der CI/CD-Automatisierung in Git-Pipelines",
+        ],
+      },
     ],
   },
   {
-    title: "Data-Specialist Automobil",
-    period: "Jul 2012 – Sep 2016",
-    bullets: [
-      "Erhebung, Abfrage & Pflege von Herstellerdaten",
-      "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
+    id: "controlexpert",
+    brand: "controlexpert",
+    company: "ControlExpert GmbH",
+    industry: "InsurTech & Automotive",
+    period: "Jul 2012 – Aug 2022",
+    roles: [
+      {
+        title: "Softwareentwickler Versicherungsbranche",
+        period: "Jul 2019 – Aug 2022",
+        bullets: [
+          "Entwicklung Webapplikation zur digitalen Schadenaufnahme (React.js im Frontend & .NET C# im Backend)",
+          "Agile nach Kanban & Design Thinking Ansätzen, Codequalität mit Jest & Cypress",
+          "Bis Februar 2021 Tätigkeit Teilzeit neben Studium, danach in Vollzeit",
+        ],
+      },
+      {
+        title: "BI-Specialist Versicherungsprozesse",
+        period: "Okt 2017 – Jun 2019 · Teilzeit",
+        bullets: [
+          "Erfolgreiche Entwicklung eines Data Warehouse",
+          "Effizientes SQL Reporting & Visualisierung in Tableau, Stakeholder-Beratung zu relevanten KPIs",
+        ],
+      },
+      {
+        title: "Business-Analyst Versicherungsprozesse",
+        period: "Okt 2016 – Sep 2017",
+        bullets: [
+          "Projektarbeit Digitalisierung für Versicherungsprozesse & Prozessautomatisierung mit IBM BPM",
+          "Product Management interne Kalkulationsanwendung im Scrum Prozess",
+        ],
+      },
+      {
+        title: "Data-Specialist Automobil",
+        period: "Jul 2012 – Sep 2016",
+        bullets: [
+          "Erhebung, Abfrage & Pflege von Herstellerdaten",
+          "Intensive Arbeit mit MS-Office & relationalen Datenbanken",
+        ],
+      },
     ],
   },
 ];
@@ -275,7 +307,7 @@ const CV_POSITIONS = [
   },
 ];
 
-/* TEMPLATE-EXACT DIRECT PDF GENERATOR (JSPDF, NO PRINT DIALOG) */
+/* DIRECT PDF GENERATOR (JSPDF) */
 const downloadCvPdfDirect = ({
   isEn,
   isDarkPdf,
@@ -300,21 +332,21 @@ const downloadCvPdfDirect = ({
     ? {
         bg: [13, 15, 20],
         name: [248, 250, 252],
-        subtitle: [147, 197, 253],
+        subtitle: [226, 232, 240],
         meta: [148, 163, 184],
-        heading: [196, 181, 253],
-        role: [110, 231, 183],
+        heading: [203, 213, 225],
+        role: [226, 232, 240],
         body: [216, 222, 233],
         muted: [148, 163, 184],
         rule: [56, 65, 92],
-        accentBar: [99, 102, 241],
+        accentBar: [148, 163, 184],
       }
     : {
         bg: [255, 255, 255],
         name: [24, 24, 27],
         subtitle: [39, 39, 42],
         meta: [113, 113, 122],
-        heading: [39, 39, 42],
+        heading: [82, 82, 91],
         role: [39, 39, 42],
         body: [82, 82, 91],
         muted: [113, 113, 122],
@@ -446,7 +478,7 @@ const downloadCvPdfDirect = ({
       if (pos.period) {
         doc.setFont("helvetica", "bold");
         doc.setFontSize(8.4);
-        doc.setTextColor(...palette.role);
+        doc.setTextColor(...palette.muted);
         doc.text(pos.period, pageW - marginX, y, { align: "right" });
       }
       y += 4.4;
@@ -558,7 +590,18 @@ const downloadCvPdfDirect = ({
   doc.save(`${fileName}.pdf`);
 };
 
-/* HERO AVATAR: ONLY SPEAKS ONCE ON LOAD, CLOSES AFTER A FEW SECONDS, SINGLE FOCUS PULSE */
+/* COLLAPSIBLE SUBTEXT BLOCK */
+const CollapsibleSubtext = ({ open, children, className = "" }) => (
+  <div
+    className={`grid transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+    } ${className}`}
+  >
+    <div className="overflow-hidden min-h-0">{children}</div>
+  </div>
+);
+
+/* HERO AVATAR */
 const HeroAvatarSpeechMark = ({
   size = 42,
   className = "",
@@ -573,21 +616,10 @@ const HeroAvatarSpeechMark = ({
   useEffect(() => {
     if (reducedMotion) return;
 
-    const pulseStart = window.setTimeout(() => {
-      setFocusPulseActive(true);
-    }, 250);
-
-    const pulseEnd = window.setTimeout(() => {
-      setFocusPulseActive(false);
-    }, 2200);
-
-    const bubbleStart = window.setTimeout(() => {
-      setIntroActive(true);
-    }, 550);
-
-    const bubbleEnd = window.setTimeout(() => {
-      setIntroActive(false);
-    }, 4500);
+    const pulseStart = window.setTimeout(() => setFocusPulseActive(true), 250);
+    const pulseEnd = window.setTimeout(() => setFocusPulseActive(false), 2200);
+    const bubbleStart = window.setTimeout(() => setIntroActive(true), 550);
+    const bubbleEnd = window.setTimeout(() => setIntroActive(false), 4500);
 
     return () => {
       window.clearTimeout(pulseStart);
@@ -666,7 +698,7 @@ const HeroAvatarSpeechMark = ({
             animation:
               "mrOnceFocusPing 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1 forwards",
           }}
-          className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-[#93C5FD]"
+          className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-white/70"
         />
       )}
 
@@ -737,7 +769,7 @@ const HeroAvatarSpeechMark = ({
           {bubbleVisible &&
             !reducedMotion &&
             typedCount < greetingText.length && (
-              <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#2563EB] animate-pulse" />
+              <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#0B0B0C] animate-pulse" />
             )}
         </span>
 
@@ -750,7 +782,7 @@ const HeroAvatarSpeechMark = ({
   );
 };
 
-/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE TO OPEN CV EXPORT */
+/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE */
 const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   const [hovered, setHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
@@ -798,15 +830,15 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
         aria-label="CV-Customizing und PDF-Export öffnen"
         className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C] shadow-xs transition-all cursor-pointer group"
       >
-        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F5F5F7] overflow-hidden border border-[#E4E4E7] group-hover:scale-105 transition-transform">
+        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F4F4F5] overflow-hidden border border-[#E4E4E7] group-hover:scale-105 transition-transform">
           <img
             src={avatarLogo}
             alt="Malte Reppke Avatar CV"
             className="w-full h-full object-cover object-top"
           />
         </span>
-        <span className="text-xs font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
-          <FileDown className="w-3.5 h-3.5 text-[#2563EB]" />
+        <span className="text-xs sm:text-[13px] font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
+          <FileDown className="w-3.5 h-3.5 text-[#0B0B0C]" />
           <span>CV als PDF</span>
         </span>
       </button>
@@ -828,7 +860,7 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
         <p className="text-xs font-semibold leading-snug text-white">
           <span>{bubbleText.slice(0, typedCount)}</span>
           {hovered && !reducedMotion && typedCount < bubbleText.length && (
-            <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-[#93C5FD] align-middle animate-pulse" />
+            <span className="ml-0.5 inline-block w-[1.5px] h-3.5 bg-white align-middle animate-pulse" />
           )}
         </p>
         <span
@@ -840,7 +872,63 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   );
 };
 
-/* CV CUSTOMIZER & DIRECT PDF DOWNLOAD (DE / EN, LIGHT / DARK, TEMPLATE-EXACT LAYOUT) */
+/* MAC PREVIEW WINDOW FOR CV CUSTOMIZER */
+const CvMacPdfPreviewWindow = ({ isDarkPdf, isEn, children }) => (
+  <div className="space-y-2">
+    <div className="flex items-center justify-between gap-2 px-1">
+      <div className="inline-flex items-center gap-2">
+        <span className="px-2.5 py-0.5 rounded-full bg-[#0B0B0C] text-white text-[10px] font-bold uppercase tracking-[0.14em]">
+          PDF Preview
+        </span>
+        <span className="text-xs font-semibold text-[#71717A]">
+          {isEn
+            ? "Live preview of the exported PDF document"
+            : "Live-Vorschau des exportierten PDF-Dokuments"}
+        </span>
+      </div>
+      <span className="text-[11px] font-mono text-[#71717A] hidden sm:inline">
+        A4 · {isDarkPdf ? "Dark PDF" : "Light PDF"}
+      </span>
+    </div>
+
+    <div className="rounded-2xl bg-[#18181B] p-2 sm:p-2.5 shadow-[0_16px_38px_-14px_rgba(11,11,12,0.25)] border border-[#27272A]">
+      <div className="rounded-[12px] overflow-hidden">
+        <div className="h-6 px-3 bg-[#F4F4F5] border-b border-[#E4E4E7] flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#EF4444]" />
+            <span className="w-2 h-2 rounded-full bg-[#F59E0B]" />
+            <span className="w-2 h-2 rounded-full bg-[#10B981]" />
+          </div>
+          <span className="inline-flex items-center gap-1.5 text-[10.5px] font-mono text-[#3F3F46] truncate">
+            <span className="px-1.5 py-[1px] rounded bg-[#E4E4E7] text-[#0B0B0C] text-[9px] font-bold uppercase">
+              PDF PREVIEW
+            </span>
+            <span>
+              {isEn
+                ? "Malte_Reppke_CV_Preview.pdf"
+                : "Malte_Reppke_CV_Vorschau.pdf"}
+            </span>
+          </span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#71717A] hidden sm:inline">
+            Vorschau
+          </span>
+        </div>
+
+        <div
+          className={`max-h-[300px] sm:max-h-[560px] lg:max-h-[640px] overflow-y-auto p-5 sm:p-8 transition-colors duration-300 ${
+            isDarkPdf
+              ? "bg-[#0D0F14] text-[#F8FAFC]"
+              : "bg-white text-[#18181B]"
+          }`}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+/* CV CUSTOMIZER */
 const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   const [lang, setLang] = useState("de");
   const [pdfTheme, setPdfTheme] = useState("light");
@@ -854,6 +942,9 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   const [personalNote, setPersonalNote] = useState("");
   const [downloadStatus, setDownloadStatus] = useState("");
 
+  const [profileSubtextOpen, setProfileSubtextOpen] = useState(false);
+  const [expandedRoleIds, setExpandedRoleIds] = useState(() => ({}));
+
   useEffect(() => {
     setFocusMode(initialFocus);
   }, [initialFocus]);
@@ -866,6 +957,26 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
     setDownloadStatus("");
+  };
+
+  const toggleRoleSubtext = (id) => {
+    setExpandedRoleIds((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const allRolesExpanded =
+    CV_POSITIONS.length > 0 &&
+    CV_POSITIONS.every((p) => Boolean(expandedRoleIds[p.id]));
+
+  const toggleAllRolesSubtext = () => {
+    if (allRolesExpanded) {
+      setExpandedRoleIds({});
+    } else {
+      const next = {};
+      CV_POSITIONS.forEach((p) => {
+        next[p.id] = true;
+      });
+      setExpandedRoleIds(next);
+    }
   };
 
   const toggleSkill = (label) => {
@@ -956,10 +1067,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
       role="dialog"
       aria-modal="true"
       aria-label="CV anpassen und als PDF herunterladen"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 sm:p-6 overflow-y-auto"
     >
-      <div className="w-full max-w-6xl rounded-[28px] bg-[#F4F5F9] border border-[#E4E4E7] shadow-2xl overflow-hidden my-auto">
-        <div className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-7 py-4 bg-white border-b border-[#E4E4E7]">
+      <div className="w-full max-w-6xl rounded-[28px] bg-[#FBFBFD] border border-[#E4E4E7] shadow-2xl overflow-hidden my-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-7 py-4 bg-white border-b border-[#E4E4E7]">
           <div className="flex items-center gap-3">
             <img
               src={avatarLogo}
@@ -967,15 +1078,15 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               className="w-9 h-9 rounded-full object-cover object-top border border-[#E4E4E7]"
             />
             <div>
-              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#52525B]">
+              <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#71717A]">
                 {isEn
-                  ? "CV Customizer & PDF Export"
+                  ? "CV Customizing & PDF Export"
                   : "CV-Customizing & PDF-Export"}
               </span>
               <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
                 {isEn
-                  ? "Select language, sections, skills & notes and download directly as PDF"
-                  : "Sprache, Stationen, Skills & Notiz wählen und direkt als PDF herunterladen"}
+                  ? "Select language, theme, focus, roles & skills and export directly as PDF"
+                  : "Sprache, Modus, Fokus, Stationen, Skills & Notiz wählen und direkt als PDF exportieren"}
               </p>
             </div>
           </div>
@@ -995,7 +1106,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             <button
               type="button"
               onClick={handleDirectPdfDownload}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#18181B] text-white text-xs font-bold transition-colors cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0B0B0C] hover:bg-[#27272A] text-white text-xs font-bold transition-colors cursor-pointer whitespace-nowrap"
             >
               <FileDown className="w-3.5 h-3.5" />
               <span>
@@ -1020,7 +1131,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#71717A] mb-2">
                     {isEn ? "Language" : "Sprache"}
                   </span>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -1030,10 +1141,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         setLang("de");
                         setDownloadStatus("");
                       }}
-                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      className={`py-2 px-2.5 rounded-xl border text-xs sm:text-[13px] font-bold transition-colors cursor-pointer ${
                         !isEn
                           ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                          : "bg-[#FAFAFA] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F4F4F5]"
                       }`}
                     >
                       Deutsch
@@ -1044,10 +1155,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         setLang("en");
                         setDownloadStatus("");
                       }}
-                      className={`py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      className={`py-2 px-2.5 rounded-xl border text-xs sm:text-[13px] font-bold transition-colors cursor-pointer ${
                         isEn
                           ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                          : "bg-[#FAFAFA] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F4F4F5]"
                       }`}
                     >
                       English
@@ -1056,7 +1167,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 </div>
 
                 <div>
-                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B] mb-2">
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#71717A] mb-2">
                     {isEn ? "PDF Theme" : "PDF-Modus"}
                   </span>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -1066,10 +1177,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         setPdfTheme("light");
                         setDownloadStatus("");
                       }}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs sm:text-[13px] font-bold transition-colors cursor-pointer ${
                         !isDarkPdf
                           ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                          : "bg-[#FAFAFA] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F4F4F5]"
                       }`}
                     >
                       <Sun className="w-3.5 h-3.5" />
@@ -1082,10 +1193,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         setPdfTheme("dark");
                         setDownloadStatus("");
                       }}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs sm:text-[13px] font-bold transition-colors cursor-pointer ${
                         isDarkPdf
                           ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                          : "bg-[#F8FAFC] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F1F5F9]"
+                          : "bg-[#FAFAFA] text-[#0B0B0C] border-[#E4E4E7] hover:bg-[#F4F4F5]"
                       }`}
                     >
                       <Moon className="w-3.5 h-3.5" />
@@ -1096,7 +1207,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B] mb-1.5">
+                <label className="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#71717A] mb-1.5">
                   {isEn ? "Focus" : "Fokus"}
                 </label>
                 <select
@@ -1105,7 +1216,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     setFocusMode(e.target.value);
                     setDownloadStatus("");
                   }}
-                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-2.5 py-2 text-xs font-bold text-[#0B0B0C]"
+                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#FAFAFA] px-3 py-2 text-xs sm:text-[13px] font-bold text-[#0B0B0C]"
                 >
                   <option value="all">
                     {isEn ? "All (Full Profile)" : "Alles (Gesamtprofil)"}
@@ -1125,7 +1236,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 <div className="flex items-center justify-between mb-1.5">
                   <label
                     htmlFor="mr-personal-note"
-                    className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#52525B]"
+                    className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#71717A]"
                   >
                     {isEn
                       ? "Personal CV Notes (optional)"
@@ -1138,7 +1249,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                         setPersonalNote("");
                         setDownloadStatus("");
                       }}
-                      className="text-[11px] font-semibold text-[#52525B] hover:text-[#0B0B0C] cursor-pointer"
+                      className="text-xs font-semibold text-[#71717A] hover:text-[#0B0B0C] cursor-pointer"
                     >
                       {isEn ? "Clear" : "Leeren"}
                     </button>
@@ -1157,16 +1268,16 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                       ? "e.g. Recruiting: Focus on Data & AI Engineering, open for conversation…"
                       : "z. B. Recruiting: Fokus auf Data & AI Engineering, offen für Austausch…"
                   }
-                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#F8FAFC] px-3 py-2 text-xs text-[#0B0B0C] placeholder:text-[#71717A] resize-y"
+                  className="w-full rounded-xl border border-[#E4E4E7] bg-[#FAFAFA] px-3 py-2 text-xs sm:text-[13px] text-[#0B0B0C] placeholder:text-[#71717A] resize-y"
                 />
               </div>
             </div>
 
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
+                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#71717A]">
                   {isEn
-                    ? "Experience Entries"
+                    ? "Include / Exclude Experience"
                     : "Stationen ein- / ausschließen"}
                 </span>
                 <button
@@ -1179,7 +1290,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                     );
                     setDownloadStatus("");
                   }}
-                  className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer"
+                  className="text-xs font-bold text-[#52525B] hover:text-[#0B0B0C] hover:underline cursor-pointer"
                 >
                   {selectedPositionIds.length === CV_POSITIONS.length
                     ? isEn
@@ -1196,41 +1307,36 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   const checked = selectedPositionIds.includes(pos.id);
                   const loc = isEn ? pos.en : pos.de;
                   return (
-                    <button
+                    <label
                       key={pos.id}
-                      type="button"
-                      onClick={() => togglePosition(pos.id)}
-                      className={`w-full flex items-start justify-between gap-2.5 p-2.5 rounded-xl border text-left transition-colors cursor-pointer ${
+                      className={`flex items-start justify-between gap-2.5 p-2.5 rounded-xl border cursor-pointer transition-colors ${
                         checked
-                          ? "bg-[#F8FAFC] border-[#CBD5E1] text-[#0B0B0C]"
-                          : "bg-white border-[#F1F5F9] text-[#71717A] opacity-65"
+                          ? "bg-[#FAFAFA] border-[#E4E4E7] text-[#0B0B0C]"
+                          : "bg-white border-[#F4F4F5] text-[#71717A] opacity-70"
                       }`}
                     >
                       <div>
-                        <p className="text-xs font-bold leading-snug">
+                        <p className="text-xs sm:text-[13px] font-bold leading-snug">
                           {loc.role}
                         </p>
-                        <p className="text-[11px] text-[#52525B]">
+                        <p className="text-xs text-[#71717A] mt-0.5">
                           {loc.company} · {loc.period}
                         </p>
                       </div>
-                      <span
-                        className={`mt-0.5 w-4 h-4 rounded flex items-center justify-center shrink-0 border ${
-                          checked
-                            ? "bg-[#0B0B0C] border-[#0B0B0C] text-white"
-                            : "border-[#CBD5E1] bg-white"
-                        }`}
-                      >
-                        {checked && <Check className="w-3 h-3" />}
-                      </span>
-                    </button>
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => togglePosition(pos.id)}
+                        className="mt-1 w-4 h-4 accent-[#0B0B0C] cursor-pointer"
+                      />
+                    </label>
                   );
                 })}
               </div>
             </div>
 
             <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-2.5">
-              <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
+              <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-[#71717A]">
                 {isEn ? "Core Competencies in CV" : "Kernkompetenzen im CV"}
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -1242,10 +1348,10 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                       key={skill.label}
                       type="button"
                       onClick={() => toggleSkill(skill.label)}
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors cursor-pointer ${
                         active
                           ? "bg-[#0B0B0C] text-white border-[#0B0B0C]"
-                          : "bg-[#F8FAFC] text-[#52525B] border-[#E4E4E7] hover:text-[#0B0B0C]"
+                          : "bg-[#FAFAFA] text-[#71717A] border-[#E4E4E7] hover:text-[#0B0B0C]"
                       }`}
                     >
                       {pillLabel}
@@ -1257,30 +1363,33 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
           </div>
 
           <div className="lg:col-span-7">
-            <div
-              className={`rounded-2xl border p-7 sm:p-10 shadow-sm transition-colors duration-300 ${
-                isDarkPdf
-                  ? "bg-[#0D0F14] border-indigo-400/25 text-[#F8FAFC]"
-                  : "bg-white border-[#E4E4E7] text-[#18181B]"
-              }`}
-            >
+            <CvMacPdfPreviewWindow isDarkPdf={isDarkPdf} isEn={isEn}>
               <div
-                className={`pb-5 border-b ${
+                className={`pb-4 border-b ${
                   isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
-                <h2 className="text-3xl sm:text-[34px] font-bold tracking-[-0.035em] leading-tight">
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span
+                    className={`text-[10px] font-bold uppercase tracking-[0.16em] ${
+                      isDarkPdf ? "text-slate-400" : "text-[#71717A]"
+                    }`}
+                  >
+                    {isEn ? "PDF Document Preview" : "PDF-Dokumentvorschau"}
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-[34px] font-bold tracking-[-0.035em] leading-tight">
                   Malte Reppke
                 </h2>
                 <p
-                  className={`mt-1.5 text-xs sm:text-sm font-bold ${
-                    isDarkPdf ? "text-[#93C5FD]" : "text-[#27272A]"
+                  className={`mt-1 text-xs sm:text-sm font-bold ${
+                    isDarkPdf ? "text-slate-200" : "text-[#3F3F46]"
                   }`}
                 >
                   Data Engineer &amp; AI Engineer
                 </p>
                 <p
-                  className={`mt-1 text-[11px] sm:text-xs ${
+                  className={`mt-1 text-xs ${
                     isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                   }`}
                 >
@@ -1290,39 +1399,65 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               </div>
 
               <div
-                className={`py-5 border-b ${
+                className={`py-4 border-b ${
                   isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
-                <h3
-                  className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
-                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
-                  }`}
+                <button
+                  type="button"
+                  onClick={() => setProfileSubtextOpen((prev) => !prev)}
+                  aria-expanded={profileSubtextOpen}
+                  className="w-full flex items-center justify-between gap-2 text-left cursor-pointer group"
                 >
-                  {isEn ? "Executive Profile" : "Profil"}
-                </h3>
-                <p
-                  className={`mt-2 text-xs sm:text-[13px] leading-relaxed ${
-                    isDarkPdf ? "text-slate-200" : "text-[#52525B]"
-                  }`}
-                >
-                  {summaryText}
-                </p>
+                  <h3
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+                      isDarkPdf ? "text-slate-300" : "text-[#71717A]"
+                    }`}
+                  >
+                    {isEn ? "Executive Profile" : "Profil"}
+                  </h3>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold opacity-75 group-hover:opacity-100">
+                    <span>
+                      {profileSubtextOpen
+                        ? isEn
+                          ? "Hide"
+                          : "Einklappen"
+                        : isEn
+                          ? "Expand"
+                          : "Ausklappen"}
+                    </span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                        profileSubtextOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </span>
+                </button>
+
+                <CollapsibleSubtext open={profileSubtextOpen}>
+                  <p
+                    className={`pt-2 text-xs sm:text-sm leading-relaxed ${
+                      isDarkPdf ? "text-slate-200" : "text-[#52525B]"
+                    }`}
+                  >
+                    {summaryText}
+                  </p>
+                </CollapsibleSubtext>
               </div>
 
               <div
-                className={`py-5 border-b ${
+                className={`py-4 border-b ${
                   isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
                 <h3
-                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
-                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
+                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2.5 ${
+                    isDarkPdf ? "text-slate-300" : "text-[#71717A]"
                   }`}
                 >
                   {isEn ? "Core Competencies" : "Kernkompetenzen"}
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-5 gap-y-2 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1.5 text-xs">
                   {displaySkills.map((item) => (
                     <span
                       key={item}
@@ -1337,17 +1472,32 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
               </div>
 
               <div
-                className={`py-5 border-b ${
+                className={`py-4 border-b ${
                   isDarkPdf ? "border-slate-700/80" : "border-[#D4D4D8]"
                 }`}
               >
-                <h3
-                  className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3.5 ${
-                    isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
-                  }`}
-                >
-                  {isEn ? "Professional Experience" : "Berufserfahrung"}
-                </h3>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <h3
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] ${
+                      isDarkPdf ? "text-slate-300" : "text-[#71717A]"
+                    }`}
+                  >
+                    {isEn ? "Professional Experience" : "Berufserfahrung"}
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={toggleAllRolesSubtext}
+                    className="text-xs font-semibold opacity-75 hover:opacity-100 cursor-pointer"
+                  >
+                    {allRolesExpanded
+                      ? isEn
+                        ? "Collapse all"
+                        : "Alle einklappen"
+                      : isEn
+                        ? "Expand all"
+                        : "Alle ausklappen"}
+                  </button>
+                </div>
 
                 {filteredPositions.length === 0 ? (
                   <p
@@ -1360,71 +1510,82 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                       : "Keine Station ausgewählt – bitte links Stationen aktivieren."}
                   </p>
                 ) : (
-                  <div className="space-y-4.5">
-                    {filteredPositions.map((pos) => (
-                      <div key={pos.id}>
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <p className="text-xs sm:text-sm font-bold">
-                            {pos.company}
-                          </p>
-                          <span
-                            className={`text-[11px] font-bold ${
-                              isDarkPdf ? "text-[#6EE7B7]" : "text-[#52525B]"
-                            }`}
+                  <div className="divide-y divide-current/10">
+                    {filteredPositions.map((pos) => {
+                      const isSubOpen = Boolean(expandedRoleIds[pos.id]);
+                      return (
+                        <div
+                          key={pos.id}
+                          className="py-2.5 first:pt-0 last:pb-0"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => toggleRoleSubtext(pos.id)}
+                            aria-expanded={isSubOpen}
+                            className="w-full text-left flex items-start justify-between gap-2 cursor-pointer group"
                           >
-                            {pos.period}
-                          </span>
+                            <div>
+                              <p className="text-xs sm:text-sm font-bold">
+                                {pos.company}
+                              </p>
+                              <p
+                                className={`text-xs font-bold mt-0.5 ${
+                                  isDarkPdf
+                                    ? "text-slate-300"
+                                    : "text-[#3F3F46]"
+                                }`}
+                              >
+                                {pos.role}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <span
+                                className={`text-xs font-bold ${
+                                  isDarkPdf
+                                    ? "text-slate-400"
+                                    : "text-[#71717A]"
+                                }`}
+                              >
+                                {pos.period}
+                              </span>
+                              <ChevronDown
+                                className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                                  isSubOpen ? "rotate-180" : ""
+                                }`}
+                              />
+                            </div>
+                          </button>
+
+                          <CollapsibleSubtext open={isSubOpen}>
+                            <p
+                              className={`pt-1.5 text-xs leading-relaxed ${
+                                isDarkPdf ? "text-slate-200" : "text-[#52525B]"
+                              }`}
+                            >
+                              {pos.summary}
+                            </p>
+                          </CollapsibleSubtext>
                         </div>
-                        <p
-                          className={`text-xs font-bold mt-0.5 ${
-                            isDarkPdf ? "text-[#6EE7B7]" : "text-[#27272A]"
-                          }`}
-                        >
-                          {pos.role}
-                        </p>
-                        <p
-                          className={`mt-1.5 text-xs leading-relaxed ${
-                            isDarkPdf ? "text-slate-200" : "text-[#52525B]"
-                          }`}
-                        >
-                          {pos.summary}
-                        </p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
 
               <div
-                className={`pt-5 ${
-                  hasNote ? "grid grid-cols-1 sm:grid-cols-2 gap-6" : ""
+                className={`pt-4 ${
+                  hasNote ? "grid grid-cols-1 sm:grid-cols-2 gap-5" : ""
                 }`}
               >
-                <div
-                  className={
-                    hasNote
-                      ? `sm:pr-6 sm:border-r ${
-                          isDarkPdf
-                            ? "sm:border-slate-700/80"
-                            : "sm:border-[#D4D4D8]"
-                        }`
-                      : ""
-                  }
-                >
+                <div>
                   <h3
-                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
-                      isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
+                    className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
+                      isDarkPdf ? "text-slate-300" : "text-[#71717A]"
                     }`}
                   >
                     {isEn ? "Education" : "Studium"}
                   </h3>
-                  <div
-                    className={`space-y-3 text-xs ${
-                      !hasNote
-                        ? "grid grid-cols-1 sm:grid-cols-2 gap-6 space-y-0"
-                        : ""
-                    }`}
-                  >
+                  <div className="space-y-2 text-xs">
                     <div>
                       <p className="font-bold">
                         {isEn
@@ -1432,7 +1593,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                           : "M. Sc. KI und Business Analytics"}
                       </p>
                       <p
-                        className={`text-[11px] mt-0.5 ${
+                        className={`text-[11px] ${
                           isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                         }`}
                       >
@@ -1448,7 +1609,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                           : "B. Sc. Wirtschaftsinformatik (1,9)"}
                       </p>
                       <p
-                        className={`text-[11px] mt-0.5 ${
+                        className={`text-[11px] ${
                           isDarkPdf ? "text-slate-400" : "text-[#71717A]"
                         }`}
                       >
@@ -1463,8 +1624,8 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                 {hasNote && (
                   <div>
                     <h3
-                      className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-3 ${
-                        isDarkPdf ? "text-[#C4B5FD]" : "text-[#27272A]"
+                      className={`text-[11px] font-bold uppercase tracking-[0.16em] mb-2 ${
+                        isDarkPdf ? "text-slate-300" : "text-[#71717A]"
                       }`}
                     >
                       {isEn
@@ -1481,7 +1642,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   </div>
                 )}
               </div>
-            </div>
+            </CvMacPdfPreviewWindow>
           </div>
         </div>
       </div>
@@ -1489,18 +1650,19 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
   );
 };
 
+/* BRAND WORDMARK */
 const BrandWordmark = ({
   brand,
   inverted = false,
   href = null,
   stopPropagation = false,
 }) => {
-  const linkHref = href ?? BRAND_URLS[brand] ?? null;
+  const linkHref = href === false ? null : (href ?? BRAND_URLS[brand] ?? null);
   const colorClass = inverted ? "text-white" : "text-[#0B0B0C]";
   const hoverClass = linkHref
     ? inverted
-      ? "hover:opacity-85 transition-opacity"
-      : "hover:opacity-75 transition-opacity"
+      ? "hover:opacity-80 transition-opacity"
+      : "hover:opacity-70 transition-opacity"
     : "";
 
   let content = null;
@@ -1510,7 +1672,10 @@ const BrandWordmark = ({
       <span
         className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.06em] text-sm sm:text-base ${colorClass} ${hoverClass}`}
       >
-        <span className="w-2.5 h-2.5 rounded-[2px] bg-[#007A6E] inline-block shrink-0" />
+        <span
+          style={{ backgroundColor: BRAND_THEME.provinzial.color }}
+          className="w-2.5 h-2.5 rounded-[2px] inline-block shrink-0"
+        />
         <span>PROVINZIAL</span>
       </span>
     );
@@ -1519,8 +1684,14 @@ const BrandWordmark = ({
       <span
         className={`inline-flex items-center gap-2 font-extrabold tracking-[-0.035em] text-base sm:text-lg ${colorClass} ${hoverClass}`}
       >
-        <span className="w-4 h-4 rounded-full border-[2.5px] border-[#E60000] inline-flex items-center justify-center shrink-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E60000]" />
+        <span
+          style={{ borderColor: BRAND_THEME.vodafone.color }}
+          className="w-4 h-4 rounded-full border-[2.5px] inline-flex items-center justify-center shrink-0"
+        >
+          <span
+            style={{ backgroundColor: BRAND_THEME.vodafone.color }}
+            className="w-1.5 h-1.5 rounded-full"
+          />
         </span>
         <span>vodafone</span>
       </span>
@@ -1530,10 +1701,17 @@ const BrandWordmark = ({
       <span
         className={`inline-flex items-center gap-2 font-extrabold uppercase tracking-[0.04em] text-sm sm:text-base ${colorClass} ${hoverClass}`}
       >
-        <span className="w-2.5 h-2.5 rotate-45 bg-[#0A66C2] inline-block shrink-0" />
+        <span
+          style={{ backgroundColor: BRAND_THEME.controlexpert.color }}
+          className="w-2.5 h-2.5 rotate-45 inline-block shrink-0"
+        />
         <span>
           CONTROL
-          <span className={inverted ? "text-[#93C5FD]" : "text-[#0A66C2]"}>
+          <span
+            style={{
+              color: inverted ? "#E2E8F0" : BRAND_THEME.controlexpert.color,
+            }}
+          >
             EXPERT
           </span>
         </span>
@@ -1556,8 +1734,17 @@ const BrandWordmark = ({
   );
 };
 
-/* COMPACT MAC MONITOR WITH BRANDED PROJECT SCREENSHOT / UI PREVIEW */
-const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
+/* REALISTIC WEB & PRODUCT SCREENS IN MAC MONITOR */
+const MacProjectMonitor = ({
+  brand,
+  previewImage,
+  previewAlt,
+  previewUrl,
+  large = false,
+  variant = "primary",
+}) => {
+  const brandStyle = BRAND_THEME[brand] || BRAND_THEME.provinzial;
+
   const renderScreenPreview = () => {
     if (previewImage) {
       return (
@@ -1569,64 +1756,147 @@ const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
       );
     }
 
+    /* 1. PROVINZIAL (Südwest / Customer Data & IT-DWH) */
     if (brand === "provinzial") {
+      if (variant === "secondary-a") {
+        return (
+          <div className="w-full h-full bg-[#F7FAFA] flex flex-col justify-between text-[#0F172A] text-left select-none overflow-hidden">
+            <div className="px-3.5 py-2 bg-white border-b border-[#E2ECEB] flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 text-[8.5px] font-extrabold tracking-wider text-[#007A6E]">
+                <span className="w-2 h-2 rounded-[2px] bg-[#007A6E]" />
+                PROVINZIAL · SÜDWEST
+              </span>
+              <span className="text-[7px] font-semibold text-[#64748B]">
+                Privatkunden · Service
+              </span>
+            </div>
+
+            <div className="p-3.5 grid grid-cols-12 gap-2.5 items-center my-auto">
+              <div className="col-span-7 space-y-1.5">
+                <span className="inline-block px-2 py-0.5 rounded bg-[#007A6E] text-white text-[7px] font-bold uppercase tracking-wider">
+                  Schutz &amp; Vorsorge
+                </span>
+                <p className="text-[11px] font-bold text-[#0F172A] leading-tight">
+                  Immer da, immer nah – digital &amp; persönlich.
+                </p>
+                <p className="text-[7.5px] text-[#475569]">
+                  Kundenkampagnen &amp; Qualtrics-Feedback im Südwest-Portal.
+                </p>
+              </div>
+              <div className="col-span-5 rounded-xl bg-gradient-to-br from-[#007A6E] to-[#00574E] text-white p-2.5 space-y-1.5 shadow-xs">
+                <p className="text-[7px] uppercase tracking-wider text-white/75 font-bold">
+                  Qualtrics NPS
+                </p>
+                <p className="text-sm font-extrabold">78 %</p>
+                <div className="h-1 rounded-full bg-white/25 overflow-hidden">
+                  <div className="h-full w-[78%] bg-white rounded-full" />
+                </div>
+              </div>
+            </div>
+
+            <div className="px-3.5 py-1.5 bg-[#007A6E]/10 text-[7px] font-semibold text-[#007A6E] flex justify-between">
+              <span>provinzial.de/suedwest</span>
+              <span>Kundenportal</span>
+            </div>
+          </div>
+        );
+      }
+
+      if (variant === "secondary-b") {
+        return (
+          <div className="w-full h-full bg-[#091514] text-white flex flex-col justify-between text-left select-none overflow-hidden">
+            <div className="px-3.5 py-2 border-b border-white/10 flex items-center justify-between">
+              <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-emerald-300">
+                IT-DWH · Azure Synapse &amp; OpenCode
+              </span>
+              <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[7px] font-mono">
+                PROD
+              </span>
+            </div>
+
+            <div className="p-3.5 my-auto space-y-2">
+              <div className="rounded-lg bg-black/50 border border-white/10 p-2.5 font-mono text-[7.5px] leading-relaxed">
+                <p className="text-emerald-400">
+                  $ opencode pipeline --verify selection-hub
+                </p>
+                <p className="text-white/85 mt-0.5">
+                  ✓ PySpark partitions &amp; schema checks passed
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-[7.5px]">
+                <div className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5">
+                  <span className="text-white/60 block">Engine</span>
+                  <span className="font-bold text-white">
+                    PySpark / Synapse
+                  </span>
+                </div>
+                <div className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5">
+                  <span className="text-white/60 block">Workflow</span>
+                  <span className="font-bold text-emerald-300">Agentic CI</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="px-3.5 py-1.5 bg-white/5 text-[7px] text-white/60 flex justify-between">
+              <span>Provinzial IT-DWH</span>
+              <span>Data &amp; AI Engineering</span>
+            </div>
+          </div>
+        );
+      }
+
       return (
-        <div className="w-full h-full bg-gradient-to-br from-[#F4FBF9] via-white to-[#E6F4F1] p-2.5 flex flex-col justify-between text-left select-none">
-          <div className="flex items-center justify-between">
-            <span className="inline-flex items-center gap-1 text-[8px] font-extrabold tracking-wider uppercase text-[#005B52]">
-              <span className="w-1.5 h-1.5 rounded-[1px] bg-[#007A6E]" />
-              PROVINZIAL
+        <div className="w-full h-full bg-[#F5F9F8] flex flex-col justify-between text-left select-none overflow-hidden">
+          <div className="px-3.5 sm:px-4 py-2 bg-white border-b border-[#DCEAE8] flex items-center justify-between">
+            <span className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] font-extrabold tracking-[0.1em] uppercase text-[#007A6E]">
+              <span className="w-2 h-2 rounded-[2px] bg-[#007A6E]" />
+              PROVINZIAL{" "}
+              <span className="font-semibold text-[#64748B]">SÜDWEST</span>
             </span>
-            <span className="px-1.5 py-0.5 rounded-full bg-[#007A6E]/10 text-[#007A6E] text-[7px] font-bold">
-              Kundenkampagne · Live
-            </span>
+            <div className="flex items-center gap-2 text-[7.5px] font-semibold text-[#475569]">
+              <span className="hidden sm:inline">Versicherungen</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#007A6E] text-white font-bold">
+                Mein Portal
+              </span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
-            <div className="col-span-7 space-y-1">
-              <span className="inline-block px-1.5 py-0.5 rounded bg-[#007A6E] text-white text-[6.5px] font-bold uppercase tracking-wide">
-                Schutz-Check 2026
+          <div className="p-3.5 sm:p-4 grid grid-cols-12 gap-3 items-center my-auto">
+            <div className="col-span-7 space-y-1.5">
+              <span className="inline-block px-2 py-0.5 rounded bg-[#007A6E]/12 text-[#007A6E] text-[7.5px] font-bold uppercase tracking-wider">
+                Customer Data Hub · IT-DWH
               </span>
-              <p className="text-[10px] font-extrabold text-[#0B0B0C] leading-[1.15] tracking-tight">
-                Rundum abgesichert – passend zu Ihrer Lebensphase.
+              <p className="text-xs sm:text-[15px] font-extrabold text-[#0F172A] leading-[1.18] tracking-tight">
+                Datenprodukte &amp; Kundenselektion auf Azure Synapse.
               </p>
-              <p className="text-[7px] text-[#52525B] leading-tight">
-                Zielgruppenselektion via PySpark &amp; Customer Data Hub.
+              <p className="text-[8px] sm:text-[9px] text-[#475569] leading-snug">
+                PySpark-Pipelines, Qualtrics-Kampagnen &amp; OpenCode
+                AI-Workflows.
               </p>
-              <div className="pt-0.5 flex items-center gap-1">
-                <span className="px-1.5 py-0.5 rounded bg-[#007A6E] text-white text-[6.5px] font-bold">
-                  Angebot prüfen
+              <div className="pt-1 flex items-center gap-1.5">
+                <span className="inline-block px-2.5 py-1 rounded-full bg-[#007A6E] text-white text-[7.5px] font-bold">
+                  Selektionsframework
                 </span>
-                <span className="px-1.5 py-0.5 rounded bg-white border border-[#D4D4D8] text-[#27272A] text-[6.5px] font-semibold">
-                  Berater finden
+                <span className="inline-block px-2 py-1 rounded-full bg-white border border-[#CBD5E1] text-[#0F172A] text-[7.5px] font-bold">
+                  PySpark
                 </span>
               </div>
             </div>
 
-            <div className="col-span-5 rounded-lg bg-white border border-[#D7EAE6] p-1.5 shadow-2xs space-y-1.5">
-              <div className="flex items-center justify-between text-[6.5px] font-bold text-[#52525B]">
-                <span>Selektion</span>
-                <span className="text-[#007A6E]">+34 % CTR</span>
+            <div className="col-span-5 rounded-2xl bg-gradient-to-br from-[#007A6E] via-[#00665C] to-[#004D45] text-white p-3 space-y-2 shadow-sm">
+              <div className="rounded-lg bg-white/12 backdrop-blur-xs px-2.5 py-1.5">
+                <p className="text-[6.5px] uppercase tracking-wider text-white/75 font-bold">
+                  Plattform
+                </p>
+                <p className="text-[10px] font-extrabold text-white">
+                  Azure Synapse
+                </p>
               </div>
-              <div className="space-y-1">
-                <div>
-                  <div className="flex justify-between text-[6px] text-[#52525B] mb-0.5">
-                    <span>Bestandskunden</span>
-                    <span>88%</span>
-                  </div>
-                  <div className="h-1 rounded-full bg-[#E4E4E7] overflow-hidden">
-                    <div className="h-full w-[88%] bg-[#007A6E] rounded-full" />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-[6px] text-[#52525B] mb-0.5">
-                    <span>Vorsorge-Match</span>
-                    <span>74%</span>
-                  </div>
-                  <div className="h-1 rounded-full bg-[#E4E4E7] overflow-hidden">
-                    <div className="h-full w-[74%] bg-[#14B8A6] rounded-full" />
-                  </div>
-                </div>
+              <div className="rounded-lg bg-white text-[#0F172A] px-2.5 py-1.5">
+                <p className="text-[6.5px] uppercase tracking-wider text-[#007A6E] font-bold">
+                  AI Engineering
+                </p>
+                <p className="text-[9.5px] font-extrabold">OpenCode · IT-DWH</p>
               </div>
             </div>
           </div>
@@ -1634,54 +1904,125 @@ const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
       );
     }
 
+    /* 2. VODAFONE BUSINESS */
     if (brand === "vodafone") {
+      if (variant === "secondary-a") {
+        return (
+          <div className="w-full h-full bg-[#1C0404] text-white flex flex-col justify-between text-left select-none overflow-hidden">
+            <div className="px-3.5 py-2 border-b border-white/10 flex items-center justify-between text-[7.5px] font-bold">
+              <span className="text-[#FF3B30] uppercase tracking-[0.14em]">
+                Vertragsdaten · Node.js
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#E60000] text-white font-mono">
+                99.98%
+              </span>
+            </div>
+            <div className="p-3.5 my-auto space-y-2">
+              <p className="text-[10.5px] font-bold text-white leading-snug">
+                Echtzeit-API für Firmenkunden-Verträge
+              </p>
+              <div className="rounded-xl bg-white/8 border border-white/12 p-2.5 space-y-1 text-[7.5px]">
+                <div className="flex justify-between">
+                  <span className="text-white/75">Contract Microservice</span>
+                  <span className="font-bold text-emerald-400">200 OK</span>
+                </div>
+                <div className="flex justify-between text-white/65">
+                  <span>Git CI/CD Release</span>
+                  <span>Automatisiert</span>
+                </div>
+              </div>
+            </div>
+            <div className="px-3.5 py-1.5 bg-black/40 text-[7px] text-white/60 flex justify-between">
+              <span>vodafone.de/business</span>
+              <span>API Gateway</span>
+            </div>
+          </div>
+        );
+      }
+
+      if (variant === "secondary-b") {
+        return (
+          <div className="w-full h-full bg-[#240606] text-white flex flex-col justify-between text-left select-none overflow-hidden">
+            <div className="px-3.5 py-2 border-b border-white/10 flex items-center justify-between">
+              <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/85">
+                PageForge · B2B CMS
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#E60000] text-white text-[7px] font-bold">
+                200+ Sites
+              </span>
+            </div>
+            <div className="p-3.5 my-auto space-y-2">
+              <div className="rounded-xl bg-white text-[#0F172A] p-2.5 shadow-xs">
+                <p className="text-[9.5px] font-extrabold text-[#0F172A]">
+                  Business-Websites &amp; Tech-Blog
+                </p>
+                <p className="text-[7.5px] text-[#475569] mt-0.5">
+                  Skalierbare Landingpages &amp; Datenanbindung für
+                  Geschäftskunden
+                </p>
+              </div>
+            </div>
+            <div className="px-3.5 py-1.5 bg-black/40 text-[7px] text-white/70 flex justify-between">
+              <span>Firmenkundenportal</span>
+              <span>Vodafone Business</span>
+            </div>
+          </div>
+        );
+      }
+
       return (
-        <div className="w-full h-full bg-gradient-to-br from-[#190507] via-[#2B070B] to-[#6B0000] p-2.5 flex flex-col justify-between text-left text-white select-none">
+        <div
+          style={{
+            background:
+              "radial-gradient(circle at 80% 35%, #5C0A0A 0%, #260404 55%, #140202 100%)",
+          }}
+          className="w-full h-full p-3.5 sm:p-4 flex flex-col justify-between text-left select-none text-white"
+        >
           <div className="flex items-center justify-between">
-            <span className="inline-flex items-center gap-1 text-[8.5px] font-extrabold tracking-tight">
-              <span className="w-2.5 h-2.5 rounded-full border-[1.5px] border-[#E60000] inline-flex items-center justify-center">
+            <span className="inline-flex items-center gap-1.5 text-[9.5px] sm:text-[11px] font-extrabold tracking-tight text-white">
+              <span className="w-3 h-3 rounded-full border-[2px] border-[#E60000] inline-flex items-center justify-center">
                 <span className="w-1 h-1 rounded-full bg-[#E60000]" />
               </span>
               vodafone{" "}
-              <span className="text-white/60 font-semibold">business</span>
+              <span className="text-white/65 font-medium">business</span>
             </span>
-            <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[6.5px] font-bold text-white/85">
+            <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-white/90 text-[7.5px] font-bold">
               200+ Sites
             </span>
           </div>
 
-          <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
-            <div className="col-span-7 space-y-1">
-              <span className="inline-block px-1.5 py-0.5 rounded bg-[#E60000] text-white text-[6.5px] font-bold uppercase tracking-wide">
+          <div className="grid grid-cols-12 gap-2.5 items-center my-auto">
+            <div className="col-span-7 space-y-1.5">
+              <span className="inline-block px-2 py-0.5 rounded bg-[#E60000] text-white text-[7px] font-extrabold uppercase tracking-wider">
                 Firmenkunden-Tarife
               </span>
-              <p className="text-[10px] font-extrabold leading-[1.15] tracking-tight">
+              <p className="text-xs sm:text-[15px] font-extrabold text-white leading-[1.16] tracking-tight">
                 Red Business Prime &amp; Glasfaser für Unternehmen.
               </p>
-              <p className="text-[7px] text-white/75 leading-tight">
+              <p className="text-[7.5px] sm:text-[8.5px] text-white/75 leading-snug">
                 Echtzeit-Vertragsdaten &amp; PageForge Landingpages.
               </p>
-              <div className="pt-0.5">
-                <span className="inline-block px-2 py-0.5 rounded-full bg-white text-[#0B0B0C] text-[6.5px] font-extrabold">
+              <div className="pt-1">
+                <span className="inline-block px-2.5 py-1 rounded-full bg-white text-[#0B0B0C] text-[7.5px] font-extrabold">
                   Tarife vergleichen
                 </span>
               </div>
             </div>
 
-            <div className="col-span-5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15 p-1.5 space-y-1">
-              <div className="rounded bg-white/10 px-1.5 py-1">
-                <p className="text-[6px] uppercase text-white/65 font-bold">
+            <div className="col-span-5 rounded-2xl bg-white/8 border border-white/12 p-2 space-y-1.5">
+              <div className="rounded-xl bg-white/10 px-2.5 py-1.5">
+                <p className="text-[6.5px] uppercase text-white/65 font-bold">
                   5G &amp; Daten
                 </p>
-                <p className="text-[8.5px] font-extrabold text-white">
+                <p className="text-[10px] font-extrabold text-white">
                   Unlimited
                 </p>
               </div>
-              <div className="rounded bg-[#E60000]/80 px-1.5 py-1">
-                <p className="text-[6px] uppercase text-white/85 font-bold">
+              <div className="rounded-xl bg-[#E60000] px-2.5 py-1.5">
+                <p className="text-[6.5px] uppercase text-white/85 font-bold">
                   API Status
                 </p>
-                <p className="text-[7.5px] font-bold text-white">
+                <p className="text-[9.5px] font-extrabold text-white">
                   Node.js · 99.98%
                 </p>
               </div>
@@ -1691,100 +2032,197 @@ const MacProjectMonitor = ({ brand, previewImage, previewAlt, previewUrl }) => {
       );
     }
 
+    /* 3. CONTROLEXPERT EASYCLAIM */
+    if (variant === "secondary-a") {
+      return (
+        <div className="w-full h-full bg-[#4B96A3] text-white flex flex-col justify-between text-left select-none overflow-hidden">
+          <div className="px-3.5 py-2 flex items-center justify-between">
+            <span className="text-[8.5px] font-bold tracking-tight">
+              Control<span className="font-extrabold">Expert</span>
+            </span>
+            <span className="text-[6.5px] font-extrabold uppercase tracking-wider text-[#0B0B0C]">
+              HIGHLIGHTS · PRODUKTE
+            </span>
+          </div>
+          <div className="px-3.5 my-auto text-center space-y-1">
+            <p className="text-base sm:text-lg font-black tracking-tight uppercase leading-none">
+              EASYCLAIM
+            </p>
+            <p className="text-[7px] font-extrabold uppercase tracking-wider text-white/95">
+              Die smarte Art der Schadenabwicklung
+            </p>
+          </div>
+          <div className="px-3.5 py-1.5 bg-black/15 text-[7px] font-semibold flex justify-between">
+            <span>React.js · .NET C#</span>
+            <span>Jest &amp; Cypress</span>
+          </div>
+        </div>
+      );
+    }
+
+    if (variant === "secondary-b") {
+      return (
+        <div className="w-full h-full bg-[#F3F8F9] p-3.5 flex flex-col justify-between text-[#0F172A] text-left select-none">
+          <div className="flex items-center justify-between">
+            <span className="text-[8px] font-extrabold uppercase tracking-[0.12em] text-[#3B8A98]">
+              Data Warehouse &amp; Tableau BI
+            </span>
+            <span className="text-[7px] font-mono text-[#3B8A98] font-bold">
+              SQL · KPI
+            </span>
+          </div>
+          <div className="my-auto flex items-end gap-1.5 h-12 px-1 pt-2">
+            <div className="flex-1 bg-[#3B8A98]/35 h-[48%] rounded-t" />
+            <div className="flex-1 bg-[#3B8A98]/60 h-[72%] rounded-t" />
+            <div className="flex-1 bg-[#3B8A98]/85 h-[88%] rounded-t" />
+            <div className="flex-1 bg-[#3B8A98] h-[100%] rounded-t" />
+          </div>
+          <p className="text-[7.5px] font-semibold text-[#334155]">
+            Schaden-KPIs, SQL Reporting &amp; IBM BPM Prozessautomatisierung
+          </p>
+        </div>
+      );
+    }
+
     return (
-      <div className="w-full h-full bg-gradient-to-br from-[#F3F8FE] via-white to-[#E8F1FC] p-2.5 flex flex-col justify-between text-left select-none">
-        <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1 text-[8px] font-extrabold uppercase tracking-wider text-[#0B0B0C]">
-            <span className="w-1.5 h-1.5 rotate-45 bg-[#0A66C2]" />
-            CONTROL<span className="text-[#0A66C2]">EXPERT</span>
-          </span>
-          <span className="px-1.5 py-0.5 rounded-full bg-[#0A66C2]/10 text-[#0A66C2] text-[7px] font-bold">
-            EasyClaim
-          </span>
+      <div
+        style={{
+          background:
+            "radial-gradient(circle at 65% 55%, #58A2AF 0%, #448D9A 60%, #397D8A 100%)",
+        }}
+        className="w-full h-full p-3.5 sm:p-4 flex flex-col justify-between text-left select-none text-white relative overflow-hidden"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 320 160"
+          className="pointer-events-none absolute inset-0 w-full h-full opacity-25"
+        >
+          <g stroke="#0F2930" strokeWidth="0.8" fill="none">
+            <line x1="20" y1="25" x2="115" y2="75" />
+            <line x1="115" y1="75" x2="215" y2="45" />
+            <line x1="215" y1="45" x2="295" y2="110" />
+            <line x1="115" y1="75" x2="155" y2="145" />
+            <line x1="155" y1="145" x2="295" y2="110" />
+            <line x1="40" y1="130" x2="115" y2="75" />
+          </g>
+          <g fill="#0F2930">
+            <circle cx="20" cy="25" r="2" />
+            <circle cx="115" cy="75" r="2.5" />
+            <circle cx="215" cy="45" r="2" />
+            <circle cx="295" cy="110" r="2.5" />
+            <circle cx="155" cy="145" r="2" />
+            <circle cx="40" cy="130" r="2" />
+          </g>
+        </svg>
+
+        <div className="relative z-10 flex items-start justify-between">
+          <div>
+            <p className="text-[11px] sm:text-[13px] font-semibold tracking-tight text-white leading-none">
+              Control<span className="font-extrabold">Expert</span>
+            </p>
+            <p className="text-[6px] text-white/85 font-medium mt-0.5">
+              a solvd group company
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 text-[6.5px] sm:text-[7px] font-extrabold uppercase tracking-wider text-[#0B0B0C]">
+            <span>HIGHLIGHTS</span>
+            <span>PRODUKTE</span>
+            <span className="hidden sm:inline">KARRIERE</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-1.5 items-center my-auto">
-          <div className="col-span-7 space-y-1">
-            <span className="inline-block px-1.5 py-0.5 rounded bg-[#0A66C2] text-white text-[6.5px] font-bold uppercase tracking-wide">
-              Digitale Schadenaufnahme
-            </span>
-            <p className="text-[10px] font-extrabold text-[#0B0B0C] leading-[1.15] tracking-tight">
-              Kfz-Schaden in 3 Minuten digital erfassen.
-            </p>
-            <p className="text-[7px] text-[#52525B] leading-tight">
-              Geführter Foto-Upload, Kalkulation &amp; Status-Tracking.
-            </p>
-            <div className="pt-0.5 flex items-center gap-1">
-              <span className="px-1.5 py-0.5 rounded bg-[#0A66C2] text-white text-[6.5px] font-bold">
-                1. Fahrzeug
-              </span>
-              <span className="px-1.5 py-0.5 rounded bg-[#0A66C2]/15 text-[#0A66C2] text-[6.5px] font-bold">
-                2. Schadenbild ✓
-              </span>
-            </div>
-          </div>
+        <div className="relative z-10 my-auto text-center px-2 pt-2">
+          <p className="text-xl sm:text-[26px] font-black tracking-[-0.02em] text-white uppercase leading-none drop-shadow-2xs">
+            EASYCLAIM
+          </p>
+          <p className="mt-1.5 text-[7.5px] sm:text-[9px] font-extrabold uppercase tracking-[0.06em] text-white">
+            Die smarte Art der Schadenabwicklung
+          </p>
+        </div>
 
-          <div className="col-span-5 rounded-lg bg-white border border-[#D5E4F7] p-1.5 shadow-2xs space-y-1">
-            <div className="rounded bg-[#EFF6FF] border border-[#BFDBFE] p-1 text-center">
-              <div className="mx-auto w-6 h-3.5 rounded-xs bg-[#0A66C2]/15 border border-[#0A66C2]/40 flex items-center justify-center text-[6px] font-extrabold text-[#0A66C2]">
-                KFZ
-              </div>
-              <p className="mt-0.5 text-[6px] font-bold text-[#1E3A8A]">
-                Frontschaden erkannt
-              </p>
-            </div>
-            <div className="flex items-center justify-between text-[6px] font-bold text-[#52525B] px-0.5">
-              <span>React &amp; .NET</span>
-              <span className="text-emerald-600">Validiert</span>
-            </div>
-          </div>
+        <div className="relative z-10 flex items-center justify-between text-[7px] font-bold text-white/90">
+          <span>React.js · .NET C#</span>
+          <span>DWH · Tableau BI</span>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="w-full pt-0.5">
-      <div className="rounded-xl bg-[#18181B] p-[5px] shadow-[0_10px_24px_-8px_rgba(11,11,12,0.35)] border border-[#27272A]">
-        <div className="rounded-[7px] overflow-hidden bg-white">
-          <div className="h-4 px-2 bg-[#F4F4F5] border-b border-[#E4E4E7] flex items-center justify-between gap-1.5">
+    <div className="w-full">
+      <div
+        style={{ borderColor: `${brandStyle.color}40` }}
+        className={`rounded-2xl bg-[#18181B] ${
+          large ? "p-2 sm:p-2.5" : "p-[5px]"
+        } shadow-[0_14px_30px_-12px_rgba(11,11,12,0.22)] border`}
+      >
+        <div className="rounded-[10px] overflow-hidden bg-white">
+          <div
+            className={`${
+              large ? "h-5 px-3" : "h-4 px-2"
+            } bg-[#F4F4F5] border-b border-[#E4E4E7] flex items-center justify-between gap-1.5`}
+          >
             <div className="flex items-center gap-1 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF5F56]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FFBD2E]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#27C93F]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
             </div>
-            <span className="px-2 py-[1px] rounded bg-white border border-[#E4E4E7] text-[6.5px] font-mono text-[#52525B] truncate max-w-[145px]">
+            <span
+              className={`px-2 py-[1px] rounded bg-white border border-[#E4E4E7] ${
+                large
+                  ? "text-[7.5px] max-w-[235px]"
+                  : "text-[6.5px] max-w-[165px]"
+              } font-mono text-[#52525B] truncate`}
+            >
               {previewUrl}
             </span>
             <span className="w-4 shrink-0" />
           </div>
 
-          <div className="aspect-[16/9.5] w-full overflow-hidden">
+          <div
+            className={`${
+              large ? "aspect-[16/8.6]" : "aspect-[16/9.4]"
+            } w-full overflow-hidden`}
+          >
             {renderScreenPreview()}
           </div>
         </div>
       </div>
 
-      <div className="mx-auto w-11 h-2 bg-gradient-to-b from-[#D4D4D8] to-[#E4E4E7] rounded-b-xs" />
-      <div className="mx-auto w-20 h-[3px] bg-[#D4D4D8] rounded-full shadow-2xs" />
+      <div
+        className={`mx-auto ${
+          large ? "w-14 h-2" : "w-10 h-1.5"
+        } bg-gradient-to-b from-[#D4D4D8] to-[#E4E4E7] rounded-b-xs`}
+      />
+      <div
+        className={`mx-auto ${
+          large ? "w-24 h-1" : "w-16 h-[3px]"
+        } bg-[#D4D4D8] rounded-full`}
+      />
     </div>
   );
 };
 
+/* SKILL PILL / TILE ITEM (WITH SUBTLE HERO-INSPIRED VIOLET HOVER ACCENT) */
 const SkillPillItem = ({
   item,
   idx,
   chained,
+  projectWaveActive = false,
   isOpen,
   onToggle,
   onOpen,
   onClose,
   reducedMotion,
+  tileGrid = false,
+  accentColor = null,
 }) => {
   const label = typeof item === "string" ? item : item.label;
   const role = typeof item === "string" ? "Tech Stack" : item.role;
   const projects = typeof item === "string" ? "" : item.projects;
-  const delayMs = reducedMotion ? 0 : idx * 55;
+  const delayMs = reducedMotion ? 0 : idx * 45;
+  const waveDelayMs = reducedMotion ? 0 : idx * 38;
 
   const pillRef = useRef(null);
   const bubbleRef = useRef(null);
@@ -1830,21 +2268,29 @@ const SkillPillItem = ({
     return () => window.removeEventListener("resize", updatePlacement);
   }, [isOpen]);
 
+  const baseTransform =
+    reducedMotion || chained
+      ? projectWaveActive && !isOpen
+        ? "translate3d(0, -3px, 0) scale(1.02)"
+        : "translate3d(0, 0, 0)"
+      : "translate3d(-10px, 6px, 0)";
+
+  const hasCustomAccent = Boolean(accentColor);
+
   return (
     <div
       ref={pillRef}
       style={{
-        transitionDelay: `${delayMs}ms`,
-        transform:
-          reducedMotion || chained
-            ? "translate3d(0, 0, 0)"
-            : "translate3d(-12px, 6px, 0)",
+        transitionDelay: `${projectWaveActive ? waveDelayMs : delayMs}ms`,
+        transform: baseTransform,
       }}
       onMouseEnter={onOpen}
       onMouseLeave={onClose}
       onFocus={onOpen}
       onBlur={onClose}
-      className={`relative inline-flex ${isOpen ? "z-30" : "z-10"} ${
+      className={`relative ${tileGrid ? "flex" : "inline-flex"} ${
+        isOpen ? "z-30" : "z-10"
+      } ${
         reducedMotion
           ? "opacity-100"
           : `transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
@@ -1855,18 +2301,53 @@ const SkillPillItem = ({
       <button
         type="button"
         aria-expanded={isOpen}
-        onClick={onToggle}
-        className={`px-3 py-1.5 rounded-full bg-white border text-xs font-bold shadow-2xs select-none cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9333EA] ${
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggle();
+        }}
+        style={
+          hasCustomAccent
+            ? isOpen
+              ? { backgroundColor: accentColor, borderColor: accentColor }
+              : projectWaveActive
+                ? { borderColor: accentColor }
+                : undefined
+            : isOpen && tileGrid
+              ? {
+                  backgroundImage:
+                    "linear-gradient(135deg, #0B0B0C 0%, #1E1638 62%, #4C2A85 100%)",
+                  borderColor: "#7C3AED",
+                }
+              : undefined
+        }
+        className={`${
+          tileGrid
+            ? "w-full min-h-[54px] px-3.5 py-2.5 rounded-2xl flex flex-col items-start justify-center text-left"
+            : "px-3.5 py-1.5 rounded-full inline-flex items-center"
+        } border text-xs sm:text-[13px] font-bold tracking-tight select-none cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] ${
           isOpen
-            ? "text-[#7E22CE] border-[#C084FC] bg-[#FAF5FF] -translate-y-0.5 shadow-sm"
-            : "text-[#0B0B0C] border-[#E4E4E7] hover:text-[#7E22CE] hover:border-[#C084FC] hover:bg-[#FAF5FF] hover:-translate-y-0.5 hover:shadow-xs"
+            ? "bg-[#0B0B0C] text-white border-[#7C3AED] -translate-y-0.5 shadow-[0_12px_26px_-10px_rgba(124,58,237,0.38)]"
+            : projectWaveActive
+              ? "text-[#0B0B0C] bg-white shadow-xs"
+              : tileGrid
+                ? "text-[#0B0B0C] border-[#E4E4E7] bg-white hover:border-[#8B5CF6]/55 hover:bg-[#FAF7FF] hover:-translate-y-0.5 shadow-2xs"
+                : "text-[#0B0B0C] border-[#E4E4E7] bg-white hover:border-[#8B5CF6]/55 hover:bg-[#FAF7FF] hover:-translate-y-0.5 shadow-2xs"
         } ${
           reducedMotion
             ? ""
             : "transition-[color,background-color,border-color,transform,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]"
         }`}
       >
-        {label}
+        <span className="leading-snug">{label}</span>
+        {tileGrid && (
+          <span
+            className={`mt-0.5 text-[10px] font-semibold tracking-wide ${
+              isOpen ? "text-[#E9D5FF]" : "text-[#71717A]"
+            }`}
+          >
+            {role}
+          </span>
+        )}
       </button>
 
       <div
@@ -1879,7 +2360,9 @@ const SkillPillItem = ({
               ? `translate3d(calc(-50% + ${shiftX}px), 0, 0) scale(1)`
               : `translate3d(calc(-50% + ${shiftX}px), 6px, 0) scale(0.95)`,
         }}
-        className={`pointer-events-none absolute left-1/2 bottom-full mb-2.5 w-[min(17rem,calc(100vw-2.5rem))] sm:w-72 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] border border-[#E4E4E7] shadow-[0_14px_32px_-8px_rgba(11,11,12,0.22)] p-3.5 text-left ${
+        className={`pointer-events-none absolute left-1/2 bottom-full mb-2.5 w-[min(17rem,calc(100vw-2.5rem))] sm:w-72 rounded-2xl rounded-bl-xs bg-white text-[#0B0B0C] border ${
+          hasCustomAccent ? "border-[#E4E4E7]" : "border-[#DDD6FE]"
+        } shadow-[0_16px_34px_-10px_rgba(91,44,130,0.22)] p-3.5 text-left ${
           reducedMotion
             ? isOpen
               ? "opacity-100"
@@ -1890,7 +2373,12 @@ const SkillPillItem = ({
         }`}
       >
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7E22CE]">
+          <span
+            style={accentColor ? { color: accentColor } : undefined}
+            className={`text-[11px] font-bold uppercase tracking-[0.12em] ${
+              accentColor ? "" : "text-[#6D28D9]"
+            }`}
+          >
             {role}
           </span>
           <span className="text-[10px] font-mono font-semibold text-[#71717A] shrink-0">
@@ -1899,7 +2387,7 @@ const SkillPillItem = ({
         </div>
 
         {projects && (
-          <p className="mt-1.5 text-xs text-[#27272A] leading-relaxed font-medium">
+          <p className="mt-1.5 text-xs sm:text-[13px] text-[#27272A] leading-relaxed font-medium">
             {projects}
           </p>
         )}
@@ -1907,14 +2395,23 @@ const SkillPillItem = ({
         <span
           aria-hidden="true"
           style={{ left: `${arrowPercent}%` }}
-          className="absolute -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-white border-r border-b border-[#E4E4E7]"
+          className={`absolute -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-white border-r border-b ${
+            hasCustomAccent ? "border-[#E4E4E7]" : "border-[#DDD6FE]"
+          }`}
         />
       </div>
     </div>
   );
 };
 
-const SkillChainList = ({ skills, reducedMotion = false }) => {
+const SkillChainList = ({
+  skills,
+  projectWaveActive = false,
+  reducedMotion = false,
+  centered = false,
+  tileGrid = false,
+  accentColor = null,
+}) => {
   const [chained, setChained] = useState(Boolean(reducedMotion));
   const [activeSkillLabel, setActiveSkillLabel] = useState(null);
   const containerRef = useRef(null);
@@ -1946,7 +2443,14 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
   }, [reducedMotion]);
 
   return (
-    <div ref={containerRef} className="mt-5 flex flex-wrap gap-2">
+    <div
+      ref={containerRef}
+      className={
+        tileGrid
+          ? "grid grid-cols-1 sm:grid-cols-2 gap-2.5"
+          : `flex flex-wrap gap-2 ${centered ? "justify-center" : ""}`
+      }
+    >
       {skills.map((item, idx) => {
         const label = typeof item === "string" ? item : item.label;
         return (
@@ -1955,6 +2459,7 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
             item={item}
             idx={idx}
             chained={chained}
+            projectWaveActive={projectWaveActive}
             isOpen={activeSkillLabel === label}
             onOpen={() => setActiveSkillLabel(label)}
             onClose={() =>
@@ -1964,9 +2469,114 @@ const SkillChainList = ({ skills, reducedMotion = false }) => {
               setActiveSkillLabel((prev) => (prev === label ? null : label))
             }
             reducedMotion={reducedMotion}
+            tileGrid={tileGrid}
+            accentColor={accentColor}
           />
         );
       })}
+    </div>
+  );
+};
+
+/* MODERN COLLAPSIBLE COMPANY CARD FOR CV SECTION */
+const CollapsibleCompanyCard = ({
+  group,
+  isOpen,
+  onToggle,
+  reducedMotion = false,
+}) => {
+  const theme = BRAND_THEME[group.brand] || BRAND_THEME.provinzial;
+
+  return (
+    <div
+      className={`rounded-3xl border transition-all duration-300 ${
+        isOpen
+          ? "bg-white border-[#C7CCD4] shadow-sm"
+          : "bg-[#FAFAFA] border-[#E4E4E7] hover:border-[#C7CCD4] hover:bg-white"
+      }`}
+    >
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={onToggle}
+        className="w-full px-5 sm:px-7 py-5 sm:py-6 flex items-center justify-between gap-4 text-left cursor-pointer group"
+      >
+        <div className="min-w-0 space-y-2">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <BrandWordmark brand={group.brand} href={false} />
+            <span
+              style={{
+                color: theme.color,
+                backgroundColor: `${theme.color}12`,
+                borderColor: `${theme.color}28`,
+              }}
+              className="px-2.5 py-0.5 rounded-full border text-xs font-bold"
+            >
+              {group.industry}
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm text-[#71717A] font-medium">
+            <span className="font-mono font-semibold text-[#52525B]">
+              {group.period}
+            </span>
+            <span>·</span>
+            <span>
+              {group.roles.length}{" "}
+              {group.roles.length === 1 ? "Position" : "Positionen"}
+            </span>
+          </div>
+        </div>
+
+        <span
+          className={`w-9 h-9 rounded-full border border-[#E4E4E7] bg-white group-hover:border-[#0B0B0C] flex items-center justify-center text-[#0B0B0C] shrink-0 transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        >
+          <ChevronDown className="w-4 h-4" />
+        </span>
+      </button>
+
+      <div
+        className={`grid ${
+          reducedMotion
+            ? isOpen
+              ? "grid-rows-[1fr] opacity-100"
+              : "grid-rows-[0fr] opacity-0"
+            : "transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] " +
+              (isOpen
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0")
+        }`}
+      >
+        <div className="overflow-hidden min-h-0">
+          <div className="px-5 sm:px-7 pb-6 sm:pb-7 pt-2 border-t border-[#ECEEF2] space-y-4">
+            {group.roles.map((roleItem) => (
+              <div
+                key={roleItem.title}
+                className="rounded-2xl bg-[#FBFBFD] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1.5">
+                  <h3 className="text-sm sm:text-base font-bold tracking-[-0.02em] text-[#0B0B0C]">
+                    {roleItem.title}
+                  </h3>
+                  <span className="text-xs font-mono font-semibold text-[#71717A] shrink-0">
+                    {roleItem.period}
+                  </span>
+                </div>
+
+                <ul className="pl-4 space-y-1.5 text-xs sm:text-[13.5px] text-[#52525B] leading-relaxed">
+                  {roleItem.bullets.map((bullet) => (
+                    <li key={bullet} className="list-disc">
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -2186,7 +2796,7 @@ const WebGLSilkMarble = ({ className = "", paused = false }) => {
   );
 };
 
-/* CONTAINED BLUE-MARBLE NODE-MESH EXTENDING SLIGHTLY AT SIDES/TOP/BOTTOM WITH SUBTLE EDGE FADE */
+/* BLUE-MARBLE NODE-MESH */
 const HeroAlignedMeshParallax = ({
   sectionRef,
   reducedMotion = false,
@@ -2714,7 +3324,6 @@ const HeroAlignedMeshParallax = ({
   );
 };
 
-/* ON MOBILE: ONLY LIGHT CARDS ANIMATED TO WHITE WHEN IN VIEWPORT (DARK CARD STAYS DARK) */
 const AppleLiquidCard = ({
   children,
   variant = "dark",
@@ -2772,7 +3381,7 @@ const AppleLiquidCard = ({
         aria-hidden="true"
         style={{
           background: isDark
-            ? "linear-gradient(90deg, transparent 0%, rgba(147, 197, 253, 0.34) 38%, rgba(216, 180, 254, 0.28) 72%, transparent 100%)"
+            ? "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%)"
             : mobileWhiteActive
               ? "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 1) 50%, transparent 100%)"
               : "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%)",
@@ -2784,7 +3393,7 @@ const AppleLiquidCard = ({
         aria-hidden="true"
         style={{
           background: isDark
-            ? "radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.18) 0%, transparent 58%)"
+            ? "radial-gradient(circle at 88% 14%, rgba(255, 255, 255, 0.09) 0%, transparent 55%)"
             : mobileWhiteActive
               ? "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.95) 0%, transparent 65%)"
               : "radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.72) 0%, transparent 65%)",
@@ -2797,10 +3406,12 @@ const AppleLiquidCard = ({
   );
 };
 
+/* SUBTLE FLYING EMAILS & PHONES (NO LINES) */
 const ContactMailWaveField = ({
   sectionRef,
   email = "malte_reppke@web.de",
   reducedMotion = false,
+  pullProgress = 1,
 }) => {
   const canvasRef = useRef(null);
   const pointerRef = useRef({ x: -999, y: -999, active: false });
@@ -2831,36 +3442,10 @@ const ContactMailWaveField = ({
       return;
     }
 
-    let rafId = null;
-
-    const updateScrollReady = () => {
-      if (rafId) return;
-      rafId = window.requestAnimationFrame(() => {
-        const sec = sectionRef?.current;
-        if (sec) {
-          const rect = sec.getBoundingClientRect();
-          const vh = window.innerHeight || 1;
-          const raw =
-            (vh - rect.top) / (vh * 0.85 + Math.max(rect.height * 0.35, 120));
-          const eased = easeOutCubic(clamp01(raw));
-          scrollReadyRef.current = eased;
-          const nowReady = eased >= 0.92;
-          setIsFieldReady((prev) => (prev === nowReady ? prev : nowReady));
-        }
-        rafId = null;
-      });
-    };
-
-    window.addEventListener("scroll", updateScrollReady, { passive: true });
-    window.addEventListener("resize", updateScrollReady);
-    updateScrollReady();
-
-    return () => {
-      window.removeEventListener("scroll", updateScrollReady);
-      window.removeEventListener("resize", updateScrollReady);
-      if (rafId) window.cancelAnimationFrame(rafId);
-    };
-  }, [sectionRef, reducedMotion]);
+    const eased = easeOutCubic(clamp01(pullProgress));
+    scrollReadyRef.current = eased;
+    setIsFieldReady(eased >= 0.42);
+  }, [pullProgress, reducedMotion]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -2873,16 +3458,16 @@ const ContactMailWaveField = ({
     let height = 0;
 
     const createArtifacts = () => {
-      const count = isTouchDevice ? 14 : 26;
+      const count = isTouchDevice ? 16 : 30;
       return Array.from({ length: count }, (_, idx) => ({
         id: idx,
-        nx: ((idx * 37) % 88) / 100 + 0.06,
-        ny: ((idx * 53) % 76) / 100 + 0.12,
-        vx: ((idx % 5) - 2) * 0.000075 || 0.000045,
+        nx: ((idx * 37) % 90) / 100 + 0.05,
+        ny: ((idx * 53) % 84) / 100 + 0.08,
+        vx: ((idx % 5) - 2) * 0.00009 || 0.00006,
         phase: idx * 0.72,
-        stagger: (idx % 9) * 0.055,
-        scale: 0.78 + (idx % 4) * 0.14,
-        kind: idx % 3 === 0 ? "at" : "mail",
+        stagger: (idx % 10) * 0.045,
+        scale: 0.9 + (idx % 3) * 0.14,
+        kind: idx % 2 === 0 ? "mail" : "phone",
         x: 0,
         y: 0,
       }));
@@ -2910,49 +3495,50 @@ const ContactMailWaveField = ({
     const drawEnvelope = (x, y, s, alpha, highlight) => {
       ctx.save();
       ctx.translate(x, y);
-      ctx.scale(s * (highlight ? 1.24 : 1), s * (highlight ? 1.24 : 1));
+      ctx.scale(s * (highlight ? 1.2 : 1), s * (highlight ? 1.2 : 1));
       ctx.strokeStyle = highlight
-        ? `rgba(255, 255, 255, ${Math.min(0.96, alpha + 0.45)})`
-        : `rgba(226, 232, 240, ${alpha})`;
+        ? "rgba(255, 255, 255, 0.92)"
+        : `rgba(255, 255, 255, ${Math.min(0.45, alpha)})`;
       ctx.lineWidth = highlight ? 1.5 : 1.15;
       ctx.lineJoin = "round";
 
-      const w = 12;
-      const h = 8.5;
+      const w = 14;
+      const h = 9.5;
       ctx.strokeRect(-w / 2, -h / 2, w, h);
 
       ctx.beginPath();
       ctx.moveTo(-w / 2, -h / 2);
-      ctx.lineTo(0, 0.8);
+      ctx.lineTo(0, 1);
       ctx.lineTo(w / 2, -h / 2);
       ctx.stroke();
 
-      if (highlight) {
-        ctx.beginPath();
-        ctx.arc(0, 0, 14, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(186, 230, 253, 0.45)";
-        ctx.lineWidth = 1.1;
-        ctx.stroke();
-      }
       ctx.restore();
     };
 
-    const drawAtSign = (x, y, s, alpha, highlight) => {
+    const drawSmartphone = (x, y, s, alpha, highlight) => {
       ctx.save();
       ctx.translate(x, y);
-      const r = 4.2 * s * (highlight ? 1.22 : 1);
+      ctx.rotate(-0.12);
+      ctx.scale(s * (highlight ? 1.2 : 1), s * (highlight ? 1.2 : 1));
       ctx.strokeStyle = highlight
-        ? `rgba(240, 249, 255, ${Math.min(0.96, alpha + 0.45)})`
-        : `rgba(203, 213, 225, ${alpha})`;
-      ctx.lineWidth = highlight ? 1.45 : 1.15;
+        ? "rgba(255, 255, 255, 0.92)"
+        : `rgba(255, 255, 255, ${Math.min(0.42, alpha)})`;
+      ctx.lineWidth = highlight ? 1.5 : 1.15;
+      ctx.lineJoin = "round";
 
+      const w = 9.5;
+      const h = 16;
       ctx.beginPath();
-      ctx.arc(0, 0, r * 0.58, 0, Math.PI * 2);
+      ctx.roundRect(-w / 2, -h / 2, w, h, 2);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.arc(0, 0, r, 0, Math.PI * 1.65);
+      ctx.moveTo(-2, -h / 2 + 2.2);
+      ctx.lineTo(2, -h / 2 + 2.2);
+      ctx.moveTo(-2.2, h / 2 - 2.2);
+      ctx.lineTo(2.2, h / 2 - 2.2);
       ctx.stroke();
+
       ctx.restore();
     };
 
@@ -2961,43 +3547,14 @@ const ContactMailWaveField = ({
       const readyGlobal = scrollReadyRef.current;
       ctx.clearRect(0, 0, width, height);
 
-      const waveCount = 4;
-      for (let wIdx = 0; wIdx < waveCount; wIdx++) {
-        const waveLocal = easeOutCubic(
-          clamp01((readyGlobal - wIdx * 0.08) / 0.72),
-        );
-        const shiftFromTopLeftX = (1 - waveLocal) * -140;
-        const shiftFromTopLeftY = (1 - waveLocal) * -65;
-
-        ctx.save();
-        ctx.translate(shiftFromTopLeftX, shiftFromTopLeftY);
-        ctx.beginPath();
-        const baseY = height * (0.28 + wIdx * 0.16);
-        for (let x = -160; x <= width + 160; x += 14) {
-          const waveOffset =
-            Math.sin(x * 0.0075 + t * (0.65 + wIdx * 0.12) + wIdx * 1.4) *
-              (11 + wIdx * 3) +
-            Math.cos(x * 0.014 - t * 0.45) * 4;
-          const y = baseY + waveOffset;
-          if (x === -160) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `rgba(203, 213, 225, ${
-          (0.085 + wIdx * 0.02) * (0.35 + waveLocal * 0.65)
-        })`;
-        ctx.lineWidth = 1.05;
-        ctx.stroke();
-        ctx.restore();
-      }
-
       let closest = null;
       let minDist = 64;
 
       artifacts.forEach((item) => {
-        if (!reducedMotion && readyGlobal > 0.15) {
-          item.nx += item.vx * (0.35 + readyGlobal * 0.65);
-          if (item.nx > 0.95) item.nx = 0.05;
-          if (item.nx < 0.05) item.nx = 0.95;
+        if (!reducedMotion && readyGlobal > 0.1) {
+          item.nx += item.vx * (0.4 + readyGlobal * 0.7);
+          if (item.nx > 0.96) item.nx = 0.04;
+          if (item.nx < 0.04) item.nx = 0.96;
         }
 
         const itemProgress = easeOutCubic(
@@ -3009,15 +3566,15 @@ const ContactMailWaveField = ({
         const targetX = item.nx * width;
         const targetY =
           item.ny * height +
-          Math.sin(t * 0.85 + item.phase) * (3 + itemProgress * 6);
+          Math.sin(t * 0.85 + item.phase) * (5 + itemProgress * 7);
 
-        const startX = targetX - (135 + (item.id % 4) * 28);
-        const startY = targetY - (85 + (item.id % 3) * 24);
+        const startX = targetX - (130 + (item.id % 4) * 26);
+        const startY = targetY + (85 + (item.id % 3) * 20);
 
         item.x = startX + (targetX - startX) * itemProgress;
         item.y = startY + (targetY - startY) * itemProgress;
 
-        const canInteract = !isTouchDevice && readyGlobal >= 0.9;
+        const canInteract = !isTouchDevice && readyGlobal >= 0.55;
         let dx = 0;
         let dy = 0;
         let dist = 999;
@@ -3033,51 +3590,30 @@ const ContactMailWaveField = ({
         }
 
         const repel =
-          canInteract && pointerRef.current.active && dist < 85 && dist > 0.01
-            ? ((85 - dist) / 85) * 10
+          canInteract && pointerRef.current.active && dist < 80 && dist > 0.01
+            ? ((80 - dist) / 80) * 10
             : 0;
         const drawX = item.x + (dist > 0.01 ? (dx / dist) * repel : 0);
         const drawY = item.y + (dist > 0.01 ? (dy / dist) * repel : 0);
 
         const isPicked = canInteract && closest && closest.id === item.id;
-        const visibilityFactor = 0.24 + itemProgress * 0.76;
-        const baseAlpha =
-          (isTouchDevice ? 0.26 : 0.34 + (item.id % 3) * 0.055) *
-          visibilityFactor;
+        const visibilityFactor = 0.35 + itemProgress * 0.65;
+        const baseAlpha = (isTouchDevice ? 0.22 : 0.28) * visibilityFactor;
 
-        if (item.kind === "at") {
-          drawAtSign(
-            drawX,
-            drawY,
-            item.scale * (0.82 + itemProgress * 0.18),
-            baseAlpha,
-            isPicked,
-          );
+        if (item.kind === "phone") {
+          drawSmartphone(drawX, drawY, item.scale, baseAlpha, isPicked);
         } else {
-          drawEnvelope(
-            drawX,
-            drawY,
-            item.scale * (0.82 + itemProgress * 0.18),
-            baseAlpha,
-            isPicked,
-          );
+          drawEnvelope(drawX, drawY, item.scale, baseAlpha, isPicked);
         }
-
-        ctx.beginPath();
-        ctx.arc(drawX + 16, drawY - 6, isPicked ? 2.2 : 1.35, 0, Math.PI * 2);
-        ctx.fillStyle = isPicked
-          ? "rgba(255, 255, 255, 0.92)"
-          : `rgba(226, 232, 240, ${0.42 * visibilityFactor})`;
-        ctx.fill();
       });
 
-      if (!isTouchDevice && readyGlobal >= 0.9) {
+      if (!isTouchDevice && readyGlobal >= 0.55) {
         pickedRef.current = closest;
         setPickedHint((prev) => {
           if (!closest) return null;
           const next = {
-            x: Math.min(Math.max(closest.x, 96), width - 96),
-            y: Math.max(closest.y - 22, 26),
+            x: Math.min(Math.max(closest.x, 100), width - 100),
+            y: Math.max(closest.y - 20, 28),
             label: `E-Mail senden · ${email}`,
           };
           if (
@@ -3106,7 +3642,7 @@ const ContactMailWaveField = ({
       window.removeEventListener("resize", resize);
       if (frameId) window.cancelAnimationFrame(frameId);
     };
-  }, [email, isTouchDevice, reducedMotion]);
+  }, [email, isTouchDevice, reducedMotion, sectionRef]);
 
   const handlePointerMove = (e) => {
     if (isTouchDevice || !isFieldReady) return;
@@ -3136,7 +3672,7 @@ const ContactMailWaveField = ({
       onMouseMove={handlePointerMove}
       onMouseLeave={handlePointerLeave}
       onClick={handleCanvasClick}
-      className={`absolute inset-0 z-0 overflow-hidden rounded-3xl transition-opacity duration-500 ${
+      className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-500 ${
         isFieldReady ? "opacity-100" : "opacity-85"
       } ${
         !isTouchDevice && isFieldReady && pickedHint
@@ -3147,9 +3683,7 @@ const ContactMailWaveField = ({
       <canvas
         ref={canvasRef}
         aria-hidden="true"
-        className={`w-full h-full block transition-[filter] duration-500 ${
-          isFieldReady ? "blur-0" : "blur-[0.8px]"
-        }`}
+        className="w-full h-full block"
       />
 
       {!isTouchDevice && isFieldReady && pickedHint && (
@@ -3158,13 +3692,209 @@ const ContactMailWaveField = ({
             left: `${pickedHint.x}px`,
             top: `${pickedHint.y}px`,
           }}
-          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full z-20 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#0B0B0C] text-[11px] font-bold shadow-lg whitespace-nowrap"
+          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-[#0B0B0C] text-xs font-bold shadow-lg whitespace-nowrap"
         >
-          <Mail className="w-3 h-3 text-[#0B0B0C]" />
+          <Mail className="w-3.5 h-3.5 text-[#0B0B0C]" />
           <span>{pickedHint.label}</span>
         </div>
       )}
     </div>
+  );
+};
+
+/* FULLSCREEN PULL CONTACT SECTION – PILLS REVEAL AT FULL HEIGHT WITH CLEAN SPACING */
+const FullscreenPullContactSection = ({
+  contactSectionRef,
+  email = "malte_reppke@web.de",
+  copied = false,
+  onCopyEmail,
+  reducedMotion = false,
+  isMobileView = false,
+}) => {
+  const [pullProgress, setPullProgress] = useState(reducedMotion ? 1 : 0);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setPullProgress(1);
+      return;
+    }
+
+    let rafId = null;
+
+    const updatePull = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        const el = contactSectionRef?.current;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const vh = window.innerHeight || 1;
+          const totalTravel = Math.max(el.offsetHeight - vh * 0.72, vh * 0.85);
+          const scrolledInto = vh * 0.92 - rect.top;
+          const linear = clamp01(scrolledInto / totalTravel);
+          const smootherStep = linear * linear * (3 - 2 * linear);
+          setPullProgress(smootherStep);
+        }
+        rafId = null;
+      });
+    };
+
+    window.addEventListener("scroll", updatePull, { passive: true });
+    window.addEventListener("resize", updatePull);
+    updatePull();
+
+    return () => {
+      window.removeEventListener("scroll", updatePull);
+      window.removeEventListener("resize", updatePull);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [contactSectionRef, reducedMotion]);
+
+  const targetHeightPx = Math.max(80, Math.round(pullProgress * 1000));
+  const radiusPx = Math.round((1 - pullProgress) * 44);
+  const sideInsetPx = Math.round((1 - pullProgress) * 44);
+  const titleProgress = clamp01((pullProgress - 0.14) / 0.78);
+  const letterSpacingEm = (-0.015 - titleProgress * 0.045).toFixed(3);
+
+  const isFullHeight = reducedMotion || pullProgress >= 0.88;
+  const desktopActionsProgress = clamp01((pullProgress - 0.42) / 0.58);
+
+  return (
+    <section
+      ref={contactSectionRef}
+      id="contact"
+      className="relative bg-[#FFFFFF] min-h-[162vh] pt-4 sm:pt-12 pb-0 overflow-x-clip flex flex-col justify-end"
+    >
+      <div className="sticky bottom-0 w-full">
+        <div
+          style={{
+            marginLeft: `${sideInsetPx}px`,
+            marginRight: `${sideInsetPx}px`,
+            minHeight: reducedMotion ? "1000px" : `${targetHeightPx}px`,
+            borderRadius: `${radiusPx}px ${radiusPx}px 0px 0px`,
+            opacity: reducedMotion ? 1 : clamp01(0.2 + pullProgress * 0.8),
+            boxShadow: `0 -28px 90px -24px rgba(11, 11, 12, ${(0.18 + pullProgress * 0.36).toFixed(2)})`,
+          }}
+          className="relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col justify-between px-5 sm:px-10 lg:px-14 pt-12 sm:pt-16 pb-24 sm:pb-16 transition-[border-radius,margin] duration-150 ease-out"
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              opacity: 0.25 + pullProgress * 0.65,
+              transform: `scale(${0.6 + pullProgress * 0.55})`,
+              background:
+                "radial-gradient(ellipse 65% 50% at 50% 48%, rgba(59, 130, 246, 0.22) 0%, rgba(124, 58, 237, 0.10) 45%, transparent 75%)",
+            }}
+            className="pointer-events-none absolute inset-0 z-0"
+          />
+
+          <ContactMailWaveField
+            sectionRef={contactSectionRef}
+            email={email}
+            reducedMotion={reducedMotion}
+            pullProgress={pullProgress}
+          />
+
+          <div
+            style={{
+              opacity: clamp01((pullProgress - 0.22) / 0.55),
+              transform: `translate3d(0, ${(1 - clamp01((pullProgress - 0.22) / 0.55)) * -16}px, 0)`,
+            }}
+            className="relative z-10 flex items-center justify-end"
+          >
+            <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-white/75">
+              <MapPin className="w-4 h-4 shrink-0 text-white/70" />
+              <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
+            </div>
+          </div>
+
+          <div className="relative z-10 my-auto py-10 flex flex-col items-center text-center">
+            <div
+              style={{
+                opacity: clamp01(titleProgress * 1.2),
+                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 64}px, 0)`,
+              }}
+              className="w-full select-none will-change-transform"
+            >
+              <h2
+                style={{ letterSpacing: `${letterSpacingEm}em` }}
+                className="block font-extrabold uppercase leading-[0.82] text-[#FFFFFF] text-[clamp(4.2rem,17.5vw,16.5rem)]"
+              >
+                KONTAKT
+              </h2>
+            </div>
+
+            <div
+              style={
+                isMobileView
+                  ? undefined
+                  : {
+                      opacity: desktopActionsProgress,
+                      transform: `translate3d(0, ${(1 - desktopActionsProgress) * 28}px, 0) scale(${
+                        0.94 + desktopActionsProgress * 0.06
+                      })`,
+                    }
+              }
+              className={`mt-14 sm:mt-16 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
+                isMobileView
+                  ? reducedMotion
+                    ? "opacity-100"
+                    : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        isFullHeight
+                          ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+                          : "opacity-0 translate-y-5 scale-95 pointer-events-none"
+                      }`
+                  : ""
+              }`}
+            >
+              <a
+                href={`mailto:${email}`}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors shadow-sm"
+              >
+                <Mail className="w-4 h-4" />
+                <span>E-Mail senden</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={onCopyEmail}
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors cursor-pointer"
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 text-emerald-400" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+                <span>{copied ? "Kopiert!" : email}</span>
+              </button>
+
+              <a
+                href="https://github.com/malte-reppke"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
+              >
+                <GitBranch className="w-4 h-4" />
+                <span>GitHub</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/malte-reppke"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
+              >
+                <Globe className="w-4 h-4" />
+                <span>LinkedIn</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          <div className="relative z-10 h-2" />
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -3350,6 +4080,7 @@ const HeadlineFlow = ({
   title,
   as: Tag = "h2",
   titleClassName = "mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]",
+  align = "left",
   reducedMotion = false,
 }) => {
   const [shown, setShown] = useState(Boolean(reducedMotion));
@@ -3382,12 +4113,12 @@ const HeadlineFlow = ({
   }, [reducedMotion]);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className={align === "center" ? "text-center" : ""}>
       {kicker && (
         <div className="overflow-hidden">
           <span
             style={{ transitionDelay: reducedMotion ? "0ms" : "40ms" }}
-            className={`block text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] ${
+            className={`block text-[11px] font-bold uppercase tracking-[0.2em] text-[#71717A] ${
               reducedMotion
                 ? "opacity-100 translate-y-0"
                 : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -3424,320 +4155,471 @@ const HeadlineFlow = ({
   );
 };
 
-const ContactFlow = ({ children, reducedMotion = false }) => {
-  const [shown, setShown] = useState(Boolean(reducedMotion));
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      setShown(true);
-      return;
-    }
-
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === "undefined") {
-      setShown(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -20px 0px" },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [reducedMotion]);
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: reducedMotion ? "0ms" : "90ms" }}
-      className={
-        reducedMotion
-          ? "opacity-100 translate-y-0 scale-100"
-          : `transition-[transform,opacity] duration-[900ms] ease-[cubic-bezier(0.19,1,0.22,1)] will-change-transform ${
-              shown
-                ? "opacity-100 translate-y-0 scale-100"
-                : "opacity-0 translate-y-5 scale-[0.992]"
-            }`
-      }
-    >
-      {children}
-    </div>
-  );
-};
-
 const TIMELINE_PROJECTS = [
   {
     id: "provinzial-data-hub",
-    domainLabel: "Data & AI",
     brand: "provinzial",
-    accentHex: "#007A6E",
-    accentGradient:
-      "linear-gradient(90deg, #007A6E 0%, rgba(0, 122, 110, 0.22) 100%)",
-    accentTextClass: "text-[#007A6E]",
-    markerOffsetClass: "pt-2 sm:pt-3",
-    title: "Customer Data Hub, IT-DWH & Agentic AI",
-    durationLabel: "> 1 Jahr Erfahrung",
+    shortLabel: "PROVINZIAL",
+    title: "Customer Data Hub & IT-DWH",
+    roleBadge: "Data & AI Engineer",
+    durationLabel: "seit Mai 2025",
     organization: "Provinzial Versicherung AG",
-    previewUrl: "provinzial.de/kampagnen-hub",
+    previewUrl: "provinzial.de/suedwest/",
     previewImage: null,
-    previewAlt: "Provinzial Kundenkampagne & Selektions-Engine",
-    teaser:
-      "Aufbau von PySpark-Datenprodukten und einem Selektionsframework auf Azure Synapse für zielgerichtete Kundenkampagnen sowie AI Engineering im IT-DWH.",
+    previewAlt: "Provinzial Südwest & Customer Data Hub",
+    focusSummary:
+      "Aufbau skalierbarer PySpark-Datenprodukte und eines Selektionsframeworks auf Azure Synapse sowie Agentic-Development-Workflows im IT-DWH.",
+    skills: [
+      CORE_SKILL_PILLS[1],
+      CORE_SKILL_PILLS[2],
+      CORE_SKILL_PILLS[0],
+      CORE_SKILL_PILLS[3],
+    ],
+    secondaryPanels: [
+      {
+        title: "Provinzial Südwest & Qualtrics",
+        previewUrl: "provinzial.de/suedwest/",
+        variant: "secondary-a",
+      },
+      {
+        title: "IT-DWH & OpenCode",
+        previewUrl: "dwh.provinzial.de/opencode",
+        variant: "secondary-b",
+      },
+    ],
   },
   {
     id: "vodafone-pageforge",
-    domainLabel: "B2B & Web",
     brand: "vodafone",
-    accentHex: "#E60000",
-    accentGradient:
-      "linear-gradient(90deg, #E60000 0%, rgba(230, 0, 0, 0.22) 100%)",
-    accentTextClass: "text-[#E60000]",
-    markerOffsetClass: "pt-6 sm:pt-9",
+    shortLabel: "VODAFONE",
     title: "Firmenkundenportal & PageForge",
-    durationLabel: "> 2 Jahre Erfahrung",
+    roleBadge: "Backend & Data Integration",
+    durationLabel: "> 2 Jahre",
     organization: "Vodafone GmbH",
     previewUrl: "vodafone.de/business",
     previewImage: null,
     previewAlt: "Vodafone Business Landingpage & Firmenkundenportal",
-    teaser:
-      "Entwicklung und Datenintegration für das Vodafone Firmenkundenportal, die Business-Landingpages (200+ Sites) sowie Node.js-Vertrags-Microservices.",
+    focusSummary:
+      "Datenintegration, Node.js-Vertrags-Microservices und CI/CD-Automatisierung für das Firmenkundenportal sowie über 200 Business-Websites.",
+    skills: [
+      CORE_SKILL_PILLS[6],
+      CORE_SKILL_PILLS[4],
+      CORE_SKILL_PILLS[8],
+      CORE_SKILL_PILLS[0],
+    ],
+    secondaryPanels: [
+      {
+        title: "Node.js Microservices",
+        previewUrl: "api.vodafone.de/contracts",
+        variant: "secondary-a",
+      },
+      {
+        title: "PageForge · 200+ Sites",
+        previewUrl: "pageforge.vodafone.de",
+        variant: "secondary-b",
+      },
+    ],
   },
   {
     id: "controlexpert-easyclaim",
-    domainLabel: "InsurTech & BI",
     brand: "controlexpert",
-    accentHex: "#0A66C2",
-    accentGradient:
-      "linear-gradient(90deg, #0A66C2 0%, rgba(10, 102, 194, 0.22) 100%)",
-    accentTextClass: "text-[#0A66C2]",
-    markerOffsetClass: "pt-10 sm:pt-14",
-    title: "EasyClaim & Daten-/BI-Plattform",
-    durationLabel: "> 10 Jahre Erfahrung",
+    shortLabel: "CONTROLEXPERT",
+    title: "EasyClaim & BI-Plattform",
+    roleBadge: "Software & BI Engineering",
+    durationLabel: "> 10 Jahre",
     organization: "ControlExpert GmbH",
     previewUrl: "easyclaim.controlexpert.com",
     previewImage: null,
     previewAlt: "ControlExpert EasyClaim digitale Schadenaufnahme",
-    teaser:
+    focusSummary:
       "Entwicklung der digitalen Schadenaufnahme EasyClaim (React.js & .NET C#) sowie Aufbau von Data-Warehouse- und Tableau-Reporting-Lösungen.",
+    skills: [
+      CORE_SKILL_PILLS[4],
+      CORE_SKILL_PILLS[5],
+      CORE_SKILL_PILLS[3],
+      CORE_SKILL_PILLS[9],
+    ],
+    secondaryPanels: [
+      {
+        title: "EasyClaim Schadenaufnahme",
+        previewUrl: "app.easyclaim.controlexpert.com",
+        variant: "secondary-a",
+      },
+      {
+        title: "Data Warehouse & Tableau BI",
+        previewUrl: "bi.controlexpert.com/kpis",
+        variant: "secondary-b",
+      },
+    ],
   },
 ];
 
-const InteractiveProjectColumn = ({
-  project,
-  isPinned,
-  isHovered,
-  isMobileView,
-  onToggleClick,
-  onTogglePin,
-  onHoverChange,
-  reducedMotion,
-}) => {
-  const isExpanded = isPinned || (!isMobileView && isHovered);
+/* PROJECT DETAIL MODAL */
+const ProjectDetailModal = ({ project, onClose, reducedMotion = false }) => {
+  const [hoveredPillGroup, setHoveredPillGroup] = useState(false);
+
+  useEffect(() => {
+    if (!project) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [project, onClose]);
+
+  if (!project) return null;
+
+  const theme = BRAND_THEME[project.brand] || BRAND_THEME.provinzial;
 
   return (
     <div
-      onClick={onToggleClick}
-      onMouseEnter={() => onHoverChange(project.id)}
-      onMouseLeave={() => onHoverChange(null)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onToggleClick();
-        }
-      }}
-      role="button"
-      tabIndex={0}
-      aria-expanded={isExpanded}
-      aria-label={`${project.title} – Steckbrief öffnen oder anpinnen`}
-      className={`group relative cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B0B0C] rounded-3xl md:rounded-none border md:border-t-0 md:border-b-0 md:border-l last:md:border-r border-[#E4E4E7] flex flex-col justify-between px-5 sm:px-7 py-6 sm:py-7 min-h-[310px] sm:min-h-[380px] ${
-        reducedMotion
-          ? "bg-[#FFFFFF]"
-          : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isExpanded
-                ? "bg-[#FAFAFA] shadow-[inset_0_2px_0_0_rgba(11,11,12,0.06)]"
-                : "bg-[#FFFFFF] hover:bg-[#FAFAFA]"
-            }`
-      }`}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${project.title} – Projektdetails`}
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 sm:p-8 overflow-y-auto"
     >
-      <div>
-        <div className="flex items-center justify-between gap-2 pb-4">
-          <BrandWordmark brand={project.brand} stopPropagation />
-          <span
-            style={{
-              color: project.accentHex,
-              backgroundColor: `${project.accentHex}10`,
-              borderColor: `${project.accentHex}24`,
-            }}
-            className="px-2.5 py-1 rounded-full border text-[11px] font-bold tracking-tight"
-          >
-            {project.domainLabel}
-          </span>
-        </div>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ borderColor: `${theme.color}45` }}
+        className="relative w-full max-w-4xl rounded-[32px] bg-white border-2 shadow-2xl p-6 sm:p-10 my-auto space-y-8"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Projekt-Ansicht schließen"
+          className="absolute top-5 right-5 sm:top-7 sm:right-7 w-10 h-10 rounded-full bg-[#F4F4F5] hover:bg-[#E4E4E7] flex items-center justify-center text-[#0B0B0C] transition-colors cursor-pointer"
+        >
+          <X className="w-4 h-4" />
+        </button>
 
-        <div className={`relative ${project.markerOffsetClass}`}>
-          <div className="flex items-center gap-2.5 mb-3">
-            <span
-              style={{
-                backgroundColor: project.accentHex,
-                boxShadow: isExpanded
-                  ? `0 0 0 4px ${project.accentHex}1F`
-                  : "none",
-              }}
-              className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-                reducedMotion
-                  ? ""
-                  : `transition-all duration-300 ${
-                      isExpanded ? "scale-110" : "group-hover:scale-110"
-                    }`
-              }`}
-            />
-            <div
-              style={{ background: project.accentGradient }}
-              className={`h-[2px] flex-1 rounded-full ${
-                reducedMotion
-                  ? ""
-                  : `transition-all duration-300 ${
-                      isExpanded
-                        ? "opacity-100"
-                        : "opacity-75 group-hover:opacity-100"
-                    }`
-              }`}
-            />
+        <div className="text-center max-w-2xl mx-auto pt-2 space-y-2.5">
+          <div
+            style={{ color: theme.color }}
+            className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em]"
+          >
+            <span>{project.shortLabel}</span>
+            <span>·</span>
+            <span>{project.durationLabel}</span>
           </div>
 
-          <h3 className="text-xl sm:text-2xl lg:text-[25px] font-bold tracking-[-0.035em] text-[#0B0B0C] leading-[1.15]">
+          <h2 className="text-2xl sm:text-4xl font-bold tracking-[-0.04em] text-[#0B0B0C] leading-tight">
             {project.title}
-          </h3>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-[#52525B] leading-relaxed">
+            {project.focusSummary}
+          </p>
         </div>
 
         <div
-          className={`grid ${
-            reducedMotion
-              ? isExpanded
-                ? "grid-rows-[1fr] opacity-100 mt-5"
-                : "grid-rows-[0fr] opacity-0 mt-0"
-              : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                  isExpanded
-                    ? "grid-rows-[1fr] opacity-100 mt-5"
-                    : "grid-rows-[0fr] opacity-0 mt-0"
-                }`
-          }`}
+          onMouseEnter={() => setHoveredPillGroup(true)}
+          onMouseLeave={() => setHoveredPillGroup(false)}
+          className="flex justify-center"
         >
-          <div className="overflow-hidden">
-            <div className="rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] p-4 space-y-3.5">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52525B]">
-                  Projekt-Einblick · {project.organization}
-                </span>
+          <SkillChainList
+            skills={project.skills}
+            projectWaveActive={hoveredPillGroup}
+            reducedMotion={reducedMotion}
+            centered
+            accentColor={theme.color}
+          />
+        </div>
 
-                <button
-                  type="button"
-                  aria-pressed={isPinned}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onTogglePin(project.id);
-                  }}
-                  style={{
-                    borderColor: isPinned ? project.accentHex : "#D4D4D8",
-                    color: isPinned ? "#FFFFFF" : "#52525B",
-                  }}
-                  className={`relative overflow-hidden inline-flex items-center justify-center w-7 h-7 rounded-full border bg-white shadow-xs cursor-pointer ${
-                    reducedMotion
-                      ? ""
-                      : "transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-90 hover:scale-105"
-                  }`}
-                  aria-label={`Steckbrief für ${project.organization} anpinnen`}
-                  title={isPinned ? "Steckbrief lösen" : "Steckbrief anpinnen"}
-                >
-                  <span
-                    style={{ backgroundColor: project.accentHex }}
-                    className={`absolute inset-0 rounded-full ${
-                      reducedMotion
-                        ? isPinned
-                          ? "scale-100 opacity-100"
-                          : "scale-0 opacity-0"
-                        : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                            isPinned
-                              ? "scale-100 opacity-100"
-                              : "scale-0 opacity-0"
-                          }`
-                    }`}
-                  />
-                  <Pin
-                    className={`relative z-10 w-3 h-3 ${
-                      reducedMotion
-                        ? isPinned
-                          ? "-rotate-45 fill-current"
-                          : "rotate-0"
-                        : `transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                            isPinned
-                              ? "-rotate-45 scale-110 fill-current"
-                              : "rotate-0 scale-100"
-                          }`
-                    }`}
-                  />
-                </button>
+        <div className="space-y-5">
+          <MacProjectMonitor
+            brand={project.brand}
+            previewImage={project.previewImage}
+            previewAlt={project.previewAlt}
+            previewUrl={project.previewUrl}
+            large
+            variant="primary"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {project.secondaryPanels.map((panel) => (
+              <div
+                key={panel.title}
+                style={{ borderColor: `${theme.color}30` }}
+                className="rounded-2xl bg-[#FBFBFD] border p-4 space-y-3"
+              >
+                <MacProjectMonitor
+                  brand={project.brand}
+                  previewImage={null}
+                  previewAlt={panel.title}
+                  previewUrl={panel.previewUrl}
+                  variant={panel.variant}
+                />
+                <p className="text-xs font-bold text-[#0B0B0C] text-center">
+                  {panel.title}
+                </p>
               </div>
+            ))}
+          </div>
 
-              <MacProjectMonitor
-                brand={project.brand}
-                previewImage={project.previewImage}
-                previewAlt={project.previewAlt}
-                previewUrl={project.previewUrl}
-              />
-
-              <p className="text-xs text-[#27272A] font-medium leading-relaxed">
-                {project.teaser}
-              </p>
-            </div>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href={BRAND_URLS[project.brand]}
+              target="_blank"
+              rel="noreferrer"
+              style={{ backgroundColor: theme.color }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white text-xs sm:text-sm font-bold hover:opacity-90 transition-opacity"
+            >
+              <span>{project.organization}</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
+    </div>
+  );
+};
 
-      <div className="pt-5 mt-4 border-t border-[#E4E4E7]/80 flex items-center justify-between gap-2">
-        <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-medium text-[#52525B]">
-          {project.durationLabel}
-        </span>
+/* PROJECT CAROUSEL – MOBILE PEEKING NEIGHBOR CARDS + INDICATOR DOTS (NO EXTRA BUTTONS) */
+const ProjectsViewportCarousel = ({
+  projects,
+  activeIndex,
+  onSelectIndex,
+  onOpenProject,
+  reducedMotion = false,
+  isMobileView = false,
+}) => {
+  const [dragDeltaX, setDragDeltaX] = useState(0);
+  const dragRef = useRef({
+    startX: 0,
+    startY: 0,
+    dragging: false,
+    moved: false,
+  });
+  const total = projects.length;
 
-        <span
-          className={`inline-flex items-center gap-1.5 text-xs font-bold ${
-            project.accentTextClass
-          } ${
-            reducedMotion
-              ? ""
-              : "transition-transform duration-300 group-hover:translate-x-0.5"
-          }`}
-        >
-          {isPinned && (
-            <Pin
-              aria-label="Angepinnt"
-              className="w-3 h-3 -rotate-45 fill-current shrink-0"
+  const goPrev = () => {
+    onSelectIndex((activeIndex - 1 + total) % total);
+  };
+
+  const goNext = () => {
+    onSelectIndex((activeIndex + 1) % total);
+  };
+
+  const handlePointerDown = (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      dragging: true,
+      moved: false,
+    };
+  };
+
+  const handlePointerMove = (e) => {
+    if (!dragRef.current.dragging) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+      dragRef.current.moved = true;
+      setDragDeltaX(Math.max(-140, Math.min(140, dx)));
+    }
+  };
+
+  const handlePointerUp = () => {
+    if (!dragRef.current.dragging) return;
+    const dx = dragDeltaX;
+    dragRef.current.dragging = false;
+    setDragDeltaX(0);
+
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  };
+
+  const getRelativeOffset = (index) => {
+    let diff = index - activeIndex;
+    if (diff > total / 2) diff -= total;
+    if (diff < -total / 2) diff += total;
+    return diff;
+  };
+
+  const activeProject = projects[activeIndex] || projects[0];
+  const activeTheme =
+    BRAND_THEME[activeProject.brand] || BRAND_THEME.provinzial;
+
+  return (
+    <div
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      style={{ touchAction: "pan-y" }}
+      className="relative overflow-hidden py-4 sm:py-8 select-none"
+    >
+      <div className="relative flex items-center justify-center min-h-[385px] sm:min-h-[435px]">
+        {projects.map((project, idx) => {
+          const offset = getRelativeOffset(idx);
+          const isCenter = offset === 0;
+          const isSide = Math.abs(offset) === 1;
+          const theme = BRAND_THEME[project.brand] || BRAND_THEME.provinzial;
+
+          const baseTranslatePercent = isCenter
+            ? 0
+            : isMobileView
+              ? offset * 92
+              : offset * 114;
+          const rotateDeg = isCenter
+            ? dragDeltaX * 0.025
+            : isMobileView
+              ? offset * 5
+              : offset * 6;
+          const translateY = isCenter ? 0 : isMobileView ? 14 : 18;
+          const scale = isCenter ? 1 : isMobileView ? 0.87 : 0.88;
+          const opacity = isCenter
+            ? 1
+            : isSide
+              ? isMobileView
+                ? 0.8
+                : 0.86
+              : 0;
+          const zIndex = isCenter ? 20 : isSide ? 10 : 0;
+
+          return (
+            <div
+              key={project.id}
+              className={`flex flex-col items-center ${
+                isCenter
+                  ? "relative w-[72%] sm:w-[54%] md:w-[43%] lg:w-[37%] max-w-[440px]"
+                  : "absolute w-[72%] sm:w-[54%] md:w-[43%] lg:w-[37%] max-w-[440px]"
+              } ${
+                reducedMotion
+                  ? ""
+                  : "transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+              }`}
+              style={{
+                transform: `translate3d(calc(${baseTranslatePercent}% + ${dragDeltaX * 0.48}px), ${translateY}px, 0) rotate(${rotateDeg}deg) scale(${scale})`,
+                opacity,
+                zIndex,
+                pointerEvents: Math.abs(offset) <= 1 ? "auto" : "none",
+              }}
+            >
+              <div
+                onClick={() => {
+                  if (dragRef.current.moved) {
+                    dragRef.current.moved = false;
+                    return;
+                  }
+                  if (isCenter) {
+                    onOpenProject(project);
+                  } else {
+                    onSelectIndex(idx);
+                  }
+                }}
+                role="button"
+                tabIndex={isCenter ? 0 : -1}
+                onKeyDown={(e) => {
+                  if (isCenter && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault();
+                    onOpenProject(project);
+                  }
+                }}
+                aria-label={
+                  isCenter
+                    ? `${project.title} – Projektdetails öffnen`
+                    : `${project.title} in den Fokus holen`
+                }
+                style={{
+                  backgroundColor: `${theme.color}08`,
+                  borderColor: isCenter
+                    ? `${theme.color}55`
+                    : `${theme.color}28`,
+                }}
+                className={`w-full rounded-[32px] border p-5 sm:p-8 flex flex-col justify-between gap-5 sm:gap-6 cursor-pointer ${
+                  isCenter
+                    ? "shadow-[0_24px_54px_-22px_rgba(11,11,12,0.16)]"
+                    : "shadow-2xs hover:opacity-95"
+                } transition-all duration-300`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <BrandWordmark brand={project.brand} href={false} />
+                  <span
+                    style={{ color: theme.color }}
+                    className="text-xs font-bold"
+                  >
+                    {project.durationLabel}
+                  </span>
+                </div>
+
+                <div>
+                  <span
+                    style={{ color: theme.color }}
+                    className="block text-[11px] font-bold uppercase tracking-[0.16em]"
+                  >
+                    {project.roleBadge}
+                  </span>
+                  <h3 className="mt-1.5 text-lg sm:text-xl font-bold tracking-[-0.03em] text-[#0B0B0C] leading-snug">
+                    {project.title}
+                  </h3>
+                </div>
+
+                <div className="pt-1 pb-2">
+                  <MacProjectMonitor
+                    brand={project.brand}
+                    previewImage={project.previewImage}
+                    previewAlt={project.previewAlt}
+                    previewUrl={project.previewUrl}
+                    variant="primary"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (isCenter) onOpenProject(project);
+                  else onSelectIndex(idx);
+                }}
+                style={
+                  isCenter
+                    ? { backgroundColor: theme.color }
+                    : { color: theme.color, borderColor: `${theme.color}35` }
+                }
+                className={`mt-5 sm:mt-6 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-[0.14em] transition-all cursor-pointer ${
+                  isCenter
+                    ? "text-white shadow-xs hover:opacity-90"
+                    : "bg-white border hover:bg-[#FAFAFA]"
+                }`}
+              >
+                {project.shortLabel}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* SUBTLE CAROUSEL POSITION DOTS (PURE VISUAL AFFORDANCE) */}
+      <div
+        aria-hidden="true"
+        className="mt-4 sm:mt-5 flex items-center justify-center gap-1.5"
+      >
+        {projects.map((proj, idx) => {
+          const active = idx === activeIndex;
+          return (
+            <span
+              key={proj.id}
+              style={
+                active ? { backgroundColor: activeTheme.color } : undefined
+              }
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                active ? "w-6" : "w-1.5 bg-[#D4D4D8]"
+              }`}
             />
-          )}
-          <span>Steckbrief</span>
-          <ChevronRight
-            className={`w-3.5 h-3.5 ${
-              reducedMotion
-                ? ""
-                : `transition-transform duration-300 ${isExpanded ? "rotate-90" : ""}`
-            }`}
-          />
-        </span>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "Einblick in meine Projekte" },
+  { id: "hero-stage", nextTitle: "Belastbare Datenprodukte & KI-Systeme" },
   { id: "work", nextTitle: "Was mich motiviert" },
   { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
@@ -3751,13 +4633,17 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-  const [pinnedIds, setPinnedIds] = useState([]);
-  const [hoveredProjectId, setHoveredProjectId] = useState(null);
-  const [controlExpertExpanded, setControlExpertExpanded] = useState(false);
+  const [activeCarouselIdx, setActiveCarouselIdx] = useState(0);
+  const [selectedModalProject, setSelectedModalProject] = useState(null);
+  const [openCompanyIds, setOpenCompanyIds] = useState(() => ({}));
   const [cvModalOpen, setCvModalOpen] = useState(false);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
+
+  const toggleCompanyCard = (companyId) => {
+    setOpenCompanyIds((prev) => ({ ...prev, [companyId]: !prev[companyId] }));
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -3872,22 +4758,6 @@ export default function App() {
     }
   };
 
-  const handleTogglePin = (projectId) => {
-    setPinnedIds((prev) =>
-      prev.includes(projectId)
-        ? prev.filter((id) => id !== projectId)
-        : [...prev, projectId],
-    );
-  };
-
-  const handleProjectClick = (projectId) => {
-    setPinnedIds((prev) =>
-      prev.includes(projectId)
-        ? prev.filter((id) => id !== projectId)
-        : [...prev, projectId],
-    );
-  };
-
   const handleCopyEmail = () => {
     const email = "malte_reppke@web.de";
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -3936,6 +4806,12 @@ export default function App() {
         onClose={() => setCvModalOpen(false)}
       />
 
+      <ProjectDetailModal
+        project={selectedModalProject}
+        onClose={() => setSelectedModalProject(null)}
+        reducedMotion={reducedMotion}
+      />
+
       <div className="fixed top-0 left-0 right-0 h-[2px] z-50 pointer-events-none">
         <div
           className="h-full bg-[#0B0B0C] transition-[width] duration-150 ease-out"
@@ -3943,7 +4819,7 @@ export default function App() {
         />
       </div>
 
-      {/* 1. TOP HERO SECTION WITH WEBGL SILK-MARBLE & SCROLL-SPLIT DISSOLVE */}
+      {/* 1. TOP HERO SECTION */}
       <section
         id="hero-stage"
         ref={heroStageRef}
@@ -3954,33 +4830,28 @@ export default function App() {
             style={{
               opacity: revealedTitleOpacity,
               transform: `translate3d(0, ${revealedTitleY}px, 0) scale(${revealedTitleScale})`,
-              pointerEvents: revealedTitleOpacity > 0.65 ? "auto" : "none",
             }}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-5 sm:px-8 max-w-5xl mx-auto will-change-transform"
+            className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-5 max-w-5xl mx-auto will-change-transform"
           >
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525B] mb-5">
-              Einblick in meine Projekte
+            <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#71717A] mb-3">
+              EINBLICK IN MEINE PROJEKTE
             </span>
 
-            <h2 className="text-3xl sm:text-6xl md:text-[72px] font-bold tracking-[-0.045em] text-[#0B0B0C] leading-[1.06] max-w-4xl">
+            <h2 className="text-3xl sm:text-6xl md:text-[68px] font-bold tracking-[-0.045em] text-[#0B0B0C] leading-[1.05]">
               Belastbare Datenprodukte und KI-Systeme für den Alltag.
             </h2>
 
-            <p className="mt-6 sm:mt-7 text-sm sm:text-xl text-[#52525B] font-medium max-w-2xl leading-relaxed tracking-[-0.015em]">
+            <p className="mt-5 max-w-2xl text-sm sm:text-lg text-[#52525B] font-medium leading-relaxed">
               Von Customer-Data-Hubs und Microservices bis hin zu digitalen
               InsurTech-Lösungen – strukturiert, verlässlich und praxistauglich
               umgesetzt.
             </p>
 
-            <div className="mt-8 sm:mt-10">
-              <button
-                type="button"
-                onClick={() => jumpToSection("work")}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#0B0B0C] text-white text-xs sm:text-sm font-bold hover:bg-[#18181B] active:scale-[0.98] transition-all cursor-pointer"
-              >
+            <div className="mt-7">
+              <span className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full bg-[#0B0B0C] text-white text-xs sm:text-sm font-bold shadow-sm">
                 <span>Zu den Projekten</span>
                 <ArrowDown className="w-3.5 h-3.5" />
-              </button>
+              </span>
             </div>
           </div>
 
@@ -4065,8 +4936,8 @@ export default function App() {
                 </header>
 
                 <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-14 lg:px-20 py-16 sm:py-20 lg:py-24">
-                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/75 mb-6 sm:mb-6">
-                    <Sparkles className="w-3.5 h-3.5" />
+                  <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/70 mb-6 sm:mb-6">
+                    <Sparkles className="w-3.5 h-3.5 text-white/75" />
                     <span>Data Engineering &amp; AI Engineering</span>
                   </div>
 
@@ -4076,7 +4947,12 @@ export default function App() {
 
                   <p className="mt-7 sm:mt-8 max-w-2xl lg:max-w-3xl text-sm sm:text-lg md:text-[19px] lg:text-[21px] text-white/85 font-medium leading-[1.72] sm:leading-[1.68]">
                     Data Engineering &amp; KI-Systeme bei der{" "}
-                    <span className="border-b border-[#60A5FA] pb-0.5 text-white">
+                    <span
+                      style={{
+                        borderBottomColor: BRAND_THEME.provinzial.color,
+                      }}
+                      className="border-b-2 pb-0.5 text-white font-semibold"
+                    >
                       Provinzial
                     </span>
                     . Fokus auf verlässliche Datenprodukte, skalierbare
@@ -4087,7 +4963,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => jumpToSection("work")}
-                      className="inline-flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer"
+                      className="inline-flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] active:scale-[0.98] transition-all cursor-pointer shadow-sm"
                     >
                       <span>Einblick in meine Projekte</span>
                     </button>
@@ -4102,7 +4978,7 @@ export default function App() {
                     type="button"
                     onClick={() => jumpToSection("work")}
                     aria-label="Nach unten scrollen"
-                    className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-colors cursor-pointer"
+                    className="w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/75 hover:text-white hover:bg-white/20 transition-colors cursor-pointer"
                   >
                     <ArrowDown className="w-3.5 h-3.5" />
                   </button>
@@ -4113,53 +4989,36 @@ export default function App() {
         </div>
       </section>
 
-      {/* 2. PROJEKTE */}
-      <section id="work" className="bg-[#FFFFFF] pt-16 sm:pt-20 pb-14 sm:pb-16">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <HeadlineFlow
-              kicker="Projekte & Wirkung"
-              title="Einblick in meine Projekte"
-              as="h2"
-              reducedMotion={reducedMotion}
-            />
+      {/* 2. FEATURED WORK CAROUSEL */}
+      <section id="work" className="bg-[#FFFFFF] pt-14 pb-16 sm:py-28 lg:py-32">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10">
+          <HeadlineFlow
+            kicker="Projekte & Wirkung"
+            title="Einblick in meine Projekte"
+            as="h2"
+            reducedMotion={reducedMotion}
+          />
+        </div>
 
-            {pinnedIds.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setPinnedIds([])}
-                className="self-start sm:self-auto px-3.5 py-1.5 rounded-full bg-[#F4F4F5] border border-[#E4E4E7] text-xs font-bold text-[#0B0B0C] hover:bg-[#E4E4E7]/70 transition-colors cursor-pointer"
-              >
-                Alle Fixierungen lösen ({pinnedIds.length})
-              </button>
-            )}
-          </div>
-
+        <div className="max-w-7xl mx-auto">
           <RevealBlock delay={80} reducedMotion={reducedMotion}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:rounded-3xl md:border md:border-[#E4E4E7] md:overflow-hidden md:bg-white md:shadow-sm">
-              {TIMELINE_PROJECTS.map((project) => (
-                <InteractiveProjectColumn
-                  key={project.id}
-                  project={project}
-                  isPinned={pinnedIds.includes(project.id)}
-                  isHovered={hoveredProjectId === project.id}
-                  isMobileView={isMobileView}
-                  onToggleClick={() => handleProjectClick(project.id)}
-                  onTogglePin={handleTogglePin}
-                  onHoverChange={setHoveredProjectId}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
-            </div>
+            <ProjectsViewportCarousel
+              projects={TIMELINE_PROJECTS}
+              activeIndex={activeCarouselIdx}
+              onSelectIndex={setActiveCarouselIdx}
+              onOpenProject={(proj) => setSelectedModalProject(proj)}
+              reducedMotion={reducedMotion}
+              isMobileView={isMobileView}
+            />
           </RevealBlock>
         </div>
       </section>
 
-      {/* 3. MOTIVATION WITH CONTAINED BLUE-MARBLE NODE-MESH & GENEROUS BREATHING ROOM */}
+      {/* 3. MOTIVATION */}
       <section
         id="motivation"
         ref={motivationSectionRef}
-        className="relative bg-[#E7EEF8] py-20 sm:py-28 lg:py-36 overflow-x-clip"
+        className="relative bg-[#E7EEF8] py-14 sm:py-28 lg:py-32 overflow-x-clip"
       >
         <HeroAlignedMeshParallax
           sectionRef={motivationSectionRef}
@@ -4168,7 +5027,7 @@ export default function App() {
         />
 
         <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <div className="mb-8 sm:mb-10">
+          <div className="mb-7 sm:mb-10">
             <HeadlineFlow kicker="Motivation" reducedMotion={reducedMotion} />
           </div>
 
@@ -4197,7 +5056,7 @@ export default function App() {
                       yOffset={10}
                       reducedMotion={reducedMotion}
                     >
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/65">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
                         Datenprodukte &amp; AI Engineering
                       </span>
                     </TextReveal>
@@ -4253,7 +5112,7 @@ export default function App() {
                 <div className="h-full p-7 sm:p-9 flex flex-col justify-between">
                   <div>
                     <TextReveal delay={180} reducedMotion={reducedMotion}>
-                      <div className="w-11 h-11 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-7">
+                      <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-7">
                         <Database className="w-5 h-5 text-[#0B0B0C]" />
                       </div>
                     </TextReveal>
@@ -4263,7 +5122,7 @@ export default function App() {
                       yOffset={10}
                       reducedMotion={reducedMotion}
                     >
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#71717A]">
                         Skalierbare Pipelines
                       </span>
                     </TextReveal>
@@ -4315,8 +5174,8 @@ export default function App() {
                 <div className="p-7 sm:p-9 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                   <div className="max-w-3xl">
                     <TextReveal delay={240} reducedMotion={reducedMotion}>
-                      <div className="w-11 h-11 rounded-2xl bg-[#0B0B0C] text-white flex items-center justify-center mb-5">
-                        <Layers className="w-5 h-5" />
+                      <div className="w-11 h-11 rounded-2xl bg-[#F4F4F5] border border-[#E4E4E7] flex items-center justify-center mb-5">
+                        <Layers className="w-5 h-5 text-[#0B0B0C]" />
                       </div>
                     </TextReveal>
 
@@ -4325,7 +5184,7 @@ export default function App() {
                       yOffset={10}
                       reducedMotion={reducedMotion}
                     >
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#52525B]">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-[#71717A]">
                         End-to-End-Perspektive
                       </span>
                     </TextReveal>
@@ -4372,10 +5231,10 @@ export default function App() {
         </div>
       </section>
 
-      {/* 4. STATIONEN & TECH STACK (MODERN & CLEAN SPACING) */}
+      {/* 4. STATIONEN & TECH STACK */}
       <section
         id="experience"
-        className="bg-[#FBFBFD] pt-16 sm:pt-24 lg:pt-28 pb-20 sm:pb-28"
+        className="bg-[#FBFBFD] pt-14 pb-16 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28"
       >
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -4394,228 +5253,65 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-11 grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+          <div className="mt-9 sm:mt-11 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-7 items-start">
             <RevealBlock
               delay={60}
               reducedMotion={reducedMotion}
               className="lg:col-span-7"
             >
-              <div className="rounded-[28px] border border-[#E4E4E7] bg-white p-6 sm:p-9 shadow-2xs divide-y divide-[#E4E4E7]/85">
-                <div className="pb-8">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <BrandWordmark brand="provinzial" />
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="px-2.5 py-1 rounded-full bg-[#007A6E]/10 border border-[#007A6E]/20 text-[11px] font-bold text-[#007A6E]">
-                        Versicherung
-                      </span>
-                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                        01.05.2025 – heute
-                      </span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs font-semibold text-[#52525B]">
-                    Provinzial Versicherung AG · Stationen im Überblick
-                  </p>
-
-                  <div className="mt-5 space-y-6">
-                    {PROVINZIAL_STATIONS.map((item) => (
-                      <div
-                        key={item.title}
-                        className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5"
-                      >
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                            {item.title}
-                          </h3>
-                          <span className="text-[11px] font-mono font-semibold text-[#52525B]">
-                            {item.period}
-                          </span>
-                        </div>
-                        <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
-                          {item.bullets.map((bullet) => (
-                            <li key={bullet} className="list-disc">
-                              {bullet}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="py-8">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <BrandWordmark brand="vodafone" />
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="px-2.5 py-1 rounded-full bg-[#E60000]/10 border border-[#E60000]/20 text-[11px] font-bold text-[#E60000]">
-                        Telekommunikation
-                      </span>
-                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                        Nov 2022 – Mär 2025
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-4 rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5">
-                    <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                      {VODAFONE_STATION.title} · Vodafone GmbH
-                    </h3>
-                    <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
-                      {VODAFONE_STATION.bullets.map((bullet) => (
-                        <li key={bullet} className="list-disc">
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="pt-8">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <BrandWordmark brand="controlexpert" />
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="px-2.5 py-1 rounded-full bg-[#0A66C2]/10 border border-[#0A66C2]/20 text-[11px] font-bold text-[#0A66C2]">
-                        InsurTech &amp; Automotive
-                      </span>
-                      <span className="px-2.5 py-1 rounded-full bg-[#F4F4F5] text-[11px] font-mono font-semibold text-[#52525B]">
-                        Jul 2012 – Aug 2022
-                      </span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs font-semibold text-[#52525B]">
-                    ControlExpert GmbH · Stationen im Überblick
-                  </p>
-
-                  <div className="mt-4 rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2.5">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h3 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                        {CONTROLEXPERT_FEATURED_STATION.title}
-                      </h3>
-                      <span className="text-[11px] font-mono font-semibold text-[#52525B]">
-                        {CONTROLEXPERT_FEATURED_STATION.period}
-                      </span>
-                    </div>
-                    <ul className="pl-4 space-y-1.5 text-xs text-[#52525B] leading-relaxed">
-                      {CONTROLEXPERT_FEATURED_STATION.bullets.map((bullet) => (
-                        <li key={bullet} className="list-disc">
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      aria-expanded={controlExpertExpanded}
-                      onClick={() => setControlExpertExpanded((prev) => !prev)}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F4F4F5] hover:bg-[#EAECEF] text-xs font-bold text-[#0A66C2] transition-colors cursor-pointer"
-                    >
-                      <span>
-                        {controlExpertExpanded
-                          ? "Frühere Stationen ausblenden"
-                          : `Frühere Stationen einblenden (${CONTROLEXPERT_MORE_STATIONS.length})`}
-                      </span>
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 ${
-                          reducedMotion
-                            ? ""
-                            : `transition-transform duration-300 ${
-                                controlExpertExpanded ? "rotate-180" : ""
-                              }`
-                        }`}
-                      />
-                    </button>
-
-                    <div
-                      className={`grid ${
-                        reducedMotion
-                          ? controlExpertExpanded
-                            ? "grid-rows-[1fr] opacity-100 mt-4"
-                            : "grid-rows-[0fr] opacity-0 mt-0"
-                          : `transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                              controlExpertExpanded
-                                ? "grid-rows-[1fr] opacity-100 mt-4"
-                                : "grid-rows-[0fr] opacity-0 mt-0"
-                            }`
-                      }`}
-                    >
-                      <div className="overflow-hidden">
-                        <div className="space-y-4">
-                          {CONTROLEXPERT_MORE_STATIONS.map((item) => (
-                            <div
-                              key={item.title}
-                              className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 sm:p-5 space-y-2"
-                            >
-                              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                                <h4 className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
-                                  {item.title}
-                                </h4>
-                                <span className="text-[11px] font-mono font-semibold text-[#52525B]">
-                                  {item.period}
-                                </span>
-                              </div>
-                              <ul className="pl-4 space-y-1 text-xs text-[#52525B] leading-relaxed">
-                                {item.bullets.map((bullet) => (
-                                  <li key={bullet} className="list-disc">
-                                    {bullet}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="rounded-[28px] border border-[#E4E4E7] bg-white p-6 sm:p-8 shadow-2xs space-y-5">
+                {COMPANY_GROUPS.map((group) => (
+                  <CollapsibleCompanyCard
+                    key={group.id}
+                    group={group}
+                    isOpen={Boolean(openCompanyIds[group.id])}
+                    onToggle={() => toggleCompanyCard(group.id)}
+                    reducedMotion={reducedMotion}
+                  />
+                ))}
               </div>
             </RevealBlock>
 
+            {/* LIGHT BLUISH TECH STACK AREA WITH SUBTLE VIOLET HOVER ACCENT */}
             <RevealBlock
               delay={120}
               reducedMotion={reducedMotion}
               className="lg:col-span-5"
             >
-              <div className="rounded-[28px] border border-[#E4E4E7] bg-white p-6 sm:p-9 shadow-2xs space-y-8">
-                <div>
-                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
+              <div className="rounded-[28px] border border-[#DBE6F6] bg-[#EFF4FC] p-6 sm:p-8 shadow-2xs space-y-8">
+                <div className="space-y-4">
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#71717A]">
                     <Terminal className="w-4 h-4 text-[#0B0B0C]" />
-                    <span>Tech Stack</span>
+                    <span>Werkzeugkasten</span>
                   </div>
-                  <h3 className="mt-3 text-xl font-bold tracking-[-0.03em] text-[#0B0B0C]">
-                    Werkzeuge für Daten, Backend &amp; UI
-                  </h3>
-                  <p className="mt-2 text-xs text-[#52525B] leading-relaxed">
-                    Hover oder Klick auf einen Skill zeigt Kontext und Einsatz
-                    aus bisherigen Projekten.
-                  </p>
                   <SkillChainList
                     skills={CORE_SKILL_PILLS}
                     reducedMotion={reducedMotion}
+                    tileGrid
                   />
                 </div>
 
-                <div className="pt-7 border-t border-[#E4E4E7]/85 space-y-4">
-                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#52525B]">
+                <div className="pt-7 border-t border-[#D8E3F4] space-y-4">
+                  <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#71717A]">
                     <GraduationCap className="w-4 h-4 text-[#0B0B0C]" />
                     <span>Studium &amp; Akademischer Hintergrund</span>
                   </div>
 
-                  <div className="space-y-3 text-xs text-[#52525B]">
-                    <div className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 space-y-1">
-                      <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                  <div className="space-y-3 text-xs sm:text-[13px] text-[#52525B]">
+                    <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-1">
+                      <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
                         M. Sc. KI und Business Analytics
                       </p>
-                      <p className="text-[11px] font-mono text-[#52525B]">
+                      <p className="text-xs font-mono text-[#71717A]">
                         FOM · Berufsbegleitend ab 01.09.2026
                       </p>
                     </div>
 
-                    <div className="rounded-2xl bg-[#FAFAFA] border border-[#ECEEF2] p-4 space-y-1">
-                      <p className="text-xs sm:text-[13px] font-bold text-[#0B0B0C]">
+                    <div className="rounded-2xl bg-white border border-[#E4E4E7] p-4 space-y-1">
+                      <p className="text-xs sm:text-sm font-bold text-[#0B0B0C]">
                         B. Sc. Wirtschaftsinformatik (1,9)
                       </p>
-                      <p className="text-[11px] font-mono text-[#52525B]">
+                      <p className="text-xs font-mono text-[#71717A]">
                         FOM Düsseldorf · Fokus auf Datenprodukte &amp; BI
                       </p>
                     </div>
@@ -4627,94 +5323,22 @@ export default function App() {
         </div>
       </section>
 
-      {/* 5. KONTAKT */}
-      <section
-        ref={contactSectionRef}
-        id="contact"
-        className="bg-[#FFFFFF] py-20 sm:py-24 pb-32 sm:pb-28"
-      >
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <ContactFlow reducedMotion={reducedMotion}>
-            <div className="relative overflow-hidden rounded-3xl border border-[#E4E4E7] bg-[#0B0B0C] text-white min-h-[420px] sm:min-h-0 px-6 py-9 sm:p-12 flex flex-col justify-between md:flex-row md:items-center gap-9 sm:gap-8">
-              <ContactMailWaveField
-                sectionRef={contactSectionRef}
-                email="malte_reppke@web.de"
-                reducedMotion={reducedMotion}
-              />
-
-              <div className="relative z-10 max-w-xl">
-                <HeadlineFlow
-                  kicker="Kontakt"
-                  title="Lust auf Austausch zu Data & AI Engineering?"
-                  as="h2"
-                  titleClassName="mt-2.5 sm:mt-2 text-3xl sm:text-4xl font-bold tracking-[-0.035em] leading-[1.12] text-white"
-                  reducedMotion={reducedMotion}
-                />
-                <p className="mt-4 sm:mt-3 text-sm sm:text-base text-white/75 leading-relaxed">
-                  Schreib mir gerne direkt per E-Mail oder vernetze dich mit
-                  mir.
-                </p>
-                <div className="mt-5 sm:mt-4 inline-flex items-center gap-2 text-xs font-mono text-white/70">
-                  <MapPin className="w-3.5 h-3.5 shrink-0" />
-                  <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
-                </div>
-              </div>
-
-              <div className="relative z-10 flex flex-wrap items-center gap-3.5 sm:gap-3 pt-1 sm:pt-0">
-                <a
-                  href="mailto:malte_reppke@web.de"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>E-Mail senden</span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors cursor-pointer"
-                >
-                  {copied ? (
-                    <Check className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                  <span>{copied ? "Kopiert!" : "malte_reppke@web.de"}</span>
-                </button>
-
-                <a
-                  href="https://github.com/malte-reppke"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-                >
-                  <GitBranch className="w-4 h-4" />
-                  <span>GitHub</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/malte-reppke"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-3 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-                >
-                  <Globe className="w-4 h-4" />
-                  <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-          </ContactFlow>
-        </div>
-      </section>
+      {/* 5. FULLSCREEN PULL CONTACT AREA */}
+      <FullscreenPullContactSection
+        contactSectionRef={contactSectionRef}
+        email="malte_reppke@web.de"
+        copied={copied}
+        onCopyEmail={handleCopyEmail}
+        reducedMotion={reducedMotion}
+        isMobileView={isMobileView}
+      />
 
       {/* FLOATING SECTION FLOW PILL */}
       <div className="fixed bottom-5 right-5 z-40">
         <button
           type="button"
           onClick={handleNextPill}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0B0B0C]/90 text-white text-xs font-bold backdrop-blur-md border border-white/15 shadow-lg hover:bg-[#0B0B0C] transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#0B0B0C]/90 text-white text-xs font-bold backdrop-blur-md border border-white/15 shadow-lg hover:bg-[#0B0B0C] transition-colors cursor-pointer"
         >
           <Layers className="w-3.5 h-3.5 text-white/75" />
           <span>{activeSectionObj.nextTitle}</span>
