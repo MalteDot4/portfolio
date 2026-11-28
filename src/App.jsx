@@ -17,7 +17,6 @@ import {
   Copy,
   Terminal,
   GraduationCap,
-  MapPin,
   Mail,
   GitBranch,
   Globe,
@@ -410,7 +409,7 @@ const downloadCvPdfDirect = ({
   doc.setTextColor(...palette.meta);
   doc.text(
     `malte_reppke@web.de · github.com/malte-reppke · ${
-      isEn ? "Hilden, Germany" : "Hilden, Deutschland"
+      isEn ? "Germany" : "Deutschland"
     }`,
     marginX,
     y,
@@ -782,11 +781,42 @@ const HeroAvatarSpeechMark = ({
   );
 };
 
-/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE (MUTED EDITORIAL TINT) */
+/* CV SECTION AVATAR WITH GRADIENT FILL TRANSITION + SMOOTH SCROLL PULSE */
 const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   const [hovered, setHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
+  const [scrollPulseActive, setScrollPulseActive] = useState(false);
+  const triggerRef = useRef(null);
+  const hasPulsedRef = useRef(false);
   const bubbleText = "Wenn du magst, kannst du den CV exportieren?";
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const node = triggerRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+
+    let endTimer = null;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPulsedRef.current) {
+          hasPulsedRef.current = true;
+          setScrollPulseActive(true);
+          endTimer = window.setTimeout(() => {
+            setScrollPulseActive(false);
+          }, 3400);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -24px 0px" },
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      if (endTimer) window.clearTimeout(endTimer);
+    };
+  }, [reducedMotion]);
 
   useEffect(() => {
     if (!hovered) {
@@ -814,31 +844,87 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
 
   return (
     <div
+      ref={triggerRef}
       className="relative inline-flex items-center"
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => {
+        setScrollPulseActive(false);
+        setHovered(true);
+      }}
       onMouseLeave={() => setHovered(false)}
-      onFocus={() => setHovered(true)}
+      onFocus={() => {
+        setScrollPulseActive(false);
+        setHovered(true);
+      }}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
           setHovered(false);
         }
       }}
     >
+      <style>{`
+        @keyframes mrCvScrollRingPulse {
+          0% { transform: scale(1); opacity: 0.78; }
+          65% { transform: scale(1.22); opacity: 0.24; }
+          100% { transform: scale(1.36); opacity: 0; }
+        }
+        @keyframes mrCvSmoothBreathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.035); }
+        }
+      `}</style>
+
+      {scrollPulseActive && !reducedMotion && !hovered && (
+        <span
+          aria-hidden="true"
+          style={{
+            animation:
+              "mrCvScrollRingPulse 1.7s cubic-bezier(0.22, 1, 0.36, 1) 2 forwards",
+          }}
+          className="pointer-events-none absolute -inset-0.5 rounded-full ring-2 ring-[#4F46E5]/65"
+        />
+      )}
+
       <button
         type="button"
         onClick={onOpen}
         aria-label="CV-Customizing und PDF-Export öffnen"
-        className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-[#F2F4F9] hover:bg-[#E9ECF4] border border-[#D4DAE8] hover:border-[#94A3B8] text-[#1E2538] shadow-2xs transition-all duration-250 cursor-pointer group"
+        style={
+          scrollPulseActive && !reducedMotion && !hovered
+            ? {
+                animation:
+                  "mrCvSmoothBreathe 1.7s cubic-bezier(0.22, 1, 0.36, 1) 2",
+              }
+            : undefined
+        }
+        className={`relative overflow-hidden inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-[#F2F4F9] border border-[#D4DAE8] hover:border-[#6366F1]/55 shadow-2xs cursor-pointer group ${
+          reducedMotion
+            ? "hover:bg-[#1E1B4B] hover:text-white"
+            : "transition-[color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_12px_28px_-10px_rgba(37,99,235,0.38)]"
+        }`}
       >
-        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-white overflow-hidden border border-[#CBD5E1] group-hover:scale-105 transition-transform">
+        <span
+          aria-hidden="true"
+          style={{
+            background:
+              "linear-gradient(115deg, #0F172A 0%, #1D4ED8 52%, #4F46E5 100%)",
+          }}
+          className={`pointer-events-none absolute inset-0 origin-left ${
+            reducedMotion
+              ? "opacity-0 group-hover:opacity-100"
+              : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          }`}
+        />
+
+        <span className="relative z-10 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white overflow-hidden border border-[#CBD5E1] shrink-0">
           <img
             src={avatarLogo}
             alt="Malte Reppke Avatar CV"
             className="w-full h-full object-cover object-top"
           />
         </span>
-        <span className="text-xs sm:text-[13px] font-bold tracking-[-0.01em] text-[#1E2538] inline-flex items-center gap-1.5">
-          <FileDown className="w-3.5 h-3.5 text-[#475569] group-hover:text-[#1E2538] transition-colors" />
+
+        <span className="relative z-10 text-xs sm:text-[13px] font-bold tracking-[-0.01em] text-[#1E2538] group-hover:text-white transition-colors duration-300 inline-flex items-center gap-1.5">
+          <FileDown className="w-3.5 h-3.5 text-[#475569] group-hover:text-white transition-colors duration-300" />
           <span>CV als PDF</span>
         </span>
       </button>
@@ -1394,7 +1480,7 @@ const CvCustomizerModal = ({ open, onClose, initialFocus = "all" }) => {
                   }`}
                 >
                   malte_reppke@web.de · github.com/malte-reppke ·{" "}
-                  {isEn ? "Hilden, Germany" : "Hilden, Deutschland"}
+                  {isEn ? "Germany" : "Deutschland"}
                 </p>
               </div>
 
@@ -1756,7 +1842,6 @@ const MacProjectMonitor = ({
       );
     }
 
-    /* 1. PROVINZIAL (Südwest / Customer Data & IT-DWH) */
     if (brand === "provinzial") {
       if (variant === "secondary-a") {
         return (
@@ -1904,7 +1989,6 @@ const MacProjectMonitor = ({
       );
     }
 
-    /* 2. VODAFONE BUSINESS */
     if (brand === "vodafone") {
       if (variant === "secondary-a") {
         return (
@@ -2032,7 +2116,6 @@ const MacProjectMonitor = ({
       );
     }
 
-    /* 3. CONTROLEXPERT EASYCLAIM */
     if (variant === "secondary-a") {
       return (
         <div className="w-full h-full bg-[#4B96A3] text-white flex flex-col justify-between text-left select-none overflow-hidden">
@@ -2204,7 +2287,7 @@ const MacProjectMonitor = ({
   );
 };
 
-/* SKILL PILL / TILE ITEM (WITH SUBTLE HERO-INSPIRED VIOLET HOVER ACCENT) */
+/* SKILL PILL / TILE ITEM */
 const SkillPillItem = ({
   item,
   idx,
@@ -3406,523 +3489,367 @@ const AppleLiquidCard = ({
   );
 };
 
-/* SUBTLE FLYING EMAILS & PHONES (NO LINES) */
-const ContactMailWaveField = ({
-  sectionRef,
-  email = "malte_reppke@web.de",
-  reducedMotion = false,
-  pullProgress = 1,
-}) => {
-  const canvasRef = useRef(null);
-  const pointerRef = useRef({ x: -999, y: -999, active: false });
-  const pickedRef = useRef(null);
-  const scrollReadyRef = useRef(reducedMotion ? 1 : 0);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [pickedHint, setPickedHint] = useState(null);
-  const [isFieldReady, setIsFieldReady] = useState(Boolean(reducedMotion));
+/* WIDER, CALM FLOATING ORBIT / DRIFT FOR MAIL & @ IN CONTACT */
+const FLOATING_CONTACT_GLYPHS = [
+  {
+    id: "m1",
+    type: "mail",
+    left: "9%",
+    top: "16%",
+    size: 20,
+    dx: 42,
+    dy: -36,
+    rot: 11,
+    dur: 19,
+    delay: 0,
+  },
+  {
+    id: "a1",
+    type: "at",
+    left: "24%",
+    top: "28%",
+    size: 22,
+    dx: -44,
+    dy: 34,
+    rot: -12,
+    dur: 21,
+    delay: -3.5,
+  },
+  {
+    id: "m2",
+    type: "mail",
+    left: "76%",
+    top: "17%",
+    size: 19,
+    dx: -40,
+    dy: -38,
+    rot: -10,
+    dur: 20,
+    delay: -6.2,
+  },
+  {
+    id: "a2",
+    type: "at",
+    left: "88%",
+    top: "34%",
+    size: 24,
+    dx: 38,
+    dy: 40,
+    rot: 12,
+    dur: 22,
+    delay: -2.2,
+  },
+  {
+    id: "m3",
+    type: "mail",
+    left: "14%",
+    top: "66%",
+    size: 18,
+    dx: 40,
+    dy: -34,
+    rot: 9,
+    dur: 20.5,
+    delay: -5.1,
+  },
+  {
+    id: "a3",
+    type: "at",
+    left: "71%",
+    top: "73%",
+    size: 21,
+    dx: -38,
+    dy: -38,
+    rot: -11,
+    dur: 18.5,
+    delay: -7.4,
+  },
+  {
+    id: "m4",
+    type: "mail",
+    left: "85%",
+    top: "76%",
+    size: 19,
+    dx: -36,
+    dy: 34,
+    rot: 8,
+    dur: 21.5,
+    delay: -4.0,
+  },
+  {
+    id: "a4",
+    type: "at",
+    left: "33%",
+    top: "82%",
+    size: 19,
+    dx: 38,
+    dy: -32,
+    rot: -9,
+    dur: 19.8,
+    delay: -6.6,
+  },
+];
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const updateTouch = () => {
-      const coarse = window.matchMedia
-        ? window.matchMedia("(pointer: coarse)").matches
-        : false;
-      const small = window.innerWidth < 768;
-      setIsTouchDevice(coarse || small);
-    };
-    updateTouch();
-    window.addEventListener("resize", updateTouch);
-    return () => window.removeEventListener("resize", updateTouch);
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      scrollReadyRef.current = 1;
-      setIsFieldReady(true);
-      return;
-    }
-
-    const eased = easeOutCubic(clamp01(pullProgress));
-    scrollReadyRef.current = eased;
-    setIsFieldReady(eased >= 0.42);
-  }, [pullProgress, reducedMotion]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let frameId = null;
-    let width = 0;
-    let height = 0;
-
-    const createArtifacts = () => {
-      const count = isTouchDevice ? 16 : 30;
-      return Array.from({ length: count }, (_, idx) => ({
-        id: idx,
-        nx: ((idx * 37) % 90) / 100 + 0.05,
-        ny: ((idx * 53) % 84) / 100 + 0.08,
-        vx: ((idx % 5) - 2) * 0.00009 || 0.00006,
-        phase: idx * 0.72,
-        stagger: (idx % 10) * 0.045,
-        scale: 0.9 + (idx % 3) * 0.14,
-        kind: idx % 2 === 0 ? "mail" : "phone",
-        x: 0,
-        y: 0,
-      }));
-    };
-
-    let artifacts = [];
-
-    const resize = () => {
-      const parent = canvas.parentElement;
-      if (!parent) return;
-      width = Math.max(1, parent.clientWidth);
-      height = Math.max(1, parent.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (artifacts.length === 0) {
-        artifacts = createArtifacts();
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const drawEnvelope = (x, y, s, alpha, highlight) => {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.scale(s * (highlight ? 1.2 : 1), s * (highlight ? 1.2 : 1));
-      ctx.strokeStyle = highlight
-        ? "rgba(255, 255, 255, 0.92)"
-        : `rgba(255, 255, 255, ${Math.min(0.45, alpha)})`;
-      ctx.lineWidth = highlight ? 1.5 : 1.15;
-      ctx.lineJoin = "round";
-
-      const w = 14;
-      const h = 9.5;
-      ctx.strokeRect(-w / 2, -h / 2, w, h);
-
-      ctx.beginPath();
-      ctx.moveTo(-w / 2, -h / 2);
-      ctx.lineTo(0, 1);
-      ctx.lineTo(w / 2, -h / 2);
-      ctx.stroke();
-
-      ctx.restore();
-    };
-
-    const drawSmartphone = (x, y, s, alpha, highlight) => {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(-0.12);
-      ctx.scale(s * (highlight ? 1.2 : 1), s * (highlight ? 1.2 : 1));
-      ctx.strokeStyle = highlight
-        ? "rgba(255, 255, 255, 0.92)"
-        : `rgba(255, 255, 255, ${Math.min(0.42, alpha)})`;
-      ctx.lineWidth = highlight ? 1.5 : 1.15;
-      ctx.lineJoin = "round";
-
-      const w = 9.5;
-      const h = 16;
-      ctx.beginPath();
-      ctx.roundRect(-w / 2, -h / 2, w, h, 2);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(-2, -h / 2 + 2.2);
-      ctx.lineTo(2, -h / 2 + 2.2);
-      ctx.moveTo(-2.2, h / 2 - 2.2);
-      ctx.lineTo(2.2, h / 2 - 2.2);
-      ctx.stroke();
-
-      ctx.restore();
-    };
-
-    const renderFrame = (nowMs) => {
-      const t = reducedMotion ? 1.2 : nowMs * 0.001;
-      const readyGlobal = scrollReadyRef.current;
-      ctx.clearRect(0, 0, width, height);
-
-      let closest = null;
-      let minDist = 64;
-
-      artifacts.forEach((item) => {
-        if (!reducedMotion && readyGlobal > 0.1) {
-          item.nx += item.vx * (0.4 + readyGlobal * 0.7);
-          if (item.nx > 0.96) item.nx = 0.04;
-          if (item.nx < 0.04) item.nx = 0.96;
-        }
-
-        const itemProgress = easeOutCubic(
-          clamp01(
-            (readyGlobal - item.stagger) / Math.max(1 - item.stagger, 0.25),
-          ),
-        );
-
-        const targetX = item.nx * width;
-        const targetY =
-          item.ny * height +
-          Math.sin(t * 0.85 + item.phase) * (5 + itemProgress * 7);
-
-        const startX = targetX - (130 + (item.id % 4) * 26);
-        const startY = targetY + (85 + (item.id % 3) * 20);
-
-        item.x = startX + (targetX - startX) * itemProgress;
-        item.y = startY + (targetY - startY) * itemProgress;
-
-        const canInteract = !isTouchDevice && readyGlobal >= 0.55;
-        let dx = 0;
-        let dy = 0;
-        let dist = 999;
-
-        if (canInteract && pointerRef.current.active) {
-          dx = item.x - pointerRef.current.x;
-          dy = item.y - pointerRef.current.y;
-          dist = Math.hypot(dx, dy);
-          if (dist < minDist) {
-            minDist = dist;
-            closest = item;
-          }
-        }
-
-        const repel =
-          canInteract && pointerRef.current.active && dist < 80 && dist > 0.01
-            ? ((80 - dist) / 80) * 10
-            : 0;
-        const drawX = item.x + (dist > 0.01 ? (dx / dist) * repel : 0);
-        const drawY = item.y + (dist > 0.01 ? (dy / dist) * repel : 0);
-
-        const isPicked = canInteract && closest && closest.id === item.id;
-        const visibilityFactor = 0.35 + itemProgress * 0.65;
-        const baseAlpha = (isTouchDevice ? 0.22 : 0.28) * visibilityFactor;
-
-        if (item.kind === "phone") {
-          drawSmartphone(drawX, drawY, item.scale, baseAlpha, isPicked);
-        } else {
-          drawEnvelope(drawX, drawY, item.scale, baseAlpha, isPicked);
-        }
-      });
-
-      if (!isTouchDevice && readyGlobal >= 0.55) {
-        pickedRef.current = closest;
-        setPickedHint((prev) => {
-          if (!closest) return null;
-          const next = {
-            x: Math.min(Math.max(closest.x, 100), width - 100),
-            y: Math.max(closest.y - 20, 28),
-            label: `E-Mail senden · ${email}`,
-          };
-          if (
-            prev &&
-            prev.label === next.label &&
-            Math.abs(prev.x - next.x) < 1 &&
-            Math.abs(prev.y - next.y) < 1
-          ) {
-            return prev;
-          }
-          return next;
-        });
-      } else {
-        pickedRef.current = null;
-        setPickedHint(null);
-      }
-
-      if (!reducedMotion) {
-        frameId = window.requestAnimationFrame(renderFrame);
-      }
-    };
-
-    renderFrame(performance.now());
-
-    return () => {
-      window.removeEventListener("resize", resize);
-      if (frameId) window.cancelAnimationFrame(frameId);
-    };
-  }, [email, isTouchDevice, reducedMotion, sectionRef]);
-
-  const handlePointerMove = (e) => {
-    if (isTouchDevice || !isFieldReady) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    pointerRef.current = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-      active: true,
-    };
-  };
-
-  const handlePointerLeave = () => {
-    pointerRef.current.active = false;
-    pickedRef.current = null;
-    setPickedHint(null);
-  };
-
-  const handleCanvasClick = () => {
-    if (isTouchDevice || !isFieldReady) return;
-    if (pickedRef.current) {
-      window.location.href = `mailto:${email}`;
-    }
-  };
-
-  return (
-    <div
-      onMouseMove={handlePointerMove}
-      onMouseLeave={handlePointerLeave}
-      onClick={handleCanvasClick}
-      className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-500 ${
-        isFieldReady ? "opacity-100" : "opacity-85"
-      } ${
-        !isTouchDevice && isFieldReady && pickedHint
-          ? "cursor-pointer"
-          : "pointer-events-none"
-      }`}
-    >
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        className="w-full h-full block"
-      />
-
-      {!isTouchDevice && isFieldReady && pickedHint && (
-        <div
-          style={{
-            left: `${pickedHint.x}px`,
-            top: `${pickedHint.y}px`,
-          }}
-          className="pointer-events-none absolute -translate-x-1/2 -translate-y-full z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white text-[#0B0B0C] text-xs font-bold shadow-lg whitespace-nowrap"
-        >
-          <Mail className="w-3.5 h-3.5 text-[#0B0B0C]" />
-          <span>{pickedHint.label}</span>
-        </div>
-      )}
-    </div>
-  );
-};
-
-/* FULLSCREEN PULL CONTACT SECTION – HYSTERESIS LOCK & MODERN DISPLAY FONT */
+/* MONOCHROME CONTACT SECTION – ARRIVES FULL-WIDTH AS CV SECTION LEAVES VIEWPORT */
 const FullscreenPullContactSection = ({
   contactSectionRef,
+  experienceSectionRef,
+  onPullProgressChange,
   email = "malte_reppke@web.de",
   copied = false,
   onCopyEmail,
   reducedMotion = false,
-  isMobileView = false,
 }) => {
-  const [pullProgress, setPullProgress] = useState(reducedMotion ? 1 : 0);
-  const [lockedFull, setLockedFull] = useState(Boolean(reducedMotion));
+  const [revealProgress, setRevealProgress] = useState(reducedMotion ? 1 : 0);
 
   useEffect(() => {
     if (reducedMotion) {
-      setPullProgress(1);
-      setLockedFull(true);
+      setRevealProgress(1);
+      onPullProgressChange?.(1);
       return;
     }
 
     let rafId = null;
 
-    const updatePull = () => {
+    const updateReveal = () => {
       if (rafId) return;
       rafId = window.requestAnimationFrame(() => {
         const el = contactSectionRef?.current;
         if (el) {
           const rect = el.getBoundingClientRect();
           const vh = window.innerHeight || 1;
-          const totalTravel = Math.max(el.offsetHeight - vh * 0.72, vh * 0.85);
-          const scrolledInto = vh * 0.92 - rect.top;
-          const linear = clamp01(scrolledInto / totalTravel);
-          const smootherStep = linear * linear * (3 - 2 * linear);
-          const quantized = Math.round(smootherStep * 1000) / 1000;
+          const expRect =
+            experienceSectionRef?.current?.getBoundingClientRect();
 
-          setPullProgress((prev) =>
-            Math.abs(prev - quantized) >= 0.002 ? quantized : prev,
-          );
-          setLockedFull((prev) => {
-            if (!prev && quantized >= 0.88) return true;
-            if (prev && quantized <= 0.78) return false;
-            return prev;
-          });
+          const sectionTravel = Math.max(el.offsetHeight - vh, 1);
+          const contactBased = clamp01((vh - rect.top) / sectionTravel);
+
+          let raw = contactBased;
+          if (expRect && expRect.height > 0) {
+            const expExitProgress = clamp01(
+              -expRect.top / Math.max(expRect.height * 0.88, 1),
+            );
+            raw = clamp01(Math.max(contactBased * 0.72, expExitProgress));
+          }
+
+          const eased = raw * raw * (3 - 2 * raw);
+          const rounded = Math.round(eased * 1000) / 1000;
+          setRevealProgress((prev) => (prev === rounded ? prev : rounded));
+          onPullProgressChange?.(rounded);
         }
         rafId = null;
       });
     };
 
-    window.addEventListener("scroll", updatePull, { passive: true });
-    window.addEventListener("resize", updatePull);
-    updatePull();
+    window.addEventListener("scroll", updateReveal, { passive: true });
+    window.addEventListener("resize", updateReveal);
+    updateReveal();
 
     return () => {
-      window.removeEventListener("scroll", updatePull);
-      window.removeEventListener("resize", updatePull);
+      window.removeEventListener("scroll", updateReveal);
+      window.removeEventListener("resize", updateReveal);
       if (rafId) window.cancelAnimationFrame(rafId);
     };
-  }, [contactSectionRef, reducedMotion]);
+  }, [
+    contactSectionRef,
+    experienceSectionRef,
+    onPullProgressChange,
+    reducedMotion,
+  ]);
 
-  const effectiveProgress = lockedFull ? 1 : pullProgress;
-  const pullVh = lockedFull
-    ? 100
-    : Math.max(14, Math.round(effectiveProgress * 100));
-  const radiusPx = lockedFull ? 0 : Math.round((1 - effectiveProgress) * 44);
-  const sideInsetPx = lockedFull ? 0 : Math.round((1 - effectiveProgress) * 44);
-  const titleProgress = lockedFull
-    ? 1
-    : clamp01((effectiveProgress - 0.14) / 0.78);
-  const letterSpacingEm = (-0.025 - titleProgress * 0.03).toFixed(3);
+  const p = reducedMotion ? 1 : revealProgress;
+  const topClipPercent = ((1 - p) * 86).toFixed(2);
+  const titleScale = (0.76 + p * 0.24).toFixed(3);
+  const titleTranslateY = Math.round((1 - p) * 26);
+  const trackingEm = (0.04 - p * 0.095).toFixed(3);
 
-  const mobileCenteredEnd = isMobileView && lockedFull;
-  const desktopActionsProgress = lockedFull
-    ? 1
-    : clamp01((effectiveProgress - 0.42) / 0.58);
+  const item1P = clamp01((p - 0.62) / 0.16);
+  const item2P = clamp01((p - 0.74) / 0.16);
+  const item3P = clamp01((p - 0.85) / 0.15);
+
+  const subItems = [
+    {
+      key: "email",
+      p: item1P,
+      render: () => (
+        <div className="py-3.5 flex items-center justify-between gap-3">
+          <a
+            href={`mailto:${email}`}
+            className="inline-flex items-center gap-2 text-white hover:text-white/75 transition-colors truncate"
+          >
+            <Mail className="w-4 h-4 shrink-0 text-white/70" />
+            <span className="truncate">{email}</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={onCopyEmail}
+            aria-label="E-Mail-Adresse kopieren"
+            className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/70 hover:text-white transition-colors cursor-pointer shrink-0"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-white" />
+                <span>Kopiert</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                <span>Kopieren</span>
+              </>
+            )}
+          </button>
+        </div>
+      ),
+    },
+    {
+      key: "github",
+      p: item2P,
+      render: () => (
+        <a
+          href="https://github.com/malte-reppke"
+          target="_blank"
+          rel="noreferrer"
+          className="py-3.5 flex items-center justify-between gap-3 text-white/85 hover:text-white transition-colors"
+        >
+          <span className="inline-flex items-center gap-2">
+            <GitBranch className="w-4 h-4 text-white/70" />
+            <span>GitHub</span>
+          </span>
+          <ArrowUpRight className="w-4 h-4 text-white/70" />
+        </a>
+      ),
+    },
+    {
+      key: "linkedin",
+      p: item3P,
+      render: () => (
+        <a
+          href="https://www.linkedin.com/in/malte-reppke"
+          target="_blank"
+          rel="noreferrer"
+          className="py-3.5 flex items-center justify-between gap-3 text-white/85 hover:text-white transition-colors"
+        >
+          <span className="inline-flex items-center gap-2">
+            <Globe className="w-4 h-4 text-white/70" />
+            <span>LinkedIn</span>
+          </span>
+          <ArrowUpRight className="w-4 h-4 text-white/70" />
+        </a>
+      ),
+    },
+  ];
 
   return (
     <section
       ref={contactSectionRef}
       id="contact"
-      className="relative bg-[#FFFFFF] min-h-[162vh] pt-4 sm:pt-12 pb-0 overflow-x-clip flex flex-col justify-end"
+      className="relative bg-[#FFFFFF] h-[160vh] sm:h-[170vh] overflow-x-clip"
     >
-      <div className="sticky bottom-0 w-full">
+      <style>{`
+        @keyframes mrContactFloatOrbitA {
+          0% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
+          25% { transform: translate3d(calc(var(--dx, 40px) * 0.65), calc(var(--dy, -36px) * 0.9), 0) rotate(calc(var(--rot, 10deg) * 0.55)); }
+          50% { transform: translate3d(var(--dx, 40px), calc(var(--dy, -36px) * 0.25), 0) rotate(var(--rot, 10deg)); }
+          75% { transform: translate3d(calc(var(--dx, 40px) * 0.3), calc(var(--dy, -36px) * -0.55), 0) rotate(calc(var(--rot, 10deg) * 0.35)); }
+          100% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
+        }
+        @keyframes mrContactFloatOrbitB {
+          0% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
+          25% { transform: translate3d(calc(var(--dx, 40px) * -0.7), calc(var(--dy, -36px) * -0.45), 0) rotate(calc(var(--rot, 10deg) * -0.6)); }
+          50% { transform: translate3d(calc(var(--dx, 40px) * -0.25), calc(var(--dy, -36px) * -0.95), 0) rotate(calc(var(--rot, 10deg) * -1)); }
+          75% { transform: translate3d(calc(var(--dx, 40px) * 0.4), calc(var(--dy, -36px) * -0.35), 0) rotate(calc(var(--rot, 10deg) * -0.3)); }
+          100% { transform: translate3d(0px, 0px, 0) rotate(0deg); }
+        }
+      `}</style>
+
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
         <div
           style={{
-            marginLeft: `${sideInsetPx}px`,
-            marginRight: `${sideInsetPx}px`,
-            minHeight: reducedMotion || lockedFull ? "100dvh" : `${pullVh}dvh`,
-            borderRadius: `${radiusPx}px ${radiusPx}px 0px 0px`,
-            opacity:
-              reducedMotion || lockedFull
-                ? 1
-                : clamp01(0.2 + effectiveProgress * 0.8),
-            boxShadow: `0 -28px 90px -24px rgba(11, 11, 12, ${(0.18 + effectiveProgress * 0.36).toFixed(2)})`,
+            clipPath: `inset(${topClipPercent}% 0% 0% 0%)`,
           }}
-          className={`relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col px-4 sm:px-8 lg:px-12 pt-10 sm:pt-14 pb-20 sm:pb-16 ${
-            mobileCenteredEnd ? "justify-center" : "justify-between"
-          }`}
+          className="relative w-full h-full bg-[#0B0B0C] text-[#FFFFFF] flex flex-col justify-center px-4 sm:px-8 lg:px-12 py-12 will-change-[clip-path]"
         >
           <div
             aria-hidden="true"
             style={{
-              opacity: 0.25 + effectiveProgress * 0.65,
-              transform: `scale(${0.6 + effectiveProgress * 0.55})`,
-              background:
-                "radial-gradient(ellipse 65% 50% at 50% 48%, rgba(59, 130, 246, 0.22) 0%, rgba(124, 58, 237, 0.10) 45%, transparent 75%)",
+              backgroundImage:
+                "linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px)",
+              backgroundSize: "88px 88px",
             }}
-            className="pointer-events-none absolute inset-0 z-0"
+            className="pointer-events-none absolute inset-0"
           />
 
-          <ContactMailWaveField
-            sectionRef={contactSectionRef}
-            email={email}
-            reducedMotion={reducedMotion}
-            pullProgress={effectiveProgress}
-          />
-
+          {/* SMOOTH WIDER FLOATING MAILS & @ */}
           <div
-            style={{
-              opacity: lockedFull
-                ? 1
-                : clamp01((effectiveProgress - 0.22) / 0.55),
-              transform: `translate3d(0, ${(1 - (lockedFull ? 1 : clamp01((effectiveProgress - 0.22) / 0.55))) * -12}px, 0)`,
-            }}
-            className={`relative z-10 flex items-center justify-end shrink-0 ${
-              mobileCenteredEnd ? "mb-6" : ""
-            }`}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 overflow-hidden"
           >
-            <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono text-white/75">
-              <MapPin className="w-4 h-4 shrink-0 text-white/70" />
-              <span>Hilden / Deutschland · Data &amp; AI Engineering</span>
-            </div>
-          </div>
-
-          <div
-            className={`relative z-10 flex flex-col items-center text-center w-full ${
-              mobileCenteredEnd ? "my-4 py-4" : "my-auto py-6 sm:py-8"
-            }`}
-          >
-            <div
-              style={{
-                opacity: clamp01(titleProgress * 1.2),
-                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 44}px, 0)`,
-              }}
-              className="w-full select-none will-change-transform"
-            >
-              <h2
-                style={{ letterSpacing: `${letterSpacingEm}em` }}
-                className="block font-extrabold uppercase leading-[0.78] text-[#FFFFFF] text-[clamp(4.4rem,21vw,21rem)]"
+            {FLOATING_CONTACT_GLYPHS.map((g, index) => (
+              <span
+                key={g.id}
+                style={{
+                  left: g.left,
+                  top: g.top,
+                  "--dx": `${g.dx}px`,
+                  "--dy": `${g.dy}px`,
+                  "--rot": `${g.rot}deg`,
+                  opacity: reducedMotion ? 0.18 : Math.min(0.2, p * 0.22),
+                  animation: reducedMotion
+                    ? "none"
+                    : `${index % 2 === 0 ? "mrContactFloatOrbitA" : "mrContactFloatOrbitB"} ${
+                        g.dur
+                      }s ease-in-out ${g.delay}s infinite`,
+                }}
+                className="absolute text-white select-none transition-opacity duration-300 will-change-transform"
               >
-                KONTAKT
-              </h2>
-            </div>
-
-            <div
-              style={
-                isMobileView
-                  ? undefined
-                  : {
-                      opacity: desktopActionsProgress,
-                      transform: `translate3d(0, ${(1 - desktopActionsProgress) * 28}px, 0) scale(${
-                        0.94 + desktopActionsProgress * 0.06
-                      })`,
-                    }
-              }
-              className={`mt-10 sm:mt-14 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
-                isMobileView
-                  ? reducedMotion
-                    ? "opacity-100"
-                    : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                        lockedFull
-                          ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
-                          : "opacity-0 translate-y-5 scale-95 pointer-events-none"
-                      }`
-                  : ""
-              }`}
-            >
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white text-[#0B0B0C] text-xs sm:text-sm font-bold hover:bg-[#F4F4F5] transition-colors shadow-sm"
-              >
-                <Mail className="w-4 h-4" />
-                <span>E-Mail senden</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={onCopyEmail}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors cursor-pointer"
-              >
-                {copied ? (
-                  <Check className="w-4 h-4 text-emerald-400" />
+                {g.type === "mail" ? (
+                  <Mail
+                    style={{ width: g.size, height: g.size }}
+                    strokeWidth={1.5}
+                  />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <span
+                    style={{ fontSize: `${g.size}px` }}
+                    className="font-mono font-semibold leading-none block"
+                  >
+                    @
+                  </span>
                 )}
-                <span>{copied ? "Kopiert!" : email}</span>
-              </button>
-
-              <a
-                href="https://github.com/malte-reppke"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-              >
-                <GitBranch className="w-4 h-4" />
-                <span>GitHub</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/malte-reppke"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-5 py-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm font-bold hover:bg-white/15 transition-colors"
-              >
-                <Globe className="w-4 h-4" />
-                <span>LinkedIn</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
+              </span>
+            ))}
           </div>
 
-          {!mobileCenteredEnd && <div className="relative z-10 h-2 shrink-0" />}
+          <div className="relative z-10 flex flex-col items-center text-center w-full">
+            <h2
+              style={{
+                letterSpacing: `${trackingEm}em`,
+                transform: `translate3d(0, ${titleTranslateY}px, 0) scale(${titleScale})`,
+                transformOrigin: "50% 65%",
+              }}
+              className="w-full select-none font-extrabold uppercase leading-[0.82] text-[#FFFFFF] text-[clamp(4.2rem,20.5vw,20.5rem)] will-change-transform"
+            >
+              KONTAKT
+            </h2>
+
+            <div className="mt-10 sm:mt-14 w-full max-w-md border-t border-white/15 divide-y divide-white/15 text-xs sm:text-sm font-bold uppercase tracking-[0.14em]">
+              {subItems.map((row) => {
+                const rowP = reducedMotion ? 1 : row.p;
+                const rowY = Math.round((1 - rowP) * 14);
+                return (
+                  <div
+                    key={row.key}
+                    style={{
+                      opacity: rowP,
+                      transform: `translate3d(0, ${rowY}px, 0)`,
+                    }}
+                    className="will-change-[transform,opacity]"
+                  >
+                    {row.render()}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -4406,7 +4333,7 @@ const ProjectDetailModal = ({ project, onClose, reducedMotion = false }) => {
   );
 };
 
-/* PROJECT CAROUSEL – MOBILE PEEKING NEIGHBOR CARDS + INDICATOR DOTS (NO EXTRA BUTTONS) */
+/* PROJECT CAROUSEL */
 const ProjectsViewportCarousel = ({
   projects,
   activeIndex,
@@ -4625,7 +4552,6 @@ const ProjectsViewportCarousel = ({
         })}
       </div>
 
-      {/* SUBTLE CAROUSEL POSITION DOTS (PURE VISUAL AFFORDANCE) */}
       <div
         aria-hidden="true"
         className="mt-4 sm:mt-5 flex items-center justify-center gap-1.5"
@@ -4650,7 +4576,7 @@ const ProjectsViewportCarousel = ({
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "Belastbare Datenprodukte & KI-Systeme" },
+  { id: "hero-stage", nextTitle: "Projekte & Wirkung" },
   { id: "work", nextTitle: "Was mich motiviert" },
   { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
@@ -4661,6 +4587,7 @@ export default function App() {
   const [splitProgress, setSplitProgress] = useState(0);
   const [pageProgress, setPageProgress] = useState(0);
   const [activeSecIdx, setActiveSecIdx] = useState(0);
+  const [contactPullProgress, setContactPullProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -4670,6 +4597,7 @@ export default function App() {
   const [cvModalOpen, setCvModalOpen] = useState(false);
   const heroStageRef = useRef(null);
   const motivationSectionRef = useRef(null);
+  const experienceSectionRef = useRef(null);
   const contactSectionRef = useRef(null);
 
   const toggleCompanyCard = (companyId) => {
@@ -4773,12 +4701,13 @@ export default function App() {
 
   const jumpToSection = (id) => {
     if (id === "contact") {
-      const bottomY = Math.max(
-        0,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
+      const el = contactSectionRef.current;
+      const vh = window.innerHeight || 1;
+      const targetY = el
+        ? el.offsetTop + Math.max(el.offsetHeight - vh, 0)
+        : Math.max(0, document.documentElement.scrollHeight - vh);
       window.scrollTo({
-        top: bottomY,
+        top: targetY,
         behavior: reducedMotion ? "auto" : "smooth",
       });
       return;
@@ -4830,6 +4759,11 @@ export default function App() {
   const anchorVisible = reducedMotion || activeSecIdx > 0 || revealEase >= 0.45;
 
   const activeSectionObj = SECTIONS_FLOW[activeSecIdx] || SECTIONS_FLOW[0];
+
+  const expFadeFactor = reducedMotion ? 0 : clamp01(contactPullProgress * 1.35);
+  const expContentOpacity = (1 - expFadeFactor * 0.88).toFixed(3);
+  const expContentShiftY = Math.round(-expFadeFactor * 26);
+  const expContentScale = (1 - expFadeFactor * 0.025).toFixed(4);
 
   const navItems = [
     { id: "work", label: "Projekte" },
@@ -5035,11 +4969,12 @@ export default function App() {
       </section>
 
       {/* 2. FEATURED WORK CAROUSEL */}
-      <section id="work" className="bg-[#FFFFFF] pt-14 pb-16 sm:py-28 lg:py-32">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 sm:mb-10">
+      <section id="work" className="bg-[#FFFFFF] pt-24 pb-16 sm:py-28 lg:py-32">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-10">
           <HeadlineFlow
             kicker="Projekte & Wirkung"
             title="Einblick in meine Projekte"
+            titleClassName="mt-3 sm:mt-2 text-3xl sm:text-5xl font-bold tracking-[-0.04em] text-[#0B0B0C]"
             as="h2"
             reducedMotion={reducedMotion}
           />
@@ -5279,9 +5214,16 @@ export default function App() {
       {/* 4. STATIONEN & TECH STACK */}
       <section
         id="experience"
+        ref={experienceSectionRef}
         className="bg-[#FBFBFD] pt-14 pb-16 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28"
       >
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div
+          style={{
+            opacity: expContentOpacity,
+            transform: `translate3d(0, ${expContentShiftY}px, 0) scale(${expContentScale})`,
+          }}
+          className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto will-change-[transform,opacity]"
+        >
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <HeadlineFlow
               kicker="Tech Stack"
@@ -5317,7 +5259,6 @@ export default function App() {
               </div>
             </RevealBlock>
 
-            {/* LIGHT BLUISH TECH STACK AREA WITH SUBTLE VIOLET HOVER ACCENT */}
             <RevealBlock
               delay={120}
               reducedMotion={reducedMotion}
@@ -5368,17 +5309,18 @@ export default function App() {
         </div>
       </section>
 
-      {/* 5. FULLSCREEN PULL CONTACT AREA */}
+      {/* 5. MONOCHROME REFERENCE PULL CONTACT AREA */}
       <FullscreenPullContactSection
         contactSectionRef={contactSectionRef}
+        experienceSectionRef={experienceSectionRef}
+        onPullProgressChange={setContactPullProgress}
         email="malte_reppke@web.de"
         copied={copied}
         onCopyEmail={handleCopyEmail}
         reducedMotion={reducedMotion}
-        isMobileView={isMobileView}
       />
 
-      {/* FLOATING SECTION FLOW PILL – STARTS AFTER HERO AT INTRO TEXT */}
+      {/* FLOATING SECTION FLOW PILL */}
       <div
         className={`fixed bottom-5 right-5 z-40 ${
           reducedMotion
