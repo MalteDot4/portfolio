@@ -4628,7 +4628,7 @@ const ProjectsViewportCarousel = ({
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "Belastbare Datenprodukte & KI-Systeme" },
+  { id: "hero-stage", nextTitle: "Einblick in meine Projekte" },
   { id: "work", nextTitle: "Was mich motiviert" },
   { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
