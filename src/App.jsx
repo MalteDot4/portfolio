@@ -782,7 +782,7 @@ const HeroAvatarSpeechMark = ({
   );
 };
 
-/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE */
+/* CV SECTION AVATAR WITH HOVER SPEECH BUBBLE (MUTED EDITORIAL TINT) */
 const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
   const [hovered, setHovered] = useState(false);
   const [typedCount, setTypedCount] = useState(0);
@@ -828,24 +828,24 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
         type="button"
         onClick={onOpen}
         aria-label="CV-Customizing und PDF-Export öffnen"
-        className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-white border border-[#E4E4E7] hover:border-[#0B0B0C] shadow-xs transition-all cursor-pointer group"
+        className="relative inline-flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-[#F2F4F9] hover:bg-[#E9ECF4] border border-[#D4DAE8] hover:border-[#94A3B8] text-[#1E2538] shadow-2xs transition-all duration-250 cursor-pointer group"
       >
-        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#F4F4F5] overflow-hidden border border-[#E4E4E7] group-hover:scale-105 transition-transform">
+        <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-full bg-white overflow-hidden border border-[#CBD5E1] group-hover:scale-105 transition-transform">
           <img
             src={avatarLogo}
             alt="Malte Reppke Avatar CV"
             className="w-full h-full object-cover object-top"
           />
         </span>
-        <span className="text-xs sm:text-[13px] font-bold text-[#0B0B0C] inline-flex items-center gap-1.5">
-          <FileDown className="w-3.5 h-3.5 text-[#0B0B0C]" />
+        <span className="text-xs sm:text-[13px] font-bold tracking-[-0.01em] text-[#1E2538] inline-flex items-center gap-1.5">
+          <FileDown className="w-3.5 h-3.5 text-[#475569] group-hover:text-[#1E2538] transition-colors" />
           <span>CV als PDF</span>
         </span>
       </button>
 
       <div
         role="tooltip"
-        className={`pointer-events-none absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2.5 z-30 w-[235px] sm:w-[255px] max-w-[calc(100vw-2rem)] px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-[#0B0B0C] text-white shadow-[0_12px_28px_-6px_rgba(11,11,12,0.32)] border border-white/15 ${
+        className={`pointer-events-none absolute left-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-2.5 z-30 w-[235px] sm:w-[255px] max-w-[calc(100vw-2rem)] px-3.5 py-2.5 rounded-2xl rounded-bl-xs bg-[#161922] text-white shadow-[0_12px_28px_-6px_rgba(11,11,12,0.32)] border border-white/15 ${
           reducedMotion
             ? hovered
               ? "opacity-100"
@@ -865,7 +865,7 @@ const CvSectionAvatarTrigger = ({ onOpen, reducedMotion = false }) => {
         </p>
         <span
           aria-hidden="true"
-          className="hidden sm:block absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-[#0B0B0C] border-r border-b border-white/15"
+          className="hidden sm:block absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-2.5 h-2.5 rotate-45 bg-[#161922] border-r border-b border-white/15"
         />
       </div>
     </div>
@@ -3702,7 +3702,7 @@ const ContactMailWaveField = ({
   );
 };
 
-/* FULLSCREEN PULL CONTACT SECTION – CLAMPED TO VIEWPORT & CENTERED ON MOBILE AT END */
+/* FULLSCREEN PULL CONTACT SECTION – HYSTERESIS LOCK & MODERN DISPLAY FONT */
 const FullscreenPullContactSection = ({
   contactSectionRef,
   email = "malte_reppke@web.de",
@@ -3712,10 +3712,12 @@ const FullscreenPullContactSection = ({
   isMobileView = false,
 }) => {
   const [pullProgress, setPullProgress] = useState(reducedMotion ? 1 : 0);
+  const [lockedFull, setLockedFull] = useState(Boolean(reducedMotion));
 
   useEffect(() => {
     if (reducedMotion) {
       setPullProgress(1);
+      setLockedFull(true);
       return;
     }
 
@@ -3732,7 +3734,16 @@ const FullscreenPullContactSection = ({
           const scrolledInto = vh * 0.92 - rect.top;
           const linear = clamp01(scrolledInto / totalTravel);
           const smootherStep = linear * linear * (3 - 2 * linear);
-          setPullProgress(smootherStep);
+          const quantized = Math.round(smootherStep * 1000) / 1000;
+
+          setPullProgress((prev) =>
+            Math.abs(prev - quantized) >= 0.002 ? quantized : prev,
+          );
+          setLockedFull((prev) => {
+            if (!prev && quantized >= 0.88) return true;
+            if (prev && quantized <= 0.78) return false;
+            return prev;
+          });
         }
         rafId = null;
       });
@@ -3749,15 +3760,21 @@ const FullscreenPullContactSection = ({
     };
   }, [contactSectionRef, reducedMotion]);
 
-  const pullVh = Math.max(14, Math.round(pullProgress * 100));
-  const radiusPx = Math.round((1 - pullProgress) * 44);
-  const sideInsetPx = Math.round((1 - pullProgress) * 44);
-  const titleProgress = clamp01((pullProgress - 0.14) / 0.78);
-  const letterSpacingEm = (-0.015 - titleProgress * 0.045).toFixed(3);
+  const effectiveProgress = lockedFull ? 1 : pullProgress;
+  const pullVh = lockedFull
+    ? 100
+    : Math.max(14, Math.round(effectiveProgress * 100));
+  const radiusPx = lockedFull ? 0 : Math.round((1 - effectiveProgress) * 44);
+  const sideInsetPx = lockedFull ? 0 : Math.round((1 - effectiveProgress) * 44);
+  const titleProgress = lockedFull
+    ? 1
+    : clamp01((effectiveProgress - 0.14) / 0.78);
+  const letterSpacingEm = (-0.025 - titleProgress * 0.03).toFixed(3);
 
-  const isFullHeight = reducedMotion || pullProgress >= 0.88;
-  const mobileCenteredEnd = isMobileView && isFullHeight;
-  const desktopActionsProgress = clamp01((pullProgress - 0.42) / 0.58);
+  const mobileCenteredEnd = isMobileView && lockedFull;
+  const desktopActionsProgress = lockedFull
+    ? 1
+    : clamp01((effectiveProgress - 0.42) / 0.58);
 
   return (
     <section
@@ -3770,20 +3787,23 @@ const FullscreenPullContactSection = ({
           style={{
             marginLeft: `${sideInsetPx}px`,
             marginRight: `${sideInsetPx}px`,
-            minHeight: reducedMotion ? "100dvh" : `${pullVh}dvh`,
+            minHeight: reducedMotion || lockedFull ? "100dvh" : `${pullVh}dvh`,
             borderRadius: `${radiusPx}px ${radiusPx}px 0px 0px`,
-            opacity: reducedMotion ? 1 : clamp01(0.2 + pullProgress * 0.8),
-            boxShadow: `0 -28px 90px -24px rgba(11, 11, 12, ${(0.18 + pullProgress * 0.36).toFixed(2)})`,
+            opacity:
+              reducedMotion || lockedFull
+                ? 1
+                : clamp01(0.2 + effectiveProgress * 0.8),
+            boxShadow: `0 -28px 90px -24px rgba(11, 11, 12, ${(0.18 + effectiveProgress * 0.36).toFixed(2)})`,
           }}
-          className={`relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col px-5 sm:px-10 lg:px-14 pt-12 sm:pt-16 pb-20 sm:pb-16 transition-[border-radius,margin] duration-150 ease-out ${
+          className={`relative w-auto overflow-hidden bg-[#0B0B0C] text-white flex flex-col px-4 sm:px-8 lg:px-12 pt-10 sm:pt-14 pb-20 sm:pb-16 ${
             mobileCenteredEnd ? "justify-center" : "justify-between"
           }`}
         >
           <div
             aria-hidden="true"
             style={{
-              opacity: 0.25 + pullProgress * 0.65,
-              transform: `scale(${0.6 + pullProgress * 0.55})`,
+              opacity: 0.25 + effectiveProgress * 0.65,
+              transform: `scale(${0.6 + effectiveProgress * 0.55})`,
               background:
                 "radial-gradient(ellipse 65% 50% at 50% 48%, rgba(59, 130, 246, 0.22) 0%, rgba(124, 58, 237, 0.10) 45%, transparent 75%)",
             }}
@@ -3794,13 +3814,15 @@ const FullscreenPullContactSection = ({
             sectionRef={contactSectionRef}
             email={email}
             reducedMotion={reducedMotion}
-            pullProgress={pullProgress}
+            pullProgress={effectiveProgress}
           />
 
           <div
             style={{
-              opacity: clamp01((pullProgress - 0.22) / 0.55),
-              transform: `translate3d(0, ${(1 - clamp01((pullProgress - 0.22) / 0.55)) * -12}px, 0)`,
+              opacity: lockedFull
+                ? 1
+                : clamp01((effectiveProgress - 0.22) / 0.55),
+              transform: `translate3d(0, ${(1 - (lockedFull ? 1 : clamp01((effectiveProgress - 0.22) / 0.55))) * -12}px, 0)`,
             }}
             className={`relative z-10 flex items-center justify-end shrink-0 ${
               mobileCenteredEnd ? "mb-6" : ""
@@ -3813,20 +3835,20 @@ const FullscreenPullContactSection = ({
           </div>
 
           <div
-            className={`relative z-10 flex flex-col items-center text-center ${
-              mobileCenteredEnd ? "my-4 py-4" : "my-auto py-8 sm:py-10"
+            className={`relative z-10 flex flex-col items-center text-center w-full ${
+              mobileCenteredEnd ? "my-4 py-4" : "my-auto py-6 sm:py-8"
             }`}
           >
             <div
               style={{
                 opacity: clamp01(titleProgress * 1.2),
-                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 48}px, 0)`,
+                transform: `scale(${0.38 + titleProgress * 0.62}) translate3d(0, ${(1 - titleProgress) * 44}px, 0)`,
               }}
               className="w-full select-none will-change-transform"
             >
               <h2
                 style={{ letterSpacing: `${letterSpacingEm}em` }}
-                className="block font-extrabold uppercase leading-[0.82] text-[#FFFFFF] text-[clamp(3.8rem,16.5vw,16.5rem)]"
+                className="block font-extrabold uppercase leading-[0.78] text-[#FFFFFF] text-[clamp(4.4rem,21vw,21rem)]"
               >
                 KONTAKT
               </h2>
@@ -3843,12 +3865,12 @@ const FullscreenPullContactSection = ({
                       })`,
                     }
               }
-              className={`mt-10 sm:mt-16 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
+              className={`mt-10 sm:mt-14 flex flex-wrap items-center justify-center gap-3.5 will-change-transform ${
                 isMobileView
                   ? reducedMotion
                     ? "opacity-100"
                     : `transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                        isFullHeight
+                        lockedFull
                           ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
                           : "opacity-0 translate-y-5 scale-95 pointer-events-none"
                       }`
@@ -4628,7 +4650,7 @@ const ProjectsViewportCarousel = ({
 };
 
 const SECTIONS_FLOW = [
-  { id: "hero-stage", nextTitle: "Einblick in meine Projekte" },
+  { id: "hero-stage", nextTitle: "Belastbare Datenprodukte & KI-Systeme" },
   { id: "work", nextTitle: "Was mich motiviert" },
   { id: "motivation", nextTitle: "Stationen & Kernkompetenzen" },
   { id: "experience", nextTitle: "Kontakt" },
@@ -4750,6 +4772,18 @@ export default function App() {
   }, []);
 
   const jumpToSection = (id) => {
+    if (id === "contact") {
+      const bottomY = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      window.scrollTo({
+        top: bottomY,
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+      return;
+    }
+
     const target = document.getElementById(id);
     if (target) {
       target.scrollIntoView({
